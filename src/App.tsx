@@ -1,11 +1,16 @@
-import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import { BrowserRouter as Router, Route, Routes, Navigate } from "react-router-dom";
 import HomePage from "./pages/HomePage";
 import SitterProfilePage from "./pages/SitterProfilePage";
 import SearchPage from "./pages/SearchPage";
 import Header from "./components/layout/Header";
 import Footer from "./components/layout/Footer";
+import Login from "./components/auth/Login";
+import SignUp from "./components/auth/Signup";
+import { useAuth } from "./contexts/AuthContext";
 
 const App: React.FC = () => {
+  const { currentUser } = useAuth();
+
   return (
     <Router>
       <Header />
@@ -30,6 +35,14 @@ const App: React.FC = () => {
           <Route path="/sitter_profile_page" element={<SitterProfilePage />} />
           <Route path="/search_page" element={<SearchPage />} />
           <Route path="/" element={<HomePage />} />
+          <Route 
+            path="/login"
+            element={!currentUser ? <Login /> : <Navigate to='/'/>}
+          />
+          <Route 
+            path="/signup" 
+            element={!currentUser ? <SignUp /> : <Navigate to='/'/>}
+          />
         </Routes>
       </div>
       <Footer />
