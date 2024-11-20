@@ -26,8 +26,8 @@ const Header: React.FC = () => {
         <Link to="/search_page">Search </Link>
         <Link to="/login">Login </Link>
         <Link to="/signup">Sign Up </Link>
-        <p>Welcome, {currentUser?.email}!</p>
-        <button onClick={handleLogout}>Logout</button>
+        {currentUser ? <p>Welcome, {currentUser?.email}!</p> : <p>Not logged in</p>}
+        {currentUser ? <button onClick={handleLogout}>Logout</button> : ''}
       </nav>
     </header>
   );
