@@ -17,12 +17,66 @@ const SearchBar: React.FC = () => {
 
   const petOptions = ["Dog", "Cat", "Fish", "Bird", "Rabbit"];
   const serviceOptions = ["Boarding", "Stay in", "Drop in"];
+  const prefectureOptions = ["Tokyo", "Saitama", "Chiba"];
 
   return (
     <div className="p-8   ">
       <form onSubmit={handleSubmit(onSubmit)} className="w-full max-w-lg ">
-        <div className="flex flex-wrap -mx-3 mb-6 ">
-          {/* startDate */}
+        <div className="flex flex-wrap -mx-3 mb-6">
+          {/* Postcode */}
+          <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
+            <label className={labelClass} htmlFor="postcode">
+              Postcode:
+            </label>
+            <input
+              id="postcode"
+              type="text"
+              placeholder="000-0000"
+              {...register("postcode", {
+                required: "Please enter your postcode.",
+              })}
+              className={inputClass}
+            />
+          </div>
+          {/* Prefecture */}
+          <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
+            <label className={labelClass} htmlFor="prefecture">
+              Prefecture:
+            </label>
+            <select
+              id="prefecture"
+              {...register("prefecture", {
+                required: "Please select a prefecture.",
+              })}
+              className={`${inputClass} pr-8`}
+            >
+              {prefectureOptions.map((pref) => (
+                <option key={pref} value={pref}>
+                  {pref}
+                </option>
+              ))}
+            </select>
+          </div>
+        </div>
+        <div className="flex flex-wrap -mx-3 mb-6">
+          {/* City */}
+          <div className="w-full px-3 mb-6 md:mb-0">
+            <label className={labelClass} htmlFor="city">
+              City:
+            </label>
+            <input
+              id="city"
+              type="text"
+              placeholder="Tokyo"
+              {...register("city", {
+                required: "Please enter a city.",
+              })}
+              className={inputClass}
+            />
+          </div>
+        </div>
+        {/* <div className="flex flex-wrap -mx-3 mb-6 ">
+        
           <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
             <label className={labelClass} htmlFor="startDate">
               Start Date:
@@ -37,7 +91,7 @@ const SearchBar: React.FC = () => {
               className={inputClass}
             />
           </div>
-          {/* End Date */}
+        
           <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
             <label className={labelClass} htmlFor="endDate">
               End Date:
@@ -52,7 +106,7 @@ const SearchBar: React.FC = () => {
               className={inputClass}
             />
           </div>
-        </div>
+        </div> */}
         <div className="flex flex-wrap -mx-3 mb-6 ">
           <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
             {/* Your Pet */}
