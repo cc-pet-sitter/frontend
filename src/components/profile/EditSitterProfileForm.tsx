@@ -1,6 +1,6 @@
 import { useForm } from "react-hook-form";
 
-const EnquiryForm: React.FC = () => {
+const EditSitterProfileForm: React.FC = () => {
   const { register, handleSubmit } = useForm({
     shouldUseNativeValidation: true,
   });
@@ -11,7 +11,7 @@ const EnquiryForm: React.FC = () => {
 
   // Shared styles
   const inputClass =
-    "appearance-none block w-full bg-gray-200 text-gray-700 border rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white justify-center";
+    "appearance-none block w-full bg-gray-200 text-gray-700 border rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white";
   const labelClass =
     "block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2";
 
@@ -20,42 +20,20 @@ const EnquiryForm: React.FC = () => {
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="w-full max-w-lg">
-      <div className="flex flex-wrap -mx-3 mb-6 ">
-        {/* startDate */}
-        <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
-          <label className={labelClass} htmlFor="startDate">
-            Start Date:
-          </label>
-          <input
-            id="startDate"
-            type="text"
-            placeholder="2024/08/02"
-            {...register("startDate", {
-              required: "Please enter an start date.",
-            })}
+      <div className="mb-6">
+        <label className={`${labelClass} flex items-center`}>
+          Introduction Profile:
+          <textarea
             className={inputClass}
+            rows={4}
+            cols={40}
+            {...register("pet_sitter_bio")}
           />
-        </div>
-        {/* End Date */}
-        <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
-          <label className={labelClass} htmlFor="endDate">
-            End Date:
-          </label>
-          <input
-            id="endDate"
-            type="text"
-            placeholder="2024/08/10"
-            {...register("endDate", {
-              required: "Please enter an end date.",
-            })}
-            className={inputClass}
-          />
-        </div>
+        </label>
       </div>
-
       <div className="mb-6">
         {/* Pets */}
-        <p className={`${labelClass} mb-3`}>Pet to look after:</p>
+        <p className={`${labelClass} mb-3`}>Pets you can sit:</p>
         {petOptions.map((pet) => (
           <label key={pet} className={`${labelClass} flex items-center`}>
             <input
@@ -70,7 +48,7 @@ const EnquiryForm: React.FC = () => {
       </div>
       <div className="mb-6">
         {/* Types of Service You Offer */}
-        <p className={`${labelClass} mb-3`}>Desired Service:</p>
+        <p className={`${labelClass} mb-3`}>Types of Service You Offer:</p>
         {serviceOptions.map((service) => (
           <label key={service} className={`${labelClass} flex items-center`}>
             <input
@@ -83,24 +61,14 @@ const EnquiryForm: React.FC = () => {
           </label>
         ))}
       </div>
-      <div className="mb-6">
-        <label className={`${labelClass} flex items-center`}>
-          Additional Info:
-          <textarea
-            className={inputClass}
-            rows={4}
-            cols={40}
-            {...register("pet_sitter_bio")}
-          />
-        </label>
-      </div>
+
       <div className="md:flex md:items-center">
         <div className="md:w-2/3">
           <button
             type="submit"
             className="shadow bg-gray-500 hover:bg-gray-400 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded"
           >
-            Submit
+            Save
           </button>
         </div>
       </div>
@@ -108,4 +76,4 @@ const EnquiryForm: React.FC = () => {
   );
 };
 
-export default EnquiryForm;
+export default EditSitterProfileForm;
