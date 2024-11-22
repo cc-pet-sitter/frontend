@@ -27,6 +27,7 @@ const Header: React.FC = () => {
         <Link to="/login">Login </Link>
         <Link to="/signup">Sign Up </Link>
         {currentUser ? <p>Welcome, {currentUser?.email}!</p> : <p>Not logged in</p>}
+        {currentUser ? <Link to="/dashboard">Dashboard </Link> : ''}
         {currentUser ? <button onClick={handleLogout}>Logout</button> : ''}
       </nav>
     </header>

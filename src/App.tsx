@@ -7,6 +7,7 @@ import Footer from "./components/layout/Footer";
 import Login from "./components/auth/Login";
 import SignUp from "./components/auth/Signup";
 import { useAuth } from "./contexts/AuthContext";
+import Dashboard from "./pages/Dashboard";
 
 const App: React.FC = () => {
   const { currentUser } = useAuth();
@@ -35,6 +36,7 @@ const App: React.FC = () => {
           <Route path="/sitter_profile_page" element={<SitterProfilePage />} />
           <Route path="/search_page" element={<SearchPage />} />
           <Route path="/" element={<HomePage />} />
+          <Route path="/dashboard" element={<Dashboard />} />
           <Route 
             path="/login"
             element={!currentUser ? <Login /> : <Navigate to='/'/>}
