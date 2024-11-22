@@ -1,14 +1,9 @@
 import React from "react";
-import { Link } from "react-router-dom";
 
 const Footer: React.FC = () => (
-  <header>
-    <nav>
-      <Link to="/">Home </Link>
-      <Link to="/sitter_profile_page">Profile </Link>
-      <Link to="/search_page">Search </Link>
-    </nav>
-  </header>
+  <footer className="h-12 bg-green-500 content-center px-8">
+    <p>© 2024 DogSit™ PLC. All rights reserved. </p>
+  </footer>
 );
 
 export default Footer;
