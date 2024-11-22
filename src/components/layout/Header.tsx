@@ -3,10 +3,18 @@ import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../../contexts/AuthContext";
 import { signOut } from "firebase/auth";
 import { auth } from "../../firebase";
+import { useTranslation, Trans } from "react-i18next";
+
+const lngs = {
+  en: { nativeName: "English" },
+  ja: { nativeName: "Japanese" },
+};
 
 const Header: React.FC = () => {
   const { currentUser } = useAuth();
   const navigate = useNavigate();
+
+  const { t, i18n } = useTranslation();
 
   const handleLogout = async () => {
     try {
@@ -51,8 +59,20 @@ const Header: React.FC = () => {
               ) : (
                 ""
               )}
-              {currentUser ? <Link to="/dashboard">Dashboard </Link> : ''}
+              {currentUser ? <Link to="/dashboard">Dashboard </Link> : ""}
             </div>
+          </div>
+          <div>
+            {Object.keys(lngs).map((lng) => (
+              <button
+                type="submit"
+                key={lng}
+                onClick={() => i18n.changeLanguage(lng)}
+                disabled={i18n.resolvedLanguage === lng}
+              >
+                {lngs[lng].nativeName}
+              </button>
+            ))}
           </div>
         </div>
       </nav>
