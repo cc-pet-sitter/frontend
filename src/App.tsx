@@ -12,6 +12,7 @@ import Footer from "./components/layout/Footer";
 import Login from "./components/auth/Login";
 import SignUp from "./components/auth/Signup";
 import { useAuth } from "./contexts/AuthContext";
+import Dashboard from "./pages/Dashboard";
 
 const App: React.FC = () => {
   const { currentUser } = useAuth();

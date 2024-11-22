@@ -51,6 +51,7 @@ const Header: React.FC = () => {
               ) : (
                 ""
               )}
+              {currentUser ? <Link to="/dashboard">Dashboard </Link> : ''}
             </div>
           </div>
         </div>
