@@ -3,7 +3,7 @@ import React from "react";
 const BookingHistoryPage: React.FC = () => {
   return (
     <div>
-      <h2>Booking History</h2>
+      <h2>Inquiroes and Bookings</h2>
     </div>
   );
 };
