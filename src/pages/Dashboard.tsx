@@ -1,51 +1,67 @@
-import React from "react";
-import { useAuth, useState } from "../contexts/AuthContext";
-import TokenDisplay from "../components/auth/TokenDisplay";
+// src/pages/Dashboard.tsx
+import React, { useState } from "react";
+import { useAuth } from "../contexts/AuthContext";
 import EditSitterProfileForm from "../components/profile/EditSitterProfileForm";
-import SignUpForm from "../components/profile/SignUpForm";
+import EditOwnerProfileForm from "../components/profile/EditOwnerProfileForm";
 
 const Dashboard: React.FC = () => {
-  const { currentUser } = useAuth();
+  const { currentUser, isOwner, isSitter } = useAuth();
 
-  const [showEditProfileForm, setShowEditProfileForm] =
-    useState<boolean>(false);
-
-  const [showSignUpForm, setShowSignUpForm] = useState<boolean>(false);
+  const [showEditSitterProfile, setShowEditSitterProfile] = useState<boolean>(false);
+  const [showEditOwnerProfile, setShowEditOwnerProfile] = useState<boolean>(false);
 
   return (
-    <div className="dashboard-container">
-      <h2>Dashboard</h2>
-      <p>
-        Welcome, {currentUser?.email}! This is the placeholder for your future
-        dashboard
-      </p>
-      {/* TO DO - Implement component for protected data
-            <ProtectedData /> */}
-      {/* Temporal TokenDisplay component to see if the user token is OK */}
-      <TokenDisplay />
+    <div className="dashboard-container p-4">
+      <h2 className="text-2xl font-bold mb-4">Dashboard</h2>
+      <p className="mb-6">Welcome, {currentUser?.email}!</p>
+      <p>Manage your profiles below.</p>
 
-      <button
-        onClick={() => setShowEditProfileForm((prev: boolean) => !prev)}
-        className="shadow bg-gray-500 hover:bg-gray-400 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded"
-      >
-        {showEditProfileForm ? "Close" : "Edit Sitter Details"}
-      </button>
+      {/* Sitter Profile Section */}
+      {isSitter && (
+        <div className="mb-6">
+          <button
+            onClick={() => setShowEditSitterProfile((prev) => !prev)}
+            className="shadow bg-gray-500 hover:bg-gray-400 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded w-full sm:w-auto"
+          >
+            {showEditSitterProfile ? "Close Sitter Profile" : "Edit Sitter Profile"}
+          </button>
 
-      {showEditProfileForm && (
-        <div className="mt-6">
-          <EditSitterProfileForm />
+          {showEditSitterProfile && (
+            <div className="mt-4">
+              <EditSitterProfileForm />
+            </div>
+          )}
         </div>
       )}
-      <button
-        onClick={() => setShowSignUpForm((prev: boolean) => !prev)}
-        className="shadow bg-gray-500 hover:bg-gray-400 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded"
-      >
-        {showSignUpForm ? "Close" : "Sign Up"}
-      </button>
 
-      {showSignUpForm && (
-        <div className="mt-6">
-          <SignUpForm />
+      {/* Owner Profile Section */}
+      {isOwner && (
+        <div className="mb-6">
+          <button
+            onClick={() => setShowEditOwnerProfile((prev) => !prev)}
+            className="shadow bg-gray-500 hover:bg-gray-400 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded w-full sm:w-auto"
+          >
+            {showEditOwnerProfile ? "Close Owner Profile" : "Edit Owner Profile"}
+          </button>
+
+          {showEditOwnerProfile && (
+            <div className="mt-4">
+              <EditOwnerProfileForm />
+            </div>
+          )}
+        </div>
+      )}
+
+      {/* Option to Add a Role */}
+      {!isOwner && !isSitter && (
+        <div className="mb-6">
+          <p>You currently have no roles assigned.</p>
+          <button
+            onClick={() => {/* Implement role assignment logic */}}
+            className="shadow bg-blue-500 hover:bg-blue-400 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded"
+          >
+            Assign Roles
+          </button>
         </div>
       )}
     </div>

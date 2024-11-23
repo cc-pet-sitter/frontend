@@ -11,6 +11,10 @@ import { auth } from "../firebase";
 // Define the shape of the context
 interface AuthContextType {
   currentUser: User | null;
+  isOwner: boolean;
+  isSitter: boolean;
+  setIsOwner: (value: boolean) => void;
+  setIsSitter: (value: boolean) => void;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -31,11 +35,24 @@ interface AuthProviderProps {
 
 export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   const [currentUser, setCurrentUser] = useState<User | null>(null);
+  const [isOwner, setIsOwner] = useState<boolean>(false);
+  const [isSitter, setIsSitter] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(true);
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
       setCurrentUser(user);
+      if (user) {
+        // Fetch user roles from backend or Firebase custom claims
+        // For now, use localStorage to mock roles
+        const ownerRole = localStorage.getItem("isOwner") === "true";
+        const sitterRole = localStorage.getItem("isSitter") === "true";
+        setIsOwner(ownerRole);
+        setIsSitter(sitterRole);
+      } else {
+        setIsOwner(false);
+        setIsSitter(false);
+      }
       setLoading(false);
     });
 
@@ -44,6 +61,10 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 
   const value: AuthContextType = {
     currentUser,
+    isOwner,
+    isSitter,
+    setIsOwner,
+    setIsSitter,
   };
 
   return (
@@ -52,5 +73,3 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     </AuthContext.Provider>
   );
 };
-
-export { useState };
