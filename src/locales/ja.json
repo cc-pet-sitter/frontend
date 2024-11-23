@@ -1,5 +1,14 @@
 {
   "title": {
     "subtitle": "ペットシッターを探そう！"
+  },
+  "header": {
+    "login": "ログイン",
+    "signup": "サインアップ"
+  },
+  "hamburger_menu": {
+    "profile": "プロフィール",
+    "bookings": "予約",
+    "logout": "ログアウト"
   }
 }

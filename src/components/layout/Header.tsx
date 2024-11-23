@@ -1,9 +1,10 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../../contexts/AuthContext";
 import { signOut } from "firebase/auth";
 import { auth } from "../../firebase";
 import { useTranslation, Trans } from "react-i18next";
+import HamburgerMenu from "./HamburgerMenu";
 
 const lngs = {
   en: { nativeName: "English" },
@@ -11,6 +12,7 @@ const lngs = {
 };
 
 const Header: React.FC = () => {
+  const [menuOpen, setMenuOpen] = useState<Boolean>(false);
   const { currentUser } = useAuth();
   const navigate = useNavigate();
 
@@ -23,6 +25,10 @@ const Header: React.FC = () => {
     } catch (err) {
       console.error("Failed to logout: ", err);
     }
+  };
+
+  const toggleMenu = () => {
+    setMenuOpen(!menuOpen);
   };
 
   return (
@@ -41,26 +47,37 @@ const Header: React.FC = () => {
 
           <div className="flex flex-row basis-1/4 ">
             <div className="basis-1/3">
-              <Link to="/login">Login </Link>
-            </div>
-            <div className="basis-1/3">
-              <Link to="/signup">Sign Up </Link>
-            </div>
-            <div className="basis-1/3">
               {currentUser ? (
-                <p>Welcome, {currentUser?.email}!</p>
+                <div>
+                  <span onClick={toggleMenu}>
+                    Welcome, {currentUser?.email}!
+                  </span>
+                  {menuOpen && (
+                    <HamburgerMenu
+                      onClose={() => setMenuOpen(false)}
+                      handleLogout={handleLogout}
+                    ></HamburgerMenu>
+                  )}
+                </div>
               ) : (
-                <p>Just Visiting</p>
+                <>
+                  <div className="basis-1/3">
+                    <Link to="/login">{t("header.login")} </Link>
+                  </div>
+                  <div className="basis-1/3">
+                    <Link to="/signup">{t("header.signup")}</Link>
+                  </div>
+                </>
               )}
             </div>
-            <div>
+            {/* <div>
               {currentUser ? (
                 <button onClick={handleLogout}>Logout</button>
               ) : (
                 ""
               )}
               {currentUser ? <Link to="/dashboard">Dashboard </Link> : ""}
-            </div>
+            </div> */}
           </div>
           <div>
             {Object.keys(lngs).map((lng) => (

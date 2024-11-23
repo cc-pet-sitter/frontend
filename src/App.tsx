@@ -13,6 +13,8 @@ import Login from "./components/auth/Login";
 import SignUp from "./components/auth/Signup";
 import { useAuth } from "./contexts/AuthContext";
 import Dashboard from "./pages/Dashboard";
+import BookingHistoryPage from "./pages/BookingHistoryPage";
+import UserProfilePage from "./pages/UserProfilePage";
 // import Dashboard from "./pages/Dashboard";
 
 const App: React.FC = () => {
@@ -47,6 +49,8 @@ const App: React.FC = () => {
             <Route path="/search_page" element={<SearchPage />} />
             <Route path="/" element={<HomePage />} />
             <Route path="/dashboard" element={<Dashboard />} />
+            <Route path="/bookings/history" element={<BookingHistoryPage />} />
+            <Route path="/user/profile" element={<UserProfilePage />} />
             <Route
               path="/login"
               element={!currentUser ? <Login /> : <Navigate to="/" />}
