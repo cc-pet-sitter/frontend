@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 
@@ -9,17 +9,37 @@ type Props = {
 
 const HamburgerMenu: React.FC<Props> = ({ onClose, handleLogout }) => {
   const { t } = useTranslation();
+  const menuRef = useRef(null);
+
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (menuRef.current && !menuRef.current.contains(event.target)) {
+        onClose();
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [onClose]);
 
   return (
-    <div>
+    <div ref={menuRef}>
       <ul>
         <li>
-          <Link to="/user/profile" onClick={onClose}>
+          <Link to="/dashboard/account" onClick={onClose}>
+            {t("hamburger_menu.account")}
+          </Link>
+        </li>
+        <li>
+          <Link to="/dashboard/sitter_profile" onClick={onClose}>
             {t("hamburger_menu.profile")}
           </Link>
         </li>
         <li>
-          <Link to="/bookings/history" onClick={onClose}>
+          <Link to="/dashboard/bookings" onClick={onClose}>
             {t("hamburger_menu.bookings")}
           </Link>
         </li>

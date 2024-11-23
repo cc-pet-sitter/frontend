@@ -7,6 +7,7 @@
     "signup": "Sign Up"
   },
   "hamburger_menu": {
+    "account": "Account",
     "profile": "Profile",
     "bookings": "Bookings",
     "logout": "logout"
