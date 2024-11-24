@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../../contexts/AuthContext";
 import { signOut } from "firebase/auth";
@@ -17,6 +17,27 @@ const Header: React.FC = () => {
   const navigate = useNavigate();
 
   const { t, i18n } = useTranslation();
+  const menuRef = useRef<HTMLDivElement | null>(null);
+  const triggerRef = useRef<HTMLDivElement | null>(null);
+
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (
+        menuRef.current &&
+        !menuRef.current.contains(event.target as Node) &&
+        triggerRef.current &&
+        !triggerRef.current.contains(event.target as Node)
+      ) {
+        setMenuOpen(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
 
   const handleLogout = async () => {
     try {
@@ -28,11 +49,15 @@ const Header: React.FC = () => {
   };
 
   const toggleMenu = () => {
-    setMenuOpen(!menuOpen);
+    setMenuOpen((prevState) => !prevState);
   };
 
+  useState(() => {
+    console.log(menuOpen);
+  });
+
   return (
-    <header className="h-20 bg-green-500 content-center">
+    <header className="h-12 bg-green-500 content-center">
       <nav>
         <div className="flex flex-row ">
           <div className="basis-3/4 px-20">
@@ -48,12 +73,18 @@ const Header: React.FC = () => {
           <div className="flex flex-row basis-1/4 ">
             <div className="basis-1/3">
               {currentUser ? (
-                <div>
-                  <span onClick={toggleMenu}>
-                    Welcome, {currentUser?.email}!
+                <div className="relative">
+                  <span
+                    className="cursor-pointer "
+                    ref={triggerRef}
+                    onClick={toggleMenu}
+                  >
+                    {currentUser?.email}
+                    {/* will change to name */}
                   </span>
                   {menuOpen && (
                     <HamburgerMenu
+                      menuRef={menuRef}
                       onClose={() => setMenuOpen(false)}
                       handleLogout={handleLogout}
                     ></HamburgerMenu>
@@ -82,6 +113,7 @@ const Header: React.FC = () => {
           <div>
             {Object.keys(lngs).map((lng) => (
               <button
+                className="cursor-pointer"
                 type="submit"
                 key={lng}
                 onClick={() => i18n.changeLanguage(lng)}
