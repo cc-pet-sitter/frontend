@@ -14,7 +14,7 @@ import SignUp from "./components/auth/Signup";
 import { useAuth } from "./contexts/AuthContext";
 import DashboardBookingsPage from "./pages/DashboardBookingsPage";
 import DashboardSitterProfilePage from "./pages/DashboardSitterProfilePage";
-import AccountPage from "./pages/AccountPage";
+import DashboardAccountPage from "./pages/DashboardAccountPage";
 
 const App: React.FC = () => {
   const { currentUser } = useAuth();
@@ -56,7 +56,10 @@ const App: React.FC = () => {
               path="/dashboard/sitter_profile"
               element={<DashboardSitterProfilePage />}
             />
-            <Route path="/dashboard/account" element={<AccountPage />} />
+            <Route
+              path="/dashboard/account"
+              element={<DashboardAccountPage />}
+            />
             <Route
               path="/login"
               element={!currentUser ? <Login /> : <Navigate to="/" />}

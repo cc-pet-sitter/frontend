@@ -6,7 +6,6 @@ import SignUpForm from "../components/profile/SignUpForm";
 
 const DashboardSitterProfilePage: React.FC = () => {
   const { currentUser } = useAuth();
-
   const [showEditProfileForm, setShowEditProfileForm] =
     useState<boolean>(false);
 

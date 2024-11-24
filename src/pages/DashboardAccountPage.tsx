@@ -4,7 +4,7 @@ import TokenDisplay from "../components/auth/TokenDisplay";
 import EditSitterProfileForm from "../components/profile/EditSitterProfileForm";
 import SignUpForm from "../components/profile/SignUpForm";
 
-const AccountPage: React.FC = () => {
+const DashboardAccountPage: React.FC = () => {
   const { currentUser } = useAuth();
 
   const [showSignUpForm, setShowSignUpForm] = useState<boolean>(false);
@@ -34,4 +34,4 @@ const AccountPage: React.FC = () => {
   );
 };
 
-export default AccountPage;
+export default DashboardAccountPage;

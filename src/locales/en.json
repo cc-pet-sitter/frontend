@@ -11,5 +11,9 @@
     "profile": "Profile",
     "bookings": "Bookings",
     "logout": "logout"
+  },
+  "dashboard_bookings_page": {
+    "title": "Bookings",
+    "review": "Write Review"
   }
 }

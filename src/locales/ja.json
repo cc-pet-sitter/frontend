@@ -11,5 +11,9 @@
     "profile": "プロフィール",
     "bookings": "予約",
     "logout": "ログアウト"
+  },
+  "dashboard_bookings_page": {
+    "title": "予約",
+    "review": "レビューを書く"
   }
 }
