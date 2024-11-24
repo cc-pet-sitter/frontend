@@ -13,9 +13,31 @@ const SignUp: React.FC = () => {
         e.preventDefault();
         setError('');
         try {
-            // eslint-disable-next-line @typescript-eslint/no-unused-vars
-            const UserCredential: UserCredential = await createUserWithEmailAndPassword(auth, email, password);
-            navigate('/');
+            // Create user in Firebase
+            const userCredential: UserCredential = await createUserWithEmailAndPassword(auth, email, password);
+            const user = userCredential.user;
+
+            // Obtain ID token
+            const idToken = await user.getIdToken();
+
+            // Send user data to backend
+            const backendURL = import.meta.env.VITE_API_BASE_URL || "http://localhost:8000";
+            const response = await fetch(backendURL + "/signup", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": `Bearer ${idToken}`,
+                },
+                body: JSON.stringify({ email }),
+            });
+
+            if (!response.ok) {
+                const data = await response.json();
+                throw new Error(data.detail || "Failed to create user in backend.");
+            }
+
+            // Navigate to dashboard or home
+            navigate('/dashboard');
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         } catch (err: any) {
             setError(err.message);
