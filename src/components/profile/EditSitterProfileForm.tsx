@@ -1,6 +1,10 @@
 import { useForm } from "react-hook-form";
 
-const EditSitterProfileForm: React.FC = () => {
+type Props = {
+  closeEditProfileForm: () => void;
+};
+
+const EditSitterProfileForm: React.FC<Props> = ({ closeEditProfileForm }) => {
   const { register, handleSubmit } = useForm({
     shouldUseNativeValidation: true,
   });
@@ -67,6 +71,7 @@ const EditSitterProfileForm: React.FC = () => {
           <button
             type="submit"
             className="shadow bg-gray-500 hover:bg-gray-400 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded"
+            onClick={closeEditProfileForm}
           >
             Save
           </button>

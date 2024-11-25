@@ -1,6 +1,10 @@
 import { useForm } from "react-hook-form";
 
-const SignUpForm: React.FC = () => {
+type Props = {
+  closeEditForm: () => void;
+};
+
+const SignUpForm: React.FC<Props> = ({ closeEditForm }) => {
   const { register, handleSubmit } = useForm({
     shouldUseNativeValidation: true,
   });
@@ -154,8 +158,9 @@ const SignUpForm: React.FC = () => {
           <button
             type="submit"
             className="shadow bg-gray-500 hover:bg-gray-400 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded"
+            onClick={closeEditForm}
           >
-            Submit
+            Save
           </button>
         </div>
       </div>

@@ -4,12 +4,26 @@
   },
   "hamburger_menu": {
     "account": "アカウント",
-    "profile": "プロフィール",
     "bookings": "予約",
+    "become_sitter": "ペットシッターになる",
+    "sitter_profile": "シッタープロフィール",
+    "requests": "リクエスト",
     "logout": "ログアウト"
+  },
+  "dashboard_account_page": {
+    "title": "アカウント情報",
+    "edit_button": "編集する"
   },
   "dashboard_bookings_page": {
     "title": "予約",
+    "review": "レビューを書く"
+  },
+  "dashboard_Sitter_Profile_page": {
+    "title": "シッタープロフィール",
+    "edit_button": "編集"
+  },
+  "dashboard_requests_page": {
+    "title": "リクエスト",
     "review": "レビューを書く"
   },
   "homePage": {
