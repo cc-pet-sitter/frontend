@@ -8,6 +8,9 @@ const SignUp: React.FC = () => {
   const [password, setPassword] = useState<string>("");
   const [error, setError] = useState<string>("");
   const navigate = useNavigate();
+  const [firstname, setFirstname] = useState<string>("");
+  const [lastname, setLastname] = useState<string>("");
+
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -28,7 +31,7 @@ const SignUp: React.FC = () => {
           "Content-Type": "application/json",
           "Authorization": `Bearer ${idToken}`,
         },
-        body: JSON.stringify({ email }),
+        body: JSON.stringify({ firstname, lastname, email }),
       });
 
       if (!response.ok) {
@@ -54,6 +57,32 @@ const SignUp: React.FC = () => {
       {error && <p className="error">{error}</p>}
       <form onSubmit={handleSubmit} className="w-full max-w-lg">
         <div className="flex flex-wrap -mx-3 mb-6 p-8 ">
+          <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
+            <label className={labelClass} htmlFor="firstname">
+              First Name:
+              <input
+                type="firstname"
+                id="firstname"
+                value={firstname}
+                onChange={(e) => setFirstname(e.target.value)}
+                required
+                className={inputClass}
+              />
+            </label>
+          </div>
+          <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
+            <label className={labelClass} htmlFor="email">
+              Last Name:
+              <input
+                type="lastname"
+                id="lastname"
+                value={lastname}
+                onChange={(e) => setLastname(e.target.value)}
+                required
+                className={inputClass}
+              />
+            </label>
+          </div>
           <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
             <label className={labelClass} htmlFor="email">
               Email:

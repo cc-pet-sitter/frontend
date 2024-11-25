@@ -1,12 +1,12 @@
 import React, { useState } from "react";
 import { useAuth } from "../contexts/AuthContext";
 import { useTranslation } from "react-i18next";
-import TokenDisplay from "../components/auth/TokenDisplay";
 import EditSitterProfileForm from "../components/profile/EditSitterProfileForm";
 import SignUpForm from "../components/profile/SignUpForm";
+import EditProfileForm from "../components/profile/EditProfileForm";
 
 const DashboardAccountPage: React.FC = () => {
-  const { currentUser } = useAuth();
+  const { userInfo} = useAuth();
   const { t } = useTranslation();
 
   const [showSignUpForm, setShowSignUpForm] = useState<boolean>(false);
@@ -50,8 +50,8 @@ const DashboardAccountPage: React.FC = () => {
                   className="h-48 w-48 rounded-full object-cover"
                 />
                 <div className="mt-4 sm:mt-0 sm:ml-6 text-center sm:text-left">
-                  {/* <h1 className="text-2xl font-bold">{`${user.firstname} ${user.lastname}`}</h1>
-              <p className="text-gray-500">{user.email}</p> */}
+                  <h1 className="text-2xl font-bold">{`${userInfo.firstname} ${userInfo.lastname}`}</h1>
+              <p className="text-gray-500">{userInfo.email}</p>
                 </div>
               </div>
 
@@ -120,7 +120,8 @@ const DashboardAccountPage: React.FC = () => {
 
       {showSignUpForm && (
         <div className="mt-6">
-          <SignUpForm closeEditForm={() => setShowSignUpForm(false)} />
+          {/* <SignUpForm closeEditForm={() => setShowSignUpForm(false)} /> */}
+          <EditProfileForm closeEditForm={() => setShowSignUpForm(false)} />
         </div>
       )}
     </div>
