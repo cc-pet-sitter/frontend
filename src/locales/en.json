@@ -117,5 +117,31 @@
     "bird": "Bird",
     "rabbit": "Rabbit",
     "viewProfile": "View Profile"
+  },
+  "sitterProfilePage": {
+    "accountBio": "Bio",
+    "profileDetails": "Profile Details",
+    "location": "Location",
+    "address": "Address",
+    "postCode": "Post Code",
+    "languages": "languages",
+    "english": "English",
+    "japanese": "Japanese",
+    "englishJapanese": "English, Japanese",
+    "accountInformation": "Account Information",
+    "accountCreated": "Account Created",
+    "lastLogin": "Last Login",
+    "lastUpdated": "Last Updated",
+    "backToSearchResults": "Back To Search Results",
+    "makeAnEnquiry": "Make An Enquiry",
+    "close": "Close"
+  },
+  "enquiryForm": {
+    "startDate": "Start Date",
+    "endDate": "End Date",
+    "petToLookAfter": "Pet To Look After",
+    "desiredService": "Desired Service",
+    "additionalInfo": "Additional Info",
+    "submit": "Submit"
   }
 }

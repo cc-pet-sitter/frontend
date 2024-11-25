@@ -3,10 +3,12 @@ import { useState } from "react";
 import { appUsers } from "../dummyusers/dummyData";
 import { useParams } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 
 const SitterProfilePage: React.FC = () => {
   const [showEnquiryForm, setShowEnquiryForm] = useState<boolean>(false);
   const navigate = useNavigate();
+  const { t } = useTranslation();
 
   const { id } = useParams<{ id: string }>();
   const user = appUsers.find((user) => user.id === parseInt(id!));
@@ -34,7 +36,9 @@ const SitterProfilePage: React.FC = () => {
               onClick={() => setShowEnquiryForm((prev: boolean) => !prev)}
               className="shadow bg-gray-500 hover:bg-gray-400 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded"
             >
-              {showEnquiryForm ? "Close" : "Make An Enquiry"}
+              {showEnquiryForm
+                ? t("sitterProfilePage.close")
+                : t("sitterProfilePage.makeAnEnquiry")}
             </button>
             {showEnquiryForm && (
               <div className="mt-6 w-full sm:w-auto">
@@ -46,46 +50,49 @@ const SitterProfilePage: React.FC = () => {
 
         {/* Profile Details */}
         <div className="p-6 border-t">
-          <h2 className="text-lg font-semibold mb-4">Profile Details</h2>
+          <h2 className="text-lg font-semibold mb-4">
+            {t("sitterProfilePage.profileDetails")}
+          </h2>
           <ul className="list-none space-y-2 text-left">
             <li>
-              <strong>Location:</strong>{" "}
+              <strong>{`${t("sitterProfilePage.location")}:`}</strong>{" "}
               {`${user.prefecture}, ${user.city_ward}`}
             </li>
             <li>
-              <strong>Address:</strong> {user.street_address}
+              <strong>{`${t("sitterProfilePage.address")}:`}</strong>{" "}
+              {user.street_address}
             </li>
             <li>
-              <strong>Postal Code:</strong> {user.postal_code}
+              <strong>{`${t("sitterProfilePage.postCode")}:`}</strong>{" "}
+              {user.postal_code}
             </li>
             <li>
-              <strong>Languages:</strong>{" "}
+              <strong>{`${t("sitterProfilePage.languages")}:`}</strong>{" "}
               {user.english_ok && user.japanese_ok
-                ? "English, Japanese"
+                ? t("sitterProfilePage.englishJapanese")
                 : user.english_ok
-                ? "English"
-                : "Japanese"}
-            </li>
-            <li>
-              <strong>Account Language:</strong> {user.account_language}
+                ? t("sitterProfilePage.english")
+                : t("sitterProfilePage.japanese")}
             </li>
           </ul>
         </div>
 
         {/* Timestamps */}
         <div className="p-6 border-t">
-          <h2 className="text-lg font-semibold mb-4">Account Information</h2>
+          <h2 className="text-lg font-semibold mb-4">
+            {t("sitterProfilePage.accountInformation")}
+          </h2>
           <ul className="list-none space-y-2 text-left">
             <li>
-              <strong>Account Created:</strong>{" "}
+              <strong>{`${t("sitterProfilePage.accountCreated")}:`}</strong>{" "}
               {new Date(user.account_created).toLocaleString()}
             </li>
             <li>
-              <strong>Last Login:</strong>{" "}
+              <strong>{`${t("sitterProfilePage.lastLogin")}:`}</strong>{" "}
               {new Date(user.last_login).toLocaleString()}
             </li>
             <li>
-              <strong>Last Updated:</strong>{" "}
+              <strong>{`${t("sitterProfilePage.lastUpdated")}:`}</strong>{" "}
               {new Date(user.last_updated).toLocaleString()}
             </li>
           </ul>
@@ -97,7 +104,7 @@ const SitterProfilePage: React.FC = () => {
           onClick={() => navigate(-1)}
           className="shadow bg-gray-500 hover:bg-gray-400 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded"
         >
-          Back To Search Results
+          {t("sitterProfilePage.backToSearchResults")}
         </button>
       </div>
     </div>
