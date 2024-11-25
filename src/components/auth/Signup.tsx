@@ -10,40 +10,39 @@ const SignUp: React.FC = () => {
   const navigate = useNavigate();
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
-        e.preventDefault();
-        setError('');
-        try {
-            // Create user in Firebase
-            const userCredential: UserCredential = await createUserWithEmailAndPassword(auth, email, password);
-            const user = userCredential.user;
+    e.preventDefault();
+    setError('');
+    try {
+      // Create user in Firebase
+      const userCredential: UserCredential = await createUserWithEmailAndPassword(auth, email, password);
+      const user = userCredential.user;
 
-            // Obtain ID token
-            const idToken = await user.getIdToken();
+      // Obtain ID token
+      const idToken = await user.getIdToken();
 
-            // Send user data to backend
-            const backendURL = import.meta.env.VITE_API_BASE_URL || "http://localhost:8000";
-            const response = await fetch(backendURL + "/signup", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                    "Authorization": `Bearer ${idToken}`,
-                },
-                body: JSON.stringify({ email }),
-            });
+      // Send user data to backend
+      const backendURL = import.meta.env.VITE_API_BASE_URL || "http://localhost:8000";
+      const response = await fetch(backendURL + "/signup", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${idToken}`,
+        },
+        body: JSON.stringify({ email }),
+      });
 
-            if (!response.ok) {
-                const data = await response.json();
-                throw new Error(data.detail || "Failed to create user in backend.");
-            }
+      if (!response.ok) {
+        const data = await response.json();
+        throw new Error(data.detail || "Failed to create user in backend.");
+      }
 
-            // Navigate to dashboard or home
-            navigate('/dashboard');
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        } catch (err: any) {
-            setError(err.message);
-        }
+      // Navigate to dashboard or home
+      navigate('/dashboard');
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    } catch (err: any) {
+      setError(err.message);
     }
-  };
+  }
 
   const inputClass =
     "appearance-none block w-full bg-gray-200 text-gray-700 border rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white justify-center";
@@ -92,7 +91,7 @@ const SignUp: React.FC = () => {
         </div>
       </form>
     </div>
-  );
+  )
 };
 
 export default SignUp;
