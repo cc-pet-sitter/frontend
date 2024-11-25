@@ -15,7 +15,7 @@ interface UserInfo {
   email: string;
   firstname: string | null;
   lastname: string | null;
-  roles: string[];
+  is_sitter: string | null;
   profile_picture_src: string | null;
   // Add other fields as necessary
 }
