@@ -94,15 +94,13 @@ const EnquiryForm: React.FC = () => {
           />
         </label>
       </div>
-      <div className="md:flex md:items-center">
-        <div className="md:w-2/3">
-          <button
-            type="submit"
-            className="shadow bg-gray-500 hover:bg-gray-400 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded"
-          >
-            Submit
-          </button>
-        </div>
+      <div className="flex justify-center">
+        <button
+          type="submit"
+          className="shadow bg-gray-500 hover:bg-gray-400 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded"
+        >
+          Submit
+        </button>
       </div>
     </form>
   );
