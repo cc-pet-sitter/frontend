@@ -16,6 +16,8 @@ import { useAuth } from "./contexts/AuthContext";
 import DashboardBookingsPage from "./pages/DashboardBookingsPage";
 import DashboardSitterProfilePage from "./pages/DashboardSitterProfilePage";
 import DashboardAccountPage from "./pages/DashboardAccountPage";
+import DashboardRequests from "./pages/DashboardRequests";
+
 import { appUsers } from "./dummyusers/dummyData";
 import SearchResults from "./components/search/SearchResults";
 
@@ -58,6 +60,7 @@ const App: React.FC = () => {
               path="/dashboard/account"
               element={<DashboardAccountPage />}
             />
+            <Route path="/dashboard/requests" element={<DashboardRequests />} />
             <Route
               path="/login"
               element={!currentUser ? <Login /> : <Navigate to="/" />}

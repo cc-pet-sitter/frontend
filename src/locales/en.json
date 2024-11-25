@@ -4,12 +4,26 @@
   },
   "hamburger_menu": {
     "account": "Account",
-    "profile": "Profile",
     "bookings": "Bookings",
+    "become_sitter": "Become a sitter",
+    "sitter_profile": "Sitter profile",
+    "requests": "Requests",
     "logout": "Logout"
+  },
+  "dashboard_account_page": {
+    "title": "Account Info",
+    "edit_button": "Edit"
   },
   "dashboard_bookings_page": {
     "title": "Bookings",
+    "review": "Write Review"
+  },
+  "dashboard_Sitter_Profile_page": {
+    "title": "Your Sitter Profile",
+    "edit_button": "Edit"
+  },
+  "dashboard_requests_page": {
+    "title": "Requests",
     "review": "Write Review"
   },
   "homePage": {

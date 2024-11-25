@@ -180,15 +180,6 @@ const Header: React.FC = () => {
               {t("hamburger_menu.account")}
             </Link>
             <Link
-              to="/dashboard/sitter_profile"
-              className="text-white block"
-              onClick={() => {
-                setMenuOpen(false);
-              }}
-            >
-              {t("hamburger_menu.profile")}
-            </Link>
-            <Link
               to="/dashboard/bookings"
               className="text-white block"
               onClick={() => {
@@ -197,6 +188,25 @@ const Header: React.FC = () => {
             >
               {t("hamburger_menu.bookings")}
             </Link>
+            <Link
+              to="/dashboard/sitter_profile"
+              className="text-white block"
+              onClick={() => {
+                setMenuOpen(false);
+              }}
+            >
+              {t("hamburger_menu.become_sitter")}
+            </Link>
+            <Link
+              to="/dashboard/requests"
+              className="text-white block"
+              onClick={() => {
+                setMenuOpen(false);
+              }}
+            >
+              {t("hamburger_menu.requests")}
+            </Link>
+
             <button
               onClick={() => {
                 handleLogout();
