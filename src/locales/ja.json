@@ -93,5 +93,41 @@
       "dropIn": "立ち寄り"
     },
     "search": "検索"
+  },
+  "searchPage": {
+    "available": "訪問可能",
+    "notAvailable": "訪問不可",
+    "dog": "犬",
+    "cat": "猫",
+    "fish": "魚",
+    "bird": "鳥",
+    "rabbit": "ウサギ",
+    "viewProfile": "プロフィールを見る"
+  },
+  "sitterProfilePage": {
+    "accountBio": "自己紹介",
+    "profileDetails": "プロフィール詳細",
+    "location": "場所",
+    "address": "住所",
+    "postCode": "郵便番号",
+    "languages": "言語",
+    "english": "英語",
+    "japanese": "日本語",
+    "englishJapanese": "英語, 日本語",
+    "accountInformation": "アカウント情報",
+    "accountCreated": "アカウント作成日",
+    "lastLogin": "最終ログイン",
+    "lastUpdated": "最終更新日",
+    "backToSearchResults": "検索結果に戻る",
+    "makeAnEnquiry": "お問い合わせ",
+    "close": "閉じる"
+  },
+  "enquiryForm": {
+    "startDate": "開始日",
+    "endDate": "終了日",
+    "petToLookAfter": "お世話するペット",
+    "desiredService": "希望するサービス",
+    "additionalInfo": "追加情報",
+    "submit": "送信"
   }
 }

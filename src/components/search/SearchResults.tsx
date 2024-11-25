@@ -93,21 +93,29 @@ const SearchResults: React.FC<SearchResultsProps> = () => {
                   </p>
                   <div className="pt-4 pb-4">
                     <p className="text-slate-500 text-sm">
-                      {ele.sitter_profile.dogs_ok ? "✅ Dogs" : "❌ Dogs"}
+                      {ele.sitter_profile.dogs_ok
+                        ? `✅ ${t("searchPage.dog")}`
+                        : `❌ ${t("searchPage.dog")}`}
                     </p>
                     <p className="text-slate-500 text-sm">
-                      {ele.sitter_profile.cats_ok ? "✅ Cats" : "❌ Cats"}
+                      {ele.sitter_profile.cats_ok
+                        ? `✅ ${t("searchPage.cat")}`
+                        : `✅ ${t("searchPage.cat")}`}
                     </p>
                     <p className="text-slate-500 text-sm">
-                      {ele.sitter_profile.fish_ok ? "✅ Fish" : "❌ Fish"}
+                      {ele.sitter_profile.fish_ok
+                        ? `✅ ${t("searchPage.fish")}`
+                        : `✅ ${t("searchPage.fish")}`}
                     </p>
                     <p className="text-slate-500 text-sm">
-                      {ele.sitter_profile.birds_ok ? "✅ Birds" : "❌ Birds"}
+                      {ele.sitter_profile.birds_ok
+                        ? `✅ ${t("searchPage.fish")}`
+                        : `✅ ${t("searchPage.fish")}`}
                     </p>
                     <p className="text-slate-500 text-sm">
                       {ele.sitter_profile.rabbits_ok
-                        ? "✅ Rabbits"
-                        : "❌ Rabbits"}
+                        ? `✅ ${t("searchPage.rabbit")}`
+                        : `✅ ${t("searchPage.rabbit")}`}
                     </p>
                   </div>
                   <div>
@@ -115,7 +123,7 @@ const SearchResults: React.FC<SearchResultsProps> = () => {
                       className="shadow bg-gray-500 hover:bg-gray-400 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded w-full sm:w-auto"
                       onClick={() => goToNewPage(ele.id)}
                     >
-                      View Profile
+                      {t("searchPage.viewProfile")}
                     </button>
                   </div>
                 </div>

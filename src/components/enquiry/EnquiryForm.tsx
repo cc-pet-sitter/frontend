@@ -1,4 +1,5 @@
 import { useForm } from "react-hook-form";
+import { useTranslation } from "react-i18next";
 
 const EnquiryForm: React.FC = () => {
   const { register, handleSubmit } = useForm({
@@ -9,14 +10,15 @@ const EnquiryForm: React.FC = () => {
     console.log(data);
   };
 
-  // Shared styles
+  const { t } = useTranslation();
+
   const inputClass =
     "appearance-none block w-full bg-gray-200 text-gray-700 border rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white justify-center";
   const labelClass =
     "block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2";
 
-  const petOptions = ["Dog", "Cat", "Fish", "Bird", "Rabbit"];
-  const serviceOptions = ["Boarding", "Stay in", "Drop in"];
+  const petOptions = ["dog", "cat", "fish", "bird", "rabbit"];
+  const serviceOptions = ["boarding", "stayIn", "dropIn"];
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="w-full max-w-lg">
@@ -24,7 +26,7 @@ const EnquiryForm: React.FC = () => {
         {/* startDate */}
         <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
           <label className={labelClass} htmlFor="startDate">
-            Start Date:
+            {`${t("enquiryForm.startDate")}:`}
           </label>
           <input
             id="startDate"
@@ -39,7 +41,7 @@ const EnquiryForm: React.FC = () => {
         {/* End Date */}
         <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
           <label className={labelClass} htmlFor="endDate">
-            End Date:
+            {`${t("enquiryForm.endDate")}:`}
           </label>
           <input
             id="endDate"
@@ -55,7 +57,9 @@ const EnquiryForm: React.FC = () => {
 
       <div className="mb-6">
         {/* Pets */}
-        <p className={`${labelClass} mb-3`}>Pet to look after:</p>
+        <p className={`${labelClass} mb-3`}>{`${t(
+          "enquiryForm.petToLookAfter"
+        )}:`}</p>
         {petOptions.map((pet) => (
           <label key={pet} className={`${labelClass} flex items-center`}>
             <input
@@ -64,13 +68,15 @@ const EnquiryForm: React.FC = () => {
               value={pet.toLowerCase()}
               className="mr-2"
             />
-            {pet}
+            {t(`searchBar.petOptions.${pet}`)}
           </label>
         ))}
       </div>
       <div className="mb-6">
         {/* Types of Service You Offer */}
-        <p className={`${labelClass} mb-3`}>Desired Service:</p>
+        <p className={`${labelClass} mb-3`}>{`${t(
+          "enquiryForm.desiredService"
+        )}:`}</p>
         {serviceOptions.map((service) => (
           <label key={service} className={`${labelClass} flex items-center`}>
             <input
@@ -79,13 +85,13 @@ const EnquiryForm: React.FC = () => {
               value={service.toLowerCase()}
               className="mr-2"
             />
-            {service}
+            {t(`searchBar.serviceOptions.${service}`)}
           </label>
         ))}
       </div>
       <div className="mb-6">
         <label className={`${labelClass} flex items-center`}>
-          Additional Info:
+          {`${t("enquiryForm.additionalInfo")}:`}
           <textarea
             className={inputClass}
             rows={4}
@@ -99,7 +105,7 @@ const EnquiryForm: React.FC = () => {
           type="submit"
           className="shadow bg-gray-500 hover:bg-gray-400 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded"
         >
-          Submit
+          {`${t("enquiryForm.submit")}:`}
         </button>
       </div>
     </form>
