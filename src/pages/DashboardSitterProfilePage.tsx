@@ -1,5 +1,5 @@
-import React from "react";
-import { useAuth, useState } from "../contexts/AuthContext";
+import React, { useState } from "react";
+import { useAuth } from "../contexts/AuthContext";
 import TokenDisplay from "../components/auth/TokenDisplay";
 import EditSitterProfileForm from "../components/profile/EditSitterProfileForm";
 import SignUpForm from "../components/profile/SignUpForm";
