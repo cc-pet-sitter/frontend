@@ -1,12 +1,20 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../../contexts/AuthContext";
 import { signOut } from "firebase/auth";
 import { auth } from "../../firebase";
+import { useTranslation } from "react-i18next";
+
+const lngs: Record<string, { nativeName: string }> = {
+  en: { nativeName: "English" },
+  ja: { nativeName: "日本語" },
+};
 
 const Header: React.FC = () => {
   const { currentUser } = useAuth();
   const navigate = useNavigate();
+
+  const { t, i18n } = useTranslation();
 
   const handleLogout = async () => {
     try {
@@ -17,45 +25,121 @@ const Header: React.FC = () => {
     }
   };
 
-  return (
-    <header className="h-20 bg-green-500 content-center">
-      <nav>
-        <div className="flex flex-row ">
-          <div className="basis-3/4 px-20">
-            <Link to="/">Pet Sitter </Link>
-          </div>
-          {/* <div className="basis-1/3">
-            <Link to="/sitter_profile_page">Profile </Link>
-          </div> */}
-          {/* <div className="basis-1/4">
-            <Link to="/search_page">Search </Link>
-          </div> */}
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const toggleMobileMenu = () => setMobileMenuOpen((prev) => !prev);
 
-          <div className="flex flex-row basis-1/4 ">
-            <div className="basis-1/3">
-              <Link to="/login">Login </Link>
+  return (
+    <header className="bg-green-500">
+      <nav className="flex items-center justify-between h-20 px-4 sm:px-6 lg:px-8">
+        {/* Logo */}
+        <div className="text-white text-xl font-bold">
+          <Link to="/">ぷぴぽ</Link>
+        </div>
+
+        {/* Desktop Navigation */}
+        <div className="hidden md:flex space-x-6 items-center">
+          <Link to="/login" className="text-white">
+            {t("header.login")}
+          </Link>
+          <Link to="/signup" className="text-white">
+            {t("header.signup")}
+          </Link>
+          {currentUser && (
+            <div className="space-x-4">
+              <button
+                onClick={handleLogout}
+                className="text-white hover:underline"
+              >
+                {t("header.logout")}
+              </button>
+              <Link to="/dashboard" className="text-white">
+                {t("header.dashboard")}
+              </Link>
             </div>
-            <div className="basis-1/3">
-              <Link to="/signup">Sign Up </Link>
-            </div>
-            <div className="basis-1/3">
-              {currentUser ? (
-                <p>Welcome, {currentUser?.email}!</p>
-              ) : (
-                <p>Just Visiting</p>
-              )}
-            </div>
-            <div>
-              {currentUser ? (
-                <button onClick={handleLogout}>Logout</button>
-              ) : (
-                ""
-              )}
-              {currentUser ? <Link to="/dashboard">Dashboard </Link> : ''}
-            </div>
+          )}
+          <div className="flex space-x-2">
+            {Object.keys(lngs).map((lng) => (
+              <button
+                className="text-white border border-white px-2 py-1 rounded hover:bg-white hover:text-green-500"
+                type="submit"
+                key={lng}
+                onClick={() => i18n.changeLanguage(lng)}
+                disabled={i18n.resolvedLanguage === lng}
+              >
+                {lngs[lng].nativeName}
+              </button>
+            ))}
           </div>
         </div>
+
+        {/* Hamburger Menu */}
+        <div className="md:hidden flex items-center">
+          <button
+            onClick={toggleMobileMenu}
+            className="text-white focus:outline-none"
+          >
+            <svg
+              className="w-6 h-6"
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth="2"
+                d="M4 6h16M4 12h16m-7 6h7"
+              />
+            </svg>
+          </button>
+        </div>
       </nav>
+
+      {/* Mobile Menu */}
+      <div
+        className={`${
+          mobileMenuOpen ? "block" : "hidden"
+        } md:hidden bg-green-500 px-4 py-2 space-y-2`}
+      >
+        <Link to="/login" className="text-white block">
+          {t("header.login")}
+        </Link>
+        <Link to="/signup" className="text-white block">
+          {t("header.signup")}
+        </Link>
+        {currentUser ? (
+          <>
+            <p className="text-white">
+              {t("header.welcome")} {currentUser?.email}!
+            </p>
+            <button
+              onClick={handleLogout}
+              className="text-white block hover:underline"
+            >
+              {t("header.logout")}
+            </button>
+            <Link to="/dashboard" className="text-white block">
+              {t("header.dashboard")}
+            </Link>
+          </>
+        ) : (
+          <p className="text-white block">{t("header.justVisiting")}</p>
+        )}
+        <div className="flex flex-wrap gap-2">
+          {Object.keys(lngs).map((lng) => (
+            <button
+              className="text-white border border-white px-2 py-1 rounded hover:bg-white hover:text-green-500"
+              type="submit"
+              key={lng}
+              onClick={() => i18n.changeLanguage(lng)}
+              disabled={i18n.resolvedLanguage === lng}
+            >
+              {lngs[lng].nativeName}
+            </button>
+          ))}
+        </div>
+      </div>
     </header>
   );
 };

@@ -3,6 +3,7 @@ import {
   Route,
   Routes,
   Navigate,
+  // Link,
 } from "react-router-dom";
 import HomePage from "./pages/HomePage";
 import SitterProfilePage from "./pages/SitterProfilePage";
@@ -13,6 +14,9 @@ import Login from "./components/auth/Login";
 import SignUp from "./components/auth/Signup";
 import { useAuth } from "./contexts/AuthContext";
 import Dashboard from "./pages/Dashboard";
+import { appUsers } from "./dummyusers/dummyData";
+import SearchResults from "./components/search/SearchResults";
+
 // import Dashboard from "./pages/Dashboard";
 
 const App: React.FC = () => {
@@ -23,28 +27,23 @@ const App: React.FC = () => {
       <div className="flex flex-col h-screen justify-between">
         <Header />
         <div>
-          {/* <nav>
-          <ul>
-            <li>
-              <Link to="/">Home</Link>
-            </li>
-            <li>
-              <Link to="/sitter_profile_page">Sitter Profile Page</Link>
-            </li>
-            <li>
-              <Link to="/search_page">Search Page</Link>
-            </li>
-          </ul>
-        </nav> */}
+          <nav>
+            <ul>
+              {/* <li>
+                <Link to="/search_page">Search Page</Link>
+              </li> */}
+            </ul>
+          </nav>
 
           {/* A <Switch> looks through its children <Route>s and
           renders the first one that matches the current URL. */}
           <Routes>
+            <Route path="/profile/:id" element={<SitterProfilePage />} />
             <Route
-              path="/sitter_profile_page"
-              element={<SitterProfilePage />}
+              path="/search_page"
+              element={<SearchPage appUsers={appUsers} />}
             />
-            <Route path="/search_page" element={<SearchPage />} />
+            <Route path="/search" element={<SearchResults appUsers={[]} />} />
             <Route path="/" element={<HomePage />} />
             <Route path="/dashboard" element={<Dashboard />} />
             <Route
