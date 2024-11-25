@@ -2,19 +2,16 @@
   "title": {
     "subtitle": "Find trusted pet sitters or list your services!"
   },
-  "header": {
-    "login": "Login",
-    "signup": "Sign Up"
-  },
   "hamburger_menu": {
     "account": "Account",
     "profile": "Profile",
     "bookings": "Bookings",
-    "logout": "logout"
+    "logout": "Logout"
   },
   "dashboard_bookings_page": {
     "title": "Bookings",
     "review": "Write Review"
+  },
   "homePage": {
     "subtitle": "Find trusted pet sitters or list your services!",
     "searchLabel": "Search for a Pet Sitter"
@@ -95,16 +92,16 @@
       "stayIn": "Stay In",
       "dropIn": "Drop In"
     },
-    "search": "Search",
-    "searchPage": {
-      "available": "Available for visits",
-      "notAvailable": "Not available for visits",
-      "dog": "Dog",
-      "cat": "Cat",
-      "fish": "Fish",
-      "bird": "Bird",
-      "rabbit": "Rabbit",
-      "viewProfile": "View Profile"
-    }
+    "search": "Search"
+  },
+  "searchPage": {
+    "available": "Available for visits",
+    "notAvailable": "Not available for visits",
+    "dog": "Dog",
+    "cat": "Cat",
+    "fish": "Fish",
+    "bird": "Bird",
+    "rabbit": "Rabbit",
+    "viewProfile": "View Profile"
   }
 }

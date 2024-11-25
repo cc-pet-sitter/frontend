@@ -7,8 +7,10 @@ import EditOwnerProfileForm from "../components/profile/EditOwnerProfileForm";
 const Dashboard: React.FC = () => {
   const { currentUser, isOwner, isSitter } = useAuth();
 
-  const [showEditSitterProfile, setShowEditSitterProfile] = useState<boolean>(false);
-  const [showEditOwnerProfile, setShowEditOwnerProfile] = useState<boolean>(false);
+  const [showEditSitterProfile, setShowEditSitterProfile] =
+    useState<boolean>(false);
+  const [showEditOwnerProfile, setShowEditOwnerProfile] =
+    useState<boolean>(false);
 
   return (
     <div className="dashboard-container p-4">
@@ -23,7 +25,9 @@ const Dashboard: React.FC = () => {
             onClick={() => setShowEditSitterProfile((prev) => !prev)}
             className="shadow bg-gray-500 hover:bg-gray-400 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded w-full sm:w-auto"
           >
-            {showEditSitterProfile ? "Close Sitter Profile" : "Edit Sitter Profile"}
+            {showEditSitterProfile
+              ? "Close Sitter Profile"
+              : "Edit Sitter Profile"}
           </button>
 
           {showEditSitterProfile && (
@@ -41,7 +45,9 @@ const Dashboard: React.FC = () => {
             onClick={() => setShowEditOwnerProfile((prev) => !prev)}
             className="shadow bg-gray-500 hover:bg-gray-400 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded w-full sm:w-auto"
           >
-            {showEditOwnerProfile ? "Close Owner Profile" : "Edit Owner Profile"}
+            {showEditOwnerProfile
+              ? "Close Owner Profile"
+              : "Edit Owner Profile"}
           </button>
 
           {showEditOwnerProfile && (
@@ -57,7 +63,9 @@ const Dashboard: React.FC = () => {
         <div className="mb-6">
           <p>You currently have no roles assigned.</p>
           <button
-            onClick={() => {/* Implement role assignment logic */}}
+            onClick={() => {
+              /* Implement role assignment logic */
+            }}
             className="shadow bg-blue-500 hover:bg-blue-400 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded"
           >
             Assign Roles

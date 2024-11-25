@@ -4,7 +4,7 @@ import { useAuth } from "../../contexts/AuthContext";
 import { signOut } from "firebase/auth";
 import { auth } from "../../firebase";
 import { useTranslation } from "react-i18next";
-import HamburgerMenu from "./HamburgerMenu";
+// import HamburgerMenu from "./HamburgerMenu";
 
 const lngs: Record<string, { nativeName: string }> = {
   en: { nativeName: "English" },
@@ -12,7 +12,7 @@ const lngs: Record<string, { nativeName: string }> = {
 };
 
 const Header: React.FC = () => {
-  const [menuOpen, setMenuOpen] = useState<Boolean>(false);
+  const [menuOpen, setMenuOpen] = useState<boolean>(false);
   const { currentUser } = useAuth();
   const navigate = useNavigate();
 
@@ -50,10 +50,10 @@ const Header: React.FC = () => {
 
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const toggleMobileMenu = () => setMobileMenuOpen((prev) => !prev);
-                
-  const toggleMenu = () => {
-    setMenuOpen((prevState) => !prevState);
-  };
+
+  // const toggleMenu = () => {
+  //   setMenuOpen((prevState) => !prevState);
+  // };
 
   useState(() => {
     console.log(menuOpen);
@@ -66,8 +66,9 @@ const Header: React.FC = () => {
         <div className="text-white text-xl font-bold">
           <Link to="/">ぷぴぽ</Link>
         </div>
-        
-         <div className="flex flex-row basis-1/4 ">
+
+        {/* Desktop Navigation */}
+        {/* <div className="flex flex-row basis-1/4 ">
           <div className="basis-1/3">
             {currentUser ? (
               <div className="relative">
@@ -77,8 +78,8 @@ const Header: React.FC = () => {
                   onClick={toggleMenu}
                 >
                   {currentUser?.email}
-                  {/* will change to name */}
-                </span>
+                   will change to name 
+         </span>
                 {menuOpen && (
                   <HamburgerMenu
                     menuRef={menuRef}
@@ -88,20 +89,19 @@ const Header: React.FC = () => {
                 )}
               </div>
             ) : (
-              <>
-                <div className="basis-1/3">
+              <> 
+         <div className="basis-1/3">
                   <Link to="/login">{t("header.login")} </Link>
                 </div>
                 <div className="basis-1/3">
                   <Link to="/signup">{t("header.signup")}</Link>
-                </div>
-              </>
-            )}
+                </div> 
+         </> 
+         )}
           </div>
-        </div>
+        </div> 
+
         
-        {/* Desktop Navigation */}
-        {/*
         <div className="hidden md:flex space-x-6 items-center">
           <Link to="/login" className="text-white">
             {t("header.login")}
@@ -122,20 +122,19 @@ const Header: React.FC = () => {
               </Link>
             </div>
           )}
-          */ }
-          <div className="flex space-x-2">
-            {Object.keys(lngs).map((lng) => (
-              <button
-                className="text-white border border-white px-2 py-1 rounded hover:bg-white hover:text-green-500"
-                type="submit"
-                key={lng}
-                onClick={() => i18n.changeLanguage(lng)}
-                disabled={i18n.resolvedLanguage === lng}
-              >
-                {lngs[lng].nativeName}
-              </button>
-            ))}
-          </div>
+          */}
+        <div className="flex space-x-2">
+          {Object.keys(lngs).map((lng) => (
+            <button
+              className="text-white border border-white px-2 py-1 rounded hover:bg-white hover:text-green-500"
+              type="submit"
+              key={lng}
+              onClick={() => i18n.changeLanguage(lng)}
+              disabled={i18n.resolvedLanguage === lng}
+            >
+              {lngs[lng].nativeName}
+            </button>
+          ))}
         </div>
 
         {/* Hamburger Menu */}
@@ -144,6 +143,7 @@ const Header: React.FC = () => {
             onClick={toggleMobileMenu}
             className="text-white focus:outline-none"
           >
+            {" "}
             <svg
               className="w-6 h-6"
               xmlns="http://www.w3.org/2000/svg"
@@ -168,43 +168,55 @@ const Header: React.FC = () => {
           mobileMenuOpen ? "block" : "hidden"
         } md:hidden bg-green-500 px-4 py-2 space-y-2`}
       >
-        <Link to="/login" className="text-white block">
-          {t("header.login")}
-        </Link>
-        <Link to="/signup" className="text-white block">
-          {t("header.signup")}
-        </Link>
         {currentUser ? (
           <>
-            <p className="text-white">
-              {t("header.welcome")} {currentUser?.email}!
-            </p>
+            <Link
+              to="/dashboard/account"
+              className="text-white block"
+              onClick={() => {
+                setMenuOpen(false);
+              }}
+            >
+              {t("hamburger_menu.account")}
+            </Link>
+            <Link
+              to="/dashboard/sitter_profile"
+              className="text-white block"
+              onClick={() => {
+                setMenuOpen(false);
+              }}
+            >
+              {t("hamburger_menu.profile")}
+            </Link>
+            <Link
+              to="/dashboard/bookings"
+              className="text-white block"
+              onClick={() => {
+                setMenuOpen(false);
+              }}
+            >
+              {t("hamburger_menu.bookings")}
+            </Link>
             <button
-              onClick={handleLogout}
+              onClick={() => {
+                handleLogout();
+                setMenuOpen(false);
+              }}
               className="text-white block hover:underline"
             >
-              {t("header.logout")}
+              {t("hamburger_menu.logout")}
             </button>
-            <Link to="/dashboard" className="text-white block">
-              {t("header.dashboard")}
-            </Link>
           </>
         ) : (
-          <p className="text-white block">{t("header.justVisiting")}</p>
+          <div>
+            <Link to="/login" className="text-white block">
+              {t("header.login")}
+            </Link>
+            <Link to="/signup" className="text-white block">
+              {t("header.signup")}
+            </Link>
+          </div>
         )}
-        <div className="flex flex-wrap gap-2">
-          {Object.keys(lngs).map((lng) => (
-            <button
-              className="text-white border border-white px-2 py-1 rounded hover:bg-white hover:text-green-500"
-              type="submit"
-              key={lng}
-              onClick={() => i18n.changeLanguage(lng)}
-              disabled={i18n.resolvedLanguage === lng}
-            >
-              {lngs[lng].nativeName}
-            </button>
-          ))}
-        </div>
       </div>
     </header>
   );

@@ -2,10 +2,6 @@
   "title": {
     "subtitle": "ペットシッターを探そう！"
   },
-  "header": {
-    "login": "ログイン",
-    "signup": "サインアップ"
-  },
   "hamburger_menu": {
     "account": "アカウント",
     "profile": "プロフィール",
@@ -15,6 +11,7 @@
   "dashboard_bookings_page": {
     "title": "予約",
     "review": "レビューを書く"
+  },
   "homePage": {
     "subtitle": "ペットシッターを探そう！",
     "searchLabel": "ペットシッターを探す"
