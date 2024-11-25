@@ -17,6 +17,12 @@ interface UserInfo {
   lastname: string | null;
   is_sitter: string | null;
   profile_picture_src: string | null;
+  postal_code: string | null;
+  prefecture: string | null;
+  city_ward: string | null;
+  street_address: string | null;
+  japanese_ok: boolean | null;
+  english_ok: boolean | null;
   // Add other fields as necessary
 }
 
