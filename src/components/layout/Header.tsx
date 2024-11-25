@@ -1,9 +1,10 @@
-import React, { useState } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../../contexts/AuthContext";
 import { signOut } from "firebase/auth";
 import { auth } from "../../firebase";
 import { useTranslation } from "react-i18next";
+import HamburgerMenu from "./HamburgerMenu";
 
 const lngs: Record<string, { nativeName: string }> = {
   en: { nativeName: "English" },
@@ -11,10 +12,32 @@ const lngs: Record<string, { nativeName: string }> = {
 };
 
 const Header: React.FC = () => {
+  const [menuOpen, setMenuOpen] = useState<Boolean>(false);
   const { currentUser } = useAuth();
   const navigate = useNavigate();
 
   const { t, i18n } = useTranslation();
+  const menuRef = useRef<HTMLDivElement | null>(null);
+  const triggerRef = useRef<HTMLDivElement | null>(null);
+
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (
+        menuRef.current &&
+        !menuRef.current.contains(event.target as Node) &&
+        triggerRef.current &&
+        !triggerRef.current.contains(event.target as Node)
+      ) {
+        setMenuOpen(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
 
   const handleLogout = async () => {
     try {
@@ -27,6 +50,14 @@ const Header: React.FC = () => {
 
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const toggleMobileMenu = () => setMobileMenuOpen((prev) => !prev);
+                
+  const toggleMenu = () => {
+    setMenuOpen((prevState) => !prevState);
+  };
+
+  useState(() => {
+    console.log(menuOpen);
+  });
 
   return (
     <header className="bg-green-500">
@@ -35,8 +66,42 @@ const Header: React.FC = () => {
         <div className="text-white text-xl font-bold">
           <Link to="/">ぷぴぽ</Link>
         </div>
-
+        
+         <div className="flex flex-row basis-1/4 ">
+          <div className="basis-1/3">
+            {currentUser ? (
+              <div className="relative">
+                <span
+                  className="cursor-pointer "
+                  ref={triggerRef}
+                  onClick={toggleMenu}
+                >
+                  {currentUser?.email}
+                  {/* will change to name */}
+                </span>
+                {menuOpen && (
+                  <HamburgerMenu
+                    menuRef={menuRef}
+                    onClose={() => setMenuOpen(false)}
+                    handleLogout={handleLogout}
+                  ></HamburgerMenu>
+                )}
+              </div>
+            ) : (
+              <>
+                <div className="basis-1/3">
+                  <Link to="/login">{t("header.login")} </Link>
+                </div>
+                <div className="basis-1/3">
+                  <Link to="/signup">{t("header.signup")}</Link>
+                </div>
+              </>
+            )}
+          </div>
+        </div>
+        
         {/* Desktop Navigation */}
+        {/*
         <div className="hidden md:flex space-x-6 items-center">
           <Link to="/login" className="text-white">
             {t("header.login")}
@@ -57,6 +122,7 @@ const Header: React.FC = () => {
               </Link>
             </div>
           )}
+          */ }
           <div className="flex space-x-2">
             {Object.keys(lngs).map((lng) => (
               <button
