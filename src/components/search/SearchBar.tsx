@@ -1,16 +1,16 @@
 import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 
-interface SearchBarProps {
-  onSearchSubmit: (data: unknown) => void;
-}
-
 interface SearchFormData {
   postcode: string;
   prefecture: string;
-  cityWard: string;
+  city_ward: string;
   pets: string[];
-  typesOfService: string[];
+  types_of_service: string[];
+}
+
+interface SearchBarProps {
+  onSearchSubmit: (data: SearchFormData) => void;
 }
 
 const SearchBar: React.FC<SearchBarProps> = ({ onSearchSubmit }) => {
@@ -28,55 +28,7 @@ const SearchBar: React.FC<SearchBarProps> = ({ onSearchSubmit }) => {
 
   const petOptions = ["dog", "cat", "fish", "bird", "rabbit"];
   const serviceOptions = ["boarding", "stayIn", "dropIn"];
-  const prefectureOptions = [
-    "Hokkaido",
-    "Aomori",
-    "Iwate",
-    "Miyagi",
-    "Akita",
-    "Yamagata",
-    "Fukushima",
-    "Ibaraki",
-    "Tochigi",
-    "Gunma",
-    "Saitama",
-    "Chiba",
-    "Tokyo",
-    "Kanagawa",
-    "Niigata",
-    "Toyama",
-    "Ishikawa",
-    "Fukui",
-    "Yamanashi",
-    "Nagano",
-    "Gifu",
-    "Shizuoka",
-    "Aichi",
-    "Mie",
-    "Shiga",
-    "Kyoto",
-    "Osaka",
-    "Hyogo",
-    "Nara",
-    "Wakayama",
-    "Tottori",
-    "Shimane",
-    "Okayama",
-    "Hiroshima",
-    "Yamaguchi",
-    "Tokushima",
-    "Kagawa",
-    "Ehime",
-    "Kochi",
-    "Fukuoka",
-    "Saga",
-    "Nagasaki",
-    "Kumamoto",
-    "Oita",
-    "Miyazaki",
-    "Kagoshima",
-    "Okinawa",
-  ];
+  const prefectureOptions = ["Saitama", "Chiba", "Tokyo"];
 
   return (
     <div className="flex justify-center p-8">
@@ -123,52 +75,21 @@ const SearchBar: React.FC<SearchBarProps> = ({ onSearchSubmit }) => {
         <div className="flex flex-wrap -mx-3 mb-6">
           {/* City/Ward */}
           <div className="w-full px-3 mb-6 md:mb-0">
-            <label className={labelClass} htmlFor="cityWard">
+            <label className={labelClass} htmlFor="city_ward">
               {t("searchBar.cityWard")}
             </label>
             <input
-              id="cityWard"
+              id="city_ward"
               type="text"
               placeholder={t("searchBar.tokyo")}
-              {...register("cityWard", {
+              {...register("city_ward", {
                 required: "Please enter a city.",
               })}
               className={inputClass}
             />
           </div>
         </div>
-        {/* <div className="flex flex-wrap -mx-3 mb-6 ">
-        
-          <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
-            <label className={labelClass} htmlFor="startDate">
-              Start Date:
-            </label>
-            <input
-              id="startDate"
-              type="text"
-              placeholder="2024/08/02"
-              {...register("startDate", {
-                required: "Please enter an start date.",
-              })}
-              className={inputClass}
-            />
-          </div>
-        
-          <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
-            <label className={labelClass} htmlFor="endDate">
-              End Date:
-            </label>
-            <input
-              id="endDate"
-              type="text"
-              placeholder="2024/08/10"
-              {...register("endDate", {
-                required: "Please enter an end date.",
-              })}
-              className={inputClass}
-            />
-          </div>
-        </div> */}
+
         <div className="flex flex-wrap -mx-3 mb-6 ">
           <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
             {/* Your Pet */}
@@ -199,7 +120,7 @@ const SearchBar: React.FC<SearchBarProps> = ({ onSearchSubmit }) => {
               >
                 <input
                   type="checkbox"
-                  {...register("typesOfService")}
+                  {...register("types_of_service")}
                   value={service.toLowerCase()}
                   className="mr-2"
                 />

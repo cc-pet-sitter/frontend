@@ -1,20 +1,51 @@
 import EnquiryForm from "../components/enquiry/EnquiryForm";
-import { useState } from "react";
-import { appUsers } from "../dummyusers/dummyData";
+import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
+import axios from "axios";
 
 const SitterProfilePage: React.FC = () => {
   const [showEnquiryForm, setShowEnquiryForm] = useState<boolean>(false);
+  const [user, setUser] = useState(null); // User profile data
+  const [loading, setLoading] = useState<boolean>(true); // Loading state
+  const [error, setError] = useState<string | null>(null); // Error state
   const navigate = useNavigate();
   const { t } = useTranslation();
-
   const { id } = useParams<{ id: string }>();
-  const user = appUsers.find((user) => user.id === parseInt(id!));
+
+  useEffect(() => {
+    const fetchUserProfile = async () => {
+      setLoading(true);
+      try {
+        const response = await axios.get(
+          `http://localhost:8000/appuser-extended/${id}`
+        );
+        setUser(response.data);
+        setLoading(false);
+      } catch (error) {
+        setError("Couldn't fetch profile.");
+        setLoading(false);
+      }
+    };
+
+    if (id) {
+      fetchUserProfile();
+    }
+  }, [id]);
+
+  console.log(user);
+
+  if (loading) {
+    return <p>{t("sitterProfilePage.loading")}</p>;
+  }
+
+  if (error) {
+    return <p>{error}</p>;
+  }
 
   if (!user) {
-    return <p>User not found</p>;
+    return <p>{t("sitterProfilePage.userNotFound")}</p>;
   }
 
   return (
@@ -23,13 +54,13 @@ const SitterProfilePage: React.FC = () => {
         {/* Profile Header */}
         <div className="flex flex-col sm:flex-row items-center p-6">
           <img
-            src={user.profile_picture_src}
-            alt={`${user.firstname} ${user.lastname}`}
+            src={user.appuser.profile_picture_src}
+            alt={`${user.appuser.firstname} ${user.appuser.lastname}`}
             className="h-48 w-48 rounded-full object-cover"
           />
           <div className="mt-4 sm:mt-0 sm:ml-6 text-center sm:text-left">
-            <h1 className="text-2xl font-bold">{`${user.firstname} ${user.lastname}`}</h1>
-            <p className="text-gray-500">{user.email}</p>
+            <h1 className="text-2xl font-bold">{`${user.appuser.firstname} ${user.appuser.lastname}`}</h1>
+            <p className="text-gray-500">{user.appuser.email}</p>
           </div>
           <div className="mt-4 sm:mt-0 sm:ml-auto flex flex-col items-center">
             <button
@@ -56,21 +87,21 @@ const SitterProfilePage: React.FC = () => {
           <ul className="list-none space-y-2 text-left">
             <li>
               <strong>{`${t("sitterProfilePage.location")}:`}</strong>{" "}
-              {`${user.prefecture}, ${user.city_ward}`}
+              {`${user.appuser.prefecture}, ${user.appuser.city_ward}`}
             </li>
             <li>
               <strong>{`${t("sitterProfilePage.address")}:`}</strong>{" "}
-              {user.street_address}
+              {user.appuser.street_address}
             </li>
             <li>
               <strong>{`${t("sitterProfilePage.postCode")}:`}</strong>{" "}
-              {user.postal_code}
+              {user.appuser.postal_code}
             </li>
             <li>
               <strong>{`${t("sitterProfilePage.languages")}:`}</strong>{" "}
-              {user.english_ok && user.japanese_ok
+              {user.appuser.english_ok && user.appuser.japanese_ok
                 ? t("sitterProfilePage.englishJapanese")
-                : user.english_ok
+                : user.appuser.english_ok
                 ? t("sitterProfilePage.english")
                 : t("sitterProfilePage.japanese")}
             </li>
@@ -85,15 +116,15 @@ const SitterProfilePage: React.FC = () => {
           <ul className="list-none space-y-2 text-left">
             <li>
               <strong>{`${t("sitterProfilePage.accountCreated")}:`}</strong>{" "}
-              {new Date(user.account_created).toLocaleString()}
+              {new Date(user.appuser.account_created).toLocaleString()}
             </li>
             <li>
               <strong>{`${t("sitterProfilePage.lastLogin")}:`}</strong>{" "}
-              {new Date(user.last_login).toLocaleString()}
+              {new Date(user.appuser.last_login).toLocaleString()}
             </li>
             <li>
               <strong>{`${t("sitterProfilePage.lastUpdated")}:`}</strong>{" "}
-              {new Date(user.last_updated).toLocaleString()}
+              {new Date(user.appuser.last_updated).toLocaleString()}
             </li>
           </ul>
         </div>

@@ -1,16 +1,33 @@
-// import SignUpForm from "../components/profile/SignUpForm";
 import { useNavigate } from "react-router-dom";
 import SearchBar from "../components/search/SearchBar";
 import { useTranslation } from "react-i18next";
+import axios from "axios";
 
-const HomePage: React.FC = () => {
+interface HomePageProps {
+  onSearchSubmit: (data: unknown) => void;
+}
+
+const HomePage: React.FC<HomePageProps> = () => {
   const { t } = useTranslation();
   const navigate = useNavigate();
 
-  const handleSearchSubmit = (formData: unknown) => {
-    console.log("Form Data Submitted:", formData);
-    // Navigate to the Search Results page with query parameters
-    navigate("/search", { state: { searchQuery: formData } });
+  const handleSearchSubmit = async (formData: Record<string, unknown>) => {
+    try {
+      const queryParams = new URLSearchParams(
+        formData as Record<string, string>
+      ).toString();
+
+      console.log(queryParams);
+
+      const { data } = await axios.get(
+        `http://localhost:8000/appuser-sitters?${queryParams}`
+      );
+
+      navigate("/search", { state: { searchResults: data } });
+    } catch (error) {
+      console.error("Error fetching search results:", error);
+      alert("Failed to fetch search results. Please try again.");
+    }
   };
 
   return (
