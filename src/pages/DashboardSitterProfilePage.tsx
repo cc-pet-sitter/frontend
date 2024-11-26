@@ -15,12 +15,16 @@ const DashboardSitterProfilePage: React.FC = () => {
     useState<boolean>(false);
 
   const fetchSitterProfile = async () => {
-    try {
-      const response = await axios.get(`${apiURL}/sitter/${userInfo?.user_id}`);
-      console.log(response.data);
-      setSitterProfile(response.data);
-    } catch (error) {
-      console.error("Unable to fetch sitter profile", error);
+    if (userInfo?.is_sitter) {
+      try {
+        const response = await axios.get(
+          `${apiURL}/sitter/${userInfo?.user_id}`
+        );
+        console.log(response.data);
+        setSitterProfile(response.data);
+      } catch (error) {
+        console.error("Unable to fetch sitter profile", error);
+      }
     }
   };
 

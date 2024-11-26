@@ -34,7 +34,7 @@ const EditSitterProfileForm: React.FC<Props> = ({
   const { register, handleSubmit, reset } = useForm({
     shouldUseNativeValidation: true,
   });
-  const { userInfo } = useAuth();
+  const { userInfo, setUserInfo } = useAuth();
 
   useEffect(() => {
     if (sitterProfile) {
@@ -59,13 +59,43 @@ const EditSitterProfileForm: React.FC<Props> = ({
       const response = await axios.post(
         `${apiURL}/sitter/${userInfo?.user_id}`,
         {
-          data,
+          sitter_profile_bio: data.sitter_profile_bio,
+          sitter_house_ok: data.sitter_house_ok,
+          owner_house_ok: data.owner_house_ok,
+          visit_ok: data.visit_ok,
+          dogs_ok: data.dogs_ok,
+          cats_ok: data.cats_ok,
+          fish_ok: data.fish_ok,
+          birds_ok: data.birds_ok,
+          rabbits_ok: data.rabbits_ok,
         }
       );
 
       if (response.status === 200) {
-        const updatedProfile = await response.data();
+        const updatedProfile = response.data;
         console.log("Profile updated successfully:", updatedProfile);
+        const appuser = updatedProfile.appuser;
+        if (appuser) {
+          console.log(appuser);
+          console.log(appuser.is_sitter);
+          setUserInfo({
+            status: appuser.status,
+            user_id: appuser.user_id,
+            email: appuser.email,
+            firstname: appuser.firstname,
+            lastname: appuser.lastname,
+            is_sitter: appuser.is_sitter,
+            profile_picture_src: appuser.profile_picture_src,
+            postal_code: appuser.postal_code,
+            prefecture: appuser.prefecture,
+            city_ward: appuser.city_ward,
+            street_address: appuser.street_address,
+            japanese_ok: appuser.japanese_ok,
+            english_ok: appuser.english_ok,
+          });
+          console.log(userInfo);
+        }
+        console.log(userInfo);
         onSave(updatedProfile);
         setSuccess(true);
         setError(null);
@@ -74,7 +104,7 @@ const EditSitterProfileForm: React.FC<Props> = ({
         // closeEditForm();
       }
 
-      const errorData = await response.data();
+      const errorData = await response.data;
       throw new Error(errorData.detail || "Failed to update profile.");
     } catch (error: any) {
       console.error("Error updating profile:", error.message);
@@ -89,8 +119,16 @@ const EditSitterProfileForm: React.FC<Props> = ({
   const labelClass =
     "block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2";
 
-  const petOptions = ["Dog", "Cat", "Fish", "Bird", "Rabbit"];
-  const serviceOptions = ["Boarding", "Stay in", "Drop in"];
+  const petOptions = ["dog", "cat", "fish", "bird", "rabbit"];
+  const petOptionsKey = [
+    "dogs_ok",
+    "cats_ok",
+    "fish_ok",
+    "birds_ok",
+    "rabbits_ok",
+  ];
+  const serviceOptions = ["boarding", "stay in", "drop in"];
+  const serviceOptionsKey = ["owner_house_ok", "sitter_house_ok", "visit_ok"];
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="w-full max-w-lg">
@@ -121,45 +159,39 @@ const EditSitterProfileForm: React.FC<Props> = ({
       <div className="mb-6">
         {/* Pets */}
         <p className={`${labelClass} mb-3`}>Pets you can sit:</p>
-        {petOptions.map((pet) => (
+        {petOptionsKey.map((pet, index) => (
           <label
             key={pet}
             className={`${labelClass} flex items-center`}
-            htmlFor="pet_options"
+            htmlFor={`${pet}_ok`}
           >
             <input
               id="pet_options"
               type="checkbox"
-              {...register(`${pet}_ok`, {
-                required: "Please chose pet type.",
-              })}
-              {...register("pets")}
-              value={pet.toLowerCase()}
+              {...register(pet)}
               className="mr-2"
             />
-            {pet}
+            {petOptions[index]}
           </label>
         ))}
       </div>
       <div className="mb-6">
         {/* Types of Service You Offer */}
         <p className={`${labelClass} mb-3`}>Types of Service You Offer:</p>
-        {serviceOptions.map((service) => (
+        {serviceOptionsKey.map((service, index) => (
           <label
             key={service}
             className={`${labelClass} flex items-center`}
-            htmlFor="serice_options"
+            htmlFor={`${service}_ok`}
           >
             <input
               id="service_options"
               type="checkbox"
-              {...register(`${service}_ok`, {
-                required: "Please chose service options.",
-              })}
-              value={service.toLowerCase()}
+              {...register(service)}
+              v
               className="mr-2"
             />
-            {service}
+            {serviceOptions[index]}
           </label>
         ))}
       </div>
@@ -169,9 +201,8 @@ const EditSitterProfileForm: React.FC<Props> = ({
           <button
             type="submit"
             className="shadow bg-gray-500 hover:bg-gray-400 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded"
-            onClick={closeEditProfileForm}
           >
-            {is_sitter ? "Save" : "Create a sitter profile"}
+            Save
           </button>
         </div>
       </div>

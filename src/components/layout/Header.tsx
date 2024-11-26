@@ -22,6 +22,7 @@ const Header: React.FC = () => {
   const triggerRef = useRef<HTMLDivElement | null>(null);
 
   const { currentUser } = useAuth();
+  const { userInfo } = useAuth();
   const { t, i18n } = useTranslation();
   const navigate = useNavigate();
 
@@ -128,7 +129,7 @@ const Header: React.FC = () => {
                         className="block px-4 py-2 hover:bg-gray-200"
                         onClick={toggleMenu}
                       >
-                        {is_sitter
+                        {userInfo?.is_sitter
                           ? t("hamburger_menu.sitter_profile")
                           : t("hamburger_menu.become_sitter")}
                       </Link>
@@ -224,7 +225,7 @@ const Header: React.FC = () => {
               className="text-white block"
               onClick={toggleMobileMenu}
             >
-              {is_sitter
+              {userInfo?.is_sitter
                 ? t("hamburger_menu.sitter_profile")
                 : t("hamburger_menu.become_sitter")}
             </Link>

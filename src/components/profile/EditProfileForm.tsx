@@ -21,10 +21,10 @@ type EditProfileFormData = {
 };
 
 type UpdateAppuserResponse = {
-    user_id: number;
-    firstname: string;
-    lastname: string;
-    email: string;
+  user_id: number;
+  firstname: string;
+  lastname: string;
+  email: string;
   // Include other fields returned by the backend
 };
 
@@ -56,14 +56,14 @@ const EditProfileForm: React.FC<Props> = ({ closeEditForm }) => {
     }
   }, [userInfo, reset]);
 
-
   const onSubmit = async (data: EditProfileFormData) => {
     setIsLoading(true);
     try {
-      const backendURL = import.meta.env.VITE_API_BASE_URL || "http://localhost:8000";
+      const backendURL =
+        import.meta.env.VITE_API_BASE_URL || "http://localhost:8000";
       const idToken = await currentUser?.getIdToken();
       const response = await fetch(
-        `${backendURL}/appuser/${userInfo?.user_id}`, // Ensure correct base URL 
+        `${backendURL}/appuser/${userInfo?.user_id}`, // Ensure correct base URL
         {
           method: "PUT",
           headers: {
@@ -81,7 +81,7 @@ const EditProfileForm: React.FC<Props> = ({ closeEditForm }) => {
 
       const updatedUser: UpdateAppuserResponse = await response.json();
       console.log("Profile updated successfully:", updatedUser);
-      
+
       setUserInfo({
         status: "ok",
         user_id: updatedUser.user_id,
@@ -101,16 +101,16 @@ const EditProfileForm: React.FC<Props> = ({ closeEditForm }) => {
 
       setSuccess(true);
       setError(null);
-      
+
       // Close the edit form
       closeEditForm();
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error: any) {
       console.error("Error updating profile:", error.message);
       setError(error.message);
       setSuccess(false);
     } finally {
-        setIsLoading(false);
+      setIsLoading(false);
     }
   };
 
@@ -125,8 +125,12 @@ const EditProfileForm: React.FC<Props> = ({ closeEditForm }) => {
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="w-full max-w-lg">
       {error && <p className="text-red-500 text-xs italic">{error}</p>}
-      {success && <p className="text-green-500 text-xs italic">Profile updated successfully!</p>}
-      
+      {success && (
+        <p className="text-green-500 text-xs italic">
+          Profile updated successfully!
+        </p>
+      )}
+
       <div className="flex flex-wrap -mx-3 mb-6">
         {/* First Name */}
         <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
@@ -245,7 +249,11 @@ const EditProfileForm: React.FC<Props> = ({ closeEditForm }) => {
         <p className={`${labelClass} mb-3`}>Languages:</p>
         <label className={`${labelClass} flex items-center`}>
           Japanese:
-          <input type="checkbox" {...register("japanese_ok")} className="mr-2" />
+          <input
+            type="checkbox"
+            {...register("japanese_ok")}
+            className="mr-2"
+          />
         </label>
         <label className={`${labelClass} flex items-center`}>
           English:

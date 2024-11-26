@@ -8,14 +8,13 @@ import React, {
 import { User, onAuthStateChanged } from "firebase/auth";
 import { auth } from "../firebase";
 
-
 interface UserInfo {
   status: string;
   user_id: number;
   email: string;
   firstname: string | null;
   lastname: string | null;
-  is_sitter: string | null;
+  is_sitter: true | null;
   profile_picture_src: string | null;
   postal_code: string | null;
   prefecture: string | null;
@@ -60,12 +59,13 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
       if (user) {
         try {
           const idToken = await user.getIdToken();
-          const backendURL = import.meta.env.VITE_API_BASE_URL || "http://localhost:8000";
+          const backendURL =
+            import.meta.env.VITE_API_BASE_URL || "http://localhost:8000";
           const response = await fetch(`${backendURL}/login`, {
             method: "POST",
             headers: {
               "Content-Type": "application/json",
-              "Authorization": `Bearer ${idToken}`,
+              Authorization: `Bearer ${idToken}`,
             },
             // No body needed since backend uses token
           });
@@ -77,7 +77,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 
           const data: UserInfo = await response.json();
           setUserInfo(data);
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
         } catch (err: any) {
           console.error("Failed to fetch user info:", err.message);
           setUserInfo(null);
