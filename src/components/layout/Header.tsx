@@ -4,7 +4,6 @@ import { useAuth } from "../../contexts/AuthContext";
 import { signOut } from "firebase/auth";
 import { auth } from "../../firebase";
 import { useTranslation } from "react-i18next";
-// import HamburgerMenu from "./HamburgerMenu";
 
 const lngs: Record<string, { nativeName: string }> = {
   en: { nativeName: "English" },
@@ -13,12 +12,26 @@ const lngs: Record<string, { nativeName: string }> = {
 
 const Header: React.FC = () => {
   const [menuOpen, setMenuOpen] = useState<boolean>(false);
-  const { currentUser } = useAuth();
-  const navigate = useNavigate();
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
-  const { t, i18n } = useTranslation();
   const menuRef = useRef<HTMLDivElement | null>(null);
   const triggerRef = useRef<HTMLDivElement | null>(null);
+
+  const { currentUser } = useAuth();
+  const { t, i18n } = useTranslation();
+  const navigate = useNavigate();
+
+  const toggleMobileMenu = () => setMobileMenuOpen((prev) => !prev);
+  const toggleMenu = () => setMenuOpen((prev) => !prev);
+
+  const handleLogout = async () => {
+    try {
+      await signOut(auth);
+      navigate("login");
+    } catch (err) {
+      console.error("Failed to logout: ", err);
+    }
+  };
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -39,26 +52,6 @@ const Header: React.FC = () => {
     };
   }, []);
 
-  const handleLogout = async () => {
-    try {
-      await signOut(auth);
-      navigate("login");
-    } catch (err) {
-      console.error("Failed to logout: ", err);
-    }
-  };
-
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const toggleMobileMenu = () => setMobileMenuOpen((prev) => !prev);
-
-  // const toggleMenu = () => {
-  //   setMenuOpen((prevState) => !prevState);
-  // };
-
-  useState(() => {
-    console.log(menuOpen);
-  });
-
   return (
     <header className="bg-green-500">
       <nav className="flex items-center justify-between h-20 px-4 sm:px-6 lg:px-8">
@@ -66,63 +59,6 @@ const Header: React.FC = () => {
         <div className="text-white text-xl font-bold">
           <Link to="/">ぷぴぽ</Link>
         </div>
-
-        {/* Desktop Navigation */}
-        {/* <div className="flex flex-row basis-1/4 ">
-          <div className="basis-1/3">
-            {currentUser ? (
-              <div className="relative">
-                <span
-                  className="cursor-pointer "
-                  ref={triggerRef}
-                  onClick={toggleMenu}
-                >
-                  {currentUser?.email}
-                   will change to name 
-         </span>
-                {menuOpen && (
-                  <HamburgerMenu
-                    menuRef={menuRef}
-                    onClose={() => setMenuOpen(false)}
-                    handleLogout={handleLogout}
-                  ></HamburgerMenu>
-                )}
-              </div>
-            ) : (
-              <> 
-         <div className="basis-1/3">
-                  <Link to="/login">{t("header.login")} </Link>
-                </div>
-                <div className="basis-1/3">
-                  <Link to="/signup">{t("header.signup")}</Link>
-                </div> 
-         </> 
-         )}
-          </div>
-        </div> 
-
-        
-        <div className="hidden md:flex space-x-6 items-center">
-          <Link to="/login" className="text-white">
-            {t("header.login")}
-          </Link>
-          <Link to="/signup" className="text-white">
-            {t("header.signup")}
-          </Link>
-          {currentUser && (
-            <div className="space-x-4">
-              <button
-                onClick={handleLogout}
-                className="text-white hover:underline"
-              >
-                {t("header.logout")}
-              </button>
-              <Link to="/dashboard" className="text-white">
-                {t("header.dashboard")}
-              </Link>
-            </div>
-          )}
-          */}
         <div className="flex space-x-2">
           {Object.keys(lngs).map((lng) => (
             <button
@@ -136,14 +72,82 @@ const Header: React.FC = () => {
             </button>
           ))}
         </div>
+        {/* Desktop Navigation */}
+        <div className="hidden md:flex space-x-6 items-center">
+          {!currentUser ? (
+            <>
+              <Link to="/login" className="text-white">
+                {t("header.login")}
+              </Link>
+              <Link to="/signup" className="text-white">
+                {t("header.signup")}
+              </Link>
+            </>
+          ) : (
+            <>
+              <div className="relative">
+                <span
+                  ref={triggerRef}
+                  onClick={() => setMenuOpen((prev) => !prev)}
+                  className="cursor-pointer text-white"
+                >
+                  {currentUser.email}
+                </span>
+                {menuOpen && (
+                  <div
+                    ref={menuRef}
+                    className="absolute right-0 mt-2 w-48 bg-white rounded shadow-lg z-50"
+                  >
+                    <Link
+                      to="/dashboard/account"
+                      className="block px-4 py-2 hover:bg-gray-200"
+                      onClick={toggleMenu}
+                    >
+                      {t("hamburger_menu.account")}
+                    </Link>
+                    <Link
+                      to="/dashboard/bookings"
+                      className="block px-4 py-2 hover:bg-gray-200"
+                      onClick={toggleMenu}
+                    >
+                      {t("hamburger_menu.bookings")}
+                    </Link>
+                    <Link
+                      to="/dashboard/sitter_profile"
+                      className="block px-4 py-2 hover:bg-gray-200"
+                      onClick={toggleMenu}
+                    >
+                      {t("hamburger_menu.become_sitter")}
+                    </Link>
+                    <Link
+                      to="/dashboard/requests"
+                      className="block px-4 py-2 hover:bg-gray-200"
+                      onClick={toggleMenu}
+                    >
+                      {t("hamburger_menu.requests")}
+                    </Link>
+                    <button
+                      onClick={() => {
+                        handleLogout();
+                        toggleMenu();
+                      }}
+                      className="block w-full text-left px-4 py-2 hover:bg-gray-200"
+                    >
+                      {t("hamburger_menu.logout")}
+                    </button>
+                  </div>
+                )}
+              </div>
+            </>
+          )}
+        </div>
 
-        {/* Hamburger Menu */}
+        {/* Mobile Hamburger Icon */}
         <div className="md:hidden flex items-center">
           <button
             onClick={toggleMobileMenu}
             className="text-white focus:outline-none"
           >
-            {" "}
             <svg
               className="w-6 h-6"
               xmlns="http://www.w3.org/2000/svg"
@@ -168,41 +172,50 @@ const Header: React.FC = () => {
           mobileMenuOpen ? "block" : "hidden"
         } md:hidden bg-green-500 px-4 py-2 space-y-2`}
       >
-        {currentUser ? (
+        {!currentUser ? (
+          <div>
+            <Link
+              to="/login"
+              className="text-white block"
+              onClick={toggleMobileMenu}
+            >
+              {t("header.login")}
+            </Link>
+            <Link
+              to="/signup"
+              className="text-white block"
+              onClick={toggleMobileMenu}
+            >
+              {t("header.signup")}
+            </Link>
+          </div>
+        ) : (
           <>
             <Link
               to="/dashboard/account"
               className="text-white block"
-              onClick={() => {
-                setMenuOpen(false);
-              }}
+              onClick={toggleMobileMenu}
             >
               {t("hamburger_menu.account")}
             </Link>
             <Link
               to="/dashboard/bookings"
               className="text-white block"
-              onClick={() => {
-                setMenuOpen(false);
-              }}
+              onClick={toggleMobileMenu}
             >
               {t("hamburger_menu.bookings")}
             </Link>
             <Link
               to="/dashboard/sitter_profile"
               className="text-white block"
-              onClick={() => {
-                setMenuOpen(false);
-              }}
+              onClick={toggleMobileMenu}
             >
               {t("hamburger_menu.become_sitter")}
             </Link>
             <Link
               to="/dashboard/requests"
               className="text-white block"
-              onClick={() => {
-                setMenuOpen(false);
-              }}
+              onClick={toggleMobileMenu}
             >
               {t("hamburger_menu.requests")}
             </Link>
@@ -210,22 +223,13 @@ const Header: React.FC = () => {
             <button
               onClick={() => {
                 handleLogout();
-                setMenuOpen(false);
+                setMobileMenuOpen(false);
               }}
               className="text-white block hover:underline"
             >
               {t("hamburger_menu.logout")}
             </button>
           </>
-        ) : (
-          <div>
-            <Link to="/login" className="text-white block">
-              {t("header.login")}
-            </Link>
-            <Link to="/signup" className="text-white block">
-              {t("header.signup")}
-            </Link>
-          </div>
         )}
       </div>
     </header>
