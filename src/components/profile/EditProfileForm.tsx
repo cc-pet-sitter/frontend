@@ -1,20 +1,117 @@
 import { useForm } from "react-hook-form";
 import { useAuth } from "../../contexts/AuthContext";
+import React, { useEffect, useState } from "react";
 
 type Props = {
   closeEditForm: () => void;
 };
 
-const SignUpForm: React.FC<Props> = ({ closeEditForm }) => {
-  const { register, handleSubmit } = useForm({
+type EditProfileFormData = {
+  user_id: number;
+  firstname: string;
+  lastname: string;
+  email: string;
+  post_code: string;
+  prefecture: string;
+  city_ward: string;
+  street_address: string;
+  japanese_ok: boolean;
+  english_ok: boolean;
+  // Add other fields as necessary
+};
+
+type UpdateAppuserResponse = {
+    user_id: number;
+    firstname: string;
+    lastname: string;
+    email: string;
+  // Include other fields returned by the backend
+};
+
+const EditProfileForm: React.FC<Props> = ({ closeEditForm }) => {
+  const { register, handleSubmit, reset } = useForm<EditProfileFormData>({
     shouldUseNativeValidation: true,
   });
-  const { userInfo} = useAuth();
+  const { currentUser, userInfo } = useAuth(); // Assuming authToken is available
+  const [error, setError] = useState<string | null>(null);
+  const [success, setSuccess] = useState<boolean>(false);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const { setUserInfo } = useAuth();
+
+  useEffect(() => {
+    if (userInfo) {
+      reset({
+        user_id: userInfo.user_id,
+        firstname: userInfo.firstname || "",
+        lastname: userInfo.lastname || "",
+        email: userInfo.email || "",
+        post_code: userInfo.postal_code || "",
+        prefecture: userInfo.prefecture || "",
+        city_ward: userInfo.city_ward || "",
+        street_address: userInfo.street_address || "",
+        japanese_ok: userInfo.japanese_ok || false,
+        english_ok: userInfo.english_ok || false,
+        // Populate other fields as necessary
+      });
+    }
+  }, [userInfo, reset]);
 
 
-  const onSubmit = async (data: unknown) => {
-    console.log(data);
+  const onSubmit = async (data: EditProfileFormData) => {
+    setIsLoading(true);
+    try {
+      const backendURL = import.meta.env.VITE_API_BASE_URL || "http://localhost:8000";
+      const idToken = await currentUser?.getIdToken();
+      const response = await fetch(
+        `${backendURL}/appuser/${userInfo?.user_id}`, // Ensure correct base URL 
+        {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${idToken}`, // Include the auth token
+          },
+          body: JSON.stringify(data),
+        }
+      );
 
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.detail || "Failed to update profile.");
+      }
+
+      const updatedUser: UpdateAppuserResponse = await response.json();
+      console.log("Profile updated successfully:", updatedUser);
+      
+      setUserInfo({
+        status: "ok",
+        user_id: updatedUser.user_id,
+        email: updatedUser.email,
+        firstname: updatedUser.firstname,
+        lastname: updatedUser.lastname,
+        is_sitter: null,
+        profile_picture_src: null,
+        postal_code: data.post_code,
+        prefecture: data.prefecture,
+        city_ward: data.city_ward,
+        street_address: data.street_address,
+        japanese_ok: data.japanese_ok,
+        english_ok: data.english_ok,
+        // Map other fields as necessary
+      });
+
+      setSuccess(true);
+      setError(null);
+      
+      // Close the edit form
+      closeEditForm();
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    } catch (error: any) {
+      console.error("Error updating profile:", error.message);
+      setError(error.message);
+      setSuccess(false);
+    } finally {
+        setIsLoading(false);
+    }
   };
 
   // Shared styles
@@ -27,6 +124,9 @@ const SignUpForm: React.FC<Props> = ({ closeEditForm }) => {
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="w-full max-w-lg">
+      {error && <p className="text-red-500 text-xs italic">{error}</p>}
+      {success && <p className="text-green-500 text-xs italic">Profile updated successfully!</p>}
+      
       <div className="flex flex-wrap -mx-3 mb-6">
         {/* First Name */}
         <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
@@ -36,8 +136,7 @@ const SignUpForm: React.FC<Props> = ({ closeEditForm }) => {
           <input
             id="firstName"
             type="text"
-            placeholder={userInfo?.firstname || "Ken"}
-            {...register("firstName", {
+            {...register("firstname", {
               required: "Please enter your first name.",
             })}
             className={inputClass}
@@ -51,8 +150,7 @@ const SignUpForm: React.FC<Props> = ({ closeEditForm }) => {
           <input
             id="lastName"
             type="text"
-            placeholder={userInfo?.lastname || "Tanaka"}
-            {...register("lastName", {
+            {...register("lastname", {
               required: "Please enter your last name.",
             })}
             className={inputClass}
@@ -67,12 +165,12 @@ const SignUpForm: React.FC<Props> = ({ closeEditForm }) => {
           </label>
           <input
             id="email"
-            type="text"
-            placeholder={userInfo?.email || "kentanaka@dogmail.com"}
+            type="email"
             {...register("email", {
               required: "Please enter your email.",
             })}
             className={inputClass}
+            disabled // Disable email field if it shouldn't be editable
           />
         </div>
       </div>
@@ -85,8 +183,7 @@ const SignUpForm: React.FC<Props> = ({ closeEditForm }) => {
           <input
             id="postcode"
             type="text"
-            placeholder={userInfo?.postal_code || "000-0000"}
-            {...register("postcode", {
+            {...register("post_code", {
               required: "Please enter your postcode.",
             })}
             className={inputClass}
@@ -104,6 +201,7 @@ const SignUpForm: React.FC<Props> = ({ closeEditForm }) => {
             })}
             className={`${inputClass} pr-8`}
           >
+            <option value="">Select Prefecture</option>
             {prefectureOptions.map((pref) => (
               <option key={pref} value={pref}>
                 {pref}
@@ -121,8 +219,7 @@ const SignUpForm: React.FC<Props> = ({ closeEditForm }) => {
           <input
             id="city"
             type="text"
-            placeholder={userInfo?.city_ward || "Tokyo"}
-            {...register("city", {
+            {...register("city_ward", {
               required: "Please enter a city.",
             })}
             className={inputClass}
@@ -134,10 +231,9 @@ const SignUpForm: React.FC<Props> = ({ closeEditForm }) => {
             House No. and Street:
           </label>
           <input
-            id="Street"
+            id="street"
             type="text"
-            placeholder={userInfo?.street_address || "1 Doggy Avenue"}
-            {...register("street", {
+            {...register("street_address", {
               required: "Please enter a street.",
             })}
             className={inputClass}
@@ -149,11 +245,11 @@ const SignUpForm: React.FC<Props> = ({ closeEditForm }) => {
         <p className={`${labelClass} mb-3`}>Languages:</p>
         <label className={`${labelClass} flex items-center`}>
           Japanese:
-          <input type="checkbox" {...register("japaneseOk")} className="mr-2" />
+          <input type="checkbox" {...register("japanese_ok")} className="mr-2" />
         </label>
         <label className={`${labelClass} flex items-center`}>
           English:
-          <input type="checkbox" {...register("englishOk")} className="mr-2" />
+          <input type="checkbox" {...register("english_ok")} className="mr-2" />
         </label>
       </div>
 
@@ -162,9 +258,9 @@ const SignUpForm: React.FC<Props> = ({ closeEditForm }) => {
           <button
             type="submit"
             className="shadow bg-gray-500 hover:bg-gray-400 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded"
-            onClick={closeEditForm}
+            disabled={isLoading}
           >
-            Save
+            {isLoading ? "Saving..." : "Save"}
           </button>
         </div>
       </div>
@@ -172,4 +268,4 @@ const SignUpForm: React.FC<Props> = ({ closeEditForm }) => {
   );
 };
 
-export default SignUpForm;
+export default EditProfileForm;
