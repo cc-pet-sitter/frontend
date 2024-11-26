@@ -109,7 +109,10 @@
     "search": "検索"
   },
   "searchPage": {
-    "available": "訪問可能",
+    "visits": "訪問",
+    "sitter_house": "シッターに家でお預かり",
+    "owner_house": "オーナーの家でデイケア",
+    "available": "可能なサービス: ",
     "notAvailable": "訪問不可",
     "dog": "犬",
     "cat": "猫",

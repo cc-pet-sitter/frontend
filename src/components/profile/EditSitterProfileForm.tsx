@@ -6,8 +6,20 @@ const apiURL: string = import.meta.env.VITE_API_BASE_URL;
 
 type Props = {
   closeEditProfileForm: () => void;
-  sitterProfile: object | null;
   onSave: (updatedProfile: EditFormData) => void;
+  sitterProfile: SitterProfile | null;
+};
+
+type SitterProfile = {
+  sitter_profile_bio: string | null;
+  visit_ok: boolean | null;
+  sitter_house_ok: boolean | null;
+  owner_house_ok: boolean | null;
+  dogs_ok: boolean | null;
+  cats_ok: boolean | null;
+  fish_ok: boolean | null;
+  birds_ok: boolean | null;
+  rabbits_ok: boolean | null;
 };
 
 type EditFormData = {
@@ -22,16 +34,10 @@ type EditFormData = {
   rabbits_ok: boolean | null;
 };
 
-// const is_sitter = false;
-
-const EditSitterProfileForm: React.FC<Props> = ({
-  closeEditProfileForm,
-  sitterProfile,
-  onSave,
-}) => {
+const EditSitterProfileForm: React.FC<Props> = ({ sitterProfile, onSave }) => {
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState<boolean>(false);
-  const { register, handleSubmit, reset } = useForm({
+  const { register, handleSubmit, reset } = useForm<EditFormData>({
     shouldUseNativeValidation: true,
   });
   const { userInfo, setUserInfo } = useAuth();
@@ -116,7 +122,7 @@ const EditSitterProfileForm: React.FC<Props> = ({
     "block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2";
 
   const petOptions = ["dog", "cat", "fish", "bird", "rabbit"];
-  const petOptionsKey = [
+  const petOptionsKey: Array<keyof EditFormData> = [
     "dogs_ok",
     "cats_ok",
     "fish_ok",
@@ -124,7 +130,11 @@ const EditSitterProfileForm: React.FC<Props> = ({
     "rabbits_ok",
   ];
   const serviceOptions = ["boarding", "stay in", "drop in"];
-  const serviceOptionsKey = ["owner_house_ok", "sitter_house_ok", "visit_ok"];
+  const serviceOptionsKey: Array<keyof EditFormData> = [
+    "owner_house_ok",
+    "sitter_house_ok",
+    "visit_ok",
+  ];
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="w-full max-w-lg">
@@ -136,11 +146,24 @@ const EditSitterProfileForm: React.FC<Props> = ({
       )}
 
       <div className="mb-6">
+        <div className="mr-0 mb-4 grid place-items-center sm:mr-6 sm:mb-0">
+          <img
+            alt="Petter Sitter Image"
+            // src={sitterProfile.sitter_profile_bio}
+            src={"https://live.staticflickr.com/62/207176169_60738224b6_c.jpg"}
+            className="h-32 w-32 rounded-full object-cover object-center sm:h-32 sm:w-32"
+          />
+          <div className="">
+            <div className="shadow-custom bg-white  focus:shadow-outline focus:outline-none text-black py-2 px-2 text-xs rounded-full">
+              Edit Photo
+            </div>
+          </div>
+        </div>
         <label
-          className={`${labelClass} flex items-center`}
+          className={`${labelClass} flex items-center mt-4`}
           htmlFor="introduction"
         >
-          Introduction Profile:
+          Introduction Profile
           <textarea
             className={inputClass}
             rows={4}
@@ -154,7 +177,7 @@ const EditSitterProfileForm: React.FC<Props> = ({
       </div>
       <div className="mb-6">
         {/* Pets */}
-        <p className={`${labelClass} mb-3`}>Pets you can sit:</p>
+        <p className={`${labelClass} mb-3`}>Pets you can sit</p>
         {petOptionsKey.map((pet, index) => (
           <label
             key={pet}
@@ -173,7 +196,7 @@ const EditSitterProfileForm: React.FC<Props> = ({
       </div>
       <div className="mb-6">
         {/* Types of Service You Offer */}
-        <p className={`${labelClass} mb-3`}>Types of Service You Offer:</p>
+        <p className={`${labelClass} mb-3`}>Types of Service You Offer</p>
         {serviceOptionsKey.map((service, index) => (
           <label
             key={service}
@@ -184,7 +207,6 @@ const EditSitterProfileForm: React.FC<Props> = ({
               id="service_options"
               type="checkbox"
               {...register(service)}
-              v
               className="mr-2"
             />
             {serviceOptions[index]}
@@ -196,7 +218,7 @@ const EditSitterProfileForm: React.FC<Props> = ({
         <div className="md:w-2/3">
           <button
             type="submit"
-            className="shadow bg-gray-500 hover:bg-gray-400 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded"
+            className="shadow bg-gray-500 hover:bg-gray-400 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-5 text-sm rounded"
           >
             Save
           </button>

@@ -109,8 +109,11 @@
     "search": "Search"
   },
   "searchPage": {
-    "available": "Available for visits",
-    "notAvailable": "Not available for visits",
+    "visits": "drop in",
+    "sitter_house": "stay in",
+    "owner_house": "boarding",
+    "available": "Available for",
+    "notAvailable": "Not available",
     "dog": "Dog",
     "cat": "Cat",
     "fish": "Fish",
