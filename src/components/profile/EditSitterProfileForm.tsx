@@ -76,8 +76,6 @@ const EditSitterProfileForm: React.FC<Props> = ({
         console.log("Profile updated successfully:", updatedProfile);
         const appuser = updatedProfile.appuser;
         if (appuser) {
-          console.log(appuser);
-          console.log(appuser.is_sitter);
           setUserInfo({
             status: appuser.status,
             user_id: appuser.user_id,
@@ -93,9 +91,7 @@ const EditSitterProfileForm: React.FC<Props> = ({
             japanese_ok: appuser.japanese_ok,
             english_ok: appuser.english_ok,
           });
-          console.log(userInfo);
         }
-        console.log(userInfo);
         onSave(updatedProfile);
         setSuccess(true);
         setError(null);

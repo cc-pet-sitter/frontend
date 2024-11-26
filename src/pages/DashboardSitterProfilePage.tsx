@@ -59,39 +59,39 @@ const DashboardSitterProfilePage: React.FC = () => {
                   <nav className="flex flex-col gap-1 p-4 sm:flex-row sm:items-center sm:p-6">
                     {/* Image */}
                     <div className="mr-0 mb-4 grid place-items-center sm:mr-6 sm:mb-0">
-                      {/* <img
-                    alt="Petter Sitter Image"
-                    src={ele.sitter_profile.bio_picture_src_list}
-                    className="h-32 w-32 rounded-full object-cover object-center sm:h-32 sm:w-32"
-                  /> */}
+                      <img
+                        alt="Petter Sitter Image"
+                        src={sitterProfile.sitter_profile_bio}
+                        className="h-32 w-32 rounded-full object-cover object-center sm:h-32 sm:w-32"
+                      />
                     </div>
                     {/* Content */}
                     <div>
                       <h6 className="text-slate-800 font-medium text-base sm:text-lg">
-                        {"ele.sitter_profile.profile_bio"}
+                        {sitterProfile.sitter_profile_bio}
                       </h6>
                       <p className="text-slate-500 text-sm sm:text-base">
-                        {/* {ele.sitter_profile.visit_ok
-                      ? t("searchPage.available")
-                      : t("searchPage.notAvailable")} */}
+                        {sitterProfile.visit_ok
+                          ? t("searchPage.available")
+                          : t("searchPage.notAvailable")}
                       </p>
                       <div className="pt-4 pb-4">
                         <p className="text-slate-500 text-sm">
-                          {/* {ele.sitter_profile.dogs_ok ? "✅ Dogs" : "❌ Dogs"} */}
+                          {sitterProfile.dogs_ok ? "✅ Dogs" : "❌ Dogs"}
                         </p>
                         <p className="text-slate-500 text-sm">
-                          {/* {ele.sitter_profile.cats_ok ? "✅ Cats" : "❌ Cats"} */}
+                          {sitterProfile.cats_ok ? "✅ Cats" : "❌ Cats"}
                         </p>
                         <p className="text-slate-500 text-sm">
-                          {/* {ele.sitter_profile.fish_ok ? "✅ Fish" : "❌ Fish"} */}
+                          {sitterProfile.fish_ok ? "✅ Fish" : "❌ Fish"}
                         </p>
                         <p className="text-slate-500 text-sm">
-                          {/* {ele.sitter_profile.birds_ok ? "✅ Birds" : "❌ Birds"} */}
+                          {sitterProfile.birds_ok ? "✅ Birds" : "❌ Birds"}
                         </p>
                         <p className="text-slate-500 text-sm">
-                          {/* {ele.sitter_profile.rabbits_ok
-                        ? "✅ Rabbits"
-                        : "❌ Rabbits"} */}
+                          {sitterProfile.rabbits_ok
+                            ? "✅ Rabbits"
+                            : "❌ Rabbits"}
                         </p>
                       </div>
                       <div></div>
