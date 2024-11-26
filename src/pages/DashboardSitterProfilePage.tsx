@@ -1,23 +1,53 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useAuth } from "../contexts/AuthContext";
 import { useTranslation } from "react-i18next";
+import axios from "axios";
+const apiURL: string = import.meta.env.VITE_API_BASE_URL;
 import TokenDisplay from "../components/auth/TokenDisplay";
 import EditSitterProfileForm from "../components/profile/EditSitterProfileForm";
 import SignUpForm from "../components/profile/SignUpForm";
 
 const DashboardSitterProfilePage: React.FC = () => {
+  const [sitterProfile, setSitterProfile] = useState(null);
   const { t } = useTranslation();
-  const { currentUser } = useAuth();
+  const { userInfo } = useAuth();
   const [showEditProfileForm, setShowEditProfileForm] =
     useState<boolean>(false);
 
+  const fetchSitterProfile = async () => {
+    try {
+      const response = await axios.get(`${apiURL}/sitter/${userInfo?.user_id}`);
+      console.log(response.data);
+      setSitterProfile(response.data);
+    } catch (error) {
+      console.error("Unable to fetch sitter profile", error);
+    }
+  };
+
+  useEffect(() => {
+    fetchSitterProfile();
+  }, []);
+
+  const handleSave = (updatedProfile) => {
+    setSitterProfile(updatedProfile);
+    setShowEditProfileForm(false); // Exit editing mode after saving
+  };
+
   return (
-    <div className="dashboard-container">
-      <h2 className="mx-6 mb-2 font-bold text-2xl">
-        {t("dashboard_Sitter_Profile_page.title")}
-      </h2>
-      {!showEditProfileForm && (
+    <div className="dashboard-container p-4">
+      {showEditProfileForm ? (
+        <div className="mt-6">
+          <EditSitterProfileForm
+            sitterProfile={sitterProfile}
+            closeEditProfileForm={() => setShowEditProfileForm(false)}
+            onSave={handleSave}
+          />
+        </div>
+      ) : sitterProfile ? (
         <div>
+          <h2 className="mx-6 mb-2 font-bold text-2xl">
+            {t("dashboard_Sitter_Profile_page.title")}
+          </h2>
           <div className="flex justify-center px-4 sm:px-6 lg:px-8">
             <ul className="w-full max-w-4xl">
               <div className="pb-6">
@@ -75,14 +105,14 @@ const DashboardSitterProfilePage: React.FC = () => {
             {t("dashboard_Sitter_Profile_page.edit_button")}
           </button>
         </div>
-      )}
-
-      {showEditProfileForm && (
-        <div className="mt-6">
-          <EditSitterProfileForm
-            closeEditProfileForm={() => setShowEditProfileForm(false)}
-          />
-        </div>
+      ) : (
+        <>
+          <h1>Become a Sitter</h1>
+          <p>Create your sitter profile to start offering services.</p>
+          <button onClick={() => setShowEditProfileForm(true)}>
+            Create Profile
+          </button>
+        </>
       )}
     </div>
   );

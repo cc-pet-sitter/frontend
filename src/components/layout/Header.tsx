@@ -5,10 +5,14 @@ import { signOut } from "firebase/auth";
 import { auth } from "../../firebase";
 import { useTranslation } from "react-i18next";
 
+const is_sitter = false;
+
 const lngs: Record<string, { nativeName: string }> = {
   en: { nativeName: "English" },
   ja: { nativeName: "日本語" },
 };
+
+// const { userInfo } = useAuth();
 
 const Header: React.FC = () => {
   const [menuOpen, setMenuOpen] = useState<boolean>(false);
@@ -124,7 +128,9 @@ const Header: React.FC = () => {
                         className="block px-4 py-2 hover:bg-gray-200"
                         onClick={toggleMenu}
                       >
-                        {t("hamburger_menu.become_sitter")}
+                        {is_sitter
+                          ? t("hamburger_menu.sitter_profile")
+                          : t("hamburger_menu.become_sitter")}
                       </Link>
                       <Link
                         to="/dashboard/requests"
@@ -218,7 +224,9 @@ const Header: React.FC = () => {
               className="text-white block"
               onClick={toggleMobileMenu}
             >
-              {t("hamburger_menu.become_sitter")}
+              {is_sitter
+                ? t("hamburger_menu.sitter_profile")
+                : t("hamburger_menu.become_sitter")}
             </Link>
             <Link
               to="/dashboard/requests"
