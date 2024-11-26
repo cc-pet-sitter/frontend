@@ -42,7 +42,9 @@ const SitterProfilePage: React.FC = () => {
             </button>
             {showEnquiryForm && (
               <div className="mt-6 w-full sm:w-auto">
-                <EnquiryForm />
+                <EnquiryForm sitterId={id} closeEnquiryForm={function (): void {
+                  throw new Error("Function not implemented.");
+                } }/>
               </div>
             )}
           </div>
