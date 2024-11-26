@@ -3,6 +3,7 @@ import { useTranslation } from "react-i18next";
 import { useAuth } from "../../contexts/AuthContext";
 import React, { useState } from "react";
 import { PetServices, serviceOptions } from "../../enums/PetServices";
+import { useNavigate } from "react-router-dom";
 
 type EnquiryFormProps = {
   closeEnquiryForm: () => void;
@@ -46,6 +47,7 @@ const EnquiryForm: React.FC<EnquiryFormProps> = ({ closeEnquiryForm, sitterId })
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState<boolean>(false);
   const [isLoading, setIsLoading] = useState<boolean>(false);
+  const navigate = useNavigate();
 
   const { t } = useTranslation();
 
@@ -243,13 +245,31 @@ const EnquiryForm: React.FC<EnquiryFormProps> = ({ closeEnquiryForm, sitterId })
       </div>
       
       <div className="flex justify-center">
-        <button
-          type="submit"
-          className="shadow bg-gray-500 hover:bg-gray-400 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded"
-          disabled={isLoading || !currentUser}
-        >
-          {isLoading ? "Sending..." : `${t("enquiryForm.submit")}`}
-        </button>
+        {!currentUser 
+          ? <div className="w-full max-w-lg p-6 bg-white rounded-lg shadow-md text-center">
+          <h2 className="text-xl font-bold mb-4">{t("enquiryForm.loginRequired")}</h2>
+          <p className="text-gray-600 mb-6">
+            {t("enquiryForm.explanation")}
+          </p>
+          <button
+            onClick={() => navigate("/login")} 
+            className="shadow bg-blue-500 hover:bg-blue-400 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded"
+          >
+            {t("enquiryForm.loginButton")}
+          </button>
+          <button
+            onClick={() => navigate("/signup")} 
+            className="shadow bg-green-500 hover:bg-green-400 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded"
+          >
+            {t("enquiryForm.signupButton")}
+          </button>
+        </div>
+          : <button
+              type="submit"
+              className="shadow bg-gray-500 hover:bg-gray-400 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded"
+              disabled={isLoading || !currentUser}
+            >{isLoading ? "Sending..." : `${t("enquiryForm.submit")}`}</button>
+        }
       </div>
     </form>
   );

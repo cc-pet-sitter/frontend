@@ -142,6 +142,8 @@
     "petToLookAfter": "お世話するペット",
     "desiredService": "希望するサービス",
     "additionalInfo": "追加情報",
-    "submit": "送信"
+    "submit": "送信",
+    "loginButton": "ログイン",
+    "signupButton": "サインアップ"
   }
 }

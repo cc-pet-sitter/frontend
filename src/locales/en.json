@@ -142,6 +142,34 @@
     "petToLookAfter": "Pet To Look After",
     "desiredService": "Desired Service",
     "additionalInfo": "Additional Info",
-    "submit": "Submit"
+    "submit": "Submit",
+    "loginButton": "Login",
+    "signupButton": "Sign Up",
+    "loginRequired": "Authentication Required",
+    "explanation": "You need to be logged in to submit an enquiry. Please log in or create an account to continue."
+  },
+  "login": {
+    "title": "Login",
+    "email": "Email",
+    "password": "Password",
+    "loginButton": "Login",
+    "signupPrompt": "Don't have an account? Join us!",
+    "signupButton": "Sign Up"
+  },
+  "signup": {
+    "title": "Sign Up",
+    "firstname": "First Name",
+    "lastname": "Last Name",
+    "email": "Email",
+    "password": "Password",
+    "signupButton": "Sign Up",
+    "signupPrompt": "Already have an account? Log in!",
+    "loginButton": "Login",
+    "firstnamePlaceholder": "John",
+    "lastnamePlaceholder": "Doe",
+    "emailPlaceholder": "you@example.com",
+    "passwordPlaceholder": "••••••••",
+    "showPassword": "Show password",
+    "hidePassword": "Hide password"
   }
 }
