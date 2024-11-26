@@ -14,6 +14,16 @@ export interface SitterProfile {
 }
 
 export interface AppUser {
+  sitter_bio_picture_src_list: string | undefined;
+  sitter_profile_bio: string;
+  visit_ok: boolean;
+  rabbits_ok: boolean;
+  birds_ok: boolean;
+  fish_ok: boolean;
+  cats_ok: boolean;
+  dogs_ok: boolean;
+  profile_bio: string;
+  bio_picture_src_list: string | undefined;
   id: number;
   firstname: string;
   lastname: string;
