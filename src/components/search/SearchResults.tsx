@@ -23,6 +23,7 @@ const SearchResults: React.FC<SearchResultsProps> = () => {
   const goToNewPage = (userId: number) => {
     navigate(`/profile/${userId}`);
   };
+  // console.log(userId);
 
   return (
     <div className="flex justify-center px-4 sm:px-6 lg:px-8">
@@ -58,28 +59,28 @@ const SearchResults: React.FC<SearchResultsProps> = () => {
                     <p className="text-slate-500 text-sm">
                       {ele.cats_ok
                         ? `✅ ${t("searchPage.cat")}`
-                        : `✅ ${t("searchPage.cat")}`}
+                        : `❌ ${t("searchPage.cat")}`}
                     </p>
                     <p className="text-slate-500 text-sm">
                       {ele.fish_ok
                         ? `✅ ${t("searchPage.fish")}`
-                        : `✅ ${t("searchPage.fish")}`}
+                        : `❌ ${t("searchPage.fish")}`}
                     </p>
                     <p className="text-slate-500 text-sm">
                       {ele.birds_ok
-                        ? `✅ ${t("searchPage.fish")}`
-                        : `✅ ${t("searchPage.fish")}`}
+                        ? `✅ ${t("searchPage.bird")}`
+                        : `❌ ${t("searchPage.bird")}`}
                     </p>
                     <p className="text-slate-500 text-sm">
                       {ele.rabbits_ok
                         ? `✅ ${t("searchPage.rabbit")}`
-                        : `✅ ${t("searchPage.rabbit")}`}
+                        : `❌ ${t("searchPage.rabbit")}`}
                     </p>
                   </div>
                   <div>
                     <button
                       className="shadow bg-gray-500 hover:bg-gray-400 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded w-full sm:w-auto"
-                      onClick={() => goToNewPage(ele.id)}
+                      onClick={() => goToNewPage(ele.appuser_id)}
                     >
                       {t("searchPage.viewProfile")}
                     </button>

@@ -14,6 +14,8 @@ const SitterProfilePage: React.FC = () => {
   const { t } = useTranslation();
   const { id } = useParams<{ id: string }>();
 
+  console.log(id);
+
   useEffect(() => {
     const fetchUserProfile = async () => {
       setLoading(true);
@@ -73,9 +75,12 @@ const SitterProfilePage: React.FC = () => {
             </button>
             {showEnquiryForm && (
               <div className="mt-6 w-full sm:w-auto">
-                <EnquiryForm sitterId={id} closeEnquiryForm={function (): void {
-                  throw new Error("Function not implemented.");
-                } }/>
+                <EnquiryForm
+                  sitterId={id}
+                  closeEnquiryForm={function (): void {
+                    throw new Error("Function not implemented.");
+                  }}
+                />
               </div>
             )}
           </div>
