@@ -13,9 +13,10 @@ const DashboardAccountPage: React.FC = () => {
 
   return (
     <div className="dashboard-container">
-      <h2 className="mx-6 mb-2 font-bold text-2xl">
+      <h2 className="text-center items-center mx-6 mb-2 pt-6 font-bold text-3xl">
         {t("dashboard_account_page.title")}
       </h2>
+
       {/* <div>
         <div>
           <p>First name</p>
@@ -108,13 +109,14 @@ const DashboardAccountPage: React.FC = () => {
               </div>
             </div>
           </div>
-
-          <button
-            onClick={() => setShowSignUpForm(true)}
-            className="shadow bg-gray-500 hover:bg-gray-400 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded"
-          >
-            {t("dashboard_account_page.edit_button")}
-          </button>
+          <div className="flex justify-center pb-8 ">
+            <button
+              onClick={() => setShowSignUpForm(true)}
+              className="shadow bg-gray-500 hover:bg-gray-400 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded"
+            >
+              {t("dashboard_account_page.edit_button")}
+            </button>
+          </div>
         </div>
       )}
 
