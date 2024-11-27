@@ -26,13 +26,13 @@ const DashboardSitterProfilePage: React.FC = () => {
   const [showEditProfileForm, setShowEditProfileForm] =
     useState<boolean>(false);
 
-  const fetchSitterProfile = async () => {
-    if (userInfo?.is_sitter) {
+  const fetchSitterProfile = async (is_sitter: boolean | null | undefined) => {
+    if (is_sitter) {
       try {
         const response = await axios.get(
           `${apiURL}/sitter/${userInfo?.user_id}`
         );
-        console.log(response.data);
+        console.log("Fetched profile", response.data);
         setSitterProfile(response.data);
       } catch (error) {
         console.error("Unable to fetch sitter profile", error);
@@ -41,7 +41,7 @@ const DashboardSitterProfilePage: React.FC = () => {
   };
 
   useEffect(() => {
-    fetchSitterProfile();
+    fetchSitterProfile(userInfo?.is_sitter);
   }, []);
 
   const handleSave = (updatedProfile: SitterProfile) => {
@@ -54,8 +54,9 @@ const DashboardSitterProfilePage: React.FC = () => {
       {showEditProfileForm ? (
         <div className="mt-6">
           <EditSitterProfileForm
+            fetchSitterProfile={fetchSitterProfile}
             sitterProfile={sitterProfile}
-            closeEditProfileForm={() => setShowEditProfileForm(false)}
+            closeEditForm={() => setShowEditProfileForm(false)}
             onSave={handleSave}
           />
         </div>
