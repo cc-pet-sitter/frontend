@@ -14,6 +14,8 @@ export interface SitterProfile {
 }
 
 export interface AppUser {
+  sitter: any;
+  appuser: any;
   appuser_id: number;
   sitter_bio_picture_src_list: string | undefined;
   sitter_profile_bio: string;
