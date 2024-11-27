@@ -1,17 +1,18 @@
 import { useForm } from "react-hook-form";
 import { useAuth } from "../../contexts/AuthContext";
 import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 
 type Props = {
   closeEditForm: () => void;
 };
 
 type EditProfileFormData = {
-  user_id: number;
   firstname: string;
   lastname: string;
   email: string;
-  post_code: string;
+  postal_code: string;
   prefecture: string;
   city_ward: string;
   street_address: string;
@@ -32,20 +33,20 @@ const EditProfileForm: React.FC<Props> = ({ closeEditForm }) => {
   const { register, handleSubmit, reset } = useForm<EditProfileFormData>({
     shouldUseNativeValidation: true,
   });
-  const { currentUser, userInfo } = useAuth(); // Assuming authToken is available
+  const { currentUser, userInfo, setUserInfo } = useAuth(); // Assuming authToken is available
+  console.log(`first log : ${userInfo.user_id}`)
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState<boolean>(false);
   const [isLoading, setIsLoading] = useState<boolean>(false);
-  const { setUserInfo } = useAuth();
 
   useEffect(() => {
     if (userInfo) {
+      console.log("User Info:", userInfo);
       reset({
-        user_id: userInfo.user_id,
         firstname: userInfo.firstname || "",
         lastname: userInfo.lastname || "",
         email: userInfo.email || "",
-        post_code: userInfo.postal_code || "",
+        postal_code: userInfo.postal_code || "",
         prefecture: userInfo.prefecture || "",
         city_ward: userInfo.city_ward || "",
         street_address: userInfo.street_address || "",
@@ -83,6 +84,7 @@ const EditProfileForm: React.FC<Props> = ({ closeEditForm }) => {
       console.log("Profile updated successfully:", updatedUser);
 
       setUserInfo({
+        ...userInfo,
         status: "ok",
         user_id: updatedUser.user_id,
         email: updatedUser.email,
@@ -90,7 +92,7 @@ const EditProfileForm: React.FC<Props> = ({ closeEditForm }) => {
         lastname: updatedUser.lastname,
         is_sitter: null,
         profile_picture_src: null,
-        postal_code: data.post_code,
+        postal_code: data.postal_code,
         prefecture: data.prefecture,
         city_ward: data.city_ward,
         street_address: data.street_address,
@@ -187,7 +189,7 @@ const EditProfileForm: React.FC<Props> = ({ closeEditForm }) => {
           <input
             id="postcode"
             type="text"
-            {...register("post_code", {
+            {...register("postal_code", {
               required: "Please enter your postcode.",
             })}
             className={inputClass}

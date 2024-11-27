@@ -8,7 +8,7 @@ import React, {
 import { User, onAuthStateChanged } from "firebase/auth";
 import { auth } from "../firebase";
 
-interface UserInfo {
+export interface UserInfo {
   status: string;
   user_id: number;
   email: string;

@@ -11,8 +11,23 @@
     "logout": "Logout"
   },
   "dashboard_account_page": {
-    "title": "Account Info",
-    "edit_button": "Edit"
+    "title": "Account Information",
+    "loading": "Loading your profile...",
+    "userNotLoggedIn": "You are not logged in.",
+    "edit_button": "Edit Profile",
+    "profileDetails": "Profile Details",
+    "location": "Location",
+    "address": "Address",
+    "postalCode": "Postal Code",
+    "languages": "Languages",
+    "accountLanguage": "Account Language",
+    "accountInformation": "Account Information",
+    "accountCreated": "Account Created",
+    "lastLogin": "Last Login",
+    "lastUpdated": "Last Updated",
+    "completeProfileTitle": "Complete Your Profile",
+    "completeProfileMessage": "Please complete your profile to enjoy all features.",
+    "completeProfileButton": "Complete Profile"
   },
   "dashboard_bookings_page": {
     "title": "Bookings",

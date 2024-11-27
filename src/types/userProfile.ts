@@ -44,3 +44,19 @@ export interface AppUser {
   owner_id: number | null;
   sitter_profile: SitterProfile;
 }
+
+export interface AppUserProfile {
+  appuser_id: number;
+  firstname: string;
+  lastname: string;
+  email: string;
+  prefecture: string;
+  city_ward: string;
+  street_address: string;
+  postal_code: string;
+  english_ok: boolean;
+  japanese_ok: boolean;
+  last_login: string;
+  account_created: string;
+  bio_picture_src_list?: string | undefined;
+}
