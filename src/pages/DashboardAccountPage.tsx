@@ -58,22 +58,24 @@ const DashboardAccountPage: React.FC = () => {
 
               {/* Profile Details */}
               <div className="p-6 border-t">
-                <h2 className="text-lg font-semibold mb-4">Profile Details</h2>
+                <h2 className="text-lg font-semibold mb-4">
+                  {t("sitterProfilePage.profileDetails")}
+                </h2>
                 <ul className="list-none space-y-2 text-left">
                   <li>
-                    <strong>Location:</strong>{" "}
+                    <strong>{`${t("sitterProfilePage.location")}:`}</strong>{" "}
                     {/* {`${user.prefecture}, ${user.city_ward}`} */}
                   </li>
                   <li>
-                    <strong>Address:</strong>
+                    <strong>{`${t("sitterProfilePage.address")}:`}</strong>
                     {/* {user.street_address} */}
                   </li>
                   <li>
-                    <strong>Postal Code:</strong>
+                    <strong>{`${t("sitterProfilePage.postCode")}:`}</strong>
                     {/* {user.postal_code} */}
                   </li>
                   <li>
-                    <strong>Languages:</strong>{" "}
+                    <strong>{`${t("sitterProfilePage.languages")}:`}</strong>{" "}
                     {/* {user.english_ok && user.japanese_ok
                   ? "English, Japanese"
                   : user.english_ok
@@ -81,7 +83,7 @@ const DashboardAccountPage: React.FC = () => {
                   : "Japanese"} */}
                   </li>
                   <li>
-                    <strong>Account Language:</strong>
+                    <strong>{`${t("sitterProfilePage.languages")}:`}</strong>
                     {/* {user.account_language} */}
                   </li>
                 </ul>
@@ -90,19 +92,21 @@ const DashboardAccountPage: React.FC = () => {
               {/* Timestamps */}
               <div className="p-6 border-t">
                 <h2 className="text-lg font-semibold mb-4">
-                  Account Information
+                  {t("sitterProfilePage.accountInformation")}
                 </h2>
                 <ul className="list-none space-y-2 text-left">
                   <li>
-                    <strong>Account Created:</strong>{" "}
+                    <strong>{`${t(
+                      "sitterProfilePage.accountCreated"
+                    )}:`}</strong>{" "}
                     {/* {new Date(user.account_created).toLocaleString()} */}
                   </li>
                   <li>
-                    <strong>Last Login:</strong>{" "}
+                    <strong>{`${t("sitterProfilePage.lastLogin")}:`}</strong>{" "}
                     {/* {new Date(user.last_login).toLocaleString()} */}
                   </li>
                   <li>
-                    <strong>Last Updated:</strong>{" "}
+                    <strong>{`${t("sitterProfilePage.lastUpdated")}:`}</strong>{" "}
                     {/* {new Date(user.last_updated).toLocaleString()} */}
                   </li>
                 </ul>

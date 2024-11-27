@@ -13,28 +13,31 @@ type EnquiryFormProps = {
 type EnquiryFormData = {
   owner_appuser_id: number;
   sitter_appuser_id: number;
-  start_date: string;          // ISO string for proper serialization
-  end_date: string;            // ISO string for proper serialization
-  desired_service: PetServices;     // Use the enum type
-  pet_id_list: string[];       // Array of pet IDs as strings
+  start_date: string; // ISO string for proper serialization
+  end_date: string; // ISO string for proper serialization
+  desired_service: PetServices; // Use the enum type
+  pet_id_list: string[]; // Array of pet IDs as strings
   additional_info: string | null;
-}
+};
 
 type EnquiryFormResponse = {
   id: number;
   owner_appuser_id: number;
-  sitter_appuser_id: number; 
+  sitter_appuser_id: number;
   inquiry_status: string;
-  start_date: string;          // ISO string
-  end_date: string;            // ISO string
+  start_date: string; // ISO string
+  end_date: string; // ISO string
   desired_service: string;
-  pet_id_list: string;         // Stored as comma-separated string
+  pet_id_list: string; // Stored as comma-separated string
   additional_info: string | null;
-  inquiry_submitted: string;   // ISO string
+  inquiry_submitted: string; // ISO string
   inquiry_finalized: string | null; // ISO string or null
-}
+};
 
-const EnquiryForm: React.FC<EnquiryFormProps> = ({ closeEnquiryForm, sitterId }) => {
+const EnquiryForm: React.FC<EnquiryFormProps> = ({
+  closeEnquiryForm,
+  sitterId,
+}) => {
   const {
     register,
     handleSubmit,
@@ -67,7 +70,8 @@ const EnquiryForm: React.FC<EnquiryFormProps> = ({ closeEnquiryForm, sitterId })
   const onSubmit = async (data: EnquiryFormData) => {
     setIsLoading(true);
     try {
-      const backendURL = import.meta.env.VITE_API_BASE_URL || "http://localhost:8000";
+      const backendURL =
+        import.meta.env.VITE_API_BASE_URL || "http://localhost:8000";
       const idToken = await currentUser?.getIdToken();
 
       if (!idToken) {
@@ -92,7 +96,7 @@ const EnquiryForm: React.FC<EnquiryFormProps> = ({ closeEnquiryForm, sitterId })
         start_date: new Date(data.start_date).toISOString(),
         end_date: new Date(data.end_date).toISOString(),
         desired_service: data.desired_service, // Now correctly using enum values
-        pet_id_list: serializedPetIdList,      // Serialized string
+        pet_id_list: serializedPetIdList, // Serialized string
         additional_info: data.additional_info,
       };
 
@@ -136,7 +140,7 @@ const EnquiryForm: React.FC<EnquiryFormProps> = ({ closeEnquiryForm, sitterId })
       setTimeout(() => {
         closeEnquiryForm();
       }, 2000); // Adjust the delay as necessary
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error: any) {
       console.error("Error creating the enquiry:", error.message);
       setError(error.message);
@@ -149,7 +153,11 @@ const EnquiryForm: React.FC<EnquiryFormProps> = ({ closeEnquiryForm, sitterId })
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="w-full max-w-lg">
       {error && <p className="text-red-500 text-xs italic">{error}</p>}
-      {success && <p className="text-green-500 text-xs italic">Enquiry sent successfully!</p>}
+      {success && (
+        <p className="text-green-500 text-xs italic">
+          Enquiry sent successfully!
+        </p>
+      )}
 
       <div className="flex flex-wrap -mx-3 mb-6 ">
         {/* start_date */}
@@ -167,7 +175,9 @@ const EnquiryForm: React.FC<EnquiryFormProps> = ({ closeEnquiryForm, sitterId })
             className={inputClass}
           />
           {errors.start_date && (
-            <p className="text-red-500 text-xs italic">{errors.start_date.message}</p>
+            <p className="text-red-500 text-xs italic">
+              {errors.start_date.message}
+            </p>
           )}
         </div>
         {/* end_date */}
@@ -185,14 +195,18 @@ const EnquiryForm: React.FC<EnquiryFormProps> = ({ closeEnquiryForm, sitterId })
             className={inputClass}
           />
           {errors.end_date && (
-            <p className="text-red-500 text-xs italic">{errors.end_date.message}</p>
+            <p className="text-red-500 text-xs italic">
+              {errors.end_date.message}
+            </p>
           )}
         </div>
       </div>
 
       {/* Pets */}
       <div className="mb-6">
-        <p className={`${labelClass} mb-3`}>{`${t("enquiryForm.petToLookAfter")}:`}</p>
+        <p className={`${labelClass} mb-3`}>{`${t(
+          "enquiryForm.petToLookAfter"
+        )}:`}</p>
         {petOptions.map((pet) => (
           <label key={pet.id} className={`${labelClass} flex items-center`}>
             <input
@@ -205,15 +219,22 @@ const EnquiryForm: React.FC<EnquiryFormProps> = ({ closeEnquiryForm, sitterId })
           </label>
         ))}
         {errors.pet_id_list && (
-          <p className="text-red-500 text-xs italic">{errors.pet_id_list.message}</p>
+          <p className="text-red-500 text-xs italic">
+            {errors.pet_id_list.message}
+          </p>
         )}
       </div>
-      
+
       {/* Desired Service You Offer */}
       <div className="mb-6">
-        <p className={`${labelClass} mb-3`}>{`${t("enquiryForm.desiredService")}:`}</p>
+        <p className={`${labelClass} mb-3`}>{`${t(
+          "enquiryForm.desiredService"
+        )}:`}</p>
         {serviceOptions.map((serviceOption) => (
-          <label key={serviceOption.value} className={`${labelClass} flex items-center`}>
+          <label
+            key={serviceOption.value}
+            className={`${labelClass} flex items-center`}
+          >
             <input
               type="radio"
               {...register("desired_service", {
@@ -226,10 +247,12 @@ const EnquiryForm: React.FC<EnquiryFormProps> = ({ closeEnquiryForm, sitterId })
           </label>
         ))}
         {errors.desired_service && (
-          <p className="text-red-500 text-xs italic">{errors.desired_service.message}</p>
+          <p className="text-red-500 text-xs italic">
+            {errors.desired_service.message}
+          </p>
         )}
       </div>
-      
+
       {/* Additional Information */}
       <div className="mb-6">
         <label className={`${labelClass} block`} htmlFor="additional_info">
@@ -243,33 +266,36 @@ const EnquiryForm: React.FC<EnquiryFormProps> = ({ closeEnquiryForm, sitterId })
           {...register("additional_info")}
         />
       </div>
-      
+
       <div className="flex justify-center">
-        {!currentUser 
-          ? <div className="w-full max-w-lg p-6 bg-white rounded-lg shadow-md text-center">
-          <h2 className="text-xl font-bold mb-4">{t("enquiryForm.loginRequired")}</h2>
-          <p className="text-gray-600 mb-6">
-            {t("enquiryForm.explanation")}
-          </p>
+        {!currentUser ? (
+          <div className="w-full max-w-lg p-6 bg-white rounded-lg shadow-md text-center">
+            <h2 className="text-xl font-bold mb-4">
+              {t("enquiryForm.loginRequired")}
+            </h2>
+            <p className="text-gray-600 mb-6">{t("enquiryForm.explanation")}</p>
+            <button
+              onClick={() => navigate("/login")}
+              className="shadow bg-blue-500 hover:bg-blue-400 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded"
+            >
+              {t("enquiryForm.loginButton")}
+            </button>
+            <button
+              onClick={() => navigate("/signup")}
+              className="shadow bg-green-500 hover:bg-green-400 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded"
+            >
+              {t("enquiryForm.signupButton")}
+            </button>
+          </div>
+        ) : (
           <button
-            onClick={() => navigate("/login")} 
-            className="shadow bg-blue-500 hover:bg-blue-400 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded"
+            type="submit"
+            className="shadow bg-gray-500 hover:bg-gray-400 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded"
+            disabled={isLoading || !currentUser}
           >
-            {t("enquiryForm.loginButton")}
+            {isLoading ? "Sending..." : `${t("enquiryForm.submit")}`}
           </button>
-          <button
-            onClick={() => navigate("/signup")} 
-            className="shadow bg-green-500 hover:bg-green-400 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded"
-          >
-            {t("enquiryForm.signupButton")}
-          </button>
-        </div>
-          : <button
-              type="submit"
-              className="shadow bg-gray-500 hover:bg-gray-400 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded"
-              disabled={isLoading || !currentUser}
-            >{isLoading ? "Sending..." : `${t("enquiryForm.submit")}`}</button>
-        }
+        )}
       </div>
     </form>
   );
