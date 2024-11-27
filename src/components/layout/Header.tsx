@@ -5,8 +5,6 @@ import { signOut } from "firebase/auth";
 import { auth } from "../../firebase";
 import { useTranslation } from "react-i18next";
 
-const is_sitter = false;
-
 const lngs: Record<string, { nativeName: string }> = {
   en: { nativeName: "English" },
   ja: { nativeName: "日本語" },
@@ -103,7 +101,7 @@ const Header: React.FC = () => {
                     onClick={() => setMenuOpen((prev) => !prev)}
                     className="cursor-pointer text-white"
                   >
-                    {currentUser.email}
+                    {userInfo?.firstname}
                   </span>
                   {menuOpen && (
                     <div
