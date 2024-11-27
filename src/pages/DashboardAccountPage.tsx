@@ -148,9 +148,7 @@ const DashboardAccountPage: React.FC = () => {
       {/* Edit Profile Form */}
       {isEditing && (
         <div className="bg-white shadow-md rounded-lg overflow-hidden p-6">
-          <EditProfileForm
-            onClose={() => setIsEditing(false)}
-          />
+          <EditProfileForm closeEditForm={() => setIsEditing(false)}/>
         </div>
       )}
 

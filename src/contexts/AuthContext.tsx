@@ -30,6 +30,7 @@ interface AuthContextType {
   currentUser: User | null;
   userInfo: UserInfo | null;
   setUserInfo: (info: UserInfo | null) => void;
+  loading: boolean;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -95,6 +96,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     currentUser,
     userInfo,
     setUserInfo,
+    loading
   };
 
   return (

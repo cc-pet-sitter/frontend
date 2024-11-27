@@ -9,6 +9,7 @@ type Props = {
 };
 
 type EditProfileFormData = {
+  user_id: number;
   firstname: string;
   lastname: string;
   email: string;
@@ -38,11 +39,13 @@ const EditProfileForm: React.FC<Props> = ({ closeEditForm }) => {
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState<boolean>(false);
   const [isLoading, setIsLoading] = useState<boolean>(false);
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (userInfo) {
       console.log("User Info:", userInfo);
       reset({
+        user_id: userInfo.user_id,
         firstname: userInfo.firstname || "",
         lastname: userInfo.lastname || "",
         email: userInfo.email || "",
@@ -77,7 +80,12 @@ const EditProfileForm: React.FC<Props> = ({ closeEditForm }) => {
 
       if (!response.ok) {
         const errorData = await response.json();
-        throw new Error(errorData.detail || "Failed to update profile.");
+        // Extract detailed error messages if available
+        const errorMessage =
+          Array.isArray(errorData.detail)
+            ? errorData.detail.map((err: any) => err.msg).join(", ")
+            : errorData.detail || "Failed to update profile.";
+        throw new Error(errorMessage);
       }
 
       const updatedUser: UpdateAppuserResponse = await response.json();
@@ -106,6 +114,7 @@ const EditProfileForm: React.FC<Props> = ({ closeEditForm }) => {
 
       // Close the edit form
       closeEditForm();
+      
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error: any) {
       console.error("Error updating profile:", error.message);
