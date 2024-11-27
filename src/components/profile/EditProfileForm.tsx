@@ -123,156 +123,162 @@ const EditProfileForm: React.FC<Props> = ({ closeEditForm }) => {
   const prefectureOptions = ["Tokyo", "Saitama", "Chiba"];
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className="w-full max-w-lg">
-      {error && <p className="text-red-500 text-xs italic">{error}</p>}
-      {success && (
-        <p className="text-green-500 text-xs italic">
-          Profile updated successfully!
-        </p>
-      )}
+    <div className="flex justify-center p-8">
+      <form onSubmit={handleSubmit(onSubmit)} className="w-full max-w-lg">
+        {error && <p className="text-red-500 text-xs italic">{error}</p>}
+        {success && (
+          <p className="text-green-500 text-xs italic">
+            Profile updated successfully!
+          </p>
+        )}
 
-      <div className="flex flex-wrap -mx-3 mb-6">
-        {/* First Name */}
-        <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
-          <label className={labelClass} htmlFor="firstName">
-            First Name:
-          </label>
-          <input
-            id="firstName"
-            type="text"
-            {...register("firstname", {
-              required: "Please enter your first name.",
-            })}
-            className={inputClass}
-          />
+        <div className="flex flex-wrap -mx-3 mb-6">
+          {/* First Name */}
+          <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
+            <label className={labelClass} htmlFor="firstName">
+              First Name:
+            </label>
+            <input
+              id="firstName"
+              type="text"
+              {...register("firstname", {
+                required: "Please enter your first name.",
+              })}
+              className={inputClass}
+            />
+          </div>
+          {/* Last Name */}
+          <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
+            <label className={labelClass} htmlFor="lastName">
+              Last Name:
+            </label>
+            <input
+              id="lastName"
+              type="text"
+              {...register("lastname", {
+                required: "Please enter your last name.",
+              })}
+              className={inputClass}
+            />
+          </div>
         </div>
-        {/* Last Name */}
-        <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
-          <label className={labelClass} htmlFor="lastName">
-            Last Name:
-          </label>
-          <input
-            id="lastName"
-            type="text"
-            {...register("lastname", {
-              required: "Please enter your last name.",
-            })}
-            className={inputClass}
-          />
+        <div className="flex flex-wrap -mx-3 mb-6">
+          {/* Email */}
+          <div className="w-full px-3 mb-6 md:mb-0">
+            <label className={labelClass} htmlFor="email">
+              Email:
+            </label>
+            <input
+              id="email"
+              type="email"
+              {...register("email", {
+                required: "Please enter your email.",
+              })}
+              className={inputClass}
+              disabled // Disable email field if it shouldn't be editable
+            />
+          </div>
         </div>
-      </div>
-      <div className="flex flex-wrap -mx-3 mb-6">
-        {/* Email */}
-        <div className="w-full px-3 mb-6 md:mb-0">
-          <label className={labelClass} htmlFor="email">
-            Email:
-          </label>
-          <input
-            id="email"
-            type="email"
-            {...register("email", {
-              required: "Please enter your email.",
-            })}
-            className={inputClass}
-            disabled // Disable email field if it shouldn't be editable
-          />
+        <div className="flex flex-wrap -mx-3 mb-6">
+          {/* Postcode */}
+          <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
+            <label className={labelClass} htmlFor="postcode">
+              Postcode:
+            </label>
+            <input
+              id="postcode"
+              type="text"
+              {...register("post_code", {
+                required: "Please enter your postcode.",
+              })}
+              className={inputClass}
+            />
+          </div>
+          {/* Prefecture */}
+          <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
+            <label className={labelClass} htmlFor="prefecture">
+              Prefecture:
+            </label>
+            <select
+              id="prefecture"
+              {...register("prefecture", {
+                required: "Please select a prefecture.",
+              })}
+              className={`${inputClass} pr-8`}
+            >
+              <option value="">Select Prefecture</option>
+              {prefectureOptions.map((pref) => (
+                <option key={pref} value={pref}>
+                  {pref}
+                </option>
+              ))}
+            </select>
+          </div>
         </div>
-      </div>
-      <div className="flex flex-wrap -mx-3 mb-6">
-        {/* Postcode */}
-        <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
-          <label className={labelClass} htmlFor="postcode">
-            Postcode:
-          </label>
-          <input
-            id="postcode"
-            type="text"
-            {...register("post_code", {
-              required: "Please enter your postcode.",
-            })}
-            className={inputClass}
-          />
+        <div className="flex flex-wrap -mx-3 mb-6">
+          {/* City */}
+          <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
+            <label className={labelClass} htmlFor="city">
+              City:
+            </label>
+            <input
+              id="city"
+              type="text"
+              {...register("city_ward", {
+                required: "Please enter a city.",
+              })}
+              className={inputClass}
+            />
+          </div>
+          {/* Street */}
+          <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
+            <label className={labelClass} htmlFor="street">
+              House No. and Street:
+            </label>
+            <input
+              id="street"
+              type="text"
+              {...register("street_address", {
+                required: "Please enter a street.",
+              })}
+              className={inputClass}
+            />
+          </div>
         </div>
-        {/* Prefecture */}
-        <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
-          <label className={labelClass} htmlFor="prefecture">
-            Prefecture:
+        <div className="mb-6">
+          {/* Languages */}
+          <p className={`${labelClass} mb-3`}>Languages:</p>
+          <label className={`${labelClass} flex items-center`}>
+            Japanese:
+            <input
+              type="checkbox"
+              {...register("japanese_ok")}
+              className="mr-2"
+            />
           </label>
-          <select
-            id="prefecture"
-            {...register("prefecture", {
-              required: "Please select a prefecture.",
-            })}
-            className={`${inputClass} pr-8`}
-          >
-            <option value="">Select Prefecture</option>
-            {prefectureOptions.map((pref) => (
-              <option key={pref} value={pref}>
-                {pref}
-              </option>
-            ))}
-          </select>
-        </div>
-      </div>
-      <div className="flex flex-wrap -mx-3 mb-6">
-        {/* City */}
-        <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
-          <label className={labelClass} htmlFor="city">
-            City:
+          <label className={`${labelClass} flex items-center`}>
+            English:
+            <input
+              type="checkbox"
+              {...register("english_ok")}
+              className="mr-2"
+            />
           </label>
-          <input
-            id="city"
-            type="text"
-            {...register("city_ward", {
-              required: "Please enter a city.",
-            })}
-            className={inputClass}
-          />
         </div>
-        {/* Street */}
-        <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
-          <label className={labelClass} htmlFor="street">
-            House No. and Street:
-          </label>
-          <input
-            id="street"
-            type="text"
-            {...register("street_address", {
-              required: "Please enter a street.",
-            })}
-            className={inputClass}
-          />
-        </div>
-      </div>
-      <div className="mb-6">
-        {/* Languages */}
-        <p className={`${labelClass} mb-3`}>Languages:</p>
-        <label className={`${labelClass} flex items-center`}>
-          Japanese:
-          <input
-            type="checkbox"
-            {...register("japanese_ok")}
-            className="mr-2"
-          />
-        </label>
-        <label className={`${labelClass} flex items-center`}>
-          English:
-          <input type="checkbox" {...register("english_ok")} className="mr-2" />
-        </label>
-      </div>
 
-      <div className="md:flex md:items-center">
-        <div className="md:w-2/3">
-          <button
-            type="submit"
-            className="shadow bg-gray-500 hover:bg-gray-400 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded"
-            disabled={isLoading}
-          >
-            {isLoading ? "Saving..." : "Save"}
-          </button>
+        <div className="md:flex md:items-center">
+          <div className="flex justify-center pb-8 ">
+            <button
+              type="submit"
+              className="shadow bg-gray-500 hover:bg-gray-400 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded"
+              disabled={isLoading}
+            >
+              {isLoading ? "Saving..." : "Save"}
+            </button>
+          </div>
         </div>
-      </div>
-    </form>
+      </form>
+    </div>
   );
 };
 

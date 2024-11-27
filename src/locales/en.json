@@ -11,7 +11,7 @@
     "logout": "Logout"
   },
   "dashboard_account_page": {
-    "title": "Account Info",
+    "title": "My Account Info",
     "edit_button": "Edit"
   },
   "dashboard_bookings_page": {
@@ -28,7 +28,7 @@
   },
   "homePage": {
     "subtitle": "Find trusted pet sitters or list your services!",
-    "searchLabel": "Search for a Pet Sitter"
+    "searchLabel": "Search for a Pet Sitter..."
   },
   "header": {
     "logout": "Logout",

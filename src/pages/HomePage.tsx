@@ -34,9 +34,11 @@ const HomePage: React.FC<HomePageProps> = () => {
     <>
       <div className="justify-items-center">
         <div className="my-6">
-          <h1>{t("homePage.subtitle")}</h1>
+          <h1 className="text-center text-2xl font-semibold">
+            {t("homePage.subtitle")}
+          </h1>
         </div>
-        <h3>{t("homePage.searchLabel")}</h3>
+        <h3 className="italic">{t("homePage.searchLabel")}</h3>
         {/* <SignUpForm /> */}
         <SearchBar onSearchSubmit={handleSearchSubmit} />
       </div>
