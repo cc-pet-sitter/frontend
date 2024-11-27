@@ -50,6 +50,11 @@ const SitterProfilePage: React.FC = () => {
     return <p>{t("sitterProfilePage.userNotFound")}</p>;
   }
 
+   // Define the function to close the enquiry form
+  const handleCloseEnquiryForm = () => {
+    setShowEnquiryForm(false);
+  };
+
   return (
     <div className="container mx-auto p-6">
       <div className="bg-white shadow-md rounded-lg overflow-hidden">
@@ -77,9 +82,7 @@ const SitterProfilePage: React.FC = () => {
               <div className="mt-6 w-full sm:w-auto">
                 <EnquiryForm
                   sitterId={id}
-                  closeEnquiryForm={function (): void {
-                    throw new Error("Function not implemented.");
-                  }}
+                  closeEnquiryForm={handleCloseEnquiryForm}
                 />
               </div>
             )}
