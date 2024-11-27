@@ -6,7 +6,7 @@ import SignUpForm from "../components/profile/SignUpForm";
 import EditProfileForm from "../components/profile/EditProfileForm";
 
 const DashboardAccountPage: React.FC = () => {
-  const { userInfo} = useAuth();
+  const { userInfo } = useAuth();
   const { t } = useTranslation();
 
   const [showSignUpForm, setShowSignUpForm] = useState<boolean>(false);
@@ -51,7 +51,7 @@ const DashboardAccountPage: React.FC = () => {
                 />
                 <div className="mt-4 sm:mt-0 sm:ml-6 text-center sm:text-left">
                   <h1 className="text-2xl font-bold">{`${userInfo.firstname} ${userInfo.lastname}`}</h1>
-              <p className="text-gray-500">{userInfo.email}</p>
+                  <p className="text-gray-500">{userInfo.email}</p>
                 </div>
               </div>
 
