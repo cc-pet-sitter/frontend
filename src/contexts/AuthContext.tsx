@@ -22,6 +22,10 @@ interface UserInfo {
   street_address: string | null;
   japanese_ok: boolean | null;
   english_ok: boolean | null;
+  account_language: string | null;
+  last_login: Date;
+  account_created: Date;
+  last_updated: Date;
   // Add other fields as necessary
 }
 

@@ -51,8 +51,8 @@ const DashboardAccountPage: React.FC = () => {
                   className="h-48 w-48 rounded-full object-cover"
                 />
                 <div className="mt-4 sm:mt-0 sm:ml-6 text-center sm:text-left">
-                  <h1 className="text-2xl font-bold">{`${userInfo.firstname} ${userInfo.lastname}`}</h1>
-                  <p className="text-gray-500">{userInfo.email}</p>
+                  <h1 className="text-2xl font-bold">{`${userInfo?.firstname} ${userInfo?.lastname}`}</h1>
+                  <p className="text-gray-500">{userInfo?.email}</p>
                 </div>
               </div>
 
@@ -61,28 +61,19 @@ const DashboardAccountPage: React.FC = () => {
                 <h2 className="text-lg font-semibold mb-4">Profile Details</h2>
                 <ul className="list-none space-y-2 text-left">
                   <li>
-                    <strong>Location:</strong>{" "}
-                    {/* {`${user.prefecture}, ${user.city_ward}`} */}
+                    <div><strong>Location: </strong>{userInfo?.prefecture}, {userInfo?.city_ward}</div>
                   </li>
                   <li>
-                    <strong>Address:</strong>
-                    {/* {user.street_address} */}
+                    <div><strong>Address: </strong>{userInfo?.street_address}</div>
                   </li>
                   <li>
-                    <strong>Postal Code:</strong>
-                    {/* {user.postal_code} */}
+                    <div><strong>Postal Code: </strong>{userInfo?.postal_code}</div>
                   </li>
                   <li>
-                    <strong>Languages:</strong>{" "}
-                    {/* {user.english_ok && user.japanese_ok
-                  ? "English, Japanese"
-                  : user.english_ok
-                  ? "English"
-                  : "Japanese"} */}
+                    <div><strong>Languages: </strong>{userInfo?.english_ok ? "English" : ""}{userInfo?.english_ok && userInfo.japanese_ok ? ", " : ""}{userInfo?.japanese_ok ? "Japanese" : ""} </div>
                   </li>
                   <li>
-                    <strong>Account Language:</strong>
-                    {/* {user.account_language} */}
+                    <div><strong>Account Language: </strong>{userInfo?.account_language}</div>
                   </li>
                 </ul>
               </div>
@@ -94,16 +85,13 @@ const DashboardAccountPage: React.FC = () => {
                 </h2>
                 <ul className="list-none space-y-2 text-left">
                   <li>
-                    <strong>Account Created:</strong>{" "}
-                    {/* {new Date(user.account_created).toLocaleString()} */}
+                    <div><strong>Account Created: </strong>{userInfo?.account_created.toLocaleString().slice(0, 10)}</div>
                   </li>
                   <li>
-                    <strong>Last Login:</strong>{" "}
-                    {/* {new Date(user.last_login).toLocaleString()} */}
+                    <div><strong>Last Login: </strong>{userInfo?.last_login.toLocaleString().slice(0, 10)}</div>
                   </li>
                   <li>
-                    <strong>Last Updated:</strong>{" "}
-                    {/* {new Date(user.last_updated).toLocaleString()} */}
+                    <div><strong>Last Updated: </strong>{userInfo?.last_updated.toLocaleString().slice(0, 10)}</div>
                   </li>
                 </ul>
               </div>
