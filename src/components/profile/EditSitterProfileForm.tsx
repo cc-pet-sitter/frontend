@@ -5,9 +5,10 @@ import axios from "axios";
 const apiURL: string = import.meta.env.VITE_API_BASE_URL;
 
 type Props = {
-  closeEditProfileForm: () => void;
+  closeEditForm: () => void;
   onSave: (updatedProfile: EditFormData) => void;
   sitterProfile: SitterProfile | null;
+  fetchSitterProfile: (is_sitter: boolean | null | undefined) => void;
 };
 
 type SitterProfile = {
@@ -34,7 +35,11 @@ type EditFormData = {
   rabbits_ok: boolean | null;
 };
 
-const EditSitterProfileForm: React.FC<Props> = ({ sitterProfile, onSave }) => {
+const EditSitterProfileForm: React.FC<Props> = ({
+  sitterProfile,
+  fetchSitterProfile,
+  closeEditForm,
+}) => {
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState<boolean>(false);
   const { register, handleSubmit, reset } = useForm<EditFormData>({
@@ -59,8 +64,6 @@ const EditSitterProfileForm: React.FC<Props> = ({ sitterProfile, onSave }) => {
   }, [sitterProfile, reset]);
 
   const onSubmit = async (data: EditFormData) => {
-    console.log(data);
-
     try {
       const response = await axios.post(
         `${apiURL}/sitter/${userInfo?.user_id}`,
@@ -79,12 +82,12 @@ const EditSitterProfileForm: React.FC<Props> = ({ sitterProfile, onSave }) => {
 
       if (response.status === 200) {
         const updatedProfile = response.data;
-        console.log("Profile updated successfully:", updatedProfile);
+
         const appuser = updatedProfile.appuser;
         if (appuser) {
           setUserInfo({
-            status: appuser.status,
-            user_id: appuser.user_id,
+            status: "ok",
+            user_id: appuser.id,
             email: appuser.email,
             firstname: appuser.firstname,
             lastname: appuser.lastname,
@@ -98,22 +101,24 @@ const EditSitterProfileForm: React.FC<Props> = ({ sitterProfile, onSave }) => {
             english_ok: appuser.english_ok,
           });
         }
-        onSave(updatedProfile);
+        fetchSitterProfile(true);
         setSuccess(true);
         setError(null);
-
-        // Close the edit form
-        // closeEditForm();
+        // onSave(updatedProfile);
+        closeEditForm();
+      } else {
+        throw new Error(response.data.detail || "Failed to update profile.");
       }
-
-      const errorData = await response.data;
-      throw new Error(errorData.detail || "Failed to update profile.");
     } catch (error: any) {
       console.error("Error updating profile:", error.message);
       setError(error.message);
       setSuccess(false);
     }
   };
+
+  useEffect(() => {
+    console.log("Updated userInfo:", userInfo); // Debug logging
+  }, [userInfo]);
 
   // Shared styles
   const inputClass =
