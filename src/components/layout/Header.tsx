@@ -69,6 +69,7 @@ const Header: React.FC = () => {
                 className="inline-flex"
                 role="group"
                 aria-label="Button group"
+                key={lng}
               >
                 <button
                   className="text-white border border-white px-1 py-1 rounded hover:bg-white hover:text-green-500 transition-colors duration-150 text-xs"
