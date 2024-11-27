@@ -12,7 +12,7 @@ const DashboardRequests: React.FC = () => {
       </h2>
       <div className="flex flex-col">
         <div className="mx-6 my-2 border border-transparent shadow-custom rounded w-72 px-4 py-2 relative">
-          <h3 className="text-sm font-medium my-1">Booked with Honoka</h3>
+          <h3 className="text-sm font-medium my-1">Requested by Honoka</h3>
           <p className="text-xs text-gray-500 my-1">2024/10/20 - 2024/10/22</p>
           <p className="text-xs text-gray-500 my-1">Overnight Stay / Dog</p>
           <p className="text-xs text-gray-500 my-1">Confirmed</p>
@@ -24,7 +24,7 @@ const DashboardRequests: React.FC = () => {
           </div>
         </div>
         <div className="mx-6 my-2 border border-transparent shadow-custom rounded w-72 px-4 py-2 relative">
-          <h3 className="text-sm font-medium my-1">Booked with Honoka</h3>
+          <h3 className="text-sm font-medium my-1">Requested by Honoka</h3>
           <p className="text-xs text-gray-500 my-1">2024/10/20 - 2024/10/22</p>
           <p className="text-xs text-gray-500 my-1">Overnight Stay / Dog</p>
           <p className="text-xs text-gray-500 my-1">Confirmed</p>
@@ -36,7 +36,7 @@ const DashboardRequests: React.FC = () => {
           </div>
         </div>
         <div className="mx-6 my-2 border border-transparent shadow-custom rounded w-72 px-4 py-2 relative">
-          <h3 className="text-sm font-medium my-1">Booked with Honoka</h3>
+          <h3 className="text-sm font-medium my-1">Requested by Honoka</h3>
           <p className="text-xs text-gray-500 my-1">2024/10/20 - 2024/10/22</p>
           <p className="text-xs text-gray-500 my-1">Overnight Stay / Dog</p>
           <p className="text-xs text-gray-500 my-1">Confirmed</p>
