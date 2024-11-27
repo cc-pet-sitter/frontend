@@ -1,14 +1,51 @@
 import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
+import { useAuth } from "../../contexts/AuthContext";
+import React, { useState } from "react";
+import { PetServices, serviceOptions } from "../../enums/PetServices";
 
-const EnquiryForm: React.FC = () => {
-  const { register, handleSubmit } = useForm({
+type EnquiryFormProps = {
+  closeEnquiryForm: () => void;
+  sitterId: string | undefined;
+};
+
+type EnquiryFormData = {
+  owner_appuser_id: number;
+  sitter_appuser_id: number;
+  start_date: string;          // ISO string for proper serialization
+  end_date: string;            // ISO string for proper serialization
+  desired_service: PetServices;     // Use the enum type
+  pet_id_list: string[];       // Array of pet IDs as strings
+  additional_info: string | null;
+}
+
+type EnquiryFormResponse = {
+  id: number;
+  owner_appuser_id: number;
+  sitter_appuser_id: number; 
+  inquiry_status: string;
+  start_date: string;          // ISO string
+  end_date: string;            // ISO string
+  desired_service: string;
+  pet_id_list: string;         // Stored as comma-separated string
+  additional_info: string | null;
+  inquiry_submitted: string;   // ISO string
+  inquiry_finalized: string | null; // ISO string or null
+}
+
+const EnquiryForm: React.FC<EnquiryFormProps> = ({ closeEnquiryForm, sitterId }) => {
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors },
+  } = useForm<EnquiryFormData>({
     shouldUseNativeValidation: true,
   });
-
-  const onSubmit = async (data: unknown) => {
-    console.log(data);
-  };
+  const { currentUser, userInfo } = useAuth();
+  const [error, setError] = useState<string | null>(null);
+  const [success, setSuccess] = useState<boolean>(false);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
 
   const { t } = useTranslation();
 
@@ -17,95 +54,201 @@ const EnquiryForm: React.FC = () => {
   const labelClass =
     "block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2";
 
-  const petOptions = ["dog", "cat", "fish", "bird", "rabbit"];
-  const serviceOptions = ["boarding", "stayIn", "dropIn"];
+  const petOptions = [
+    { name: "dog", id: "1" },
+    { name: "cat", id: "2" },
+    { name: "fish", id: "3" },
+    { name: "bird", id: "4" },
+    { name: "rabbit", id: "5" },
+  ];
+
+  const onSubmit = async (data: EnquiryFormData) => {
+    setIsLoading(true);
+    try {
+      const backendURL = import.meta.env.VITE_API_BASE_URL || "http://localhost:8000";
+      const idToken = await currentUser?.getIdToken();
+
+      if (!idToken) {
+        throw new Error("User is not authenticated.");
+      }
+
+      if (!sitterId) {
+        throw new Error("Sitter ID is missing.");
+      }
+
+      const ownerAppUserId = userInfo?.user_id;
+      if (!ownerAppUserId) {
+        throw new Error("Owner AppUser ID is missing.");
+      }
+
+      // Serialize pet_id_list to a comma-separated string
+      const serializedPetIdList = data.pet_id_list.join(",");
+
+      const payload = {
+        owner_appuser_id: ownerAppUserId,
+        sitter_appuser_id: Number(sitterId),
+        start_date: new Date(data.start_date).toISOString(),
+        end_date: new Date(data.end_date).toISOString(),
+        desired_service: data.desired_service, // Now correctly using enum values
+        pet_id_list: serializedPetIdList,      // Serialized string
+        additional_info: data.additional_info,
+      };
+
+      console.log("Payload to send:", payload); // Debugging
+
+      const response = await fetch(`${backendURL}/inquiry`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${idToken}`, // Include the auth token
+        },
+        body: JSON.stringify(payload),
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        let errorMessage = "Failed to create enquiry.";
+        if (errorData.detail) {
+          if (Array.isArray(errorData.detail)) {
+            // Extract and concatenate all error messages
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            errorMessage = errorData.detail.map((e: any) => e.msg).join(", ");
+          } else if (typeof errorData.detail === "string") {
+            errorMessage = errorData.detail;
+          }
+        }
+        console.error("Backend Error:", errorMessage);
+        throw new Error(errorMessage);
+      }
+
+      const enquirySubmitted: EnquiryFormResponse = await response.json();
+      console.log("Inquiry submitted successfully:", enquirySubmitted);
+
+      setSuccess(true);
+      setError(null);
+
+      // Optionally reset the form
+      reset();
+
+      // Close the enquiry form after a short delay
+      setTimeout(() => {
+        closeEnquiryForm();
+      }, 2000); // Adjust the delay as necessary
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    } catch (error: any) {
+      console.error("Error creating the enquiry:", error.message);
+      setError(error.message);
+      setSuccess(false);
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="w-full max-w-lg">
+      {error && <p className="text-red-500 text-xs italic">{error}</p>}
+      {success && <p className="text-green-500 text-xs italic">Enquiry sent successfully!</p>}
+
       <div className="flex flex-wrap -mx-3 mb-6 ">
-        {/* startDate */}
+        {/* start_date */}
         <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
-          <label className={labelClass} htmlFor="startDate">
+          <label className={labelClass} htmlFor="start_date">
             {`${t("enquiryForm.startDate")}:`}
           </label>
           <input
-            id="startDate"
-            type="text"
+            id="start_date"
+            type="date"
             placeholder="2024/08/02"
-            {...register("startDate", {
-              required: "Please enter an start date.",
+            {...register("start_date", {
+              required: "Please enter a start date.",
             })}
             className={inputClass}
           />
+          {errors.start_date && (
+            <p className="text-red-500 text-xs italic">{errors.start_date.message}</p>
+          )}
         </div>
-        {/* End Date */}
+        {/* end_date */}
         <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
-          <label className={labelClass} htmlFor="endDate">
+          <label className={labelClass} htmlFor="end_date">
             {`${t("enquiryForm.endDate")}:`}
           </label>
           <input
-            id="endDate"
-            type="text"
+            id="end_date"
+            type="date"
             placeholder="2024/08/10"
-            {...register("endDate", {
+            {...register("end_date", {
               required: "Please enter an end date.",
             })}
             className={inputClass}
           />
+          {errors.end_date && (
+            <p className="text-red-500 text-xs italic">{errors.end_date.message}</p>
+          )}
         </div>
       </div>
 
+      {/* Pets */}
       <div className="mb-6">
-        {/* Pets */}
-        <p className={`${labelClass} mb-3`}>{`${t(
-          "enquiryForm.petToLookAfter"
-        )}:`}</p>
+        <p className={`${labelClass} mb-3`}>{`${t("enquiryForm.petToLookAfter")}:`}</p>
         {petOptions.map((pet) => (
-          <label key={pet} className={`${labelClass} flex items-center`}>
+          <label key={pet.id} className={`${labelClass} flex items-center`}>
             <input
               type="checkbox"
-              {...register("pets")}
-              value={pet.toLowerCase()}
+              {...register("pet_id_list")}
+              value={pet.id} // Use pet ID as the value
               className="mr-2"
             />
-            {t(`searchBar.petOptions.${pet}`)}
+            {t(`searchBar.petOptions.${pet.name}`)}
           </label>
         ))}
+        {errors.pet_id_list && (
+          <p className="text-red-500 text-xs italic">{errors.pet_id_list.message}</p>
+        )}
       </div>
+      
+      {/* Desired Service You Offer */}
       <div className="mb-6">
-        {/* Types of Service You Offer */}
-        <p className={`${labelClass} mb-3`}>{`${t(
-          "enquiryForm.desiredService"
-        )}:`}</p>
-        {serviceOptions.map((service) => (
-          <label key={service} className={`${labelClass} flex items-center`}>
+        <p className={`${labelClass} mb-3`}>{`${t("enquiryForm.desiredService")}:`}</p>
+        {serviceOptions.map((serviceOption) => (
+          <label key={serviceOption.value} className={`${labelClass} flex items-center`}>
             <input
-              type="checkbox"
-              {...register("types_of_service")}
-              value={service.toLowerCase()}
+              type="radio"
+              {...register("desired_service", {
+                required: "Please select a desired service.",
+              })}
+              value={serviceOption.value} // Use exact enum value
               className="mr-2"
             />
-            {t(`searchBar.serviceOptions.${service}`)}
+            {serviceOption.label} {/* Display user-friendly label */}
           </label>
         ))}
+        {errors.desired_service && (
+          <p className="text-red-500 text-xs italic">{errors.desired_service.message}</p>
+        )}
       </div>
+      
+      {/* Additional Information */}
       <div className="mb-6">
-        <label className={`${labelClass} flex items-center`}>
+        <label className={`${labelClass} block`} htmlFor="additional_info">
           {`${t("enquiryForm.additionalInfo")}:`}
-          <textarea
-            className={inputClass}
-            rows={4}
-            cols={40}
-            {...register("pet_sitter_bio")}
-          />
         </label>
+        <textarea
+          id="additional_info"
+          className={inputClass}
+          rows={4}
+          cols={40}
+          {...register("additional_info")}
+        />
       </div>
+      
       <div className="flex justify-center">
         <button
           type="submit"
           className="shadow bg-gray-500 hover:bg-gray-400 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded"
+          disabled={isLoading || !currentUser}
         >
-          {`${t("enquiryForm.submit")}:`}
+          {isLoading ? "Sending..." : `${t("enquiryForm.submit")}`}
         </button>
       </div>
     </form>
