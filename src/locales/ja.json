@@ -16,7 +16,10 @@
   },
   "dashboard_bookings_page": {
     "title": "予約",
-    "review": "レビューを書く"
+    "sitter_name_en": "",
+    "sitter_name_jp": "さんと予約",
+    "review": "レビューを書く",
+    "no_bookings": "予約はありません"
   },
   "dashboard_Sitter_Profile_page": {
     "title": "シッタープロフィール",

@@ -16,6 +16,9 @@
   },
   "dashboard_bookings_page": {
     "title": "Bookings",
+    "no_bookings": "You have no bookings",
+    "sitter_name_en": "Booked with",
+    "sitter_name_jp": "",
     "review": "Write Review"
   },
   "dashboard_Sitter_Profile_page": {
