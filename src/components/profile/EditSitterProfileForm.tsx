@@ -1,6 +1,8 @@
 import { useForm } from "react-hook-form";
 import { useAuth } from "../../contexts/AuthContext";
 import React, { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
+import { MdOutlineArrowBackIos } from "react-icons/md";
 import axios from "axios";
 const apiURL: string = import.meta.env.VITE_API_BASE_URL;
 
@@ -46,6 +48,7 @@ const EditSitterProfileForm: React.FC<Props> = ({
     shouldUseNativeValidation: true,
   });
   const { currentUser, userInfo, setUserInfo } = useAuth();
+  const { t } = useTranslation();
   console.log("CurrentUser: ", currentUser);
 
   useEffect(() => {
@@ -66,20 +69,17 @@ const EditSitterProfileForm: React.FC<Props> = ({
 
   const onSubmit = async (data: EditFormData) => {
     try {
-      const response = await axios.post(
-        `${apiURL}/sitter/${userInfo?.id}`,
-        {
-          sitter_profile_bio: data.sitter_profile_bio,
-          sitter_house_ok: data.sitter_house_ok,
-          owner_house_ok: data.owner_house_ok,
-          visit_ok: data.visit_ok,
-          dogs_ok: data.dogs_ok,
-          cats_ok: data.cats_ok,
-          fish_ok: data.fish_ok,
-          birds_ok: data.birds_ok,
-          rabbits_ok: data.rabbits_ok,
-        }
-      );
+      const response = await axios.post(`${apiURL}/sitter/${userInfo?.id}`, {
+        sitter_profile_bio: data.sitter_profile_bio,
+        sitter_house_ok: data.sitter_house_ok,
+        owner_house_ok: data.owner_house_ok,
+        visit_ok: data.visit_ok,
+        dogs_ok: data.dogs_ok,
+        cats_ok: data.cats_ok,
+        fish_ok: data.fish_ok,
+        birds_ok: data.birds_ok,
+        rabbits_ok: data.rabbits_ok,
+      });
 
       if (response.status === 200) {
         const updatedProfile = response.data;
@@ -134,6 +134,14 @@ const EditSitterProfileForm: React.FC<Props> = ({
       )}
 
       <div className="mb-6">
+        <button className="text-2xl mx-2 my-2">
+          <MdOutlineArrowBackIos />
+        </button>
+
+        <h1 className="mx-2 my-2 font-bold text-2xl inline">
+          {t("dashboard_Sitter_Profile_page.edit_button")}
+        </h1>
+
         <div className="mr-0 mb-4 grid place-items-center sm:mr-6 sm:mb-0">
           <img
             alt="Petter Sitter Image"
