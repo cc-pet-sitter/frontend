@@ -4,7 +4,7 @@ import { useTranslation } from "react-i18next";
 import axios from "axios";
 
 interface HomePageProps {
-  onSearchSubmit: (data: unknown) => void;
+  onSearchSubmit?: (searchQuery: string) => void;
 }
 
 const HomePage: React.FC<HomePageProps> = () => {

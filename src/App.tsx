@@ -17,8 +17,6 @@ import DashboardBookingsPage from "./pages/DashboardBookingsPage";
 import DashboardSitterProfilePage from "./pages/DashboardSitterProfilePage";
 import DashboardAccountPage from "./pages/DashboardAccountPage";
 import DashboardRequests from "./pages/DashboardRequests";
-
-import { appUsers } from "./dummyusers/dummyData";
 import SearchResults from "./components/search/SearchResults";
 
 const App: React.FC = () => {
@@ -41,10 +39,7 @@ const App: React.FC = () => {
           renders the first one that matches the current URL. */}
           <Routes>
             <Route path="/profile/:id" element={<SitterProfilePage />} />
-            <Route
-              path="/search_page"
-              element={<SearchPage appUsers={appUsers} />}
-            />
+            <Route path="/search_page" element={<SearchPage />} />
             <Route path="/search" element={<SearchResults appUsers={[]} />} />
             <Route path="/" element={<HomePage />} />
             {/* <Route path="/dashboard" element={<Dashboard />} /> */}
