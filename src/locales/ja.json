@@ -16,6 +16,9 @@
   },
   "dashboard_bookings_page": {
     "title": "予約",
+    "no_bookings": "予約はありません",
+    "booked_with_en": "",
+    "booked_with_jp": "さんとの予約",
     "review": "レビューを書く"
   },
   "dashboard_Sitter_Profile_page": {
@@ -24,7 +27,10 @@
   },
   "dashboard_requests_page": {
     "title": "リクエスト",
-    "review": "レビューを書く"
+    "no_requests": "リクエストはありません",
+    "review": "レビューを書く",
+    "requested_by_en": "",
+    "requested_by_jp": "さんからのリクエスト"
   },
   "homePage": {
     "subtitle": "ペットシッターを探そう！",

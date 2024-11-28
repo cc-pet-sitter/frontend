@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { createUserWithEmailAndPassword, UserCredential } from "firebase/auth";
 import { auth } from "../../firebase";
 import { useTranslation } from "react-i18next";
+import { useAuth } from "../../contexts/AuthContext";
 
 const SignUp: React.FC = () => {
   const [email, setEmail] = useState<string>("");
@@ -12,6 +13,7 @@ const SignUp: React.FC = () => {
   const [firstname, setFirstname] = useState<string>("");
   const [lastname, setLastname] = useState<string>("");
   const [showPassword, setShowPassword] = useState<boolean>(false);
+  const { setUserInfo } = useAuth();
 
   const { t } = useTranslation();
 
@@ -37,10 +39,13 @@ const SignUp: React.FC = () => {
         body: JSON.stringify({ firstname, lastname, email }),
       });
 
+      const data = await response.json();
+
       if (!response.ok) {
-        const data = await response.json();
         throw new Error(data.detail || "Failed to create user in backend.");
       }
+
+      setUserInfo(data.appuser);
 
       // Navigate to dashboard account or home
       navigate('/dashboard/account');

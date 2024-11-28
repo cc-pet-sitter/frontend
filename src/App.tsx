@@ -14,6 +14,7 @@ import Login from "./components/auth/Login";
 import SignUp from "./components/auth/Signup";
 import { useAuth } from "./contexts/AuthContext";
 import DashboardBookingsPage from "./pages/DashboardBookingsPage";
+import DashboardRequestsPage from "./pages/DashboardRequestsPage";
 import DashboardSitterProfilePage from "./pages/DashboardSitterProfilePage";
 import DashboardAccountPage from "./pages/DashboardAccountPage";
 import DashboardRequests from "./pages/DashboardRequests";
@@ -40,6 +41,10 @@ const App: React.FC = () => {
               element={<DashboardBookingsPage />}
             />
             <Route
+              path="/dashboard/requests"
+              element={<DashboardRequestsPage />}
+            />
+            <Route
               path="/dashboard/sitter_profile"
               element={<DashboardSitterProfilePage />}
             />
@@ -47,7 +52,6 @@ const App: React.FC = () => {
               path="/dashboard/account"
               element={<DashboardAccountPage />}
             />
-            <Route path="/dashboard/requests" element={<DashboardRequests />} />
             <Route
               path="/login"
               element={!currentUser ? <Login /> : <Navigate to="/" />}
