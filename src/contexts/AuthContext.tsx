@@ -9,8 +9,8 @@ import { User, onAuthStateChanged } from "firebase/auth";
 import { auth } from "../firebase";
 
 interface UserInfo {
-  id: number;
   status: string;
+  id: number;
   email: string;
   firstname: string | null;
   lastname: string | null;
