@@ -82,7 +82,7 @@ const EnquiryForm: React.FC<EnquiryFormProps> = ({
         throw new Error("Sitter ID is missing.");
       }
 
-      const ownerAppUserId = userInfo?.user_id;
+      const ownerAppUserId = userInfo?.id;
       if (!ownerAppUserId) {
         throw new Error("Owner AppUser ID is missing.");
       }
