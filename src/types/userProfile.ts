@@ -66,3 +66,17 @@ export interface AppUser {
   owner_id: number | null;
   sitter_profile: Sitter;
 }
+
+export interface Inquiry {
+  id: number;
+  owner_appuser_id: number;
+  sitter_appuser_id: number;
+  inquiry_status: string;
+  start_date: string;
+  end_date: string;
+  desired_service: string;
+  pet_id_list: number[] | null;
+  addtional_info: string | null;
+  inquiry_submitted: Date;
+  inquiry_finalized: Date;
+}
