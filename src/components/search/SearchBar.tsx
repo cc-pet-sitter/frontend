@@ -81,7 +81,7 @@ const SearchBar: React.FC<SearchBarProps> = ({ onSearchSubmit }) => {
             <input
               id="city_ward"
               type="text"
-              placeholder={t("searchBar.tokyo")}
+              placeholder={t("searchBar.shinjuku")}
               {...register("city_ward", {
                 required: "Please enter a city.",
               })}
@@ -124,7 +124,7 @@ const SearchBar: React.FC<SearchBarProps> = ({ onSearchSubmit }) => {
                   value={service.toLowerCase()}
                   className="mr-2"
                 />
-                {t(`searchBar.serviceOptions.${service}`)}
+                {service}
               </label>
             ))}
           </div>

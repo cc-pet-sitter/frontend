@@ -1,6 +1,7 @@
 import { useForm } from "react-hook-form";
 import { useAuth } from "../../contexts/AuthContext";
 import React, { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 
 type Props = {
   closeEditForm: () => void;
@@ -17,7 +18,6 @@ type EditProfileFormData = {
   street_address: string;
   japanese_ok: boolean;
   english_ok: boolean;
-  // Add other fields as necessary
 };
 
 type UpdateAppuserResponse = {
@@ -25,18 +25,18 @@ type UpdateAppuserResponse = {
   firstname: string;
   lastname: string;
   email: string;
-  // Include other fields returned by the backend
 };
 
 const EditProfileForm: React.FC<Props> = ({ closeEditForm }) => {
   const { register, handleSubmit, reset } = useForm<EditProfileFormData>({
     shouldUseNativeValidation: true,
   });
-  const { currentUser, userInfo } = useAuth(); // Assuming authToken is available
+  const { currentUser, userInfo } = useAuth();
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState<boolean>(false);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const { setUserInfo } = useAuth();
+  const { t } = useTranslation();
 
   useEffect(() => {
     if (userInfo) {
@@ -51,7 +51,6 @@ const EditProfileForm: React.FC<Props> = ({ closeEditForm }) => {
         street_address: userInfo.street_address || "",
         japanese_ok: userInfo.japanese_ok || false,
         english_ok: userInfo.english_ok || false,
-        // Populate other fields as necessary
       });
     }
   }, [userInfo, reset]);
@@ -63,12 +62,12 @@ const EditProfileForm: React.FC<Props> = ({ closeEditForm }) => {
         import.meta.env.VITE_API_BASE_URL || "http://localhost:8000";
       const idToken = await currentUser?.getIdToken();
       const response = await fetch(
-        `${backendURL}/appuser/${userInfo?.user_id}`, // Ensure correct base URL
+        `${backendURL}/appuser/${userInfo?.user_id}`,
         {
           method: "PUT",
           headers: {
             "Content-Type": "application/json",
-            Authorization: `Bearer ${idToken}`, // Include the auth token
+            Authorization: `Bearer ${idToken}`,
           },
           body: JSON.stringify(data),
         }
@@ -96,13 +95,11 @@ const EditProfileForm: React.FC<Props> = ({ closeEditForm }) => {
         street_address: data.street_address,
         japanese_ok: data.japanese_ok,
         english_ok: data.english_ok,
-        // Map other fields as necessary
       });
 
       setSuccess(true);
       setError(null);
 
-      // Close the edit form
       closeEditForm();
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error: any) {
@@ -128,7 +125,7 @@ const EditProfileForm: React.FC<Props> = ({ closeEditForm }) => {
         {error && <p className="text-red-500 text-xs italic">{error}</p>}
         {success && (
           <p className="text-green-500 text-xs italic">
-            Profile updated successfully!
+            {t("editProfileForm.profileUpdateSuccess")}
           </p>
         )}
 
@@ -136,7 +133,7 @@ const EditProfileForm: React.FC<Props> = ({ closeEditForm }) => {
           {/* First Name */}
           <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
             <label className={labelClass} htmlFor="firstName">
-              First Name:
+              {`${t("editProfileForm.firstname")}:`}
             </label>
             <input
               id="firstName"
@@ -150,7 +147,7 @@ const EditProfileForm: React.FC<Props> = ({ closeEditForm }) => {
           {/* Last Name */}
           <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
             <label className={labelClass} htmlFor="lastName">
-              Last Name:
+              {`${t("editProfileForm.lastname")}:`}
             </label>
             <input
               id="lastName"
@@ -166,7 +163,7 @@ const EditProfileForm: React.FC<Props> = ({ closeEditForm }) => {
           {/* Email */}
           <div className="w-full px-3 mb-6 md:mb-0">
             <label className={labelClass} htmlFor="email">
-              Email:
+              {`${t("editProfileForm.email")}:`}
             </label>
             <input
               id="email"
@@ -183,7 +180,7 @@ const EditProfileForm: React.FC<Props> = ({ closeEditForm }) => {
           {/* Postcode */}
           <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
             <label className={labelClass} htmlFor="postcode">
-              Postcode:
+              {`${t("editProfileForm.postCode")}:`}
             </label>
             <input
               id="postcode"
@@ -197,7 +194,7 @@ const EditProfileForm: React.FC<Props> = ({ closeEditForm }) => {
           {/* Prefecture */}
           <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
             <label className={labelClass} htmlFor="prefecture">
-              Prefecture:
+              {`${t("editProfileForm.prefecture")}:`}
             </label>
             <select
               id="prefecture"
@@ -219,7 +216,7 @@ const EditProfileForm: React.FC<Props> = ({ closeEditForm }) => {
           {/* City */}
           <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
             <label className={labelClass} htmlFor="city">
-              City:
+              {`${t("editProfileForm.cityWard")}:`}
             </label>
             <input
               id="city"
@@ -233,7 +230,7 @@ const EditProfileForm: React.FC<Props> = ({ closeEditForm }) => {
           {/* Street */}
           <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
             <label className={labelClass} htmlFor="street">
-              House No. and Street:
+              {`${t("editProfileForm.houseAndStreet")}:`}
             </label>
             <input
               id="street"
@@ -247,9 +244,11 @@ const EditProfileForm: React.FC<Props> = ({ closeEditForm }) => {
         </div>
         <div className="mb-6">
           {/* Languages */}
-          <p className={`${labelClass} mb-3`}>Languages:</p>
+          <p className={`${labelClass} mb-3`}>{`${t(
+            "editProfileForm.languages"
+          )}:`}</p>
           <label className={`${labelClass} flex items-center`}>
-            Japanese:
+            {`${t("editProfileForm.japanese")}:`}
             <input
               type="checkbox"
               {...register("japanese_ok")}
@@ -257,7 +256,7 @@ const EditProfileForm: React.FC<Props> = ({ closeEditForm }) => {
             />
           </label>
           <label className={`${labelClass} flex items-center`}>
-            English:
+            {`${t("editProfileForm.english")}:`}
             <input
               type="checkbox"
               {...register("english_ok")}
@@ -273,7 +272,9 @@ const EditProfileForm: React.FC<Props> = ({ closeEditForm }) => {
               className="shadow bg-gray-500 hover:bg-gray-400 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded"
               disabled={isLoading}
             >
-              {isLoading ? "Saving..." : "Save"}
+              {isLoading
+                ? t("editProfileForm.saving")
+                : t("editProfileForm.save")}
             </button>
           </div>
         </div>

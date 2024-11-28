@@ -58,22 +58,24 @@ const DashboardAccountPage: React.FC = () => {
 
               {/* Profile Details */}
               <div className="p-6 border-t">
-                <h2 className="text-lg font-semibold mb-4">Profile Details</h2>
+                <h2 className="text-lg font-semibold mb-4">
+                  {t("sitterProfilePage.profileDetails")}
+                </h2>
                 <ul className="list-none space-y-2 text-left">
                   <li>
-                    <div><strong>Location: </strong>{userInfo?.prefecture}, {userInfo?.city_ward}</div>
+                    <div><strong>{`${t("sitterProfilePage.location")}: `}</strong>{userInfo?.prefecture}, {userInfo?.city_ward}</div>
                   </li>
                   <li>
-                    <div><strong>Address: </strong>{userInfo?.street_address}</div>
+                    <div><strong>{`${t("sitterProfilePage.address")}: `}</strong>{userInfo?.street_address}</div>
                   </li>
                   <li>
-                    <div><strong>Postal Code: </strong>{userInfo?.postal_code}</div>
+                    <div><strong>{`${t("sitterProfilePage.postCode")}: `}</strong>{userInfo?.postal_code}</div>
                   </li>
                   <li>
-                    <div><strong>Languages: </strong>{userInfo?.english_ok ? "English" : ""}{userInfo?.english_ok && userInfo.japanese_ok ? ", " : ""}{userInfo?.japanese_ok ? "Japanese" : ""} </div>
+                    <div><strong>{`${t("sitterProfilePage.languages")}: `}</strong>{userInfo?.english_ok ? "English" : ""}{userInfo?.english_ok && userInfo.japanese_ok ? ", " : ""}{userInfo?.japanese_ok ? "Japanese" : ""} </div>
                   </li>
                   <li>
-                    <div><strong>Account Language: </strong>{userInfo?.account_language}</div>
+                    <div><strong>{`${t("sitterProfilePage.languages")}: `}</strong>{userInfo?.account_language}</div>
                   </li>
                 </ul>
               </div>
@@ -81,17 +83,17 @@ const DashboardAccountPage: React.FC = () => {
               {/* Timestamps */}
               <div className="p-6 border-t">
                 <h2 className="text-lg font-semibold mb-4">
-                  Account Information
+                  {t("sitterProfilePage.accountInformation")}
                 </h2>
                 <ul className="list-none space-y-2 text-left">
                   <li>
-                    <div><strong>Account Created: </strong>{userInfo?.account_created.toLocaleString().slice(0, 10)}</div>
+                    <div><strong>{`${t("sitterProfilePage.accountCreated")}: `}</strong>{userInfo?.account_created.toLocaleString().slice(0, 10)}</div>
                   </li>
                   <li>
-                    <div><strong>Last Login: </strong>{userInfo?.last_login.toLocaleString().slice(0, 10)}</div>
+                    <div><strong>{`${t("sitterProfilePage.lastLogin")}: `}</strong>{userInfo?.last_login.toLocaleString().slice(0, 10)}</div>
                   </li>
                   <li>
-                    <div><strong>Last Updated: </strong>{userInfo?.last_updated.toLocaleString().slice(0, 10)}</div>
+                    <div><strong>{`${t("sitterProfilePage.lastUpdated")}: `}</strong>{userInfo?.last_updated.toLocaleString().slice(0, 10)}</div>
                   </li>
                 </ul>
               </div>
