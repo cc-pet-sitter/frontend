@@ -18,38 +18,37 @@ const SearchResults: React.FC<SearchResultsProps> = () => {
     return <p>{t("searchPage.noResultsFound")}</p>;
   }
 
+  console.log("Results", results);
+
   const goToNewPage = (userId: number) => {
     navigate(`/profile/${userId}`);
   };
-  {
-    results.map((ele) => {
-      if (!ele.sitter) {
-        return null;
-      }
-      return (
-        <div className="flex justify-center px-4 sm:px-6 lg:px-8">
-          <ul className="w-full max-w-4xl">
-            <div key={ele.sitter.id} className="pb-6">
-              <div className="relative flex flex-col rounded-lg border border-slate-200 bg-white shadow-sm sm:flex-row sm:gap-6">
-                <nav className="flex flex-col gap-1 p-4 sm:flex-row sm:items-center sm:p-6">
-                  {/* Image */}
-                  <div className="mr-0 mb-4 grid place-items-center sm:mr-6 sm:mb-0">
-                    <img
-                      alt="Petter Sitter Image"
-                      src={ele.appuser.profile_picture_src}
-                      className="h-32 w-32 rounded-full object-cover object-center sm:h-32 sm:w-32"
-                    />
-                  </div>
-                  {/* Content */}
-                  <div>
-                    <h6 className="text-slate-800 font-medium text-base sm:text-lg">
-                      {ele.sitter.sitter_profile_bio}
-                    </h6>
-                    <p className="text-slate-500 text-sm sm:text-base">
-                      {ele.sitter.visit_ok ||
-                      ele.sitter.sitter_house_ok ||
-                      ele.sitter.owner_house_ok
-                        ? `${t("searchPage.available")} 
+
+  return (
+    <div className="flex justify-center px-4 sm:px-6 lg:px-8">
+      <ul className="w-full max-w-4xl">
+        {results.map((ele) => (
+          <div key={ele.sitter.id} className="pb-6">
+            <div className="relative flex flex-col rounded-lg border border-slate-200 bg-white shadow-sm sm:flex-row sm:gap-6">
+              <nav className="flex flex-col gap-1 p-4 sm:flex-row sm:items-center sm:p-6">
+                {/* Image */}
+                <div className="mr-0 mb-4 grid place-items-center sm:mr-6 sm:mb-0">
+                  <img
+                    alt="Petter Sitter Image"
+                    src={ele.appuser.profile_picture_src}
+                    className="h-32 w-32 rounded-full object-cover object-center sm:h-32 sm:w-32"
+                  />
+                </div>
+                {/* Content */}
+                <div>
+                  <h6 className="text-slate-800 font-medium text-base sm:text-lg">
+                    {ele.sitter.sitter_profile_bio}
+                  </h6>
+                  <p className="text-slate-500 text-sm sm:text-base">
+                    {ele.sitter.visit_ok ||
+                    ele.sitter.sitter_house_ok ||
+                    ele.sitter.owner_house_ok
+                      ? `${t("searchPage.available")} 
                       ${[
                         ele.sitter.sitter_house_ok &&
                           t("searchPage.sitter_house"),
@@ -59,52 +58,51 @@ const SearchResults: React.FC<SearchResultsProps> = () => {
                       ]
                         .filter(Boolean)
                         .join(", ")} `
-                        : t("searchPage.notAvailable")}
+                      : t("searchPage.notAvailable")}
+                  </p>
+                  <div className="pt-4 pb-4">
+                    <p className="text-slate-500 text-sm">
+                      {ele.sitter.dogs_ok
+                        ? `✅ ${t("searchPage.dog")}`
+                        : `❌ ${t("searchPage.dog")}`}
                     </p>
-                    <div className="pt-4 pb-4">
-                      <p className="text-slate-500 text-sm">
-                        {ele.sitter.dogs_ok
-                          ? `✅ ${t("searchPage.dog")}`
-                          : `❌ ${t("searchPage.dog")}`}
-                      </p>
-                      <p className="text-slate-500 text-sm">
-                        {ele.sitter.cats_ok
-                          ? `✅ ${t("searchPage.cat")}`
-                          : `❌ ${t("searchPage.cat")}`}
-                      </p>
-                      <p className="text-slate-500 text-sm">
-                        {ele.sitter.fish_ok
-                          ? `✅ ${t("searchPage.fish")}`
-                          : `❌ ${t("searchPage.fish")}`}
-                      </p>
-                      <p className="text-slate-500 text-sm">
-                        {ele.sitter.birds_ok
-                          ? `✅ ${t("searchPage.bird")}`
-                          : `❌ ${t("searchPage.bird")}`}
-                      </p>
-                      <p className="text-slate-500 text-sm">
-                        {ele.sitter.rabbits_ok
-                          ? `✅ ${t("searchPage.rabbit")}`
-                          : `❌ ${t("searchPage.rabbit")}`}
-                      </p>
-                    </div>
-                    <div>
-                      <button
-                        className="shadow bg-gray-500 hover:bg-gray-400 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded w-full sm:w-auto"
-                        onClick={() => goToNewPage(ele.sitter.appuser_id)}
-                      >
-                        {t("searchPage.viewProfile")}
-                      </button>
-                    </div>
+                    <p className="text-slate-500 text-sm">
+                      {ele.sitter.cats_ok
+                        ? `✅ ${t("searchPage.cat")}`
+                        : `❌ ${t("searchPage.cat")}`}
+                    </p>
+                    <p className="text-slate-500 text-sm">
+                      {ele.sitter.fish_ok
+                        ? `✅ ${t("searchPage.fish")}`
+                        : `❌ ${t("searchPage.fish")}`}
+                    </p>
+                    <p className="text-slate-500 text-sm">
+                      {ele.sitter.birds_ok
+                        ? `✅ ${t("searchPage.bird")}`
+                        : `❌ ${t("searchPage.bird")}`}
+                    </p>
+                    <p className="text-slate-500 text-sm">
+                      {ele.sitter.rabbits_ok
+                        ? `✅ ${t("searchPage.rabbit")}`
+                        : `❌ ${t("searchPage.rabbit")}`}
+                    </p>
                   </div>
-                </nav>
-              </div>
+                  <div>
+                    <button
+                      className="shadow bg-gray-500 hover:bg-gray-400 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded w-full sm:w-auto"
+                      onClick={() => goToNewPage(ele.sitter.appuser_id)}
+                    >
+                      {t("searchPage.viewProfile")}
+                    </button>
+                  </div>
+                </div>
+              </nav>
             </div>
-          </ul>
-        </div>
-      );
-    });
-  }
+          </div>
+        ))}
+      </ul>
+    </div>
+  );
 };
 
 export default SearchResults;

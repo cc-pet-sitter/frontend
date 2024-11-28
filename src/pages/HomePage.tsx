@@ -1,23 +1,18 @@
-import { useNavigate } from "react-router-dom";
 import SearchBar from "../components/search/SearchBar";
 import { useTranslation } from "react-i18next";
+import { SearchFormData } from "../components/search/SearchBar";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
-interface HomePageProps {
-  onSearchSubmit: (data: unknown) => void;
-}
-
-const HomePage: React.FC<HomePageProps> = () => {
+const HomePage: React.FC = () => {
   const { t } = useTranslation();
   const navigate = useNavigate();
 
-  const handleSearchSubmit = async (formData: Record<string, unknown>) => {
+  const handleSearchSubmit = async (formData: SearchFormData) => {
     try {
       const queryParams = new URLSearchParams(
         formData as Record<string, string>
       ).toString();
-
-      console.log(formData);
 
       const { data } = await axios.get(
         `http://localhost:8000/appuser-sitters?${queryParams}`
@@ -29,7 +24,6 @@ const HomePage: React.FC<HomePageProps> = () => {
       alert("Failed to fetch search results. Please try again.");
     }
   };
-
   return (
     <>
       <div className="justify-items-center">

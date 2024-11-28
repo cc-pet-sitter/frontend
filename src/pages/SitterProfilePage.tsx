@@ -20,6 +20,8 @@ const SitterProfilePage: React.FC = () => {
   const { t } = useTranslation();
   const { id } = useParams<{ id: string }>();
 
+  console.log(user);
+
   useEffect(() => {
     const fetchUserProfile = async () => {
       setLoading(true);
@@ -102,10 +104,6 @@ const SitterProfilePage: React.FC = () => {
               {`${user.appuser.prefecture}, ${user.appuser.city_ward}`}
             </li>
             <li>
-              <strong>{`${t("sitterProfilePage.address")}:`}</strong>{" "}
-              {user.appuser.street_address}
-            </li>
-            <li>
               <strong>{`${t("sitterProfilePage.postCode")}:`}</strong>{" "}
               {user.appuser.postal_code}
             </li>
@@ -133,10 +131,6 @@ const SitterProfilePage: React.FC = () => {
             <li>
               <strong>{`${t("sitterProfilePage.lastLogin")}:`}</strong>{" "}
               {new Date(user.appuser.last_login).toLocaleString()}
-            </li>
-            <li>
-              <strong>{`${t("sitterProfilePage.lastUpdated")}:`}</strong>{" "}
-              {new Date(user.appuser.last_updated).toLocaleString()}
             </li>
           </ul>
         </div>

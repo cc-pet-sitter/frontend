@@ -17,7 +17,7 @@ import DashboardBookingsPage from "./pages/DashboardBookingsPage";
 import DashboardRequestsPage from "./pages/DashboardRequestsPage";
 import DashboardSitterProfilePage from "./pages/DashboardSitterProfilePage";
 import DashboardAccountPage from "./pages/DashboardAccountPage";
-import { appUsers } from "./dummyusers/dummyData";
+import DashboardRequests from "./pages/DashboardRequests";
 import SearchResults from "./components/search/SearchResults";
 
 const App: React.FC = () => {
@@ -29,24 +29,13 @@ const App: React.FC = () => {
         <Header />
         <div>
           <nav>
-            <ul>
-              {/* <li>
-                <Link to="/search_page">Search Page</Link>
-              </li> */}
-            </ul>
+            <ul></ul>
           </nav>
-
-          {/* A <Switch> looks through its children <Route>s and
-          renders the first one that matches the current URL. */}
           <Routes>
             <Route path="/profile/:id" element={<SitterProfilePage />} />
-            <Route
-              path="/search_page"
-              element={<SearchPage appUsers={appUsers} />}
-            />
+            <Route path="/search_page" element={<SearchPage />} />
             <Route path="/search" element={<SearchResults appUsers={[]} />} />
             <Route path="/" element={<HomePage />} />
-            {/* <Route path="/dashboard" element={<Dashboard />} /> */}
             <Route
               path="/dashboard/bookings"
               element={<DashboardBookingsPage />}
