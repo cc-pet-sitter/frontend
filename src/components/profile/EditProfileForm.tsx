@@ -12,19 +12,12 @@ type EditProfileFormData = {
   firstname: string;
   lastname: string;
   email: string;
-  post_code: string;
+  postal_code: string;
   prefecture: string;
   city_ward: string;
   street_address: string;
   japanese_ok: boolean;
   english_ok: boolean;
-};
-
-type UpdateAppuserResponse = {
-  user_id: number;
-  firstname: string;
-  lastname: string;
-  email: string;
 };
 
 const EditProfileForm: React.FC<Props> = ({ closeEditForm }) => {
@@ -41,11 +34,10 @@ const EditProfileForm: React.FC<Props> = ({ closeEditForm }) => {
   useEffect(() => {
     if (userInfo) {
       reset({
-        user_id: userInfo.user_id,
         firstname: userInfo.firstname || "",
         lastname: userInfo.lastname || "",
         email: userInfo.email || "",
-        post_code: userInfo.postal_code || "",
+        postal_code: userInfo.postal_code || "",
         prefecture: userInfo.prefecture || "",
         city_ward: userInfo.city_ward || "",
         street_address: userInfo.street_address || "",
@@ -62,7 +54,7 @@ const EditProfileForm: React.FC<Props> = ({ closeEditForm }) => {
         import.meta.env.VITE_API_BASE_URL || "http://localhost:8000";
       const idToken = await currentUser?.getIdToken();
       const response = await fetch(
-        `${backendURL}/appuser/${userInfo?.user_id}`,
+        `${backendURL}/appuser/${userInfo?.id}`,
         {
           method: "PUT",
           headers: {
@@ -78,24 +70,10 @@ const EditProfileForm: React.FC<Props> = ({ closeEditForm }) => {
         throw new Error(errorData.detail || "Failed to update profile.");
       }
 
-      const updatedUser: UpdateAppuserResponse = await response.json();
+      const updatedUser = await response.json();
       console.log("Profile updated successfully:", updatedUser);
 
-      setUserInfo({
-        status: "ok",
-        user_id: updatedUser.user_id,
-        email: updatedUser.email,
-        firstname: updatedUser.firstname,
-        lastname: updatedUser.lastname,
-        is_sitter: null,
-        profile_picture_src: null,
-        postal_code: data.post_code,
-        prefecture: data.prefecture,
-        city_ward: data.city_ward,
-        street_address: data.street_address,
-        japanese_ok: data.japanese_ok,
-        english_ok: data.english_ok,
-      });
+      setUserInfo(updatedUser);
 
       setSuccess(true);
       setError(null);
@@ -185,7 +163,7 @@ const EditProfileForm: React.FC<Props> = ({ closeEditForm }) => {
             <input
               id="postcode"
               type="text"
-              {...register("post_code", {
+              {...register("postal_code", {
                 required: "Please enter your postcode.",
               })}
               className={inputClass}

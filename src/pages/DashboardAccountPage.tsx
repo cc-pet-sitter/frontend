@@ -1,8 +1,6 @@
 import React, { useState } from "react";
 import { useAuth } from "../contexts/AuthContext";
 import { useTranslation } from "react-i18next";
-import EditSitterProfileForm from "../components/profile/EditSitterProfileForm";
-import SignUpForm from "../components/profile/SignUpForm";
 import EditProfileForm from "../components/profile/EditProfileForm";
 
 const DashboardAccountPage: React.FC = () => {

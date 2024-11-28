@@ -45,7 +45,8 @@ const EditSitterProfileForm: React.FC<Props> = ({
   const { register, handleSubmit, reset } = useForm<EditFormData>({
     shouldUseNativeValidation: true,
   });
-  const { userInfo, setUserInfo } = useAuth();
+  const { currentUser, userInfo, setUserInfo } = useAuth();
+  console.log("CurrentUser: ", currentUser);
 
   useEffect(() => {
     if (sitterProfile) {
@@ -66,7 +67,7 @@ const EditSitterProfileForm: React.FC<Props> = ({
   const onSubmit = async (data: EditFormData) => {
     try {
       const response = await axios.post(
-        `${apiURL}/sitter/${userInfo?.user_id}`,
+        `${apiURL}/sitter/${userInfo?.id}`,
         {
           sitter_profile_bio: data.sitter_profile_bio,
           sitter_house_ok: data.sitter_house_ok,
@@ -85,21 +86,7 @@ const EditSitterProfileForm: React.FC<Props> = ({
 
         const appuser = updatedProfile.appuser;
         if (appuser) {
-          setUserInfo({
-            status: "ok",
-            user_id: appuser.id,
-            email: appuser.email,
-            firstname: appuser.firstname,
-            lastname: appuser.lastname,
-            is_sitter: appuser.is_sitter,
-            profile_picture_src: appuser.profile_picture_src,
-            postal_code: appuser.postal_code,
-            prefecture: appuser.prefecture,
-            city_ward: appuser.city_ward,
-            street_address: appuser.street_address,
-            japanese_ok: appuser.japanese_ok,
-            english_ok: appuser.english_ok,
-          });
+          setUserInfo(appuser);
         }
         fetchSitterProfile(true);
         setSuccess(true);
@@ -115,10 +102,6 @@ const EditSitterProfileForm: React.FC<Props> = ({
       setSuccess(false);
     }
   };
-
-  useEffect(() => {
-    console.log("Updated userInfo:", userInfo); // Debug logging
-  }, [userInfo]);
 
   // Shared styles
   const inputClass =
