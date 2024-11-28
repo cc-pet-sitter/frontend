@@ -4,17 +4,21 @@ import { useParams } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import axios from "axios";
+import { AppUser } from "../types/userProfile.ts";
+
+type UserResponse = {
+  appuser: AppUser;
+};
 
 const SitterProfilePage: React.FC = () => {
   const [showEnquiryForm, setShowEnquiryForm] = useState<boolean>(false);
-  const [user, setUser] = useState(null); // User profile data
-  const [loading, setLoading] = useState<boolean>(true); // Loading state
-  const [error, setError] = useState<string | null>(null); // Error state
+  const [user, setUser] = useState<UserResponse | null>(null);
+  const [loading, setLoading] = useState<boolean>(true);
+  const [error, setError] = useState<string | null>(null);
+
   const navigate = useNavigate();
   const { t } = useTranslation();
   const { id } = useParams<{ id: string }>();
-
-  console.log(id);
 
   useEffect(() => {
     const fetchUserProfile = async () => {
@@ -26,6 +30,7 @@ const SitterProfilePage: React.FC = () => {
         setUser(response.data);
         setLoading(false);
       } catch (error) {
+        console.error("Error fetching profile:", error);
         setError("Couldn't fetch profile.");
         setLoading(false);
       }
@@ -35,8 +40,6 @@ const SitterProfilePage: React.FC = () => {
       fetchUserProfile();
     }
   }, [id]);
-
-  console.log(user);
 
   if (loading) {
     return <p>{t("sitterProfilePage.loading")}</p>;
@@ -50,7 +53,6 @@ const SitterProfilePage: React.FC = () => {
     return <p>{t("sitterProfilePage.userNotFound")}</p>;
   }
 
-   // Define the function to close the enquiry form
   const handleCloseEnquiryForm = () => {
     setShowEnquiryForm(false);
   };
