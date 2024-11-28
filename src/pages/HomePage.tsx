@@ -17,7 +17,7 @@ const HomePage: React.FC<HomePageProps> = () => {
         formData as Record<string, string>
       ).toString();
 
-      console.log(queryParams);
+      console.log(formData);
 
       const { data } = await axios.get(
         `http://localhost:8000/appuser-sitters?${queryParams}`

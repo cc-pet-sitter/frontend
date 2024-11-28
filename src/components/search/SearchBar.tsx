@@ -1,12 +1,12 @@
 import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 
-interface SearchFormData {
-  postcode: string;
-  prefecture: string;
-  city_ward: string;
-  pets: string[];
-  types_of_service: string[];
+interface SearchFormData extends Record<string, unknown> {
+  postcode?: string;
+  prefecture?: string;
+  city_ward?: string;
+  pets?: string[];
+  types_of_service?: boolean;
 }
 
 interface SearchBarProps {
@@ -20,7 +20,6 @@ const SearchBar: React.FC<SearchBarProps> = ({ onSearchSubmit }) => {
     shouldUseNativeValidation: true,
   });
 
-  // Shared styles
   const inputClass =
     "appearance-none block w-full bg-gray-200 text-gray-700 border rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white";
   const labelClass =
