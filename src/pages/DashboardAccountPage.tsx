@@ -2,12 +2,42 @@ import React, { useState } from "react";
 import { useAuth } from "../contexts/AuthContext";
 import { useTranslation } from "react-i18next";
 import EditProfileForm from "../components/profile/EditProfileForm";
+import ProfilePictureUploader from "../components/services/ProfilePictureUploader";
 
 const DashboardAccountPage: React.FC = () => {
-  const { userInfo } = useAuth();
+  const { currentUser, userInfo, setUserInfo } = useAuth();
   const { t } = useTranslation();
 
   const [showSignUpForm, setShowSignUpForm] = useState<boolean>(false);
+
+  const [profilePicture, setProfilePicture] = useState<string | null>(null);
+
+  const handleUpload = async (url: string) => {
+    setProfilePicture(url);
+
+    const idToken = await currentUser?.getIdToken();
+    const backendURL = import.meta.env.VITE_API_BASE_URL || "http://localhost:8000";
+    const response = await fetch(`${backendURL}/appuser/${userInfo?.id}`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${idToken}`,
+      },
+      body: JSON.stringify({ 
+        id: userInfo?.id,
+        profile_picture_src: url,
+      }),
+    });
+
+    if (!response.ok) {
+      const data = await response.json();
+      throw new Error(data.detail || "Failed to save user profile picture.");
+    }
+
+    const updatedUser = await response.json();
+    setUserInfo(updatedUser);
+    
+  };
 
   return (
     <div className="dashboard-container">
@@ -44,10 +74,11 @@ const DashboardAccountPage: React.FC = () => {
               {/* Profile Header */}
               <div className="flex flex-col sm:flex-row items-center p-6">
                 <img
-                  // src={user.profile_picture_src}
-                  // alt={`${user.firstname} ${user.lastname}`}
+                  src={userInfo?.profile_picture_src || profilePicture || ""}
+                  alt={`${userInfo?.firstname} ${userInfo?.lastname}`}
                   className="h-48 w-48 rounded-full object-cover"
                 />
+                <ProfilePictureUploader id={userInfo?.id} pictureType="user_profile_pictures" onUpload={handleUpload} />
                 <div className="mt-4 sm:mt-0 sm:ml-6 text-center sm:text-left">
                   <h1 className="text-2xl font-bold">{`${userInfo?.firstname} ${userInfo?.lastname}`}</h1>
                   <p className="text-gray-500">{userInfo?.email}</p>
