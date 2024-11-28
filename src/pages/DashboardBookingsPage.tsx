@@ -104,9 +104,9 @@ const DashboardBookingsPage: React.FC = () => {
                 className="mx-6 my-3 border border-transparent shadow-custom rounded w-72 px-4 py-2 relative"
               >
                 <h3 className="text-sm font-medium my-1">
-                  {t("dashboard_bookings_page.sitter_name_en")}{" "}
+                  {t("dashboard_bookings_page.booked_with_en")}{" "}
                   {sitterInfo[index].firstname}
-                  {t("dashboard_bookings_page.sitter_name_jp")}
+                  {t("dashboard_bookings_page.booked_with_jp")}
                 </h3>
                 <p className="text-xs text-gray-500 my-1">
                   {new Date(booking.start_date).toLocaleDateString("ja-JP")} -{" "}
