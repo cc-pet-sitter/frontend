@@ -85,13 +85,13 @@ const DashboardAccountPage: React.FC = () => {
                 </h2>
                 <ul className="list-none space-y-2 text-left">
                   <li>
-                    <div><strong>{`${t("sitterProfilePage.accountCreated")}: `}</strong>{userInfo?.account_created.toLocaleString().slice(0, 10)}</div>
+                    <div><strong>{`${t("sitterProfilePage.accountCreated")}: `}</strong>{userInfo?.account_created?.toLocaleString().slice(0, 10)}</div>
                   </li>
                   <li>
-                    <div><strong>{`${t("sitterProfilePage.lastLogin")}: `}</strong>{userInfo?.last_login.toLocaleString().slice(0, 10)}</div>
+                    <div><strong>{`${t("sitterProfilePage.lastLogin")}: `}</strong>{userInfo?.last_login?.toLocaleString().slice(0, 10)}</div>
                   </li>
                   <li>
-                    <div><strong>{`${t("sitterProfilePage.lastUpdated")}: `}</strong>{userInfo?.last_updated.toLocaleString().slice(0, 10)}</div>
+                    <div><strong>{`${t("sitterProfilePage.lastUpdated")}: `}</strong>{userInfo?.last_updated?.toLocaleString().slice(0, 10)}</div>
                   </li>
                 </ul>
               </div>
