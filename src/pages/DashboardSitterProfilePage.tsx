@@ -30,9 +30,8 @@ const DashboardSitterProfilePage: React.FC = () => {
     if (is_sitter) {
       try {
         const response = await axios.get(
-          `${apiURL}/sitter/${userInfo?.user_id}`
+          `${apiURL}/sitter/${userInfo?.id}`
         );
-        console.log("Fetched profile", response.data);
         setSitterProfile(response.data);
       } catch (error) {
         console.error("Unable to fetch sitter profile", error);

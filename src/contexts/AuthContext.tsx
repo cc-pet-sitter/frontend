@@ -10,7 +10,7 @@ import { auth } from "../firebase";
 
 interface UserInfo {
   status: string;
-  user_id: number;
+  id: number;
   email: string;
   firstname: string | null;
   lastname: string | null;
