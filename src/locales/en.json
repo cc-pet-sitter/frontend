@@ -17,8 +17,8 @@
   "dashboard_bookings_page": {
     "title": "Bookings",
     "no_bookings": "You have no bookings",
-    "sitter_name_en": "Booked with",
-    "sitter_name_jp": "",
+    "booked_with_en": "Booked with",
+    "booked_with_jp": "",
     "review": "Write Review"
   },
   "dashboard_Sitter_Profile_page": {
@@ -27,7 +27,10 @@
   },
   "dashboard_requests_page": {
     "title": "Requests",
-    "review": "Write Review"
+    "no_requests": "You have no requests",
+    "review": "Write Review",
+    "requested_by_en": "Requested by",
+    "requested_by_jp": ""
   },
   "homePage": {
     "subtitle": "Find trusted pet sitters or list your services!",
