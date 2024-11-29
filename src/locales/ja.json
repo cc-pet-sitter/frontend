@@ -12,7 +12,8 @@
   },
   "dashboard_account_page": {
     "title": "アカウント情報",
-    "edit_button": "編集する"
+    "edit_button": "アカウント情報を編集",
+    "save_button": "保存"
   },
   "dashboard_bookings_page": {
     "title": "予約",
