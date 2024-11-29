@@ -12,7 +12,8 @@
   },
   "dashboard_account_page": {
     "title": "My Account Info",
-    "edit_button": "Edit"
+    "edit_button": "Edit account info",
+    "save_button": "Save"
   },
   "dashboard_bookings_page": {
     "title": "Bookings",
@@ -239,8 +240,8 @@
     },
     "cityWard": "City/Ward",
     "languages": "languages",
-    "english": "English",
-    "japanese": "Japanese",
+    "english": "English ",
+    "japanese": "Japanese ",
     "houseAndStreet": "House No. and Street",
     "profileUpdateSuccess": "Profile updated successfully!",
     "save": "save",

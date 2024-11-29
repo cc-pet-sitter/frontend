@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { useAuth } from "../contexts/AuthContext";
+
 import { useTranslation } from "react-i18next";
 import EditProfileForm from "../components/profile/EditProfileForm";
 import ProfilePictureUploader from "../components/services/ProfilePictureUploader";
@@ -16,14 +17,15 @@ const DashboardAccountPage: React.FC = () => {
     setProfilePicture(url);
 
     const idToken = await currentUser?.getIdToken();
-    const backendURL = import.meta.env.VITE_API_BASE_URL || "http://localhost:8000";
+    const backendURL =
+      import.meta.env.VITE_API_BASE_URL || "http://localhost:8000";
     const response = await fetch(`${backendURL}/appuser/${userInfo?.id}`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
         Authorization: `Bearer ${idToken}`,
       },
-      body: JSON.stringify({ 
+      body: JSON.stringify({
         id: userInfo?.id,
         profile_picture_src: url,
       }),
@@ -36,15 +38,10 @@ const DashboardAccountPage: React.FC = () => {
 
     const updatedUser = await response.json();
     setUserInfo(updatedUser);
-    
   };
 
   return (
     <div className="dashboard-container">
-      <h2 className="text-center items-center mx-6 mb-2 pt-6 font-bold text-3xl">
-        {t("dashboard_account_page.title")}
-      </h2>
-
       {/* <div>
         <div>
           <p>First name</p>
@@ -70,6 +67,9 @@ const DashboardAccountPage: React.FC = () => {
       {!showSignUpForm && (
         <div>
           <div className="container mx-auto p-6">
+            <h2 className="text-center items-center mx-6 mb-2 pt-6 font-bold text-3xl">
+              {t("dashboard_account_page.title")}
+            </h2>
             <div className="bg-white shadow-md rounded-lg overflow-hidden">
               {/* Profile Header */}
               <div className="flex flex-col sm:flex-row items-center p-6">
@@ -78,7 +78,11 @@ const DashboardAccountPage: React.FC = () => {
                   alt={`${userInfo?.firstname} ${userInfo?.lastname}`}
                   className="h-48 w-48 rounded-full object-cover"
                 />
-                <ProfilePictureUploader id={userInfo?.id} pictureType="user_profile_pictures" onUpload={handleUpload} />
+                <ProfilePictureUploader
+                  id={userInfo?.id}
+                  pictureType="user_profile_pictures"
+                  onUpload={handleUpload}
+                />
                 <div className="mt-4 sm:mt-0 sm:ml-6 text-center sm:text-left">
                   <h1 className="text-2xl font-bold">{`${userInfo?.firstname} ${userInfo?.lastname}`}</h1>
                   <p className="text-gray-500">{userInfo?.email}</p>
@@ -92,20 +96,37 @@ const DashboardAccountPage: React.FC = () => {
                 </h2>
                 <ul className="list-none space-y-2 text-left">
                   <li>
-                    <div><strong>{`${t("sitterProfilePage.location")}: `}</strong>{userInfo?.prefecture}, {userInfo?.city_ward}</div>
+                    <div>
+                      <strong>{`${t("sitterProfilePage.location")}: `}</strong>
+                      {userInfo?.prefecture}, {userInfo?.city_ward}
+                    </div>
                   </li>
                   <li>
-                    <div><strong>{`${t("sitterProfilePage.address")}: `}</strong>{userInfo?.street_address}</div>
+                    <div>
+                      <strong>{`${t("sitterProfilePage.address")}: `}</strong>
+                      {userInfo?.street_address}
+                    </div>
                   </li>
                   <li>
-                    <div><strong>{`${t("sitterProfilePage.postCode")}: `}</strong>{userInfo?.postal_code}</div>
+                    <div>
+                      <strong>{`${t("sitterProfilePage.postCode")}: `}</strong>
+                      {userInfo?.postal_code}
+                    </div>
                   </li>
                   <li>
-                    <div><strong>{`${t("sitterProfilePage.languages")}: `}</strong>{userInfo?.english_ok ? "English" : ""}{userInfo?.english_ok && userInfo.japanese_ok ? ", " : ""}{userInfo?.japanese_ok ? "Japanese" : ""} </div>
+                    <div>
+                      <strong>{`${t("sitterProfilePage.languages")}: `}</strong>
+                      {userInfo?.english_ok ? "English" : ""}
+                      {userInfo?.english_ok && userInfo.japanese_ok ? ", " : ""}
+                      {userInfo?.japanese_ok ? "Japanese" : ""}{" "}
+                    </div>
                   </li>
-                  <li>
-                    <div><strong>{`${t("sitterProfilePage.languages")}: `}</strong>{userInfo?.account_language}</div>
-                  </li>
+                  {/* <li>
+                    <div>
+                      <strong>{`${t("sitterProfilePage.languages")}: `}</strong>
+                      {userInfo?.account_language}
+                    </div>
+                  </li> */}
                 </ul>
               </div>
 
@@ -116,13 +137,26 @@ const DashboardAccountPage: React.FC = () => {
                 </h2>
                 <ul className="list-none space-y-2 text-left">
                   <li>
-                    <div><strong>{`${t("sitterProfilePage.accountCreated")}: `}</strong>{userInfo?.account_created?.toLocaleString().slice(0, 10)}</div>
+                    <div>
+                      <strong>{`${t(
+                        "sitterProfilePage.accountCreated"
+                      )}: `}</strong>
+                      {userInfo?.account_created?.toLocaleString().slice(0, 10)}
+                    </div>
                   </li>
                   <li>
-                    <div><strong>{`${t("sitterProfilePage.lastLogin")}: `}</strong>{userInfo?.last_login?.toLocaleString().slice(0, 10)}</div>
+                    <div>
+                      <strong>{`${t("sitterProfilePage.lastLogin")}: `}</strong>
+                      {userInfo?.last_login?.toLocaleString().slice(0, 10)}
+                    </div>
                   </li>
                   <li>
-                    <div><strong>{`${t("sitterProfilePage.lastUpdated")}: `}</strong>{userInfo?.last_updated?.toLocaleString().slice(0, 10)}</div>
+                    <div>
+                      <strong>{`${t(
+                        "sitterProfilePage.lastUpdated"
+                      )}: `}</strong>
+                      {userInfo?.last_updated?.toLocaleString().slice(0, 10)}
+                    </div>
                   </li>
                 </ul>
               </div>

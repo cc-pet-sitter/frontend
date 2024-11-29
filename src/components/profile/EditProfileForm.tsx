@@ -2,6 +2,7 @@ import { useForm } from "react-hook-form";
 import { useAuth } from "../../contexts/AuthContext";
 import React, { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
+import { MdOutlineArrowBackIos } from "react-icons/md";
 
 type Props = {
   closeEditForm: () => void;
@@ -53,17 +54,14 @@ const EditProfileForm: React.FC<Props> = ({ closeEditForm }) => {
       const backendURL =
         import.meta.env.VITE_API_BASE_URL || "http://localhost:8000";
       const idToken = await currentUser?.getIdToken();
-      const response = await fetch(
-        `${backendURL}/appuser/${userInfo?.id}`,
-        {
-          method: "PUT",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${idToken}`,
-          },
-          body: JSON.stringify(data),
-        }
-      );
+      const response = await fetch(`${backendURL}/appuser/${userInfo?.id}`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${idToken}`,
+        },
+        body: JSON.stringify(data),
+      });
 
       if (!response.ok) {
         const errorData = await response.json();
@@ -89,11 +87,10 @@ const EditProfileForm: React.FC<Props> = ({ closeEditForm }) => {
     }
   };
 
-  // Shared styles
   const inputClass =
-    "appearance-none block w-full bg-gray-200 text-gray-700 border rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white";
+    "appearance-none block w-full bg-gray-200 text-gray-700 border rounded py-3 px-4 text-lg　mb-2 leading-tight focus:outline-none focus:bg-white";
   const labelClass =
-    "block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2";
+    "block tracking-wide text-gray-700 font-bold mb-2 mt-2 text-lg";
 
   const prefectureOptions = ["Tokyo", "Saitama", "Chiba"];
 
@@ -108,40 +105,57 @@ const EditProfileForm: React.FC<Props> = ({ closeEditForm }) => {
         )}
 
         <div className="flex flex-wrap -mx-3 mb-6">
-          {/* First Name */}
-          <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
-            <label className={labelClass} htmlFor="firstName">
-              {`${t("editProfileForm.firstname")}:`}
-            </label>
-            <input
-              id="firstName"
-              type="text"
-              {...register("firstname", {
-                required: "Please enter your first name.",
-              })}
-              className={inputClass}
-            />
-          </div>
-          {/* Last Name */}
-          <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
-            <label className={labelClass} htmlFor="lastName">
-              {`${t("editProfileForm.lastname")}:`}
-            </label>
-            <input
-              id="lastName"
-              type="text"
-              {...register("lastname", {
-                required: "Please enter your last name.",
-              })}
-              className={inputClass}
-            />
+          <button
+            onClick={(e) => {
+              e.preventDefault();
+              closeEditForm();
+            }}
+            className="text-2xl my-8 mt-0"
+          >
+            <MdOutlineArrowBackIos />
+          </button>
+
+          <h1 className="mx-2 font-bold text-2xl inline">
+            {t("dashboard_account_page.edit_button")}
+          </h1>
+
+          {/* <div className="flex flex-wrap -mx-3 mb-6"> */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            {/* First Name */}
+            <div className="w-full px-3 mb-6 md:mb-0">
+              <label className={labelClass} htmlFor="firstName">
+                {`${t("editProfileForm.firstname")}`}
+              </label>
+              <input
+                id="firstName"
+                type="text"
+                {...register("firstname", {
+                  required: "Please enter your first name.",
+                })}
+                className={inputClass}
+              />
+            </div>
+            {/* Last Name */}
+            <div className="w-full px-3 mb-6 md:mb-0">
+              <label className={labelClass} htmlFor="lastName">
+                {`${t("editProfileForm.lastname")}`}
+              </label>
+              <input
+                id="lastName"
+                type="text"
+                {...register("lastname", {
+                  required: "Please enter your last name.",
+                })}
+                className={`${inputClass}`}
+              />
+            </div>
           </div>
         </div>
         <div className="flex flex-wrap -mx-3 mb-6">
           {/* Email */}
           <div className="w-full px-3 mb-6 md:mb-0">
             <label className={labelClass} htmlFor="email">
-              {`${t("editProfileForm.email")}:`}
+              {`${t("editProfileForm.email")}`}
             </label>
             <input
               id="email"
@@ -158,7 +172,7 @@ const EditProfileForm: React.FC<Props> = ({ closeEditForm }) => {
           {/* Postcode */}
           <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
             <label className={labelClass} htmlFor="postcode">
-              {`${t("editProfileForm.postCode")}:`}
+              {`${t("editProfileForm.postCode")}`}
             </label>
             <input
               id="postcode"
@@ -172,7 +186,7 @@ const EditProfileForm: React.FC<Props> = ({ closeEditForm }) => {
           {/* Prefecture */}
           <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
             <label className={labelClass} htmlFor="prefecture">
-              {`${t("editProfileForm.prefecture")}:`}
+              {`${t("editProfileForm.prefecture")}`}
             </label>
             <select
               id="prefecture"
@@ -194,7 +208,7 @@ const EditProfileForm: React.FC<Props> = ({ closeEditForm }) => {
           {/* City */}
           <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
             <label className={labelClass} htmlFor="city">
-              {`${t("editProfileForm.cityWard")}:`}
+              {`${t("editProfileForm.cityWard")}`}
             </label>
             <input
               id="city"
@@ -208,7 +222,7 @@ const EditProfileForm: React.FC<Props> = ({ closeEditForm }) => {
           {/* Street */}
           <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
             <label className={labelClass} htmlFor="street">
-              {`${t("editProfileForm.houseAndStreet")}:`}
+              {`${t("editProfileForm.houseAndStreet")}`}
             </label>
             <input
               id="street"
@@ -224,9 +238,9 @@ const EditProfileForm: React.FC<Props> = ({ closeEditForm }) => {
           {/* Languages */}
           <p className={`${labelClass} mb-3`}>{`${t(
             "editProfileForm.languages"
-          )}:`}</p>
+          )}`}</p>
           <label className={`${labelClass} flex items-center`}>
-            {`${t("editProfileForm.japanese")}:`}
+            {`${t("editProfileForm.japanese")}`}
             <input
               type="checkbox"
               {...register("japanese_ok")}
@@ -234,7 +248,7 @@ const EditProfileForm: React.FC<Props> = ({ closeEditForm }) => {
             />
           </label>
           <label className={`${labelClass} flex items-center`}>
-            {`${t("editProfileForm.english")}:`}
+            {`${t("editProfileForm.english")}`}
             <input
               type="checkbox"
               {...register("english_ok")}
@@ -242,19 +256,16 @@ const EditProfileForm: React.FC<Props> = ({ closeEditForm }) => {
             />
           </label>
         </div>
-
-        <div className="md:flex md:items-center">
-          <div className="flex justify-center pb-8 ">
-            <button
-              type="submit"
-              className="shadow bg-gray-500 hover:bg-gray-400 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded"
-              disabled={isLoading}
-            >
-              {isLoading
-                ? t("editProfileForm.saving")
-                : t("editProfileForm.save")}
-            </button>
-          </div>
+        <div className="flex justify-center md:justify-end">
+          <button
+            type="submit"
+            className="shadow bg-gray-500 hover:bg-gray-400 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 text-sm rounded w-full mr-8 sm:w-auto sm:mr-4 md:mr-6 md:w-48 md:py-3 md:px-8 mt-6"
+            disabled={isLoading}
+          >
+            {isLoading
+              ? t("editProfileForm.saving")
+              : t("dashboard_account_page.save_button")}
+          </button>
         </div>
       </form>
     </div>

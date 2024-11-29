@@ -24,7 +24,7 @@ const EditOwnerProfileForm: React.FC = () => {
     <form onSubmit={handleSubmit(onSubmit)} className="w-full max-w-lg">
       <div className="mb-6">
         <label className={`${labelClass} flex items-center`}>
-          Introduction Profile:
+          Introduction Profile
           <textarea
             className={inputClass}
             rows={4}
@@ -35,7 +35,7 @@ const EditOwnerProfileForm: React.FC = () => {
       </div>
       <div className="mb-6">
         {/* Pets */}
-        <p className={`${labelClass} mb-3`}>Pets you can sit:</p>
+        <p className={`${labelClass} mb-3`}>Pets you can sit</p>
         {petOptions.map((pet) => (
           <label key={pet} className={`${labelClass} flex items-center`}>
             <input
@@ -50,7 +50,7 @@ const EditOwnerProfileForm: React.FC = () => {
       </div>
       <div className="mb-6">
         {/* Types of Service You Offer */}
-        <p className={`${labelClass} mb-3`}>Types of Service You Offer:</p>
+        <p className={`${labelClass} mb-3`}>Types of Service You Offer</p>
         {serviceOptions.map((service) => (
           <label key={service} className={`${labelClass} flex items-center`}>
             <input
@@ -79,4 +79,3 @@ const EditOwnerProfileForm: React.FC = () => {
 };
 
 export default EditOwnerProfileForm;
-
