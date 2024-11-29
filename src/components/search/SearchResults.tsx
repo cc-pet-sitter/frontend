@@ -66,6 +66,7 @@ const SearchResults: React.FC<SearchResultsProps> = () => {
                         ? `✅ ${t("searchPage.dog")}`
                         : `❌ ${t("searchPage.dog")}`}
                     </p>
+                    <svg data-testid="DoneIcon"></svg>
                     <p className="text-slate-500 text-sm">
                       {ele.sitter.cats_ok
                         ? `✅ ${t("searchPage.cat")}`
