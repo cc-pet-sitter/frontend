@@ -7,7 +7,7 @@ const Footer: React.FC = () => (
       {/* Logo */}
       <div className="text-white text-l">
         <Link to="/">
-          © 2024 <b>ぷぴぽ</b>™
+          © 2024 <b>むぎ （Mugi）</b>™
         </Link>
       </div>
     </nav>

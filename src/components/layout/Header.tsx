@@ -4,6 +4,7 @@ import { useAuth } from "../../contexts/AuthContext";
 import { signOut } from "firebase/auth";
 import { auth } from "../../firebase";
 import { useTranslation } from "react-i18next";
+import { ToggleButtonGroup, ToggleButton } from "@mui/material";
 
 const lngs: Record<string, { nativeName: string }> = {
   en: { nativeName: "English" },
@@ -15,6 +16,7 @@ const lngs: Record<string, { nativeName: string }> = {
 const Header: React.FC = () => {
   const [menuOpen, setMenuOpen] = useState<boolean>(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [alignment, setAlignment] = React.useState("");
 
   const menuRef = useRef<HTMLDivElement | null>(null);
   const triggerRef = useRef<HTMLDivElement | null>(null);
@@ -34,6 +36,13 @@ const Header: React.FC = () => {
     } catch (err) {
       console.error("Failed to logout: ", err);
     }
+  };
+
+  const handleButtonChange = (
+    event: React.MouseEvent<HTMLElement>,
+    newAlignment: string
+  ) => {
+    setAlignment(newAlignment);
   };
 
   useEffect(() => {
@@ -60,10 +69,17 @@ const Header: React.FC = () => {
       <nav className="flex items-center justify-between h-12 px-4 sm:px-6 lg:px-8">
         {/* Logo */}
         <div className="text-white text-xl font-bold">
-          <Link to="/">ぷぴぽ</Link>
+          <Link to="/">むぎ （Mugi）</Link>
         </div>
         <div className="flex space-x-8">
-          <div className="flex space-x-1">
+          {/* <div className="flex space-x-1"> */}
+          <ToggleButtonGroup
+            value={alignment}
+            className="text-white border border-white px-1 py-1 rounded hover:bg-white hover:text-green-500 transition-colors duration-150 text-xs"
+            exclusive
+            onChange={handleButtonChange}
+            aria-label="Platform"
+          >
             {Object.keys(lngs).map((lng) => (
               <div
                 className="inline-flex"
@@ -71,18 +87,20 @@ const Header: React.FC = () => {
                 aria-label="Button group"
                 key={lng}
               >
-                <button
+                <ToggleButton
                   className="text-white border border-white px-1 py-1 rounded hover:bg-white hover:text-green-500 transition-colors duration-150 text-xs"
                   type="submit"
                   key={lng}
+                  value={lngs[lng].nativeName}
                   onClick={() => i18n.changeLanguage(lng)}
                   disabled={i18n.resolvedLanguage === lng}
                 >
                   {lngs[lng].nativeName}
-                </button>
+                </ToggleButton>
               </div>
             ))}
-          </div>
+          </ToggleButtonGroup>
+          {/* </div> */}
           {/* Desktop Navigation */}
           <div className="hidden md:flex space-x-6 items-center">
             {!currentUser ? (
@@ -132,6 +150,7 @@ const Header: React.FC = () => {
                           ? t("hamburger_menu.sitter_profile")
                           : t("hamburger_menu.become_sitter")}
                       </Link>
+
                       <Link
                         to="/dashboard/requests"
                         className="block px-4 py-2 hover:bg-gray-200 text-lg pb-4 border-b border-gray"
@@ -228,20 +247,22 @@ const Header: React.FC = () => {
                 ? t("hamburger_menu.sitter_profile")
                 : t("hamburger_menu.become_sitter")}
             </Link>
-            <Link
-              to="/dashboard/requests"
-              className="text-white block text-lg pb-4 border-b border-white"
-              onClick={toggleMobileMenu}
-            >
-              {t("hamburger_menu.requests")}
-            </Link>
+            {userInfo?.is_sitter && (
+              <Link
+                to="/dashboard/requests"
+                className="text-white block text-lg pb-4 border-b border-white"
+                onClick={toggleMobileMenu}
+              >
+                {t("hamburger_menu.requests")}
+              </Link>
+            )}
 
             <button
               onClick={() => {
                 handleLogout();
                 setMobileMenuOpen(false);
               }}
-              className="text-white block text-lg pt-2 border-white hover:underline"
+              className="text-white block text-lg pt-2 border-white border-t w-full hover:underline"
             >
               {t("hamburger_menu.logout")}
             </button>
