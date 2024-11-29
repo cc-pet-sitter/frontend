@@ -4,6 +4,8 @@ import { SearchFormData } from "../components/search/SearchBar";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
+const apiURL: string = import.meta.env.VITE_API_BASE_URL;
+
 const HomePage: React.FC = () => {
   const { t } = useTranslation();
   const navigate = useNavigate();
@@ -15,7 +17,8 @@ const HomePage: React.FC = () => {
       ).toString();
 
       const { data } = await axios.get(
-        `http://localhost:8000/appuser-sitters?${queryParams}`
+        // `http://localhost:8000/appuser-sitters?${queryParams}`
+        `${apiURL}/appuser-sitters?${queryParams}`
       );
 
       navigate("/search", { state: { searchResults: data } });
