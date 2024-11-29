@@ -17,7 +17,6 @@ import DashboardBookingsPage from "./pages/DashboardBookingsPage";
 import DashboardRequestsPage from "./pages/DashboardRequestsPage";
 import DashboardSitterProfilePage from "./pages/DashboardSitterProfilePage";
 import DashboardAccountPage from "./pages/DashboardAccountPage";
-import DashboardRequests from "./pages/DashboardRequests";
 import SearchResults from "./components/search/SearchResults";
 
 const App: React.FC = () => {

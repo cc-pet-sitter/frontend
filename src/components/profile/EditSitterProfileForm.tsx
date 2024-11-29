@@ -1,6 +1,8 @@
 import { useForm } from "react-hook-form";
 import { useAuth } from "../../contexts/AuthContext";
 import React, { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
+import { MdOutlineArrowBackIos } from "react-icons/md";
 import axios from "axios";
 const apiURL: string = import.meta.env.VITE_API_BASE_URL;
 
@@ -42,10 +44,18 @@ const EditSitterProfileForm: React.FC<Props> = ({
 }) => {
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState<boolean>(false);
-  const { register, handleSubmit, reset } = useForm<EditFormData>({
+  const {
+    register,
+    handleSubmit,
+    reset,
+    getValues,
+    formState: { errors },
+  } = useForm<EditFormData>({
     shouldUseNativeValidation: true,
+    mode: "onSubmit",
   });
   const { currentUser, userInfo, setUserInfo } = useAuth();
+  const { t } = useTranslation();
   console.log("CurrentUser: ", currentUser);
 
   useEffect(() => {
@@ -66,20 +76,18 @@ const EditSitterProfileForm: React.FC<Props> = ({
 
   const onSubmit = async (data: EditFormData) => {
     try {
-      const response = await axios.post(
-        `${apiURL}/sitter/${userInfo?.id}`,
-        {
-          sitter_profile_bio: data.sitter_profile_bio,
-          sitter_house_ok: data.sitter_house_ok,
-          owner_house_ok: data.owner_house_ok,
-          visit_ok: data.visit_ok,
-          dogs_ok: data.dogs_ok,
-          cats_ok: data.cats_ok,
-          fish_ok: data.fish_ok,
-          birds_ok: data.birds_ok,
-          rabbits_ok: data.rabbits_ok,
-        }
-      );
+      const response = await axios.post(`${apiURL}/sitter/${userInfo?.id}`, {
+        // data,
+        sitter_profile_bio: data.sitter_profile_bio,
+        sitter_house_ok: data.sitter_house_ok,
+        owner_house_ok: data.owner_house_ok,
+        visit_ok: data.visit_ok,
+        dogs_ok: data.dogs_ok,
+        cats_ok: data.cats_ok,
+        fish_ok: data.fish_ok,
+        birds_ok: data.birds_ok,
+        rabbits_ok: data.rabbits_ok,
+      });
 
       if (response.status === 200) {
         const updatedProfile = response.data;
@@ -103,13 +111,23 @@ const EditSitterProfileForm: React.FC<Props> = ({
     }
   };
 
-  // Shared styles
-  const inputClass =
-    "appearance-none block w-full bg-gray-200 text-gray-700 border rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white";
-  const labelClass =
-    "block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2";
+  // Validation logic for at least one checkbox
+  const validateAtLeastOneSelected = (keys: Array<keyof EditFormData>) => {
+    const values = getValues();
+    return (
+      keys.some((key) => values[key] === true) ||
+      "Please select at least one option."
+    );
+  };
 
-  const petOptions = ["dog", "cat", "fish", "bird", "rabbit"];
+  // Shared styles
+  const textAreaClass =
+    "appearance-none block w-11/12 bg-gray-200 sm:w-full text-gray-700 border rounded py-2 px-4 md:px-6 md:py-3 leading-tight focus:outline-none focus:bg-white sm:mx-0 sm:-mr-4 shadow-md";
+  const labelClass =
+    "block tracking-wide text-gray-700 font-bold mb-2 mt-4 text-lg";
+  const inputClass = "block tracking-wide text-gray-700 mb-2 text-lg";
+
+  const petOptions = ["Dog", "Cat", "Fish", "Bird", "Rabbit"];
   const petOptionsKey: Array<keyof EditFormData> = [
     "dogs_ok",
     "cats_ok",
@@ -117,7 +135,7 @@ const EditSitterProfileForm: React.FC<Props> = ({
     "birds_ok",
     "rabbits_ok",
   ];
-  const serviceOptions = ["boarding", "stay in", "drop in"];
+  const serviceOptions = ["Boarding", "Stay in", "Drop in"];
   const serviceOptionsKey: Array<keyof EditFormData> = [
     "owner_house_ok",
     "sitter_house_ok",
@@ -125,7 +143,11 @@ const EditSitterProfileForm: React.FC<Props> = ({
   ];
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className="w-full max-w-lg">
+    <form
+      onSubmit={handleSubmit(onSubmit)}
+      className="w-full max-w-lg mx-4 my-4 sm:mx-20 lg:mx-30
+    "
+    >
       {error && <p className="text-red-500 text-xs italic">{error}</p>}
       {success && (
         <p className="text-green-500 text-xs italic">
@@ -134,6 +156,20 @@ const EditSitterProfileForm: React.FC<Props> = ({
       )}
 
       <div className="mb-6">
+        <button
+          onClick={(e) => {
+            e.preventDefault();
+            closeEditForm();
+          }}
+          className="text-2xl my-8 mt-0"
+        >
+          <MdOutlineArrowBackIos />
+        </button>
+
+        <h1 className="mx-2 font-bold text-2xl inline">
+          {t("dashboard_Sitter_Profile_page.edit_button")}
+        </h1>
+
         <div className="mr-0 mb-4 grid place-items-center sm:mr-6 sm:mb-0">
           <img
             alt="Petter Sitter Image"
@@ -147,13 +183,12 @@ const EditSitterProfileForm: React.FC<Props> = ({
             </div>
           </div>
         </div>
-        <label
-          className={`${labelClass} flex items-center mt-4`}
-          htmlFor="introduction"
-        >
-          Introduction Profile
+        <div className="flex flex-col mt-4 items-start">
+          <label className={`${labelClass}`} htmlFor="introduction">
+            Introduction
+          </label>
           <textarea
-            className={inputClass}
+            className={textAreaClass}
             rows={4}
             cols={40}
             id="introduction"
@@ -161,7 +196,12 @@ const EditSitterProfileForm: React.FC<Props> = ({
               required: "Please fill out your introduction.",
             })}
           />
-        </label>
+          {errors.sitter_profile_bio && (
+            <p className="text-red-500 text-xs italic">
+              {errors.sitter_profile_bio.message}
+            </p>
+          )}
+        </div>
       </div>
       <div className="mb-6">
         {/* Pets */}
@@ -169,18 +209,36 @@ const EditSitterProfileForm: React.FC<Props> = ({
         {petOptionsKey.map((pet, index) => (
           <label
             key={pet}
-            className={`${labelClass} flex items-center`}
+            className={`${inputClass} flex items-center`}
             htmlFor={`${pet}_ok`}
           >
             <input
-              id="pet_options"
+              id={`${pet}_ok`}
               type="checkbox"
-              {...register(pet)}
+              {...register(pet, {
+                validate: () =>
+                  validateAtLeastOneSelected(petOptionsKey) ||
+                  "Please select at least one pet.",
+              })}
               className="mr-2"
             />
             {petOptions[index]}
           </label>
         ))}
+        {errors.dogs_ok ||
+        errors.cats_ok ||
+        errors.fish_ok ||
+        errors.birds_ok ||
+        errors.rabbits_ok ? (
+          <p className="text-red-500 text-xs italic">
+            {errors.dogs_ok?.message ||
+              errors.cats_ok?.message ||
+              errors.fish_ok?.message ||
+              errors.birds_ok?.message ||
+              errors.rabbits_ok?.message ||
+              "Please select at least one pet."}
+          </p>
+        ) : null}
       </div>
       <div className="mb-6">
         {/* Types of Service You Offer */}
@@ -188,29 +246,40 @@ const EditSitterProfileForm: React.FC<Props> = ({
         {serviceOptionsKey.map((service, index) => (
           <label
             key={service}
-            className={`${labelClass} flex items-center`}
+            className={`${inputClass} flex items-center`}
             htmlFor={`${service}_ok`}
           >
             <input
-              id="service_options"
+              id={`${service}_ok`}
               type="checkbox"
-              {...register(service)}
+              {...register(service, {
+                validate: () =>
+                  validateAtLeastOneSelected(serviceOptionsKey) ||
+                  "Please select at least one service.",
+              })}
               className="mr-2"
             />
             {serviceOptions[index]}
           </label>
         ))}
+        {/* Error Message for Services */}
+        {errors.sitter_house_ok || errors.owner_house_ok || errors.visit_ok ? (
+          <p className="text-red-500 text-xs italic">
+            {errors.sitter_house_ok?.message ||
+              errors.owner_house_ok?.message ||
+              errors.visit_ok?.message ||
+              "Please select at least one service."}
+          </p>
+        ) : null}
       </div>
 
-      <div className="md:flex md:items-center">
-        <div className="md:w-2/3">
-          <button
-            type="submit"
-            className="shadow bg-gray-500 hover:bg-gray-400 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-5 text-sm rounded"
-          >
-            Save
-          </button>
-        </div>
+      <div className="flex justify-center md:justify-end ">
+        <button
+          type="submit"
+          className="shadow bg-gray-500 hover:bg-gray-400 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 text-sm rounded w-full mr-8 sm:w-auto sm:mr-4 md:mr-6 md:w-48 md:py-3 md:px-8 mt-6"
+        >
+          Save
+        </button>
       </div>
     </form>
   );

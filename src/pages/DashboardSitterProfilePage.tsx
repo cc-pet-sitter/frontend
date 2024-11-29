@@ -29,9 +29,7 @@ const DashboardSitterProfilePage: React.FC = () => {
   const fetchSitterProfile = async (is_sitter: boolean | null | undefined) => {
     if (is_sitter) {
       try {
-        const response = await axios.get(
-          `${apiURL}/sitter/${userInfo?.id}`
-        );
+        const response = await axios.get(`${apiURL}/sitter/${userInfo?.id}`);
         setSitterProfile(response.data);
       } catch (error) {
         console.error("Unable to fetch sitter profile", error);
@@ -49,9 +47,9 @@ const DashboardSitterProfilePage: React.FC = () => {
   };
 
   return (
-    <div className="dashboard-container p-4">
+    <div className="dashboard-container">
       {showEditProfileForm ? (
-        <div className="mt-6">
+        <div className="">
           <EditSitterProfileForm
             fetchSitterProfile={fetchSitterProfile}
             sitterProfile={sitterProfile}
