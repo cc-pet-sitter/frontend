@@ -107,25 +107,25 @@ const Header: React.FC = () => {
                   {menuOpen && (
                     <div
                       ref={menuRef}
-                      className="absolute right-0 mt-2 w-48 bg-white rounded shadow-lg z-50"
+                      className="absolute right-0 mt-2 w-52 bg-white rounded shadow-lg z-50 p-4 space-y-2 justify-center"
                     >
                       <Link
                         to="/dashboard/account"
-                        className="block px-4 py-2 hover:bg-gray-200"
+                        className="block px-4 py-2 hover:bg-gray-200 text-lg pb-2 border-gray"
                         onClick={toggleMenu}
                       >
                         {t("hamburger_menu.account")}
                       </Link>
                       <Link
                         to="/dashboard/bookings"
-                        className="block px-4 py-2 hover:bg-gray-200"
+                        className="block px-4 py-2 hover:bg-gray-200 text-lg pb-4 border-b border-gray"
                         onClick={toggleMenu}
                       >
                         {t("hamburger_menu.bookings")}
                       </Link>
                       <Link
                         to="/dashboard/sitter_profile"
-                        className="block px-4 py-2 hover:bg-gray-200"
+                        className="block px-4 py-2 hover:bg-gray-200 text-lg pb-2 pt-2 border-gray"
                         onClick={toggleMenu}
                       >
                         {userInfo?.is_sitter
@@ -134,7 +134,7 @@ const Header: React.FC = () => {
                       </Link>
                       <Link
                         to="/dashboard/requests"
-                        className="block px-4 py-2 hover:bg-gray-200"
+                        className="block px-4 py-2 hover:bg-gray-200 text-lg pb-4 border-b border-gray"
                         onClick={toggleMenu}
                       >
                         {t("hamburger_menu.requests")}
@@ -144,7 +144,7 @@ const Header: React.FC = () => {
                           handleLogout();
                           toggleMenu();
                         }}
-                        className="block w-full text-left px-4 py-2 hover:bg-gray-200"
+                        className="block w-full text-left px-4 py-2 hover:bg-gray-200 text-lg pt-2"
                       >
                         {t("hamburger_menu.logout")}
                       </button>
@@ -183,21 +183,21 @@ const Header: React.FC = () => {
       {/* Mobile Menu */}
       <div
         className={`${
-          mobileMenuOpen ? "block" : "hidden"
-        } md:hidden bg-green-500 px-4 py-2 space-y-2`}
+          mobileMenuOpen ? "fixed" : "hidden"
+        }  md:hidden bg-green-500 px-7 py-4 space-y-2 w-full justify-center`}
       >
         {!currentUser ? (
           <div>
             <Link
               to="/login"
-              className="text-white block"
+              className="text-white block text-lg py-2 border-white"
               onClick={toggleMobileMenu}
             >
               {t("header.login")}
             </Link>
             <Link
               to="/signup"
-              className="text-white block"
+              className="text-white block text-lg py-2 border-white"
               onClick={toggleMobileMenu}
             >
               {t("header.signup")}
@@ -207,21 +207,21 @@ const Header: React.FC = () => {
           <>
             <Link
               to="/dashboard/account"
-              className="text-white block"
+              className="text-white block text-lg pb-2 border-white"
               onClick={toggleMobileMenu}
             >
               {t("hamburger_menu.account")}
             </Link>
             <Link
               to="/dashboard/bookings"
-              className="text-white block"
+              className="text-white block text-lg pb-4 border-b border-white"
               onClick={toggleMobileMenu}
             >
               {t("hamburger_menu.bookings")}
             </Link>
             <Link
               to="/dashboard/sitter_profile"
-              className="text-white block"
+              className="text-white block text-lg pb-2 pt-2 border-white"
               onClick={toggleMobileMenu}
             >
               {userInfo?.is_sitter
@@ -230,7 +230,7 @@ const Header: React.FC = () => {
             </Link>
             <Link
               to="/dashboard/requests"
-              className="text-white block"
+              className="text-white block text-lg pb-4 border-b border-white"
               onClick={toggleMobileMenu}
             >
               {t("hamburger_menu.requests")}
@@ -241,7 +241,7 @@ const Header: React.FC = () => {
                 handleLogout();
                 setMobileMenuOpen(false);
               }}
-              className="text-white block hover:underline"
+              className="text-white block text-lg pt-2 border-white hover:underline"
             >
               {t("hamburger_menu.logout")}
             </button>
