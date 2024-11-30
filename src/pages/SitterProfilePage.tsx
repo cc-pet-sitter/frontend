@@ -4,10 +4,16 @@ import { useParams } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import axios from "axios";
-import { AppUser } from "../types/userProfile.ts";
+import { AppUser, Sitter } from "../types/userProfile.ts";
+import { Done } from "@mui/icons-material";
+import { formatDistanceToNow } from "date-fns";
+import WriteReview from "../components/reviews/WriteReview.tsx";
+
+const apiURL: string = import.meta.env.VITE_API_BASE_URL;
 
 type UserResponse = {
   appuser: AppUser;
+  sitter: Sitter;
 };
 
 const SitterProfilePage: React.FC = () => {
@@ -26,9 +32,7 @@ const SitterProfilePage: React.FC = () => {
     const fetchUserProfile = async () => {
       setLoading(true);
       try {
-        const response = await axios.get(
-          `http://localhost:8000/appuser-extended/${id}`
-        );
+        const response = await axios.get(`${apiURL}/appuser-extended/${id}`);
         setUser(response.data);
         setLoading(false);
       } catch (error) {
@@ -71,7 +75,7 @@ const SitterProfilePage: React.FC = () => {
           />
           <div className="mt-4 sm:mt-0 sm:ml-6 text-center sm:text-left">
             <h1 className="text-2xl font-bold">{`${user.appuser.firstname} ${user.appuser.lastname}`}</h1>
-            <p className="text-gray-500">{user.appuser.email}</p>
+            {/* <p className="text-gray-500">{user.appuser.email}</p> */}
           </div>
           <div className="mt-4 sm:mt-0 sm:ml-auto flex flex-col items-center">
             <button
@@ -93,6 +97,63 @@ const SitterProfilePage: React.FC = () => {
           </div>
         </div>
 
+        {/* Account Bio */}
+        <div className="p-6 border-t">
+          <h2 className="text-lg font-semibold mb-4">Bio</h2>
+          <p>{user.sitter.sitter_profile_bio}</p>
+        </div>
+
+        {/* Sitter Details */}
+        <div className="p-6 border-t">
+          <h2 className="text-lg font-semibold mb-4">
+            {t("sitterProfilePage.animalsICareFor")}
+          </h2>
+          <p className="text-slate-500 text-sm">
+            {user.sitter.dogs_ok ? (
+              <>
+                <Done /> {t("searchPage.dog")}
+              </>
+            ) : (
+              <>{/* <NotInterested /> {t("searchPage.dog")} */}</>
+            )}
+          </p>
+          <p className="text-slate-500 text-sm">
+            {user.sitter.cats_ok ? (
+              <>
+                <Done /> {t("searchPage.cat")}
+              </>
+            ) : (
+              <>{/* <NotInterested /> {t("searchPage.cat")} */}</>
+            )}
+          </p>
+          <p className="text-slate-500 text-sm">
+            {user.sitter.fish_ok ? (
+              <>
+                <Done /> {t("searchPage.fish")}
+              </>
+            ) : (
+              <>{/* <NotInterested /> {t("searchPage.fish")} */}</>
+            )}
+          </p>
+          <p className="text-slate-500 text-sm">
+            {user.sitter.birds_ok ? (
+              <>
+                <Done /> {t("searchPage.bird")}
+              </>
+            ) : (
+              <>{/* <NotInterested /> {t("searchPage.bird")} */}</>
+            )}
+          </p>
+          <p className="text-slate-500 text-sm">
+            {user.sitter.rabbits_ok ? (
+              <>
+                <Done /> {t("searchPage.rabbit")}
+              </>
+            ) : (
+              <>{/* <NotInterested /> {t("searchPage.rabbit")} */}</>
+            )}
+          </p>
+        </div>
         {/* Profile Details */}
         <div className="p-6 border-t">
           <h2 className="text-lg font-semibold mb-4">
@@ -115,27 +176,32 @@ const SitterProfilePage: React.FC = () => {
                 ? t("sitterProfilePage.english")
                 : t("sitterProfilePage.japanese")}
             </li>
-          </ul>
-        </div>
-
-        {/* Timestamps */}
-        <div className="p-6 border-t">
-          <h2 className="text-lg font-semibold mb-4">
-            {t("sitterProfilePage.accountInformation")}
-          </h2>
-          <ul className="list-none space-y-2 text-left">
             <li>
               <strong>{`${t("sitterProfilePage.accountCreated")}:`}</strong>{" "}
-              {new Date(user.appuser.account_created).toLocaleString()}
+              {user.appuser.account_created
+                ? `${formatDistanceToNow(
+                    new Date(user.appuser.account_created)
+                  )}`
+                : t("sitterProfilePage.never")}
             </li>
             <li>
               <strong>{`${t("sitterProfilePage.lastLogin")}:`}</strong>{" "}
-              {new Date(user.appuser.last_login).toLocaleString()}
+              {user.appuser.last_login
+                ? `${formatDistanceToNow(new Date(user.appuser.last_login), {
+                    addSuffix: true,
+                  })}`
+                : t("sitterProfilePage.never")}
             </li>
           </ul>
         </div>
+        {/* Reviews */}
+        <div className="p-6 border-t">
+          <h2 className="text-lg font-semibold mb-4">
+            {t("sitterProfilePage.reviews")}
+          </h2>
+          <ul className="list-none space-y-2 text-left"></ul>
+        </div>
       </div>
-
       <div className="mt-6 text-center">
         <button
           onClick={() => navigate(-1)}
@@ -143,6 +209,9 @@ const SitterProfilePage: React.FC = () => {
         >
           {t("sitterProfilePage.backToSearchResults")}
         </button>
+      </div>
+      <div>
+        <WriteReview />
       </div>
     </div>
   );

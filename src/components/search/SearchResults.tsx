@@ -2,6 +2,7 @@ import { useLocation } from "react-router-dom";
 import { AppUser } from "../../types/userProfile.ts";
 import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
+import { Done } from "@mui/icons-material";
 
 type SearchResultsProps = {
   appUsers: AppUser[];
@@ -62,30 +63,49 @@ const SearchResults: React.FC<SearchResultsProps> = () => {
                   </p>
                   <div className="pt-4 pb-4">
                     <p className="text-slate-500 text-sm">
-                      {ele.sitter.dogs_ok
-                        ? `✅ ${t("searchPage.dog")}`
-                        : `❌ ${t("searchPage.dog")}`}
-                    </p>
-                    <svg data-testid="DoneIcon"></svg>
-                    <p className="text-slate-500 text-sm">
-                      {ele.sitter.cats_ok
-                        ? `✅ ${t("searchPage.cat")}`
-                        : `❌ ${t("searchPage.cat")}`}
+                      {ele.sitter.dogs_ok ? (
+                        <>
+                          <Done /> {t("searchPage.dog")}
+                        </>
+                      ) : (
+                        <>{/* <NotInterested /> {t("searchPage.dog")} */}</>
+                      )}
                     </p>
                     <p className="text-slate-500 text-sm">
-                      {ele.sitter.fish_ok
-                        ? `✅ ${t("searchPage.fish")}`
-                        : `❌ ${t("searchPage.fish")}`}
+                      {ele.sitter.cats_ok ? (
+                        <>
+                          <Done /> {t("searchPage.cat")}
+                        </>
+                      ) : (
+                        <>{/* <NotInterested /> {t("searchPage.cat")} */}</>
+                      )}
                     </p>
                     <p className="text-slate-500 text-sm">
-                      {ele.sitter.birds_ok
-                        ? `✅ ${t("searchPage.bird")}`
-                        : `❌ ${t("searchPage.bird")}`}
+                      {ele.sitter.fish_ok ? (
+                        <>
+                          <Done /> {t("searchPage.fish")}
+                        </>
+                      ) : (
+                        <>{/* <NotInterested /> {t("searchPage.fish")} */}</>
+                      )}
                     </p>
                     <p className="text-slate-500 text-sm">
-                      {ele.sitter.rabbits_ok
-                        ? `✅ ${t("searchPage.rabbit")}`
-                        : `❌ ${t("searchPage.rabbit")}`}
+                      {ele.sitter.birds_ok ? (
+                        <>
+                          <Done /> {t("searchPage.bird")}
+                        </>
+                      ) : (
+                        <>{/* <NotInterested /> {t("searchPage.bird")} */}</>
+                      )}
+                    </p>
+                    <p className="text-slate-500 text-sm">
+                      {ele.sitter.rabbits_ok ? (
+                        <>
+                          <Done /> {t("searchPage.rabbit")}
+                        </>
+                      ) : (
+                        <>{/* <NotInterested /> {t("searchPage.rabbit")} */}</>
+                      )}
                     </p>
                   </div>
                   <div>

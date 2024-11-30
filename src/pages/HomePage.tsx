@@ -17,7 +17,6 @@ const HomePage: React.FC = () => {
       ).toString();
 
       const { data } = await axios.get(
-        // `http://localhost:8000/appuser-sitters?${queryParams}`
         `${apiURL}/appuser-sitters?${queryParams}`
       );
 
