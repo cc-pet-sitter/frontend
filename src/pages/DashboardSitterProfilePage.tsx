@@ -140,7 +140,7 @@ const DashboardSitterProfilePage: React.FC = () => {
           </p>
           <button
             onClick={() => setShowEditProfileForm(true)}
-            className="m-6 shadow bg-green-500 hover:bg-green-600 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded"
+            className="m-6 shadow btn-primary focus:shadow-outline focus:outline-none font-bold py-2 px-4 rounded"
           >
             Create Profile
           </button>

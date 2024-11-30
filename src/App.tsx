@@ -24,7 +24,7 @@ const App: React.FC = () => {
 
   return (
     <Router>
-      <div className="flex flex-col h-screen justify-between">
+      <div className="flex flex-col h-screen justify-between bg-white">
         <Header />
         <div>
           <nav>
