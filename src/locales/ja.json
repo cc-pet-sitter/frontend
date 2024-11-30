@@ -137,13 +137,14 @@
     "english": "英語",
     "japanese": "日本語",
     "englishJapanese": "英語, 日本語",
-    "accountInformation": "アカウント情報",
+    "reviews": "Translate Reviews",
     "accountCreated": "アカウント作成日",
     "lastLogin": "最終ログイン",
     "lastUpdated": "最終更新日",
     "backToSearchResults": "検索結果に戻る",
     "makeAnEnquiry": "お問い合わせ",
-    "close": "閉じる"
+    "close": "閉じる",
+    "animalsICareFor": "私が世話している動物たち"
   },
   "enquiryForm": {
     "startDate": "開始日",
