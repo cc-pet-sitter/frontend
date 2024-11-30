@@ -8,6 +8,8 @@ import { AppUser, Sitter } from "../types/userProfile.ts";
 import { Done } from "@mui/icons-material";
 import { formatDistanceToNow } from "date-fns";
 
+const apiURL: string = import.meta.env.VITE_API_BASE_URL;
+
 type UserResponse = {
   appuser: AppUser;
   sitter: Sitter;
@@ -29,9 +31,7 @@ const SitterProfilePage: React.FC = () => {
     const fetchUserProfile = async () => {
       setLoading(true);
       try {
-        const response = await axios.get(
-          `http://localhost:8000/appuser-extended/${id}`
-        );
+        const response = await axios.get(`${apiURL}/appuser-extended/${id}`);
         setUser(response.data);
         setLoading(false);
       } catch (error) {
