@@ -3,6 +3,7 @@ import { FaRegMessage } from "react-icons/fa6";
 import { useTranslation } from "react-i18next";
 import { useAuth } from "../contexts/AuthContext";
 import { Inquiry, AppUser } from "../types/userProfile";
+import { Link } from "react-router-dom";
 const apiURL: string = import.meta.env.VITE_API_BASE_URL;
 
 const DashboardRequests: React.FC = () => {
@@ -101,11 +102,13 @@ const DashboardRequests: React.FC = () => {
                 key={index}
                 className="mx-6 my-3 border border-transparent shadow-custom rounded w-72 px-4 py-2 relative"
               >
-                <h3 className="text-sm font-medium my-1">
-                  {t("dashboard_requests_page.requested_by_en")}{" "}
-                  {ownerInfo[index].firstname}
-                  {t("dashboard_requests_page.requested_by_jp")}
-                </h3>
+                <Link to={`/dashboard/requests/${request.id}`}>
+                  <h3 className="text-sm font-medium my-1">
+                    {t("dashboard_requests_page.requested_by_en")}{" "}
+                    {ownerInfo[index].firstname}
+                    {t("dashboard_requests_page.requested_by_jp")}
+                  </h3>
+                </Link>
                 <p className="text-xs text-gray-500 my-1">
                   {new Date(request.start_date).toLocaleDateString("ja-JP")} -{" "}
                   {new Date(request.end_date).toLocaleDateString("ja-JP")}
