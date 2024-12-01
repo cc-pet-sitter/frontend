@@ -7,7 +7,6 @@ import axios from "axios";
 import { AppUser, Sitter } from "../types/userProfile.ts";
 import { Done } from "@mui/icons-material";
 import { formatDistanceToNow } from "date-fns";
-import WriteReview from "../components/reviews/WriteReview.tsx";
 
 const apiURL: string = import.meta.env.VITE_API_BASE_URL;
 
@@ -209,9 +208,6 @@ const SitterProfilePage: React.FC = () => {
         >
           {t("sitterProfilePage.backToSearchResults")}
         </button>
-      </div>
-      <div>
-        <WriteReview />
       </div>
     </div>
   );
