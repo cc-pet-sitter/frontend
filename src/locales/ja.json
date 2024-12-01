@@ -146,7 +146,8 @@
     "backToSearchResults": "検索結果に戻る",
     "makeAnEnquiry": "お問い合わせ",
     "close": "閉じる",
-    "animalsICareFor": "私が世話している動物たち"
+    "animalsICareFor": "私が世話している動物たち",
+    "noReviews": "has not been given a review yet."
   },
   "enquiryForm": {
     "startDate": "開始日",

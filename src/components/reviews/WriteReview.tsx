@@ -57,11 +57,11 @@ const WriteReview: React.FC<WriteReviewProps> = ({ booking, onClose }) => {
         throw new Error("Failed to submit review");
       }
 
-      alert("Review submitted successfully!");
+      alert("Review submitted.");
       onClose();
     } catch (error) {
       console.error("Error submitting review:", error);
-      alert("Failed to submit review. Please try again.");
+      alert("Cannot leave zero stars");
     }
   };
 
@@ -98,10 +98,7 @@ const WriteReview: React.FC<WriteReviewProps> = ({ booking, onClose }) => {
 
         <div className="md:flex md:items-center">
           <div className="md:w-1/2 flex justify-center">
-            <button
-              type="submit"
-              className="shadow bg-gray-500 hover:bg-gray-400 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded"
-            >
+            <button type="submit" className="btn-primary">
               {"Submit"}
             </button>
           </div>

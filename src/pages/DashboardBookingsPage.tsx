@@ -55,7 +55,7 @@ const DashboardBookingsPage: React.FC = () => {
           method: "GET",
           headers: {
             "Content-Type": "application/json",
-            Authorization: `Bearer ${idToken}`, // Include the auth token
+            Authorization: `Bearer ${idToken}`,
           },
         });
       });
@@ -127,7 +127,7 @@ const DashboardBookingsPage: React.FC = () => {
                   {booking.inquiry_status}
                 </p>
                 <p
-                  className="text-xs underline my-1 cursor-pointer hover:text-lime-600"
+                  className="text-xs text-brown underline my-1 cursor-pointer hover:text-lime-600"
                   onClick={() => setSelectedBooking(booking)}
                 >
                   {t("dashboard_bookings_page.review")}
