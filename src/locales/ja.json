@@ -20,6 +20,7 @@
     "title": "ペットプロフィール",
     "subtitle": "ペットプロフィールを作成しよう",
     "first_profile": "プロフィールを作成",
+    "add_profile": "他のペットを追加",
     "edit_button": "プロフィールを編集",
     "view_button": "プロフィールを確認"
   },
@@ -189,6 +190,18 @@
     "showPassword": "パスワードを表示",
     "hidePassword": "パスワードを隠す"
   },
+  "PetProfile": {
+    "about_en": "",
+    "about_jp": " について",
+    "typeOfPet": "私は ",
+    "birthday": "誕生日は ",
+    "weight": "体重は ",
+    "breed": "品種は ",
+    "allergies": "アレルギー",
+    "medications": "服薬中のお薬",
+    "specialNeeds": "知っておいてほしいこと"
+  },
+
   "editPetProfileForm": {
     "name": "名前",
     "birthday": "誕生日",

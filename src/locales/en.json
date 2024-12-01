@@ -20,6 +20,7 @@
     "title": "Your Pets Profile",
     "subtitle": "Create your first pet profile.",
     "first_profile": "Create Profile",
+    "add_profile": "Add another pet",
     "edit_button": "Edit profile",
     "view_button": "View profile"
   },
@@ -41,6 +42,7 @@
     "requested_by_en": "Requested by",
     "requested_by_jp": ""
   },
+
   "homePage": {
     "subtitle": "Find trusted pet sitters or list your services!",
     "searchLabel": "Search for a Pet Sitter..."
@@ -190,6 +192,17 @@
     "passwordPlaceholder": "••••••••",
     "showPassword": "Show password",
     "hidePassword": "Hide password"
+  },
+  "PetProfile": {
+    "about_en": "About ",
+    "about_jp": "",
+    "typeOfPet": "I am a ",
+    "birthday": "My birthday is ",
+    "weight": "I weigh ",
+    "breed": "My breed is ",
+    "allergies": "Allergies",
+    "medications": "Medications",
+    "specialNeeds": "Special needs"
   },
   "editPetProfileForm": {
     "name": "Name",

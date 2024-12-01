@@ -4,6 +4,7 @@ import { useTranslation } from "react-i18next";
 import axios from "axios";
 const apiURL: string = import.meta.env.VITE_API_BASE_URL;
 import EditPetProfileForm from "../components/profile/EditPetProfileForm";
+import PetProfile from "../components/profile/PetProfile";
 
 const petProfileTest = false;
 const petProfileArrTest = [
@@ -48,6 +49,7 @@ const DashboardPetsProfilePage: React.FC = () => {
   const { userInfo } = useAuth();
   const [showEditProfileForm, setShowEditProfileForm] =
     useState<boolean>(false);
+  const [showProfileView, setShowProfileView] = useState<boolean>(false);
 
   const fetchPetProfiles = async () => {
     try {
@@ -84,6 +86,20 @@ const DashboardPetsProfilePage: React.FC = () => {
             // onSave={handleSave}
           />
         </div>
+      ) : showProfileView ? (
+        <div className="">
+          <PetProfile
+            petProfile={selectedPetProfile}
+            // fetchPetProfiles={fetchPetProfiles}
+            // closeEditForm={() => setShowEditProfileForm(false)}
+            onClose={() => {
+              setSelectedPetProfile(null);
+              setShowProfileView(false);
+              fetchPetProfiles();
+            }}
+            // onSave={handleSave}
+          />
+        </div>
       ) : (
         <div>
           <h1 className="mx-6 mb-2 font-bold text-2xl">
@@ -103,7 +119,7 @@ const DashboardPetsProfilePage: React.FC = () => {
                         // Hard coding the image URL for now
                         src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/3a/Cat03.jpg/640px-Cat03.jpg"
                         // src={profile.profile_picture_src}
-                        alt={`Pic ture of ${profile.name}`}
+                        alt={`Picture of ${profile.name}`}
                         className="h-20 w-20 rounded-full object-cover"
                       />
                       <div>
@@ -125,7 +141,10 @@ const DashboardPetsProfilePage: React.FC = () => {
                             </a>
                           </button>
                           <button
-                            onClick={() => setShowEditProfileForm(true)}
+                            onClick={() => {
+                              setSelectedPetProfile(profile);
+                              setShowProfileView(true);
+                            }}
                             className="text-brown text-sm underline mr-4"
                             // className="mx-4 shadow btn-secondary focus:shadow-outline focus:outline-none text-white font-bold py-2 px-5 text-sm rounded"
                           >
@@ -138,6 +157,12 @@ const DashboardPetsProfilePage: React.FC = () => {
                     </div>
                   </div>
                 ))}
+                <button
+                  onClick={() => setShowEditProfileForm(true)}
+                  className="mx-6 my-4 btn-secondary py-1 px-2 rounded w-32 text-sm"
+                >
+                  {t("dashboard_pets_profile_page.add_profile")}
+                </button>
               </div>
             </>
           ) : (

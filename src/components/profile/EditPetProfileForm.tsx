@@ -19,7 +19,7 @@ type EditProfileFormData = {
   type_of_animal: string;
   subtype: string | null;
   weight: number | null;
-  birthday: Date;
+  birthday: string;
   known_allergies: string | null;
   medications: string | null;
   special_needs: string | null;
@@ -165,7 +165,7 @@ const EditProfileForm: React.FC<Props> = ({
           <button
             onClick={(e) => {
               e.preventDefault();
-              closeEditForm();
+              onClose();
             }}
             className="text-2xl my-8 mt-0"
           >
