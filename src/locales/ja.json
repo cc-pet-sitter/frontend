@@ -20,7 +20,8 @@
     "no_bookings": "予約はありません",
     "booked_with_en": "",
     "booked_with_jp": "さんとの予約",
-    "review": "レビューを書く"
+    "review": "レビューを書く",
+    "close_review": "Close"
   },
   "dashboard_Sitter_Profile_page": {
     "title": "シッタープロフィール",
@@ -145,7 +146,8 @@
     "backToSearchResults": "検索結果に戻る",
     "makeAnEnquiry": "お問い合わせ",
     "close": "閉じる",
-    "animalsICareFor": "私が世話している動物たち"
+    "animalsICareFor": "私が世話している動物たち",
+    "noReviews": "has not been given a review yet."
   },
   "enquiryForm": {
     "startDate": "開始日",

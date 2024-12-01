@@ -80,3 +80,13 @@ export interface Inquiry {
   inquiry_submitted: Date;
   inquiry_finalized: Date;
 }
+
+export interface Review {
+  id: number;
+  author_appuser_id: number;
+  recipient_appuser_type: string;
+  comment: string;
+  score: number;
+  recipient_appuser_id: number;
+  submission_date: Date;
+}

@@ -3,11 +3,15 @@ import { FaRegMessage } from "react-icons/fa6";
 import { useTranslation } from "react-i18next";
 import { useAuth } from "../contexts/AuthContext";
 import { Inquiry, AppUser } from "../types/userProfile";
+import WriteReview from "../components/reviews/WriteReview";
+
 const apiURL: string = import.meta.env.VITE_API_BASE_URL;
 
 const DashboardBookingsPage: React.FC = () => {
   const [bookings, setBookings] = useState<Array<Inquiry> | null>(null); // User profile data
   const [sitterInfo, setSitterInfo] = useState<Array<AppUser> | null>(null);
+  const [selectedBooking, setSelectedBooking] = useState<Inquiry | null>(null);
+
   const { t } = useTranslation();
   const { userInfo, currentUser } = useAuth();
 
@@ -51,7 +55,7 @@ const DashboardBookingsPage: React.FC = () => {
           method: "GET",
           headers: {
             "Content-Type": "application/json",
-            Authorization: `Bearer ${idToken}`, // Include the auth token
+            Authorization: `Bearer ${idToken}`,
           },
         });
       });
@@ -122,7 +126,10 @@ const DashboardBookingsPage: React.FC = () => {
                 <p className="text-xs text-gray-500 my-1">
                   {booking.inquiry_status}
                 </p>
-                <p className="text-xs underline my-1 cursor-pointer hover:text-lime-600">
+                <p
+                  className="text-xs text-brown underline my-1 cursor-pointer hover:text-lime-600"
+                  onClick={() => setSelectedBooking(booking)}
+                >
                   {t("dashboard_bookings_page.review")}
                 </p>
                 <div className="absolute top-4 right-4 hover:text-lime-600">
@@ -133,6 +140,22 @@ const DashboardBookingsPage: React.FC = () => {
         </div>
       ) : (
         <p className="mx-6 mb-2">{t("dashboard_bookings_page.no_bookings")}</p>
+      )}
+      {selectedBooking && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center">
+          <div className="bg-white p-6 rounded shadow-lg w-96">
+            <WriteReview
+              booking={selectedBooking}
+              onClose={() => setSelectedBooking(null)}
+            />
+            <button
+              onClick={() => setSelectedBooking(null)}
+              className="mt-4 text-red-500"
+            >
+              {t("dashboard_bookings_page.close_review")}
+            </button>
+          </div>
+        </div>
       )}
     </div>
   );
