@@ -27,7 +27,7 @@ const SearchBar: React.FC<SearchBarProps> = ({ onSearchSubmit }) => {
   const prefectureOptions = ["Saitama", "Chiba", "Tokyo"];
 
   return (
-    <div className="flex justify-center p-8">
+    <div className="flex justify-center p-8 ">
       <form
         onSubmit={handleSubmit(onSearchSubmit)}
         className="w-full max-w-lg "

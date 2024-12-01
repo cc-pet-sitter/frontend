@@ -28,7 +28,7 @@ const HomePage: React.FC = () => {
   };
   return (
     <>
-      <div className="justify-items-center">
+      <div className="justify-items-center bg-white">
         <div className="my-6">
           <h1 className="text-center text-2xl font-semibold">
             {t("homePage.subtitle")}
@@ -38,7 +38,6 @@ const HomePage: React.FC = () => {
         {/* <SignUpForm /> */}
         <SearchBar onSearchSubmit={handleSearchSubmit} />
       </div>
-      ;
     </>
   );
 };
