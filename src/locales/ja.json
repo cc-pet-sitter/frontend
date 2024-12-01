@@ -20,7 +20,8 @@
     "title": "ペットプロフィール",
     "subtitle": "ペットプロフィールを作成しよう",
     "first_profile": "プロフィールを作成",
-    "edit_button": "Edit profile"
+    "edit_button": "プロフィールを編集",
+    "view_button": "プロフィールを確認"
   },
   "dashboard_bookings_page": {
     "title": "予約",

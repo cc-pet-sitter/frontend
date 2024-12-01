@@ -3,6 +3,7 @@ import { useAuth } from "../../contexts/AuthContext";
 import React, { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { MdOutlineArrowBackIos } from "react-icons/md";
+const apiURL: string = import.meta.env.VITE_API_BASE_URL;
 
 type Props = {
   closeEditForm: () => void;
@@ -27,16 +28,13 @@ const EditProfileForm: React.FC<Props> = ({ closeEditForm }) => {
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState<boolean>(false);
   const [isLoading, setIsLoading] = useState<boolean>(false);
-  const { setUserInfo } = useAuth();
   const { t } = useTranslation();
 
   const onSubmit = async (data: EditProfileFormData) => {
     setIsLoading(true);
     try {
-      const backendURL =
-        import.meta.env.VITE_API_BASE_URL || "http://localhost:8000";
       const idToken = await currentUser?.getIdToken();
-      const response = await fetch(`${backendURL}/appuser/${userInfo?.id}`, {
+      const response = await fetch(`${apiURL}/pet/${userInfo?.id}`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
@@ -45,21 +43,18 @@ const EditProfileForm: React.FC<Props> = ({ closeEditForm }) => {
         body: JSON.stringify(data),
       });
 
-      if (!response.ok) {
+      if (response.ok) {
+        const updatedProfile = await response.json();
+        console.log("Profile updated successfully:", updatedProfile);
+
+        // fetchSitterProfile(true);
+        setSuccess(true);
+        setError(null);
+        closeEditForm();
+      } else {
         const errorData = await response.json();
         throw new Error(errorData.detail || "Failed to update profile.");
       }
-
-      const updatedUser = await response.json();
-      console.log("Profile updated successfully:", updatedUser);
-
-      setUserInfo(updatedUser);
-
-      setSuccess(true);
-      setError(null);
-
-      closeEditForm();
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error: any) {
       console.error("Error updating profile:", error.message);
       setError(error.message);
@@ -83,8 +78,6 @@ const EditProfileForm: React.FC<Props> = ({ closeEditForm }) => {
     "block tracking-wide text-gray-700 font-bold mb-2 mt-2 text-lg";
   const textAreaClass =
     "appearance-none block w-full bg-gray-200 sm:w-full text-gray-700 border rounded py-2 px-4 md:px-6 md:py-3 leading-tight focus:outline-none focus:bg-white sm:mx-0 sm:-mr-4 shadow-md";
-
-  const prefectureOptions = ["Tokyo", "Saitama", "Chiba"];
 
   return (
     <div className="flex justify-center p-8">
@@ -128,9 +121,9 @@ const EditProfileForm: React.FC<Props> = ({ closeEditForm }) => {
           </div> */}
         {/* Pets */}
         <div className="mb-6 ">
-          <p className={`${labelClass} mb-3`}>{`${t(
-            "editPetProfileForm.typeOfPet"
-          )}:`}</p>
+          <p className={`${labelClass} mb-3`}>
+            {t("editPetProfileForm.typeOfPet")}
+          </p>
           {petOptions.map((pet) => (
             <label key={pet.id} className={`${labelClass} flex items-center`}>
               <input

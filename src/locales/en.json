@@ -20,7 +20,8 @@
     "title": "Your Pets Profile",
     "subtitle": "Create your first pet profile.",
     "first_profile": "Create Profile",
-    "edit_button": "Edit profile"
+    "edit_button": "Edit profile",
+    "view_button": "View profile"
   },
   "dashboard_bookings_page": {
     "title": "Bookings",
