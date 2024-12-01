@@ -5,7 +5,7 @@ import axios from "axios";
 const apiURL: string = import.meta.env.VITE_API_BASE_URL;
 import EditPetProfileForm from "../components/profile/EditPetProfileForm";
 
-const petProfileTest = true;
+const petProfileTest = false;
 const petProfileArrTest = [
   {
     profile_picture_src:
@@ -25,41 +25,46 @@ const petProfileArrTest = [
 ];
 
 type PetProfile = {
+  id: Number;
   name: string;
   type_of_animal: string;
   subtype: string | null;
   weight: number | null;
-  birthday: Date | null;
+  birthday: Date;
   known_allergies: string | null;
   medications: string | null;
   special_needs: string | null;
   appuser_id: number;
+  profile_picture_src: string | undefined;
 };
 
 const DashboardPetsProfilePage: React.FC = () => {
-  const [petProfile, setPetProfile] = useState<PetProfile | null>(null);
+  const [petProfiles, setPetProfiles] = useState<Array<PetProfile> | null>(
+    null
+  );
+  const [selectedPetProfile, setSelectedPetProfile] =
+    useState<PetProfile | null>(null);
   const { t } = useTranslation();
   const { userInfo } = useAuth();
   const [showEditProfileForm, setShowEditProfileForm] =
     useState<boolean>(false);
 
-  // const fetchPetProfile = async (is_sitter: boolean | null | undefined) => {
-  //   if (is_sitter) {
-  //     try {
-  //       const response = await axios.get(`${apiURL}/pet/${userInfo?.id}`);
-  //       setPetProfile(response.data);
-  //     } catch (error) {
-  //       console.error("Unable to fetch pet profile", error);
-  //     }
-  //   }
-  // };
+  const fetchPetProfiles = async () => {
+    try {
+      const response = await axios.get(`${apiURL}/appuser/${userInfo?.id}/pet`);
+      console.log("Fetched pet profiles:", response.data);
+      setPetProfiles(response.data);
+    } catch (error) {
+      console.error("Unable to fetch pet profiles", error);
+    }
+  };
 
-  // useEffect(() => {
-  //   fetchPetProfile(userInfo?.is_sitter);
-  // }, []);
+  useEffect(() => {
+    fetchPetProfiles();
+  }, []);
 
   // const handleSave = (updatedProfile: PetProfile) => {
-  //   fetchPetProfile(updatedProfile);
+  //   fetchPetProfiles(updatedProfile);
   //   setShowEditProfileForm(false);
   // };
 
@@ -68,9 +73,14 @@ const DashboardPetsProfilePage: React.FC = () => {
       {showEditProfileForm ? (
         <div className="">
           <EditPetProfileForm
-            // fetchSitterProfile={fetchSitterProfile}
-            // sitterProfile={sitterProfile}
-            closeEditForm={() => setShowEditProfileForm(false)}
+            petProfile={selectedPetProfile}
+            // fetchPetProfiles={fetchPetProfiles}
+            // closeEditForm={() => setShowEditProfileForm(false)}
+            onClose={() => {
+              setSelectedPetProfile(null);
+              setShowEditProfileForm(false);
+              fetchPetProfiles();
+            }}
             // onSave={handleSave}
           />
         </div>
@@ -80,17 +90,19 @@ const DashboardPetsProfilePage: React.FC = () => {
             {t("dashboard_pets_profile_page.title")}
           </h1>
 
-          {petProfileTest ? (
+          {petProfiles?.length !== 0 ? (
             <>
               <div className="flex flex-col">
-                {petProfileArrTest?.map((profile, index) => (
+                {petProfiles?.map((profile, index) => (
                   <div
                     key={index}
                     className="mx-6 my-3 border border-transparent shadow-custom rounded w-80 sm:w-100 p-4"
                   >
                     <div className="sm:mt-0 sm:ml-6 flex items-center justify-between gap-4">
                       <img
-                        src={profile.profile_picture_src}
+                        // Hard coding the image URL for now
+                        src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/3a/Cat03.jpg/640px-Cat03.jpg"
+                        // src={profile.profile_picture_src}
                         alt={`Pic ture of ${profile.name}`}
                         className="h-20 w-20 rounded-full object-cover"
                       />
@@ -101,7 +113,10 @@ const DashboardPetsProfilePage: React.FC = () => {
 
                         <div>
                           <button
-                            onClick={() => setShowEditProfileForm(true)}
+                            onClick={() => {
+                              setSelectedPetProfile(profile);
+                              setShowEditProfileForm(true);
+                            }}
                             // className="mx-4 shadow btn-secondary focus:shadow-outline focus:outline-none text-white font-bold py-2 px-5 text-sm rounded"
                             className="text-brown text-sm underline mr-4 "
                           >

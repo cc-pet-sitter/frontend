@@ -7,20 +7,31 @@ const apiURL: string = import.meta.env.VITE_API_BASE_URL;
 
 type Props = {
   closeEditForm: () => void;
+  // onSave: (updatedProfile: EditFormData) => void;
+  petProfile: EditProfileFormData | null;
+  // fetchPetProfiles: () => void;
+  onClose: () => void;
 };
 
 type EditProfileFormData = {
+  id: Number;
   name: string;
   type_of_animal: string;
-  subtype: string;
-  weight: number;
+  subtype: string | null;
+  weight: number | null;
   birthday: Date;
-  known_allergies: string;
-  medications: string;
-  special_needs: string;
+  known_allergies: string | null;
+  medications: string | null;
+  special_needs: string | null;
+  appuser_id: number;
+  profile_picture_src: string | undefined;
 };
 
-const EditProfileForm: React.FC<Props> = ({ closeEditForm }) => {
+const EditProfileForm: React.FC<Props> = ({
+  closeEditForm,
+  petProfile,
+  onClose,
+}) => {
   const { register, handleSubmit, reset } = useForm<EditProfileFormData>({
     shouldUseNativeValidation: true,
   });
@@ -30,11 +41,63 @@ const EditProfileForm: React.FC<Props> = ({ closeEditForm }) => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const { t } = useTranslation();
 
-  const onSubmit = async (data: EditProfileFormData) => {
+  // Pre-fill form if editing an existing pet profile
+  useEffect(() => {
+    if (petProfile) {
+      reset({
+        name: petProfile.name || "",
+        type_of_animal: petProfile.type_of_animal || "",
+        subtype: petProfile.subtype || "",
+        weight: petProfile.weight || undefined,
+        birthday: petProfile.birthday || "",
+        known_allergies: petProfile.known_allergies || "",
+        medications: petProfile.medications || "",
+        special_needs: petProfile.special_needs || "",
+      });
+    }
+  }, [petProfile, reset]);
+
+  const handleCreate = async (data: EditProfileFormData) => {
+    console.log(data);
     setIsLoading(true);
     try {
       const idToken = await currentUser?.getIdToken();
-      const response = await fetch(`${apiURL}/pet/${userInfo?.id}`, {
+      const response = await fetch(`${apiURL}/appuser/${userInfo?.id}/pet`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${idToken}`,
+        },
+        body: JSON.stringify(data),
+      });
+
+      if (response.ok) {
+        const newProfile = await response.json();
+        console.log("Profile created successfully:", newProfile);
+
+        setSuccess(true);
+        setError(null);
+        onClose();
+        // closeEditForm();
+        // fetchPetProfiles();
+      } else {
+        const errorData = await response.json();
+        throw new Error(errorData.detail || "Failed to create profile.");
+      }
+    } catch (error: any) {
+      console.error("Error creating profile:", error.message);
+      setError(error.message);
+      setSuccess(false);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const handleUpdate = async (data: EditProfileFormData) => {
+    setIsLoading(true);
+    try {
+      const idToken = await currentUser?.getIdToken();
+      const response = await fetch(`${apiURL}/pet/${petProfile?.id}`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
@@ -47,13 +110,14 @@ const EditProfileForm: React.FC<Props> = ({ closeEditForm }) => {
         const updatedProfile = await response.json();
         console.log("Profile updated successfully:", updatedProfile);
 
-        // fetchSitterProfile(true);
         setSuccess(true);
         setError(null);
-        closeEditForm();
+        onClose();
+        // closeEditForm();
+        // fetchPetProfiles();
       } else {
         const errorData = await response.json();
-        throw new Error(errorData.detail || "Failed to update profile.");
+        throw new Error(errorData.detail || "Failed to create profile.");
       }
     } catch (error: any) {
       console.error("Error updating profile:", error.message);
@@ -61,6 +125,14 @@ const EditProfileForm: React.FC<Props> = ({ closeEditForm }) => {
       setSuccess(false);
     } finally {
       setIsLoading(false);
+    }
+  };
+
+  const onSubmit = async (data: EditProfileFormData) => {
+    if (petProfile) {
+      await handleUpdate(data);
+    } else {
+      await handleCreate(data);
     }
   };
 
@@ -125,11 +197,11 @@ const EditProfileForm: React.FC<Props> = ({ closeEditForm }) => {
             {t("editPetProfileForm.typeOfPet")}
           </p>
           {petOptions.map((pet) => (
-            <label key={pet.id} className={`${labelClass} flex items-center`}>
+            <label key={pet.name} className={`${labelClass} flex items-center`}>
               <input
                 type="radio"
                 {...register("type_of_animal")}
-                value={pet.id} // Use pet ID as the value
+                value={pet.name}
                 className="mr-2"
               />
               {t(`searchBar.petOptions.${pet.name}`)}
