@@ -49,7 +49,7 @@ const App: React.FC = () => {
               element={<DashboardSitterProfilePage />}
             />
             <Route
-              path="/dashboard/ptes_profile"
+              path="/dashboard/pets_profile"
               element={<DashboardPetsProfilePage />}
             />
             <Route

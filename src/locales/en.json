@@ -16,6 +16,12 @@
     "edit_button": "Edit account info",
     "save_button": "Save"
   },
+  "dashboard_pets_profile_page": {
+    "title": "Your Pets Profile",
+    "subtitle": "Create your first pet profile.",
+    "first_profile": "Create Profile",
+    "edit_button": "Edit profile"
+  },
   "dashboard_bookings_page": {
     "title": "Bookings",
     "no_bookings": "You have no bookings",
@@ -183,6 +189,16 @@
     "passwordPlaceholder": "••••••••",
     "showPassword": "Show password",
     "hidePassword": "Hide password"
+  },
+  "editPetProfileForm": {
+    "name": "Name",
+    "birthday": "Birthday",
+    "weight": "Weight",
+    "breed": "Breed(s)",
+    "typeOfPet": "What type of pet?",
+    "allergies": "Kown allergies",
+    "medications": "Medications",
+    "specialNeeds": "Anything else a sitter should know?"
   },
   "editProfileForm": {
     "header": "My Account Info",

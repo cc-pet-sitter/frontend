@@ -16,6 +16,12 @@
     "edit_button": "アカウント情報を編集",
     "save_button": "保存"
   },
+  "dashboard_pets_profile_page": {
+    "title": "ペットプロフィール",
+    "subtitle": "ペットプロフィールを作成しよう",
+    "first_profile": "プロフィールを作成",
+    "edit_button": "Edit profile"
+  },
   "dashboard_bookings_page": {
     "title": "予約",
     "no_bookings": "予約はありません",
@@ -181,6 +187,16 @@
     "passwordPlaceholder": "••••••••",
     "showPassword": "パスワードを表示",
     "hidePassword": "パスワードを隠す"
+  },
+  "editPetProfileForm": {
+    "name": "名前",
+    "birthday": "誕生日",
+    "weight": "体重",
+    "breed": "品種",
+    "typeOfPet": "ペットの種類",
+    "allergies": "アレルギー",
+    "medications": "服薬中のお薬",
+    "specialNeeds": "その他シッターさんに知っておいてほしいことはありますか？"
   },
   "editProfileForm": {
     "header": "アカウント情報",

@@ -149,14 +149,21 @@ const Header: React.FC = () => {
                   {menuOpen && (
                     <div
                       ref={menuRef}
-                      className="absolute right-0 mt-2 w-52 bg-white rounded shadow-lg z-50 p-4 space-y-2 justify-center"
+                      className="absolute right-0 mt-2 w-64 bg-white rounded shadow-lg z-50 p-4 space-y-2 justify-center"
                     >
                       <Link
                         to="/dashboard/account"
-                        className="block px-4 hover:bg-gray-200 text-lg py-2 border-gray "
+                        className="block px-4 hover:bg-gray-200 text-lg border-gray "
                         onClick={toggleMenu}
                       >
                         {t("hamburger_menu.account")}
+                      </Link>
+                      <Link
+                        to="/dashboard/pets_profile"
+                        className="block px-4 hover:bg-gray-200 text-lg py-2 border-gray "
+                        onClick={toggleMenu}
+                      >
+                        {t("hamburger_menu.pets_profile")}
                       </Link>
                       <Link
                         to="/dashboard/bookings"
