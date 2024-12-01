@@ -16,6 +16,7 @@ import { useAuth } from "./contexts/AuthContext";
 import DashboardBookingsPage from "./pages/DashboardBookingsPage";
 import DashboardRequestsPage from "./pages/DashboardRequestsPage";
 import DashboardSitterProfilePage from "./pages/DashboardSitterProfilePage";
+import DashboardPetsProfilePage from "./pages/DashboardPetsProfilePage.tsx";
 import DashboardAccountPage from "./pages/DashboardAccountPage";
 import SearchResults from "./components/search/SearchResults";
 
@@ -46,6 +47,10 @@ const App: React.FC = () => {
             <Route
               path="/dashboard/sitter_profile"
               element={<DashboardSitterProfilePage />}
+            />
+            <Route
+              path="/dashboard/ptes_profile"
+              element={<DashboardPetsProfilePage />}
             />
             <Route
               path="/dashboard/account"

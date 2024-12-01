@@ -4,6 +4,7 @@
   },
   "hamburger_menu": {
     "account": "Account",
+    "pets_profile": "Pets Profile",
     "bookings": "Bookings",
     "become_sitter": "Become a sitter",
     "sitter_profile": "Sitter profile",

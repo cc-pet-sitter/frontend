@@ -257,6 +257,13 @@ const Header: React.FC = () => {
               {t("hamburger_menu.account")}
             </Link>
             <Link
+              to="/dashboard/pets_profile"
+              className=" block text-lg pb-2 "
+              onClick={toggleMobileMenu}
+            >
+              {t("hamburger_menu.pets_profile")}
+            </Link>
+            <Link
               to="/dashboard/bookings"
               className=" block text-lg pb-4 border-b "
               onClick={toggleMobileMenu}
