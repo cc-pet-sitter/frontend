@@ -127,7 +127,7 @@ const DashboardSitterProfilePage: React.FC = () => {
 
           <button
             onClick={() => setShowEditProfileForm(true)}
-            className="mx-4 shadow bg-gray-500 hover:bg-gray-400 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-5 text-sm rounded"
+            className="mx-4 shadow btn-secondary focus:shadow-outline focus:outline-none text-white font-bold py-2 px-5 text-sm rounded"
           >
             {t("dashboard_Sitter_Profile_page.edit_button")}
           </button>
