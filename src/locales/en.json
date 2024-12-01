@@ -20,7 +20,8 @@
     "no_bookings": "You have no bookings",
     "booked_with_en": "Booked with",
     "booked_with_jp": "",
-    "review": "Write Review"
+    "review": "Write Review",
+    "close_review": "Close"
   },
   "dashboard_Sitter_Profile_page": {
     "title": "Your Sitter Profile",
