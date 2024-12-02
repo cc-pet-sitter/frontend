@@ -2,7 +2,7 @@ export interface Sitter {
   appuser_id: number;
   sitter_profile_bio: string;
   sitter_bio_picture_src_list: string;
-  id: number;
+  id: number | null;
   aggregate_sitter_rating: number;
   profile_bio: string;
   bio_picture_src_list: string;
@@ -83,6 +83,20 @@ export interface Inquiry {
   inquiry_finalized: Date;
 }
 
+export interface PetProfileData {
+  id: Number;
+  name: string;
+  type_of_animal: string;
+  subtype: string | null;
+  weight: number | null;
+  birthday: string;
+  known_allergies: string | null;
+  medications: string | null;
+  special_needs: string | null;
+  appuser_id: number;
+  profile_picture_src: string | undefined;
+}
+
 export interface Review {
   id: number;
   author_appuser_id: number;
@@ -102,3 +116,4 @@ export interface Message {
   time_sent: Date;
   sender_name?: string;
 }
+

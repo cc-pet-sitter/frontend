@@ -166,7 +166,7 @@ const DashboardAccountPage: React.FC = () => {
           <div className="flex justify-center pb-8 ">
             <button
               onClick={() => setShowSignUpForm(true)}
-              className="shadow bg-gray-500 hover:bg-gray-400 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded"
+              className="shadow btn-secondary focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded"
             >
               {t("dashboard_account_page.edit_button")}
             </button>

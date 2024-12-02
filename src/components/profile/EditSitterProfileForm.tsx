@@ -6,41 +6,29 @@ import { MdOutlineArrowBackIos } from "react-icons/md";
 import axios from "axios";
 const apiURL: string = import.meta.env.VITE_API_BASE_URL;
 import ProfilePictureUploader from "../services/ProfilePictureUploader";
-import MultiPictureUploader from "../services/MultiPictureUploader"
+import MultiPictureUploader from "../services/MultiPictureUploader";
 import ViewMultiPicture from "./ViewMultiPicture";
+import { Sitter } from "../../types/userProfile.ts";
 
 type Props = {
   closeEditForm: () => void;
-  onSave: (updatedProfile: EditFormData) => void;
-  sitterProfile: SitterProfile | null;
+  onSave: (updatedProfile: Sitter) => void;
+  sitterProfile: Sitter | null;
   fetchSitterProfile: (is_sitter: boolean | null | undefined) => void;
 };
 
-type SitterProfile = {
-  sitter_profile_bio: string | null;
-  sitter_bio_picture_src_list: string | null;
-  visit_ok: boolean | null;
-  sitter_house_ok: boolean | null;
-  owner_house_ok: boolean | null;
-  dogs_ok: boolean | null;
-  cats_ok: boolean | null;
-  fish_ok: boolean | null;
-  birds_ok: boolean | null;
-  rabbits_ok: boolean | null;
-};
-
-type EditFormData = {
-  sitter_profile_bio: string | null;
-  sitter_bio_picture_src_list: string | null;
-  sitter_house_ok: boolean | null;
-  owner_house_ok: boolean | null;
-  visit_ok: boolean | null;
-  dogs_ok: boolean | null;
-  cats_ok: boolean | null;
-  fish_ok: boolean | null;
-  birds_ok: boolean | null;
-  rabbits_ok: boolean | null;
-};
+// type EditFormData = {
+//   sitter_profile_bio: string | null;
+//   sitter_bio_picture_src_list: string | null;
+//   sitter_house_ok: boolean | null;
+//   owner_house_ok: boolean | null;
+//   visit_ok: boolean | null;
+//   dogs_ok: boolean | null;
+//   cats_ok: boolean | null;
+//   fish_ok: boolean | null;
+//   birds_ok: boolean | null;
+//   rabbits_ok: boolean | null;
+// };
 
 const EditSitterProfileForm: React.FC<Props> = ({
   sitterProfile,
@@ -56,23 +44,25 @@ const EditSitterProfileForm: React.FC<Props> = ({
     getValues,
     setValue,
     formState: { errors },
-  } = useForm<EditFormData>({
+  } = useForm<Sitter>({
     shouldUseNativeValidation: true,
     mode: "onSubmit",
   });
   const { userInfo, setUserInfo } = useAuth();
   const { t } = useTranslation();
-  const [sitterProfilePicture, setSitterProfilePicture] = useState<string | null>(null);
-  const [sitterBioPictureSrcList, setSitterBioPictureSrcList] = useState<string>(
-    sitterProfile?.sitter_bio_picture_src_list || ""
-  );
+  const [sitterProfilePicture, setSitterProfilePicture] = useState<
+    string | null
+  >(null);
+  const [sitterBioPictureSrcList, setSitterBioPictureSrcList] =
+    useState<string>(sitterProfile?.sitter_bio_picture_src_list || "");
   console.log("sitterProfile: ", sitterProfile);
 
   useEffect(() => {
     if (sitterProfile) {
       reset({
         sitter_profile_bio: sitterProfile.sitter_profile_bio || "",
-        sitter_bio_picture_src_list: sitterProfile.sitter_bio_picture_src_list || "",
+        sitter_bio_picture_src_list:
+          sitterProfile.sitter_bio_picture_src_list || "",
         sitter_house_ok: sitterProfile.sitter_house_ok || false,
         owner_house_ok: sitterProfile.owner_house_ok || false,
         visit_ok: sitterProfile.visit_ok || false,
@@ -82,16 +72,17 @@ const EditSitterProfileForm: React.FC<Props> = ({
         birds_ok: sitterProfile.birds_ok || false,
         rabbits_ok: sitterProfile.rabbits_ok || false,
       });
-      setSitterBioPictureSrcList(sitterProfile.sitter_bio_picture_src_list || "");
+      setSitterBioPictureSrcList(
+        sitterProfile.sitter_bio_picture_src_list || ""
+      );
     }
   }, [sitterProfile, reset]);
 
-  const onSubmit = async (data: EditFormData) => {
+  const onSubmit = async (data: Sitter) => {
     data.sitter_bio_picture_src_list = sitterBioPictureSrcList;
-    console.log('Submitting data:', data);
+    console.log("Submitting data:", data);
     try {
       const response = await axios.post(`${apiURL}/sitter/${userInfo?.id}`, {
-        // data,
         sitter_profile_bio: data.sitter_profile_bio,
         sitter_bio_picture_src_list: data.sitter_bio_picture_src_list,
         sitter_house_ok: data.sitter_house_ok,
@@ -119,7 +110,7 @@ const EditSitterProfileForm: React.FC<Props> = ({
       } else {
         throw new Error(response.data.detail || "Failed to update profile.");
       }
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error: any) {
       console.error("Error updating profile:", error.message);
       setError(error.message);
@@ -135,25 +126,25 @@ const EditSitterProfileForm: React.FC<Props> = ({
       ? `${sitterBioPictureSrcList},${url}`
       : url;
 
-    setSitterBioPictureSrcList(updatedPictureList)
-  
+    setSitterBioPictureSrcList(updatedPictureList);
+
     // Update the form's value for sitter_bio_picture_src_list
-    setValue('sitter_bio_picture_src_list', updatedPictureList);
-  }
+    setValue("sitter_bio_picture_src_list", updatedPictureList);
+  };
 
   const handleMultiUpload = (urls: string[]) => {
     // Combine existing URLs with new ones
-    const currentPictureList = getValues('sitter_bio_picture_src_list') || '';
+    const currentPictureList = getValues("sitter_bio_picture_src_list") || "";
     const updatedPictureList = currentPictureList
-      ? `${currentPictureList},${urls.join(',')}`
-      : urls.join(',');
-  
+      ? `${currentPictureList},${urls.join(",")}`
+      : urls.join(",");
+
     setSitterBioPictureSrcList(updatedPictureList);
-    setValue('sitter_bio_picture_src_list', updatedPictureList);
+    setValue("sitter_bio_picture_src_list", updatedPictureList);
   };
-  
+
   // Validation logic for at least one checkbox
-  const validateAtLeastOneSelected = (keys: Array<keyof EditFormData>) => {
+  const validateAtLeastOneSelected = (keys: Array<keyof Sitter>) => {
     const values = getValues();
     return (
       keys.some((key) => values[key] === true) ||
@@ -169,7 +160,7 @@ const EditSitterProfileForm: React.FC<Props> = ({
   const inputClass = "block tracking-wide text-gray-700 mb-2 text-lg";
 
   const petOptions = ["Dog", "Cat", "Fish", "Bird", "Rabbit"];
-  const petOptionsKey: Array<keyof EditFormData> = [
+  const petOptionsKey: Array<keyof Sitter> = [
     "dogs_ok",
     "cats_ok",
     "fish_ok",
@@ -177,7 +168,7 @@ const EditSitterProfileForm: React.FC<Props> = ({
     "rabbits_ok",
   ];
   const serviceOptions = ["Boarding", "Stay in", "Drop in"];
-  const serviceOptionsKey: Array<keyof EditFormData> = [
+  const serviceOptionsKey: Array<keyof Sitter> = [
     "owner_house_ok",
     "sitter_house_ok",
     "visit_ok",
@@ -213,7 +204,11 @@ const EditSitterProfileForm: React.FC<Props> = ({
 
         <div className="flex flex-col sm:flex-row items-center p-6">
           <img
-            src={sitterProfilePicture || sitterProfile?.sitter_bio_picture_src_list || "https://firebasestorage.googleapis.com/v0/b/petsitter-84e85.firebasestorage.app/o/user_profile_pictures%2Fdefault-profile.svg?alt=media&token=aa84dc5e-41e5-4f6a-b966-6a1953b25971"}
+            src={
+              sitterProfilePicture ||
+              sitterProfile?.sitter_bio_picture_src_list ||
+              "https://firebasestorage.googleapis.com/v0/b/petsitter-84e85.firebasestorage.app/o/user_profile_pictures%2Fdefault-profile.svg?alt=media&token=aa84dc5e-41e5-4f6a-b966-6a1953b25971"
+            }
             alt={`${userInfo?.firstname} ${userInfo?.lastname}`}
             className="h-48 w-48 rounded-full object-cover"
           />
@@ -221,7 +216,9 @@ const EditSitterProfileForm: React.FC<Props> = ({
             id={userInfo?.id}
             pictureType="sitter_pictures"
             onUpload={handleUpload}
-            existingPictureUrl={sitterProfile?.sitter_bio_picture_src_list || ""}
+            existingPictureUrl={
+              sitterProfile?.sitter_bio_picture_src_list || ""
+            }
           />
         </div>
 
@@ -314,13 +311,16 @@ const EditSitterProfileForm: React.FC<Props> = ({
           </p>
         ) : null}
       </div>
-      
+
       <div className="mt-6">
         <h2 className={`${labelClass}`}>Add More Pictures</h2>
-        {sitterBioPictureSrcList
-          ? <ViewMultiPicture sitter_bio_picture_src_list={sitterBioPictureSrcList || ""}/>
-          : ""
-        } 
+        {sitterBioPictureSrcList ? (
+          <ViewMultiPicture
+            sitter_bio_picture_src_list={sitterBioPictureSrcList || ""}
+          />
+        ) : (
+          ""
+        )}
         <MultiPictureUploader
           id={userInfo?.id}
           pictureType="sitter_pictures"
@@ -331,7 +331,7 @@ const EditSitterProfileForm: React.FC<Props> = ({
       <div className="flex justify-center md:justify-end ">
         <button
           type="submit"
-          className="shadow bg-gray-500 hover:bg-gray-400 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 text-sm rounded w-full mr-8 sm:w-auto sm:mr-4 md:mr-6 md:w-48 md:py-3 md:px-8 mt-6"
+          className="shadow btn-primary focus:shadow-outline focus:outline-nonefont-bold py-2 px-4 text-sm rounded w-full mr-8 sm:w-auto sm:mr-4 md:mr-6 md:w-48 md:py-3 md:px-8 mt-6"
         >
           Save
         </button>

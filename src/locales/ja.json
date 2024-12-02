@@ -4,6 +4,7 @@
   },
   "hamburger_menu": {
     "account": "アカウント",
+    "pets_profile": "ペットプロフィール",
     "bookings": "予約",
     "become_sitter": "ペットシッターになる",
     "sitter_profile": "シッタープロフィール",
@@ -14,6 +15,14 @@
     "title": "アカウント情報",
     "edit_button": "アカウント情報を編集",
     "save_button": "保存"
+  },
+  "dashboard_pets_profile_page": {
+    "title": "ペットプロフィール",
+    "subtitle": "ペットプロフィールを作成しよう",
+    "first_profile": "プロフィールを作成",
+    "add_profile": "＋ 他のペットを追加",
+    "edit_button": "プロフィールを編集",
+    "view_button": "プロフィールを確認"
   },
   "dashboard_bookings_page": {
     "title": "予約",
@@ -183,6 +192,27 @@
     "passwordPlaceholder": "••••••••",
     "showPassword": "パスワードを表示",
     "hidePassword": "パスワードを隠す"
+  },
+  "PetProfile": {
+    "about": "{{name}} について",
+    "typeOfPet": "私は{{cat}}です",
+    "birthday": "誕生日は ",
+    "weight": "体重は {{weight}}kg",
+    "breed": "品種は ",
+    "allergies": "アレルギー",
+    "medications": "服薬中のお薬",
+    "specialNeeds": "知っておいてほしいこと"
+  },
+
+  "editPetProfileForm": {
+    "name": "名前",
+    "birthday": "誕生日",
+    "weight": "体重 (kg)",
+    "breed": "品種",
+    "typeOfPet": "ペットの種類",
+    "allergies": "アレルギー",
+    "medications": "服薬中のお薬",
+    "specialNeeds": "その他シッターさんに知っておいてほしいことはありますか？"
   },
   "editProfileForm": {
     "header": "アカウント情報",

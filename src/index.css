@@ -8,7 +8,7 @@
     @apply py-2 px-5 bg-prBtnBg text-prBtnText font-semibold rounded hover:bg-prBtnHover;
   }
   .btn-secondary {
-    @apply py-2 px-5 bg-brown text-white font-semibold rounded hover:bg-seBtnHover;
+    @apply py-2 px-5 bg-seBtnBg text-white font-semibold rounded hover:bg-seBtnHover;
   }
 }
 
