@@ -128,10 +128,7 @@ const SearchBar: React.FC<SearchBarProps> = ({ onSearchSubmit }) => {
 
         <div className="md:flex md:items-center">
           <div className="md:w-1/2 flex justify-center">
-            <button
-              type="submit"
-              className="shadow bg-gray-500 hover:bg-gray-400 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded"
-            >
+            <button type="submit" className="btn-primary  ">
               {t("searchBar.search")}
             </button>
           </div>
