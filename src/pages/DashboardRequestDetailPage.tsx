@@ -156,7 +156,7 @@ const DashboardRequestDetailPage: React.FC = () => {
           <strong>Status:</strong> {request.inquiry_status}
         </p>
         <p>
-          <strong>Message:</strong> {request.inquiry_message}
+          <strong>Message:</strong> {request.additional_info}
         </p>
       </div>
 
@@ -215,9 +215,9 @@ const DashboardRequestDetailPage: React.FC = () => {
       <div className="mb-6">
         <h3 className="font-semibold text-xl">Conversation</h3>
         <ConversationComponent
-          requestId={requestId}
-          ownerId={ownerInfo.id}
-          sitterId={sitterInfo.id}
+          inquiry={requestId}
+          author_appuser={ownerInfo.id}
+          recipien_appuser={sitterInfo.id}
         />
       </div>
     </div>
