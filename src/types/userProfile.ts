@@ -99,4 +99,5 @@ export interface Message {
   author_appuser_id: number;
   recipient_appuser_id: number;
   content: string;
+  time_sent: Date;
 }
