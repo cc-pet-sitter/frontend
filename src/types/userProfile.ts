@@ -2,7 +2,7 @@ export interface Sitter {
   appuser_id: number;
   sitter_profile_bio: string;
   sitter_bio_picture_src_list: string;
-  id: number;
+  id: number | null;
   aggregate_sitter_rating: number;
   profile_bio: string;
   bio_picture_src_list: string;
