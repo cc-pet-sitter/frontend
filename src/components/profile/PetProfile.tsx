@@ -3,8 +3,7 @@ import { useTranslation } from "react-i18next";
 import { PiCat, PiMedal, PiRabbit, PiBird } from "react-icons/pi";
 import { LiaBirthdayCakeSolid, LiaWeightSolid } from "react-icons/lia";
 import { MdOutlineArrowBackIos } from "react-icons/md";
-import { LuDog } from "react-icons/lu";
-import { IoFishOutline } from "react-icons/io5";
+import { LuDog, LuFish } from "react-icons/lu";
 import { PetProfileData } from "../../types/userProfile";
 
 type Props = {
@@ -73,7 +72,7 @@ const PetProfile: React.FC<Props> = ({ petProfile, onClose }) => {
                 )}
                 {petProfile.type_of_animal === "fish" && (
                   <>
-                    <IoFishOutline className="mr-3 mt-1 text-xl" />
+                    <LuFish className="mr-3 mt-1 text-xl" />
                   </>
                 )}
                 {t("PetProfile.typeOfPet", { cat: petProfile.type_of_animal })}
