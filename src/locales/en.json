@@ -29,7 +29,8 @@
     "no_bookings": "You have no bookings",
     "booked_with_en": "Booked with",
     "booked_with_jp": "",
-    "review": "Write Review"
+    "review": "Write Review",
+    "close_review": "Close"
   },
   "dashboard_Sitter_Profile_page": {
     "title": "Your Sitter Profile",
@@ -155,7 +156,9 @@
     "backToSearchResults": "Back To Search Results",
     "makeAnEnquiry": "Make An Enquiry",
     "close": "Close",
-    "animalsICareFor": "Animals I Care For"
+    "animalsICareFor": "Animals I Care For",
+    "noReviews": "has not been given a review yet.",
+    "additionalImages": "Additional images"
   },
   "enquiryForm": {
     "startDate": "Start Date",

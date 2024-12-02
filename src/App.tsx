@@ -19,6 +19,7 @@ import DashboardSitterProfilePage from "./pages/DashboardSitterProfilePage";
 import DashboardPetsProfilePage from "./pages/DashboardPetsProfilePage.tsx";
 import DashboardAccountPage from "./pages/DashboardAccountPage";
 import SearchResults from "./components/search/SearchResults";
+import DashboardRequestDetailPage from "./pages/DashboardRequestDetailPage";
 
 const App: React.FC = () => {
   const { currentUser } = useAuth();
@@ -43,6 +44,10 @@ const App: React.FC = () => {
             <Route
               path="/dashboard/requests"
               element={<DashboardRequestsPage />}
+            />
+            <Route
+              path="/dashboard/requests/:requestId"
+              element={<DashboardRequestDetailPage />}
             />
             <Route
               path="/dashboard/sitter_profile"

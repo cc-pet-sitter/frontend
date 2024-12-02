@@ -1,6 +1,7 @@
 export interface Sitter {
   appuser_id: number;
   sitter_profile_bio: string;
+  sitter_bio_picture_src_list: string;
   id: number;
   aggregate_sitter_rating: number;
   profile_bio: string;
@@ -34,6 +35,7 @@ export interface AppUserDetails {
 }
 
 export interface AppUser {
+  average_user_rating: number | null | undefined;
   sitter: Sitter;
   appuser: AppUserDetails;
   appuser_id: number;
@@ -93,4 +95,14 @@ export interface PetProfileData {
   special_needs: string | null;
   appuser_id: number;
   profile_picture_src: string | undefined;
+}
+
+export interface Review {
+  id: number;
+  author_appuser_id: number;
+  recipient_appuser_type: string;
+  comment: string;
+  score: number;
+  recipient_appuser_id: number;
+  submission_date: Date;
 }

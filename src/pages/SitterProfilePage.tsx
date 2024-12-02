@@ -4,10 +4,12 @@ import { useParams } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import axios from "axios";
-import { AppUser, Sitter } from "../types/userProfile.ts";
+import { AppUser, Review, Sitter } from "../types/userProfile.ts";
 import { Done } from "@mui/icons-material";
 import { formatDistanceToNow } from "date-fns";
 import WriteReview from "../components/reviews/WriteReview.tsx";
+import ViewMultiPicture from "../components/profile/ViewMultiPicture.tsx";
+import Rating from "@mui/material/Rating";
 
 const apiURL: string = import.meta.env.VITE_API_BASE_URL;
 
@@ -19,6 +21,7 @@ type UserResponse = {
 const SitterProfilePage: React.FC = () => {
   const [showEnquiryForm, setShowEnquiryForm] = useState<boolean>(false);
   const [user, setUser] = useState<UserResponse | null>(null);
+  const [reviews, setReviews] = useState<Review[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
 
@@ -29,21 +32,29 @@ const SitterProfilePage: React.FC = () => {
   console.log(user);
 
   useEffect(() => {
-    const fetchUserProfile = async () => {
+    const fetchData = async () => {
       setLoading(true);
       try {
-        const response = await axios.get(`${apiURL}/appuser-extended/${id}`);
-        setUser(response.data);
+        const profileResponse = await axios.get(
+          `${apiURL}/appuser-extended/${id}`
+        );
+        setUser(profileResponse.data);
+
+        const reviewsResponse = await axios.get(
+          `${apiURL}/appuser/${id}/review`
+        );
+        setReviews(reviewsResponse.data);
+
         setLoading(false);
       } catch (error) {
-        console.error("Error fetching profile:", error);
-        setError("Couldn't fetch profile.");
+        console.error("Error fetching data:", error);
+        setError("Couldn't fetch data.");
         setLoading(false);
       }
     };
 
     if (id) {
-      fetchUserProfile();
+      fetchData();
     }
   }, [id]);
 
@@ -69,7 +80,7 @@ const SitterProfilePage: React.FC = () => {
         {/* Profile Header */}
         <div className="flex flex-col sm:flex-row items-center p-6">
           <img
-            src={user.appuser.profile_picture_src}
+            src={user.sitter.sitter_bio_picture_src_list}
             alt={`${user.appuser.firstname} ${user.appuser.lastname}`}
             className="h-48 w-48 rounded-full object-cover"
           />
@@ -77,10 +88,18 @@ const SitterProfilePage: React.FC = () => {
             <h1 className="text-2xl font-bold">{`${user.appuser.firstname} ${user.appuser.lastname}`}</h1>
             {/* <p className="text-gray-500">{user.appuser.email}</p> */}
           </div>
+          <div>
+            <Rating
+              className="pt-2"
+              name="read-only"
+              value={user.appuser.average_user_rating}
+              readOnly
+            />
+          </div>
           <div className="mt-4 sm:mt-0 sm:ml-auto flex flex-col items-center">
             <button
               onClick={() => setShowEnquiryForm((prev: boolean) => !prev)}
-              className="shadow bg-gray-500 hover:bg-gray-400 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded"
+              className="btn-primary"
             >
               {showEnquiryForm
                 ? t("sitterProfilePage.close")
@@ -199,19 +218,51 @@ const SitterProfilePage: React.FC = () => {
           <h2 className="text-lg font-semibold mb-4">
             {t("sitterProfilePage.reviews")}
           </h2>
-          <ul className="list-none space-y-2 text-left"></ul>
+          {reviews.length === 0 ? (
+            <p>{`${user.appuser.firstname} ${t(
+              "sitterProfilePage.noReviews"
+            )}`}</p>
+          ) : (
+            <ul className="list-none space-y-4">
+              {reviews.map((review) => (
+                <li
+                  key={review.id}
+                  className="p-4 bg-gray-100 rounded-md shadow"
+                >
+                  <div>
+                    <p className="text-sm text-gray-500">
+                      {`Submitted on: ${new Date(
+                        review.submission_date
+                      ).toLocaleDateString()}`}
+                    </p>
+                    <Rating
+                      className="pt-2"
+                      name="read-only"
+                      value={review.score}
+                      readOnly
+                    />
+                    <p className="mt-2">{review.comment}</p>
+                  </div>
+                </li>
+              ))}
+            </ul>
+          )}
         </div>
+
+
+        {/* Additional Images */}
+        <div className="p-6 border-t">
+          <h2 className="text-lg font-semibold mb-4">
+            {t("sitterProfilePage.additionalImages")}
+          </h2>
+          < ViewMultiPicture sitter_bio_picture_src_list={user.sitter.sitter_bio_picture_src_list || ""} />
+        </div>
+
       </div>
       <div className="mt-6 text-center">
-        <button
-          onClick={() => navigate(-1)}
-          className="shadow bg-gray-500 hover:bg-gray-400 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded"
-        >
+        <button onClick={() => navigate(-1)} className="btn-secondary">
           {t("sitterProfilePage.backToSearchResults")}
         </button>
-      </div>
-      <div>
-        <WriteReview />
       </div>
     </div>
   );

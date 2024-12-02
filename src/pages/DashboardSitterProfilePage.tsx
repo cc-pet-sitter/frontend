@@ -7,6 +7,7 @@ import EditSitterProfileForm from "../components/profile/EditSitterProfileForm";
 
 type SitterProfile = {
   sitter_profile_bio: string | null;
+  sitter_bio_picture_src_list: string | null;
   visit_ok: boolean | null;
   sitter_house_ok: boolean | null;
   owner_house_ok: boolean | null;
@@ -70,11 +71,8 @@ const DashboardSitterProfilePage: React.FC = () => {
                     {/* Image */}
                     <div className="mr-0 mb-4 grid place-items-center sm:mr-6 sm:mb-0">
                       <img
-                        alt="Petter Sitter Image"
-                        // src={sitterProfile.sitter_profile_bio}
-                        src={
-                          "https://live.staticflickr.com/62/207176169_60738224b6_c.jpg"
-                        }
+                        src={sitterProfile?.sitter_bio_picture_src_list || "https://firebasestorage.googleapis.com/v0/b/petsitter-84e85.firebasestorage.app/o/user_profile_pictures%2Fdefault-profile.svg?alt=media&token=aa84dc5e-41e5-4f6a-b966-6a1953b25971"}
+                        alt={`${userInfo?.firstname} ${userInfo?.lastname}`}
                         className="h-32 w-32 rounded-full object-cover object-center sm:h-32 sm:w-32"
                       />
                     </div>

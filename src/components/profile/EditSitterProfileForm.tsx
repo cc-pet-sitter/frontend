@@ -5,6 +5,9 @@ import { useTranslation } from "react-i18next";
 import { MdOutlineArrowBackIos } from "react-icons/md";
 import axios from "axios";
 const apiURL: string = import.meta.env.VITE_API_BASE_URL;
+import ProfilePictureUploader from "../services/ProfilePictureUploader";
+import MultiPictureUploader from "../services/MultiPictureUploader"
+import ViewMultiPicture from "./ViewMultiPicture";
 
 type Props = {
   closeEditForm: () => void;
@@ -15,6 +18,7 @@ type Props = {
 
 type SitterProfile = {
   sitter_profile_bio: string | null;
+  sitter_bio_picture_src_list: string | null;
   visit_ok: boolean | null;
   sitter_house_ok: boolean | null;
   owner_house_ok: boolean | null;
@@ -27,6 +31,7 @@ type SitterProfile = {
 
 type EditFormData = {
   sitter_profile_bio: string | null;
+  sitter_bio_picture_src_list: string | null;
   sitter_house_ok: boolean | null;
   owner_house_ok: boolean | null;
   visit_ok: boolean | null;
@@ -49,19 +54,25 @@ const EditSitterProfileForm: React.FC<Props> = ({
     handleSubmit,
     reset,
     getValues,
+    setValue,
     formState: { errors },
   } = useForm<EditFormData>({
     shouldUseNativeValidation: true,
     mode: "onSubmit",
   });
-  const { currentUser, userInfo, setUserInfo } = useAuth();
+  const { userInfo, setUserInfo } = useAuth();
   const { t } = useTranslation();
-  console.log("CurrentUser: ", currentUser);
+  const [sitterProfilePicture, setSitterProfilePicture] = useState<string | null>(null);
+  const [sitterBioPictureSrcList, setSitterBioPictureSrcList] = useState<string>(
+    sitterProfile?.sitter_bio_picture_src_list || ""
+  );
+  console.log("sitterProfile: ", sitterProfile);
 
   useEffect(() => {
     if (sitterProfile) {
       reset({
         sitter_profile_bio: sitterProfile.sitter_profile_bio || "",
+        sitter_bio_picture_src_list: sitterProfile.sitter_bio_picture_src_list || "",
         sitter_house_ok: sitterProfile.sitter_house_ok || false,
         owner_house_ok: sitterProfile.owner_house_ok || false,
         visit_ok: sitterProfile.visit_ok || false,
@@ -71,14 +82,18 @@ const EditSitterProfileForm: React.FC<Props> = ({
         birds_ok: sitterProfile.birds_ok || false,
         rabbits_ok: sitterProfile.rabbits_ok || false,
       });
+      setSitterBioPictureSrcList(sitterProfile.sitter_bio_picture_src_list || "");
     }
   }, [sitterProfile, reset]);
 
   const onSubmit = async (data: EditFormData) => {
+    data.sitter_bio_picture_src_list = sitterBioPictureSrcList;
+    console.log('Submitting data:', data);
     try {
       const response = await axios.post(`${apiURL}/sitter/${userInfo?.id}`, {
         // data,
         sitter_profile_bio: data.sitter_profile_bio,
+        sitter_bio_picture_src_list: data.sitter_bio_picture_src_list,
         sitter_house_ok: data.sitter_house_ok,
         owner_house_ok: data.owner_house_ok,
         visit_ok: data.visit_ok,
@@ -104,6 +119,7 @@ const EditSitterProfileForm: React.FC<Props> = ({
       } else {
         throw new Error(response.data.detail || "Failed to update profile.");
       }
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error: any) {
       console.error("Error updating profile:", error.message);
       setError(error.message);
@@ -111,6 +127,31 @@ const EditSitterProfileForm: React.FC<Props> = ({
     }
   };
 
+  const handleUpload = async (url: string) => {
+    setSitterProfilePicture(url);
+
+    // Update the form data with the new image URL
+    const updatedPictureList = sitterBioPictureSrcList
+      ? `${sitterBioPictureSrcList},${url}`
+      : url;
+
+    setSitterBioPictureSrcList(updatedPictureList)
+  
+    // Update the form's value for sitter_bio_picture_src_list
+    setValue('sitter_bio_picture_src_list', updatedPictureList);
+  }
+
+  const handleMultiUpload = (urls: string[]) => {
+    // Combine existing URLs with new ones
+    const currentPictureList = getValues('sitter_bio_picture_src_list') || '';
+    const updatedPictureList = currentPictureList
+      ? `${currentPictureList},${urls.join(',')}`
+      : urls.join(',');
+  
+    setSitterBioPictureSrcList(updatedPictureList);
+    setValue('sitter_bio_picture_src_list', updatedPictureList);
+  };
+  
   // Validation logic for at least one checkbox
   const validateAtLeastOneSelected = (keys: Array<keyof EditFormData>) => {
     const values = getValues();
@@ -170,19 +211,20 @@ const EditSitterProfileForm: React.FC<Props> = ({
           {t("dashboard_Sitter_Profile_page.edit_button")}
         </h1>
 
-        <div className="mr-0 mb-4 grid place-items-center sm:mr-6 sm:mb-0">
+        <div className="flex flex-col sm:flex-row items-center p-6">
           <img
-            alt="Petter Sitter Image"
-            // src={sitterProfile.sitter_profile_bio}
-            src={"https://live.staticflickr.com/62/207176169_60738224b6_c.jpg"}
-            className="h-32 w-32 rounded-full object-cover object-center sm:h-32 sm:w-32"
+            src={sitterProfilePicture || sitterProfile?.sitter_bio_picture_src_list || "https://firebasestorage.googleapis.com/v0/b/petsitter-84e85.firebasestorage.app/o/user_profile_pictures%2Fdefault-profile.svg?alt=media&token=aa84dc5e-41e5-4f6a-b966-6a1953b25971"}
+            alt={`${userInfo?.firstname} ${userInfo?.lastname}`}
+            className="h-48 w-48 rounded-full object-cover"
           />
-          <div className="">
-            <div className="shadow-custom bg-white  focus:shadow-outline focus:outline-none text-black py-2 px-2 text-xs rounded-full">
-              Edit Photo
-            </div>
-          </div>
+          <ProfilePictureUploader
+            id={userInfo?.id}
+            pictureType="sitter_pictures"
+            onUpload={handleUpload}
+            existingPictureUrl={sitterProfile?.sitter_bio_picture_src_list || ""}
+          />
         </div>
+
         <div className="flex flex-col mt-4 items-start">
           <label className={`${labelClass}`} htmlFor="introduction">
             Introduction
@@ -271,6 +313,19 @@ const EditSitterProfileForm: React.FC<Props> = ({
               "Please select at least one service."}
           </p>
         ) : null}
+      </div>
+      
+      <div className="mt-6">
+        <h2 className={`${labelClass}`}>Add More Pictures</h2>
+        {sitterBioPictureSrcList
+          ? <ViewMultiPicture sitter_bio_picture_src_list={sitterBioPictureSrcList || ""}/>
+          : ""
+        } 
+        <MultiPictureUploader
+          id={userInfo?.id}
+          pictureType="sitter_pictures"
+          onUpload={handleMultiUpload}
+        />
       </div>
 
       <div className="flex justify-center md:justify-end ">
