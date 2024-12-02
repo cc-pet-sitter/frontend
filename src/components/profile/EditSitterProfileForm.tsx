@@ -4,11 +4,13 @@ import React, { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { MdOutlineArrowBackIos } from "react-icons/md";
 import axios from "axios";
-const apiURL: string = import.meta.env.VITE_API_BASE_URL;
 import ProfilePictureUploader from "../services/ProfilePictureUploader";
 import MultiPictureUploader from "../services/MultiPictureUploader";
 import ViewMultiPicture from "./ViewMultiPicture";
 import { Sitter } from "../../types/userProfile.ts";
+import EditSitterAvailability from "./EditSitterAvailability.tsx";
+
+const apiURL: string = import.meta.env.VITE_API_BASE_URL;
 
 type Props = {
   closeEditForm: () => void;
@@ -16,19 +18,6 @@ type Props = {
   sitterProfile: Sitter | null;
   fetchSitterProfile: (is_sitter: boolean | null | undefined) => void;
 };
-
-// type EditFormData = {
-//   sitter_profile_bio: string | null;
-//   sitter_bio_picture_src_list: string | null;
-//   sitter_house_ok: boolean | null;
-//   owner_house_ok: boolean | null;
-//   visit_ok: boolean | null;
-//   dogs_ok: boolean | null;
-//   cats_ok: boolean | null;
-//   fish_ok: boolean | null;
-//   birds_ok: boolean | null;
-//   rabbits_ok: boolean | null;
-// };
 
 const EditSitterProfileForm: React.FC<Props> = ({
   sitterProfile,
@@ -310,6 +299,11 @@ const EditSitterProfileForm: React.FC<Props> = ({
               "Please select at least one service."}
           </p>
         ) : null}
+      </div>
+
+      <div className="mt-6">
+        <h2 className={`${labelClass}`}>Add Availability</h2>
+        < EditSitterAvailability userId={userInfo?.id || null}/>
       </div>
 
       <div className="mt-6">
