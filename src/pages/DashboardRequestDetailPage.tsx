@@ -3,6 +3,7 @@ import { useParams } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
 import { Inquiry, AppUser } from '../types/userProfile';
 import Conversation from '../components/chat/Conversation'; // We'll create this later
+import UserProfileModal from '../components/profile/UserProfileModal';
 
 const apiURL: string = import.meta.env.VITE_API_BASE_URL;
 
@@ -13,6 +14,14 @@ const DashboardRequestDetailPage: React.FC = () => {
   const [error, setError] = useState<string | null>(null);
   const { currentUser, userInfo } = useAuth();
   const { requestId } = useParams<{ requestId: string }>();
+
+  const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
+  const [selectedUser, setSelectedUser] = useState<AppUser | null>(null);
+
+  const handleUserClick = (user: AppUser) => {
+    setSelectedUser(user);
+    setIsModalOpen(true);
+  };
 
   useEffect(() => {
     const fetchRequestDetails = async () => {
@@ -173,7 +182,10 @@ const DashboardRequestDetailPage: React.FC = () => {
 
       {/* Owner Information */}
       {isSitter && ownerInfo && (
-        <div className="mb-6">
+        <div 
+          className="mb-6 cursor-pointermb-6 border rounded-lg p-4 bg-white shadow-md cursor-pointer hover:bg-gray-100"
+          onClick={() => handleUserClick(ownerInfo)}
+        >
           <h3 className="font-semibold text-xl">Owner Information</h3>
           <p>
             <strong>Name:</strong> {ownerInfo.firstname} {ownerInfo.lastname}
@@ -182,12 +194,16 @@ const DashboardRequestDetailPage: React.FC = () => {
             <strong>Email:</strong> {ownerInfo.email}
           </p>
           {/* Add more owner details as needed */}
+          <p className="text-blue-500 mt-2">Tap to view full profile</p>
         </div>
       )}
 
       {/* Sitter Information */}
       {isOwner && sitterInfo && (
-        <div className="mb-6">
+        <div 
+          className="mb-6 border rounded-lg p-4 bg-white shadow-md cursor-pointer hover:bg-gray-100"
+          onClick={() => handleUserClick(sitterInfo)}
+          >
           <h3 className="font-semibold text-xl">Sitter Information</h3>
           <p>
             <strong>Name:</strong> {sitterInfo.firstname} {sitterInfo.lastname}
@@ -196,7 +212,17 @@ const DashboardRequestDetailPage: React.FC = () => {
             <strong>Email:</strong> {sitterInfo.email}
           </p>
           {/* Add more sitter details as needed */}
+          <p className="text-blue-500 mt-2">Tap to view full profile</p>
         </div>
+      )}
+
+      {/* User Profile Modal */}
+      {isModalOpen && selectedUser && (
+        <UserProfileModal
+          isOpen={isModalOpen}
+          user={selectedUser}
+          onClose={() => setIsModalOpen(false)}
+        />
       )}
 
       {/* Accept/Reject Buttons */}

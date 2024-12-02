@@ -84,7 +84,7 @@ export interface Inquiry {
 }
 
 export interface PetProfileData {
-  id: Number;
+  id: number;
   name: string;
   type_of_animal: string;
   subtype: string | null;
