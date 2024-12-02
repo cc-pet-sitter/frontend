@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
 import { Inquiry, AppUser } from '../types/userProfile';
-import ConversationComponent from '../components/chat/Conversation'; // We'll create this later
+import Conversation from '../components/chat/Conversation'; // We'll create this later
 
 const apiURL: string = import.meta.env.VITE_API_BASE_URL;
 
@@ -156,7 +156,7 @@ const DashboardRequestDetailPage: React.FC = () => {
           <strong>Status:</strong> {request.inquiry_status}
         </p>
         <p>
-          <strong>Message:</strong> {request.inquiry_message}
+          <strong>Message:</strong> {request.additional_info}
         </p>
       </div>
 
@@ -214,10 +214,8 @@ const DashboardRequestDetailPage: React.FC = () => {
       {/* Conversation Component */}
       <div className="mb-6">
         <h3 className="font-semibold text-xl">Conversation</h3>
-        <ConversationComponent
-          requestId={requestId}
-          ownerId={ownerInfo.id}
-          sitterId={sitterInfo.id}
+        <Conversation
+          inquiry_id={request.id}
         />
       </div>
     </div>

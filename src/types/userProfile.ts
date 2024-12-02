@@ -78,7 +78,7 @@ export interface Inquiry {
   end_date: string;
   desired_service: string;
   pet_id_list: number[] | null;
-  addtional_info: string | null;
+  additional_info: string | null;
   inquiry_submitted: Date;
   inquiry_finalized: Date;
 }
@@ -105,4 +105,13 @@ export interface Review {
   score: number;
   recipient_appuser_id: number;
   submission_date: Date;
+}
+
+export interface Message {
+  id: number;
+  inquiry_id: number;
+  author_appuser_id: number;
+  recipient_appuser_id: number;
+  content: string;
+  time_sent: Date;
 }

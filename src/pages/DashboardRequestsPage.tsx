@@ -129,20 +129,6 @@ const DashboardRequests: React.FC = () => {
                 <div className="absolute top-4 right-4 hover:text-lime-600">
                   <FaRegMessage />
                 </div>
-                <div>
-                  <button
-                    // onClick={() => updateInquiry_tatus())}
-                    className="my-2 shadow bg-green-500 hover:bg-green-600 focus:shadow-outline focus:outline-none text-white font-bold py-1 px-2 rounded text-sm"
-                  >
-                    Approve
-                  </button>
-                  <button
-                    // onClick={() => updateInquiry_tatus())}
-                    className="m-2 shadow bg-red-500 hover:bg-red-600 focus:shadow-outline focus:outline-none text-white font-bold py-1 px-2 rounded text-sm"
-                  >
-                    Reject
-                  </button>
-                </div>
               </div>
             ))}
         </div>
