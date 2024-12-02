@@ -8,7 +8,7 @@ import ProfilePictureUploader from "../services/ProfilePictureUploader";
 import MultiPictureUploader from "../services/MultiPictureUploader";
 import ViewMultiPicture from "./ViewMultiPicture";
 import { Sitter } from "../../types/userProfile.ts";
-import EditSitterAvailability from "./EditSitterAvailability.tsx";
+import AvailabilityManager from "../availability/AvailabilityManager.tsx";
 
 const apiURL: string = import.meta.env.VITE_API_BASE_URL;
 
@@ -302,8 +302,7 @@ const EditSitterProfileForm: React.FC<Props> = ({
       </div>
 
       <div className="mt-6">
-        <h2 className={`${labelClass}`}>Add Availability</h2>
-        < EditSitterAvailability userId={userInfo?.id || null}/>
+        < AvailabilityManager />
       </div>
 
       <div className="mt-6">
