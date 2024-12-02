@@ -20,7 +20,9 @@ const HomePage: React.FC = () => {
         `${apiURL}/appuser-sitters?${queryParams}`
       );
 
-      navigate("/search", { state: { searchResults: data } });
+      console.log(queryParams);
+
+      navigate("/search_page", { state: { searchResults: data } });
     } catch (error) {
       console.error("Error fetching search results:", error);
       alert("Failed to fetch search results. Please try again.");

@@ -34,6 +34,7 @@ export interface AppUserDetails {
 }
 
 export interface AppUser {
+  average_user_rating: number | null | undefined;
   sitter: Sitter;
   appuser: AppUserDetails;
   appuser_id: number;
