@@ -9,6 +9,7 @@ export default {
       colors: {
         background: "#FDF4E3",
         brown: "#BC560A",
+        seBtnBg: "#D87607",
         seBtnHover: "#f49d0c",
         prBtnBg: "#fabe25",
         prBtnText: "#333333",

@@ -4,6 +4,7 @@
   },
   "hamburger_menu": {
     "account": "Account",
+    "pets_profile": "Pets Profile",
     "bookings": "Bookings",
     "become_sitter": "Become a sitter",
     "sitter_profile": "Sitter profile",
@@ -14,6 +15,14 @@
     "title": "My Account Info",
     "edit_button": "Edit account info",
     "save_button": "Save"
+  },
+  "dashboard_pets_profile_page": {
+    "title": "Your Pets Profile",
+    "subtitle": "Create your first pet profile.",
+    "first_profile": "Create Profile",
+    "add_profile": "＋ Add another pet",
+    "edit_button": "Edit profile",
+    "view_button": "View profile"
   },
   "dashboard_bookings_page": {
     "title": "Bookings",
@@ -34,6 +43,7 @@
     "requested_by_en": "Requested by",
     "requested_by_jp": ""
   },
+
   "homePage": {
     "subtitle": "Find trusted pet sitters or list your services!",
     "searchLabel": "Search for a Pet Sitter..."
@@ -185,6 +195,26 @@
     "passwordPlaceholder": "••••••••",
     "showPassword": "Show password",
     "hidePassword": "Hide password"
+  },
+  "PetProfile": {
+    "about": "About {{name}}",
+    "typeOfPet": "I am a {{cat}}",
+    "birthday": "My birthday is ",
+    "weight": "I weigh {{weight}}kg",
+    "breed": "My breed is ",
+    "allergies": "Allergies",
+    "medications": "Medications",
+    "specialNeeds": "Special needs"
+  },
+  "editPetProfileForm": {
+    "name": "Name",
+    "birthday": "Birthday",
+    "weight": "Weight (kg)",
+    "breed": "Breed(s)",
+    "typeOfPet": "What type of pet?",
+    "allergies": "Kown allergies",
+    "medications": "Medications",
+    "specialNeeds": "Anything else a sitter should know?"
   },
   "editProfileForm": {
     "header": "My Account Info",

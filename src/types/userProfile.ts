@@ -83,6 +83,20 @@ export interface Inquiry {
   inquiry_finalized: Date;
 }
 
+export interface PetProfileData {
+  id: Number;
+  name: string;
+  type_of_animal: string;
+  subtype: string | null;
+  weight: number | null;
+  birthday: string;
+  known_allergies: string | null;
+  medications: string | null;
+  special_needs: string | null;
+  appuser_id: number;
+  profile_picture_src: string | undefined;
+}
+
 export interface Review {
   id: number;
   author_appuser_id: number;
