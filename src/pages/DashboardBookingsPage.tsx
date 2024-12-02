@@ -4,6 +4,7 @@ import { useTranslation } from "react-i18next";
 import { useAuth } from "../contexts/AuthContext";
 import { Inquiry, AppUser } from "../types/userProfile";
 import WriteReview from "../components/reviews/WriteReview";
+import { Link } from "react-router-dom";
 
 const apiURL: string = import.meta.env.VITE_API_BASE_URL;
 
@@ -107,11 +108,13 @@ const DashboardBookingsPage: React.FC = () => {
                 key={index}
                 className="mx-6 my-3 border border-transparent shadow-custom rounded w-72 px-4 py-2 relative"
               >
-                <h3 className="text-sm font-medium my-1">
-                  {t("dashboard_bookings_page.booked_with_en")}{" "}
-                  {sitterInfo[index].firstname}
-                  {t("dashboard_bookings_page.booked_with_jp")}
-                </h3>
+                <Link to={`/dashboard/requests/${booking.id}`}>
+                  <h3 className="text-sm font-medium my-1">
+                    {t("dashboard_bookings_page.booked_with_en")}{" "}
+                    {sitterInfo[index].firstname}
+                    {t("dashboard_bookings_page.booked_with_jp")}
+                  </h3>
+                </Link>
                 <p className="text-xs text-gray-500 my-1">
                   {new Date(booking.start_date).toLocaleDateString("ja-JP")} -{" "}
                   {new Date(booking.end_date).toLocaleDateString("ja-JP")}
