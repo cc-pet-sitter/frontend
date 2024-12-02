@@ -1,6 +1,7 @@
 export interface Sitter {
   appuser_id: number;
   sitter_profile_bio: string;
+  sitter_bio_picture_src_list: string;
   id: number;
   aggregate_sitter_rating: number;
   profile_bio: string;

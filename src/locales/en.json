@@ -147,7 +147,8 @@
     "makeAnEnquiry": "Make An Enquiry",
     "close": "Close",
     "animalsICareFor": "Animals I Care For",
-    "noReviews": "has not been given a review yet."
+    "noReviews": "has not been given a review yet.",
+    "additionalImages": "Additional images"
   },
   "enquiryForm": {
     "startDate": "Start Date",

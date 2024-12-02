@@ -147,7 +147,8 @@
     "makeAnEnquiry": "お問い合わせ",
     "close": "閉じる",
     "animalsICareFor": "私が世話している動物たち",
-    "noReviews": "has not been given a review yet."
+    "noReviews": "has not been given a review yet.",
+    "additionalImages": "Additional images"
   },
   "enquiryForm": {
     "startDate": "開始日",

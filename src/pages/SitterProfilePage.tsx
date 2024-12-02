@@ -7,6 +7,8 @@ import axios from "axios";
 import { AppUser, Review, Sitter } from "../types/userProfile.ts";
 import { Done } from "@mui/icons-material";
 import { formatDistanceToNow } from "date-fns";
+import WriteReview from "../components/reviews/WriteReview.tsx";
+import ViewMultiPicture from "../components/profile/ViewMultiPicture.tsx";
 import Rating from "@mui/material/Rating";
 
 const apiURL: string = import.meta.env.VITE_API_BASE_URL;
@@ -78,7 +80,7 @@ const SitterProfilePage: React.FC = () => {
         {/* Profile Header */}
         <div className="flex flex-col sm:flex-row items-center p-6">
           <img
-            src={user.appuser.profile_picture_src}
+            src={user.sitter.sitter_bio_picture_src_list}
             alt={`${user.appuser.firstname} ${user.appuser.lastname}`}
             className="h-48 w-48 rounded-full object-cover"
           />
@@ -246,6 +248,16 @@ const SitterProfilePage: React.FC = () => {
             </ul>
           )}
         </div>
+
+
+        {/* Additional Images */}
+        <div className="p-6 border-t">
+          <h2 className="text-lg font-semibold mb-4">
+            {t("sitterProfilePage.additionalImages")}
+          </h2>
+          < ViewMultiPicture sitter_bio_picture_src_list={user.sitter.sitter_bio_picture_src_list || ""} />
+        </div>
+
       </div>
       <div className="mt-6 text-center">
         <button onClick={() => navigate(-1)} className="btn-secondary">
