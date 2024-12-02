@@ -114,4 +114,6 @@ export interface Message {
   recipient_appuser_id: number;
   content: string;
   time_sent: Date;
+  sender_name?: string;
 }
+
