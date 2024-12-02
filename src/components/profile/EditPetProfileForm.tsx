@@ -6,10 +6,7 @@ import { MdOutlineArrowBackIos } from "react-icons/md";
 const apiURL: string = import.meta.env.VITE_API_BASE_URL;
 
 type Props = {
-  closeEditForm: () => void;
-  // onSave: (updatedProfile: EditFormData) => void;
   petProfile: EditProfileFormData | null;
-  // fetchPetProfiles: () => void;
   onClose: () => void;
 };
 
@@ -27,11 +24,7 @@ type EditProfileFormData = {
   profile_picture_src: string | undefined;
 };
 
-const EditProfileForm: React.FC<Props> = ({
-  closeEditForm,
-  petProfile,
-  onClose,
-}) => {
+const EditProfileForm: React.FC<Props> = ({ petProfile, onClose }) => {
   const { register, handleSubmit, reset } = useForm<EditProfileFormData>({
     shouldUseNativeValidation: true,
   });
@@ -78,8 +71,6 @@ const EditProfileForm: React.FC<Props> = ({
         setSuccess(true);
         setError(null);
         onClose();
-        // closeEditForm();
-        // fetchPetProfiles();
       } else {
         const errorData = await response.json();
         throw new Error(errorData.detail || "Failed to create profile.");
@@ -113,8 +104,6 @@ const EditProfileForm: React.FC<Props> = ({
         setSuccess(true);
         setError(null);
         onClose();
-        // closeEditForm();
-        // fetchPetProfiles();
       } else {
         const errorData = await response.json();
         throw new Error(errorData.detail || "Failed to create profile.");
@@ -139,9 +128,9 @@ const EditProfileForm: React.FC<Props> = ({
   const petOptions = [
     { name: "dog", id: "1" },
     { name: "cat", id: "2" },
-    { name: "fish", id: "3" },
+    { name: "rabbit", id: "3" },
     { name: "bird", id: "4" },
-    { name: "rabbit", id: "5" },
+    { name: "fish", id: "5" },
   ];
 
   const inputClass =
@@ -176,21 +165,7 @@ const EditProfileForm: React.FC<Props> = ({
             {t("dashboard_account_page.edit_button")}
           </h1>
         </div>
-        {/* <div className="mr-0 mb-4 grid place-items-center sm:mr-6 sm:mb-0">
-            <img
-              alt="Petter Sitter Image"
-              // src={sitterProfile.sitter_profile_bio}
-              src={
-                "https://live.staticflickr.com/62/207176169_60738224b6_c.jpg"
-              }
-              className="h-32 w-32 rounded-full object-cover object-center sm:h-32 sm:w-32"
-            />
-            <div className="">
-              <div className="shadow-custom bg-white  focus:shadow-outline focus:outline-none text-black py-2 px-2 text-xs rounded-full">
-                Edit Photo
-              </div>
-            </div>
-          </div> */}
+
         {/* Pets */}
         <div className="mb-6 ">
           <p className={`${labelClass} mb-3`}>
@@ -255,9 +230,7 @@ const EditProfileForm: React.FC<Props> = ({
             <input
               id="weight"
               type="number"
-              {...register("weight", {
-                required: "Please enter a weight.",
-              })}
+              {...register("weight")}
               className={inputClass}
             />
           </div>
@@ -269,9 +242,7 @@ const EditProfileForm: React.FC<Props> = ({
             <input
               id="subtype"
               type="text"
-              {...register("subtype", {
-                required: "Please enter a breed.",
-              })}
+              {...register("subtype")}
               className={inputClass}
             />
           </div>

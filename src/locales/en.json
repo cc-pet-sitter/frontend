@@ -20,7 +20,7 @@
     "title": "Your Pets Profile",
     "subtitle": "Create your first pet profile.",
     "first_profile": "Create Profile",
-    "add_profile": "Add another pet",
+    "add_profile": "＋ Add another pet",
     "edit_button": "Edit profile",
     "view_button": "View profile"
   },
@@ -194,11 +194,10 @@
     "hidePassword": "Hide password"
   },
   "PetProfile": {
-    "about_en": "About ",
-    "about_jp": "",
-    "typeOfPet": "I am a ",
+    "about": "About {{name}}",
+    "typeOfPet": "I am a {{cat}}",
     "birthday": "My birthday is ",
-    "weight": "I weigh ",
+    "weight": "I weigh {{weight}}kg",
     "breed": "My breed is ",
     "allergies": "Allergies",
     "medications": "Medications",
@@ -207,7 +206,7 @@
   "editPetProfileForm": {
     "name": "Name",
     "birthday": "Birthday",
-    "weight": "Weight",
+    "weight": "Weight (kg)",
     "breed": "Breed(s)",
     "typeOfPet": "What type of pet?",
     "allergies": "Kown allergies",

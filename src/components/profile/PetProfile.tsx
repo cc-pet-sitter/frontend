@@ -1,24 +1,11 @@
-import { useForm } from "react-hook-form";
-import { useAuth } from "../../contexts/AuthContext";
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { useTranslation } from "react-i18next";
-import { PiCat, PiMedal } from "react-icons/pi";
+import { PiCat, PiMedal, PiRabbit, PiBird } from "react-icons/pi";
 import { LiaBirthdayCakeSolid, LiaWeightSolid } from "react-icons/lia";
 import { MdOutlineArrowBackIos } from "react-icons/md";
-
-type PetProfileData = {
-  id: Number;
-  name: string;
-  type_of_animal: string;
-  subtype: string | null;
-  weight: number | null;
-  birthday: string;
-  known_allergies: string | null;
-  medications: string | null;
-  special_needs: string | null;
-  appuser_id: number;
-  profile_picture_src: string | undefined;
-};
+import { LuDog } from "react-icons/lu";
+import { IoFishOutline } from "react-icons/io5";
+import { PetProfileData } from "../../types/userProfile";
 
 type Props = {
   petProfile: PetProfileData | null;
@@ -60,38 +47,57 @@ const PetProfile: React.FC<Props> = ({ petProfile, onClose }) => {
             {/* Pet Details */}
             <div className="p-6 border-t">
               <h2 className="text-lg font-semibold mb-4">
-                {t("PetProfile.about_en")} {petProfile.name}
-                {t("PetProfile.about_jp")}
+                {t("PetProfile.about", { name: petProfile.name })}
               </h2>
 
-              <p className="">
-                <div className="flex my-3 ">
-                  <PiCat className="mr-3 mt-1 text-xl" />{" "}
-                  {t("PetProfile.typeOfPet")}
-                  {petProfile.type_of_animal}
-                </div>
-              </p>
-              <p className="">
-                <div className="flex my-3">
-                  <LiaBirthdayCakeSolid className="mr-3 mt-1 text-xl" />
-                  {t("PetProfile.birthday")}
-                  {new Date(petProfile.birthday).toLocaleDateString("ja-JP")}
-                </div>
-              </p>
-              <p className="">
+              <div className="flex my-3 ">
+                {petProfile.type_of_animal === "dog" && (
+                  <>
+                    <LuDog className="mr-3 mt-1 text-xl" />
+                  </>
+                )}
+                {petProfile.type_of_animal === "cat" && (
+                  <>
+                    <PiCat className="mr-3 mt-1 text-xl" />
+                  </>
+                )}
+                {petProfile.type_of_animal === "rabbit" && (
+                  <>
+                    <PiRabbit className="mr-3 mt-1 text-xl" />
+                  </>
+                )}
+                {petProfile.type_of_animal === "bird" && (
+                  <>
+                    <PiBird className="mr-3 mt-1 text-xl" />
+                  </>
+                )}
+                {petProfile.type_of_animal === "fish" && (
+                  <>
+                    <IoFishOutline className="mr-3 mt-1 text-xl" />
+                  </>
+                )}
+                {t("PetProfile.typeOfPet", { cat: petProfile.type_of_animal })}
+              </div>
+
+              <div className="flex my-3">
+                <LiaBirthdayCakeSolid className="mr-3 mt-1 text-xl" />
+                {t("PetProfile.birthday")}
+                {new Date(petProfile.birthday).toLocaleDateString("ja-JP")}
+              </div>
+
+              {petProfile.weight && (
                 <div className="flex my-3">
                   <LiaWeightSolid className="mr-3 mt-1 text-xl" />
-                  {t("PetProfile.weight")}
-                  {petProfile.weight}
+                  {t("PetProfile.weight", { weight: petProfile.weight })}
                 </div>
-              </p>
-              <p className="">
+              )}
+              {petProfile.subtype && (
                 <div className="flex my-3">
                   <PiMedal className="mr-3 mt-1 text-xl" />
                   {t("PetProfile.breed")}
                   {petProfile.subtype}
                 </div>
-              </p>
+              )}
             </div>
             {/* Care Info */}
             <div className="p-6 border-t">

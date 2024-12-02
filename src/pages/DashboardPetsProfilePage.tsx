@@ -5,46 +5,14 @@ import axios from "axios";
 const apiURL: string = import.meta.env.VITE_API_BASE_URL;
 import EditPetProfileForm from "../components/profile/EditPetProfileForm";
 import PetProfile from "../components/profile/PetProfile";
-
-const petProfileTest = false;
-const petProfileArrTest = [
-  {
-    profile_picture_src:
-      "https://upload.wikimedia.org/wikipedia/commons/thumb/3/3a/Cat03.jpg/640px-Cat03.jpg",
-    name: "Mugi",
-  },
-  {
-    profile_picture_src:
-      "https://cdn.guidedogs.com.au/wp-content/uploads/2024/07/GD-Homepage-Manton-Mobile.jpg",
-    name: "Pochi",
-  },
-  {
-    profile_picture_src:
-      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRkox1ysqO7RXIWx5FVj2d79v-K44BRzxMN4A&s",
-    name: "Mocha",
-  },
-];
-
-type PetProfile = {
-  id: Number;
-  name: string;
-  type_of_animal: string;
-  subtype: string | null;
-  weight: number | null;
-  birthday: Date;
-  known_allergies: string | null;
-  medications: string | null;
-  special_needs: string | null;
-  appuser_id: number;
-  profile_picture_src: string | undefined;
-};
+import { PetProfileData } from "../types/userProfile";
 
 const DashboardPetsProfilePage: React.FC = () => {
-  const [petProfiles, setPetProfiles] = useState<Array<PetProfile> | null>(
+  const [petProfiles, setPetProfiles] = useState<Array<PetProfileData> | null>(
     null
   );
   const [selectedPetProfile, setSelectedPetProfile] =
-    useState<PetProfile | null>(null);
+    useState<PetProfileData | null>(null);
   const { t } = useTranslation();
   const { userInfo } = useAuth();
   const [showEditProfileForm, setShowEditProfileForm] =
@@ -54,7 +22,6 @@ const DashboardPetsProfilePage: React.FC = () => {
   const fetchPetProfiles = async () => {
     try {
       const response = await axios.get(`${apiURL}/appuser/${userInfo?.id}/pet`);
-      console.log("Fetched pet profiles:", response.data);
       setPetProfiles(response.data);
     } catch (error) {
       console.error("Unable to fetch pet profiles", error);
@@ -65,43 +32,32 @@ const DashboardPetsProfilePage: React.FC = () => {
     fetchPetProfiles();
   }, []);
 
-  // const handleSave = (updatedProfile: PetProfile) => {
-  //   fetchPetProfiles(updatedProfile);
-  //   setShowEditProfileForm(false);
-  // };
-
   return (
     <div className="dashboard-container">
       {showEditProfileForm ? (
         <div className="">
           <EditPetProfileForm
             petProfile={selectedPetProfile}
-            // fetchPetProfiles={fetchPetProfiles}
-            // closeEditForm={() => setShowEditProfileForm(false)}
             onClose={() => {
               setSelectedPetProfile(null);
               setShowEditProfileForm(false);
               fetchPetProfiles();
             }}
-            // onSave={handleSave}
           />
         </div>
       ) : showProfileView ? (
         <div className="">
           <PetProfile
             petProfile={selectedPetProfile}
-            // fetchPetProfiles={fetchPetProfiles}
-            // closeEditForm={() => setShowEditProfileForm(false)}
             onClose={() => {
               setSelectedPetProfile(null);
               setShowProfileView(false);
               fetchPetProfiles();
             }}
-            // onSave={handleSave}
           />
         </div>
       ) : (
-        <div>
+        <div className="my-6">
           <h1 className="mx-6 mb-2 font-bold text-2xl">
             {t("dashboard_pets_profile_page.title")}
           </h1>
@@ -133,7 +89,6 @@ const DashboardPetsProfilePage: React.FC = () => {
                               setSelectedPetProfile(profile);
                               setShowEditProfileForm(true);
                             }}
-                            // className="mx-4 shadow btn-secondary focus:shadow-outline focus:outline-none text-white font-bold py-2 px-5 text-sm rounded"
                             className="text-brown text-sm underline mr-4 "
                           >
                             <a>
@@ -146,7 +101,6 @@ const DashboardPetsProfilePage: React.FC = () => {
                               setShowProfileView(true);
                             }}
                             className="text-brown text-sm underline mr-4"
-                            // className="mx-4 shadow btn-secondary focus:shadow-outline focus:outline-none text-white font-bold py-2 px-5 text-sm rounded"
                           >
                             <a>
                               {t("dashboard_pets_profile_page.view_button")}
@@ -159,7 +113,7 @@ const DashboardPetsProfilePage: React.FC = () => {
                 ))}
                 <button
                   onClick={() => setShowEditProfileForm(true)}
-                  className="mx-6 my-4 btn-secondary py-1 px-2 rounded w-32 text-sm"
+                  className="mx-6 my-4 btn-secondary py-1 px-2 rounded w-36 text-sm"
                 >
                   {t("dashboard_pets_profile_page.add_profile")}
                 </button>
