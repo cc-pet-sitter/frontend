@@ -9,6 +9,7 @@ import { formatDistanceToNow } from "date-fns";
 import Rating from "@mui/material/Rating";
 import { AppUser, Review, Sitter } from "../types/userProfile.ts";
 import ViewMultiPicture from "../components/profile/ViewMultiPicture.tsx";
+import ViewAvailability from "../components/profile/ViewAvailability";
 
 const DashboardSitterProfilePage: React.FC = () => {
   const [sitterProfile, setSitterProfile] = useState<Sitter | null>(null);
@@ -18,6 +19,8 @@ const DashboardSitterProfilePage: React.FC = () => {
   const { userInfo } = useAuth();
   const [showEditProfileForm, setShowEditProfileForm] =
     useState<boolean>(false);
+  const [availabilities, setAvailabilities] = useState<Date[]>([]);
+
 
   const fetchAllProfileData = async (is_sitter: boolean | null | undefined) => {
     if (userInfo && is_sitter) {
@@ -32,6 +35,19 @@ const DashboardSitterProfilePage: React.FC = () => {
           `${apiURL}/appuser/${userInfo.id}/review`
         );
         setReviews(reviewsResponse.data);
+
+        // Fetch availabilities
+        const availabilitiesResponse = await axios.get(
+          `${apiURL}/appuser/${userInfo.id}/availability`
+        );
+        if (availabilitiesResponse.status === 200) {
+          const dates = availabilitiesResponse.data.map(
+            (item: { available_date: string }) => new Date(item.available_date)
+          );
+          setAvailabilities(dates);
+        } else {
+          setAvailabilities([]);
+        }
       } catch (error) {
         console.error("Unable to fetch sitter profile", error);
       }
@@ -184,6 +200,10 @@ const DashboardSitterProfilePage: React.FC = () => {
                   </li>
                 </ul>
               </div>
+
+              {/* Availability Section */}
+              <ViewAvailability availabilities={availabilities} />
+              
               {/* Reviews */}
               <div className="p-6 border-t">
                 <h2 className="text-lg font-semibold mb-4">

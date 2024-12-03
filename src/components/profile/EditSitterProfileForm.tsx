@@ -213,7 +213,7 @@ const EditSitterProfileForm: React.FC<Props> = ({
 
         <div className="flex flex-col mt-4 items-start">
           <label className={`${labelClass}`} htmlFor="introduction">
-            Introduction
+            {t("dashboard_Sitter_Profile_page.introduction")}
           </label>
           <textarea
             className={textAreaClass}
@@ -233,7 +233,9 @@ const EditSitterProfileForm: React.FC<Props> = ({
       </div>
       <div className="mb-6">
         {/* Pets */}
-        <p className={`${labelClass} mb-3`}>Pets you can sit</p>
+        <p className={`${labelClass} mb-3`}>
+          {t("dashboard_Sitter_Profile_page.pet_service")}
+        </p>
         {petOptionsKey.map((pet, index) => (
           <label
             key={pet}
@@ -270,7 +272,9 @@ const EditSitterProfileForm: React.FC<Props> = ({
       </div>
       <div className="mb-6">
         {/* Types of Service You Offer */}
-        <p className={`${labelClass} mb-3`}>Types of Service You Offer</p>
+        <p className={`${labelClass} mb-3`}>
+          {t("dashboard_Sitter_Profile_page.type_service")}
+        </p>
         {serviceOptionsKey.map((service, index) => (
           <label
             key={service}
@@ -326,7 +330,7 @@ const EditSitterProfileForm: React.FC<Props> = ({
           type="submit"
           className="shadow btn-primary focus:shadow-outline focus:outline-nonefont-bold py-2 px-4 text-sm rounded w-full mr-8 sm:w-auto sm:mr-4 md:mr-6 md:w-48 md:py-3 md:px-8 mt-6"
         >
-          Save
+          {t("dashboard_Sitter_Profile_page.save_profile_button")}
         </button>
       </div>
     </form>

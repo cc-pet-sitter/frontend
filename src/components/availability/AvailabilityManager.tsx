@@ -5,6 +5,8 @@ import { Calendar } from "react-multi-date-picker";
 import { DateObject } from "react-multi-date-picker";
 import { useAuth } from "../../contexts/AuthContext";
 import { useTranslation } from "react-i18next";
+import { MdUpdate } from "react-icons/md";
+import "react-multi-date-picker/styles/colors/yellow.css"
 
 const apiURL: string = import.meta.env.VITE_API_BASE_URL;
 
@@ -106,7 +108,7 @@ const AvailabilityManager: React.FC = () => {
   return (
     <div className="mb-6">
       <label className="block tracking-wide text-gray-700 font-bold mb-2 mt-4 text-lg">
-        {t("Select Your Available Dates")}
+          {t("dashboard_Sitter_Profile_page.availability")}
       </label>
       {loading ? (
         <p>{t("Loading")}...</p>
@@ -119,15 +121,16 @@ const AvailabilityManager: React.FC = () => {
             format="YYYY-MM-DD"
             minDate={new Date()}
             numberOfMonths={1} // Optional: Displays two months side by side
-            className="shadow-md"
+            className="rmdp-mobile yellow"
             sort
           />
           <div className="flex justify-center md:justify-end mt-4">
             <button
               onClick={handleSave}
-              className="shadow bg-blue-500 hover:bg-blue-600 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 text-sm rounded w-full sm:w-auto"
+              className="flex items-center btn-primary focus:shadow-outline focus:outline-none font-semibold py-1 px-3 text-sm rounded w-auto mt-4" 
             >
-              {t("Save Availability")}
+                <MdUpdate className="mr-1" size={20} />
+                {t("dashboard_Sitter_Profile_page.update_availability")}
             </button>
           </div>
           {error && <p className="text-red-500 text-xs italic mt-2">{error}</p>}

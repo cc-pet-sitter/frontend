@@ -34,7 +34,15 @@
   },
   "dashboard_Sitter_Profile_page": {
     "title": "Your Sitter Profile",
-    "edit_button": "Edit profile"
+    "edit_button": "Edit profile",
+    "edit_photo_profile": "Edit Photo",
+    "save_profile_button": "Save Profile",
+    "introduction": "Introduction",
+    "pet_service": "Pets you can sit",
+    "type_service": "Types of Service You Offer",
+    "availability": "Select Your Available Dates",
+    "update_availability": "Update Availability",
+    "additional_images": "Add More Pictures"
   },
   "dashboard_requests_page": {
     "title": "Requests",
@@ -158,7 +166,8 @@
     "close": "Close",
     "animalsICareFor": "Animals I Care For",
     "noReviews": "has not been given a review yet.",
-    "additionalImages": "Additional images"
+    "additionalImages": "Additional images",
+    "availability": "Availability"
   },
   "enquiryForm": {
     "startDate": "Start Date",
