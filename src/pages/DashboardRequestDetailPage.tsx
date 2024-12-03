@@ -3,19 +3,25 @@ import { useParams } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
 import { Inquiry, AppUser } from '../types/userProfile';
 import Conversation from '../components/chat/Conversation'; // We'll create this later
+import UserProfileModal from '../components/profile/UserProfileModal';
 
 const apiURL: string = import.meta.env.VITE_API_BASE_URL;
 
 const DashboardRequestDetailPage: React.FC = () => {
-  const { requestId } = useParams<{ requestId: string }>();
-  console.log("RequestId : ", requestId);
-  const { currentUser } = useAuth();
   const [request, setRequest] = useState<Inquiry | null>(null);
   const [ownerInfo, setOwnerInfo] = useState<AppUser | null>(null);
   const [sitterInfo, setSitterInfo] = useState<AppUser | null>(null);
   const [error, setError] = useState<string | null>(null);
-  const [successMessage, setSuccessMessage] = useState<string | null>(null);
+  const { currentUser, userInfo } = useAuth();
+  const { requestId } = useParams<{ requestId: string }>();
 
+  const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
+  const [selectedUser, setSelectedUser] = useState<AppUser | null>(null);
+
+  const handleUserClick = (user: AppUser) => {
+    setSelectedUser(user);
+    setIsModalOpen(true);
+  };
 
   useEffect(() => {
     const fetchRequestDetails = async () => {
@@ -69,13 +75,21 @@ const DashboardRequestDetailPage: React.FC = () => {
 
         const sitterData: AppUser = await sitterResponse.json();
         setSitterInfo(sitterData);
-      } catch (err: any) {
-        setError(err.message);
+      } catch (err) {
+        if (err instanceof Error) {
+          setError(err.message);
+        } else {
+          setError('An unexpected error occurred.');
+        }
       }
     };
 
     fetchRequestDetails();
   }, [currentUser, requestId]);
+
+  // Determine user role
+  const isOwner = userInfo?.id === request?.owner_appuser_id;
+  const isSitter = userInfo?.id === request?.sitter_appuser_id;
 
   const handleAccept = async () => {
     try {
@@ -97,9 +111,12 @@ const DashboardRequestDetailPage: React.FC = () => {
   
       // Update local state
       setRequest({ ...request!, inquiry_status: 'approved' });
-      setSuccessMessage('Request has been approved.');
-    } catch (err: any) {
-      setError(err.message);
+    } catch (err) {
+      if (err instanceof Error) {
+        setError(err.message);
+      } else {
+        setError('An unexpected error occurred.');
+      }
     }
   };
   
@@ -123,9 +140,12 @@ const DashboardRequestDetailPage: React.FC = () => {
   
       // Update local state
       setRequest({ ...request!, inquiry_status: 'rejected' });
-      setSuccessMessage('Request has been rejected.');
-    } catch (err: any) {
-      setError(err.message);
+    } catch (err) {
+      if (err instanceof Error) {
+        setError(err.message);
+      } else {
+        setError('An unexpected error occurred.');
+      }
     }
   };
 
@@ -161,48 +181,67 @@ const DashboardRequestDetailPage: React.FC = () => {
       </div>
 
       {/* Owner Information */}
-      <div className="mb-6">
-        <h3 className="font-semibold text-xl">Owner Information</h3>
-        <p>
-          <strong>Name:</strong> {ownerInfo.firstname} {ownerInfo.lastname}
-        </p>
-        <p>
-          <strong>Email:</strong> {ownerInfo.email}
-        </p>
-        {/* Add more owner details as needed */}
-      </div>
+      {isSitter && ownerInfo && (
+        <div 
+          className="mb-6 cursor-pointermb-6 border rounded-lg p-4 bg-white shadow-md cursor-pointer hover:bg-gray-100"
+          onClick={() => handleUserClick(ownerInfo)}
+        >
+          <h3 className="font-semibold text-xl">Owner Information</h3>
+          <p>
+            <strong>Name:</strong> {ownerInfo.firstname} {ownerInfo.lastname}
+          </p>
+          <p>
+            <strong>Email:</strong> {ownerInfo.email}
+          </p>
+          {/* Add more owner details as needed */}
+          <p className="text-blue-500 mt-2">Tap to view full profile</p>
+        </div>
+      )}
 
       {/* Sitter Information */}
-      <div className="mb-6">
-        <h3 className="font-semibold text-xl">Sitter Information</h3>
-        <p>
-          <strong>Name:</strong> {sitterInfo.firstname} {sitterInfo.lastname}
-        </p>
-        <p>
-          <strong>Email:</strong> {sitterInfo.email}
-        </p>
-        {/* Add more sitter details as needed */}
-      </div>
+      {isOwner && sitterInfo && (
+        <div 
+          className="mb-6 border rounded-lg p-4 bg-white shadow-md cursor-pointer hover:bg-gray-100"
+          onClick={() => handleUserClick(sitterInfo)}
+          >
+          <h3 className="font-semibold text-xl">Sitter Information</h3>
+          <p>
+            <strong>Name:</strong> {sitterInfo.firstname} {sitterInfo.lastname}
+          </p>
+          <p>
+            <strong>Email:</strong> {sitterInfo.email}
+          </p>
+          {/* Add more sitter details as needed */}
+          <p className="text-blue-500 mt-2">Tap to view full profile</p>
+        </div>
+      )}
 
-      {/* Display success or error messages */}
-      {successMessage && <p className="text-green-500 mb-4">{successMessage}</p>}
-      {error && <p className="text-red-500 mb-4">{error}</p>}
+      {/* User Profile Modal */}
+      {isModalOpen && selectedUser && (
+        <UserProfileModal
+          isOpen={isModalOpen}
+          user={selectedUser}
+          onClose={() => setIsModalOpen(false)}
+        />
+      )}
 
       {/* Accept/Reject Buttons */}
-      <div className="flex space-x-4 mb-6">
-        <button
-          onClick={handleAccept}
-          className="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded"
-        >
-          Accept
-        </button>
-        <button
-          onClick={handleReject}
-          className="bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded"
-        >
-          Reject
-        </button>
-      </div>
+      {isSitter && request.inquiry_status === 'requested' && (
+        <div className="flex space-x-4 mb-6">
+          <button
+            onClick={handleAccept}
+            className="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded"
+          >
+            Accept
+          </button>
+          <button
+            onClick={handleReject}
+            className="bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded"
+          >
+            Reject
+          </button>
+        </div>
+      )}
 
       {/* Show updated status if the inquiry has been finalized */}
       {request.inquiry_status !== 'requested' && (
@@ -214,9 +253,11 @@ const DashboardRequestDetailPage: React.FC = () => {
       {/* Conversation Component */}
       <div className="mb-6">
         <h3 className="font-semibold text-xl">Conversation</h3>
-        <Conversation
-          inquiry_id={request.id}
-        />
+        {userInfo?.id && (
+          <Conversation
+            inquiry={request}
+          />
+        )}
       </div>
     </div>
   );
