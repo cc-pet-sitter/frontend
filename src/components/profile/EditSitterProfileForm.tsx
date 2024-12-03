@@ -4,11 +4,13 @@ import React, { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { MdOutlineArrowBackIos } from "react-icons/md";
 import axios from "axios";
-const apiURL: string = import.meta.env.VITE_API_BASE_URL;
 import ProfilePictureUploader from "../services/ProfilePictureUploader";
 import MultiPictureUploader from "../services/MultiPictureUploader";
 import ViewMultiPicture from "./ViewMultiPicture";
 import { Sitter } from "../../types/userProfile.ts";
+import AvailabilityManager from "../availability/AvailabilityManager.tsx";
+
+const apiURL: string = import.meta.env.VITE_API_BASE_URL;
 
 type Props = {
   closeEditForm: () => void;
@@ -16,19 +18,6 @@ type Props = {
   sitterProfile: Sitter | null;
   fetchSitterProfile: (is_sitter: boolean | null | undefined) => void;
 };
-
-// type EditFormData = {
-//   sitter_profile_bio: string | null;
-//   sitter_bio_picture_src_list: string | null;
-//   sitter_house_ok: boolean | null;
-//   owner_house_ok: boolean | null;
-//   visit_ok: boolean | null;
-//   dogs_ok: boolean | null;
-//   cats_ok: boolean | null;
-//   fish_ok: boolean | null;
-//   birds_ok: boolean | null;
-//   rabbits_ok: boolean | null;
-// };
 
 const EditSitterProfileForm: React.FC<Props> = ({
   sitterProfile,
@@ -224,7 +213,7 @@ const EditSitterProfileForm: React.FC<Props> = ({
 
         <div className="flex flex-col mt-4 items-start">
           <label className={`${labelClass}`} htmlFor="introduction">
-            Introduction
+            {t("dashboard_Sitter_Profile_page.introduction")}
           </label>
           <textarea
             className={textAreaClass}
@@ -244,7 +233,9 @@ const EditSitterProfileForm: React.FC<Props> = ({
       </div>
       <div className="mb-6">
         {/* Pets */}
-        <p className={`${labelClass} mb-3`}>Pets you can sit</p>
+        <p className={`${labelClass} mb-3`}>
+          {t("dashboard_Sitter_Profile_page.pet_service")}
+        </p>
         {petOptionsKey.map((pet, index) => (
           <label
             key={pet}
@@ -281,7 +272,9 @@ const EditSitterProfileForm: React.FC<Props> = ({
       </div>
       <div className="mb-6">
         {/* Types of Service You Offer */}
-        <p className={`${labelClass} mb-3`}>Types of Service You Offer</p>
+        <p className={`${labelClass} mb-3`}>
+          {t("dashboard_Sitter_Profile_page.type_service")}
+        </p>
         {serviceOptionsKey.map((service, index) => (
           <label
             key={service}
@@ -313,6 +306,10 @@ const EditSitterProfileForm: React.FC<Props> = ({
       </div>
 
       <div className="mt-6">
+        < AvailabilityManager />
+      </div>
+
+      <div className="mt-6">
         <h2 className={`${labelClass}`}>Add More Pictures</h2>
         {sitterBioPictureSrcList ? (
           <ViewMultiPicture
@@ -333,7 +330,7 @@ const EditSitterProfileForm: React.FC<Props> = ({
           type="submit"
           className="shadow btn-primary focus:shadow-outline focus:outline-nonefont-bold py-2 px-4 text-sm rounded w-full mr-8 sm:w-auto sm:mr-4 md:mr-6 md:w-48 md:py-3 md:px-8 mt-6"
         >
-          Save
+          {t("dashboard_Sitter_Profile_page.save_profile_button")}
         </button>
       </div>
     </form>

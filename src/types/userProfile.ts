@@ -117,3 +117,9 @@ export interface Message {
   time_sent: Date;
   sender_name?: string;
 }
+
+export interface Availability {
+  id: number;
+  appuser: number;
+  available_date: Date;
+}

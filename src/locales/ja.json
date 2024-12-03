@@ -34,7 +34,15 @@
   },
   "dashboard_Sitter_Profile_page": {
     "title": "シッタープロフィール",
-    "edit_button": "プロフィールを編集"
+    "edit_button": "プロフィールを編集",
+    "edit_photo_profile": "Edit Photo",
+    "save_profile_button": "Save Profile",
+    "introduction": "Introduction",
+    "pet_service": "Pets you can sit",
+    "type_service": "Types of Service You Offer",
+    "availability": "Select Your Available Dates",
+    "update_availability": "Update Availability",
+    "additional_images": "Add More Pictures"
   },
   "dashboard_requests_page": {
     "title": "リクエスト",
@@ -162,7 +170,8 @@
     "close": "閉じる",
     "animalsICareFor": "私が世話している動物たち",
     "noReviews": "has not been given a review yet.",
-    "additionalImages": "Additional images"
+    "additionalImages": "Additional images",
+    "availability": "Availability"
   },
   "enquiryForm": {
     "startDate": "開始日",
