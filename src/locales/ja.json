@@ -125,7 +125,9 @@
       "stayIn": "訪問滞在",
       "dropIn": "立ち寄り"
     },
-    "search": "検索"
+    "search": "検索",
+    "enterCityWard": "市区町村を入力してください...",
+    "selectPrefecture": "都道府県を選択してください"
   },
   "searchPage": {
     "visits": "訪問",
@@ -138,7 +140,8 @@
     "fish": "魚",
     "bird": "鳥",
     "rabbit": "ウサギ",
-    "viewProfile": "プロフィールを見る"
+    "viewProfile": "プロフィールを見る",
+    "noResultsFound": "麦（むぎ）は一致するものを見つけられませんでした。検索条件を広げてお試しください。"
   },
   "sitterProfilePage": {
     "accountBio": "自己紹介",

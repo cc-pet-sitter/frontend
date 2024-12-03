@@ -18,6 +18,7 @@ import {
   Typography,
 } from "@material-tailwind/react";
 
+
 const apiURL: string = import.meta.env.VITE_API_BASE_URL;
 
 const HomePage: React.FC = () => {
@@ -57,7 +58,7 @@ const HomePage: React.FC = () => {
   const handleSearchSubmit = async (formData: SearchFormData) => {
     try {
       const queryParams = new URLSearchParams(
-        formData as Record<string, string>
+        formData as unknown as Record<string, string>
       ).toString();
 
       const { data } = await axios.get(
@@ -76,13 +77,18 @@ const HomePage: React.FC = () => {
     <div className="mb-12">
       <div className="justify-items-center bg-white">
         <div className="my-6">
+          {/* <img src={bannerImage} /> */}
           <h1 className="text-center text-2xl font-semibold">
             {t("homePage.subtitle")}
           </h1>
         </div>
         <h3 className="italic">{t("homePage.searchLabel")}</h3>
-        {/* <SignUpForm /> */}
-        <SearchBar onSearchSubmit={handleSearchSubmit} />
+        <SearchBar
+          onSearchSubmit={handleSearchSubmit}
+          closeSearchBar={function (): void {
+            throw new Error("Function not implemented.");
+          }}
+        />
       </div>
       <div className="m-10">
         <h2 className="text-center text-2xl font-semibold">

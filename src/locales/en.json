@@ -124,14 +124,16 @@
     "serviceOptions": {
       "boarding": "Boarding",
       "stayIn": "Stay In",
-      "dropIn": "Drop In"
+      "dropIn": "Visit"
     },
-    "search": "Search"
+    "search": "Search",
+    "enterCityWard": "Enter your city or ward...",
+    "selectPrefecture": "Select Prefecture"
   },
   "searchPage": {
-    "visits": "drop in",
-    "sitter_house": "stay in",
-    "owner_house": "boarding",
+    "visits": "visits",
+    "sitter_house": "boarding",
+    "owner_house": "stay in",
     "available": "Available for",
     "notAvailable": "Not available",
     "dog": "Dogs",
@@ -139,7 +141,8 @@
     "fish": "Fish",
     "bird": "Birds",
     "rabbit": "Rabbits",
-    "viewProfile": "View Profile"
+    "viewProfile": "View Profile",
+    "noResultsFound": "Mugi can't find any matches. Please try to widen your search."
   },
   "sitterProfilePage": {
     "accountBio": "Bio",
