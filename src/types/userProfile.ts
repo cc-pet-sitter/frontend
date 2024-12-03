@@ -96,6 +96,7 @@ export interface PetProfileData {
   appuser_id: number;
   profile_picture_src: string | undefined;
   gender: string | undefined;
+  pet_bio_picture_src_list: string | undefined;
 }
 
 export interface Review {

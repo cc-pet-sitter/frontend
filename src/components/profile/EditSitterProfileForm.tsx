@@ -15,12 +15,12 @@ type Props = {
   closeEditForm: () => void;
   onSave: (updatedProfile: Sitter) => void;
   sitterProfile: Sitter | null;
-  fetchSitterProfile: (is_sitter: boolean | null | undefined) => void;
+  fetchAllProfileData: (is_sitter: boolean | null | undefined) => void;
 };
 
 const EditSitterProfileForm: React.FC<Props> = ({
   sitterProfile,
-  fetchSitterProfile,
+  fetchAllProfileData,
   closeEditForm,
 }) => {
   const [error, setError] = useState<string | null>(null);
@@ -95,7 +95,7 @@ const EditSitterProfileForm: React.FC<Props> = ({
         if (appuser) {
           setUserInfo(appuser);
         }
-        fetchSitterProfile(true);
+        fetchAllProfileData(true);
         setSuccess(true);
         setError(null);
         // onSave(updatedProfile);
@@ -317,7 +317,7 @@ const EditSitterProfileForm: React.FC<Props> = ({
         <h2 className={`${labelClass}`}>Add More Pictures</h2>
         {sitterBioPictureSrcList ? (
           <ViewMultiPicture
-            sitter_bio_picture_src_list={sitterBioPictureSrcList || ""}
+            picture_src_list={sitterBioPictureSrcList || ""}
           />
         ) : (
           ""

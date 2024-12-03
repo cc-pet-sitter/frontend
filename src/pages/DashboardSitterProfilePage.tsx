@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useAuth } from "../contexts/AuthContext";
 import { useTranslation } from "react-i18next";
-import axios from "axios";
+import axiosInstance from "../api/axiosInstance.ts";
 const apiURL: string = import.meta.env.VITE_API_BASE_URL;
 import EditSitterProfileForm from "../components/profile/EditSitterProfileForm";
 import { Done } from "@mui/icons-material";
@@ -25,19 +25,19 @@ const DashboardSitterProfilePage: React.FC = () => {
   const fetchAllProfileData = async (is_sitter: boolean | null | undefined) => {
     if (userInfo && is_sitter) {
       try {
-        const profileResponse = await axios.get(
+        const profileResponse = await axiosInstance.get(
           `${apiURL}/appuser-extended/${userInfo.id}`
         );
         setUser(profileResponse.data.appuser);
         setSitterProfile(profileResponse.data.sitter);
 
-        const reviewsResponse = await axios.get(
+        const reviewsResponse = await axiosInstance.get(
           `${apiURL}/appuser/${userInfo.id}/review`
         );
         setReviews(reviewsResponse.data);
 
         // Fetch availabilities
-        const availabilitiesResponse = await axios.get(
+        const availabilitiesResponse = await axiosInstance.get(
           `${apiURL}/appuser/${userInfo.id}/availability`
         );
         if (availabilitiesResponse.status === 200) {
@@ -54,24 +54,14 @@ const DashboardSitterProfilePage: React.FC = () => {
     }
   };
 
-  const fetchSitterProfile = async (is_sitter: boolean | null | undefined) => {
-    if (is_sitter) {
-      try {
-        const response = await axios.get(`${apiURL}/sitter/${userInfo?.id}`);
-        setSitterProfile(response.data);
-      } catch (error) {
-        console.error("Unable to fetch sitter profile", error);
-      }
-    }
-  };
-
   useEffect(() => {
     fetchAllProfileData(userInfo?.is_sitter);
   }, []);
 
-  const handleSave = (updatedProfile: Sitter) => {
-    setSitterProfile(updatedProfile);
+  const handleSave = () => {
+    // setSitterProfile(updatedProfile);
     setShowEditProfileForm(false);
+    fetchAllProfileData(userInfo?.is_sitter);
   };
 
   return (
@@ -79,7 +69,7 @@ const DashboardSitterProfilePage: React.FC = () => {
       {showEditProfileForm ? (
         <div className="">
           <EditSitterProfileForm
-            fetchSitterProfile={fetchSitterProfile}
+            fetchAllProfileData={fetchAllProfileData}
             sitterProfile={sitterProfile}
             closeEditForm={() => setShowEditProfileForm(false)}
             onSave={handleSave}
@@ -246,7 +236,7 @@ const DashboardSitterProfilePage: React.FC = () => {
                   {t("sitterProfilePage.additionalImages")}
                 </h2>
                 <ViewMultiPicture
-                  sitter_bio_picture_src_list={
+                  picture_src_list={
                     sitterProfile.sitter_bio_picture_src_list || ""
                   }
                 />

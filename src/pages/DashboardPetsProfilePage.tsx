@@ -74,9 +74,7 @@ const DashboardPetsProfilePage: React.FC = () => {
                   >
                     <div className="sm:mt-0 sm:ml-6 flex items-center justify-between gap-4">
                       <img
-                        // Hard coding the image URL for now
-                        src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/3a/Cat03.jpg/640px-Cat03.jpg"
-                        // src={profile.profile_picture_src}
+                        src={profile.profile_picture_src || "https://upload.wikimedia.org/wikipedia/commons/thumb/3/3a/Cat03.jpg/640px-Cat03.jpg"}
                         alt={`Picture of ${profile.name}`}
                         className="h-20 w-20 rounded-full object-cover"
                       />

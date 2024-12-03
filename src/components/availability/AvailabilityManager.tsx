@@ -1,6 +1,6 @@
 // src/components/AvailabilityManager.tsx
 import React, { useEffect, useState } from "react";
-import axios from "axios";
+import axiosInstance from "../../api/axiosInstance";
 import { Calendar } from "react-multi-date-picker";
 import { DateObject } from "react-multi-date-picker";
 import { useAuth } from "../../contexts/AuthContext";
@@ -29,7 +29,7 @@ const AvailabilityManager: React.FC = () => {
       if (!userInfo) return;
       setLoading(true);
       try {
-        const response = await axios.get(`${apiURL}/appuser/${userInfo.id}/availability`);
+        const response = await axiosInstance.get(`${apiURL}/appuser/${userInfo.id}/availability`);
         if (response.status === 200) {
           const data = response.data.map((item: { id: number; available_date: string }) => ({
             id: item.id,
@@ -74,16 +74,16 @@ const AvailabilityManager: React.FC = () => {
           available_date: item.date.toISOString().split("T")[0],
         }));
 
-        await axios.post(`${apiURL}/appuser/${userInfo.id}/availability`, availabilityData);
+        await axiosInstance.post(`${apiURL}/appuser/${userInfo.id}/availability`, availabilityData);
       }
 
       // Delete removed availabilities
       for (const item of removedAvailabilities) {
-        await axios.delete(`${apiURL}/availability/${item.id}`);
+        await axiosInstance.delete(`${apiURL}/availability/${item.id}`);
       }
 
       // Refresh availabilities
-      const response = await axios.get(`${apiURL}/appuser/${userInfo.id}/availability`);
+      const response = await axiosInstance.get(`${apiURL}/appuser/${userInfo.id}/availability`);
       if (response.status === 200) {
         const data = response.data.map((item: { id: number; available_date: string }) => ({
           id: item.id,

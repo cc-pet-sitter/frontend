@@ -5,6 +5,10 @@ import { useTranslation } from "react-i18next";
 import { MdOutlineArrowBackIos } from "react-icons/md";
 import axiosInstance from "../../api/axiosInstance";
 import { PetProfileData } from "../../types/userProfile.ts";
+import ProfilePictureUploader from "../services/ProfilePictureUploader.tsx";
+import MultiPictureUploder from "../services/MultiPictureUploader.tsx"
+import ViewMultiPicture from "./ViewMultiPicture.tsx";
+
 const apiURL: string = import.meta.env.VITE_API_BASE_URL;
 
 type Props = {
@@ -13,19 +17,23 @@ type Props = {
 };
 
 const EditProfileForm: React.FC<Props> = ({ petProfile, onClose }) => {
-  const { register, handleSubmit, reset } = useForm<PetProfileData>({
+  const { register, handleSubmit, reset, getValues, setValue } = useForm<PetProfileData>({
     shouldUseNativeValidation: true,
   });
-  const { currentUser, userInfo } = useAuth();
+  const { userInfo } = useAuth();
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState<boolean>(false);
   const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [petProfilePicture, setPetProfilePicture] = useState<string | null>(null);
+  const [petBioPictureSrcList, setPetBioPictureSrcList] =
+    useState<string>(petProfile?.pet_bio_picture_src_list || "");
   const { t } = useTranslation();
 
   // Pre-fill form if editing an existing pet profile
   useEffect(() => {
     if (petProfile) {
       reset({
+        profile_picture_src: petProfile.profile_picture_src || "",
         name: petProfile.name || "",
         type_of_animal: petProfile.type_of_animal || "",
         subtype: petProfile.subtype || "",
@@ -34,7 +42,10 @@ const EditProfileForm: React.FC<Props> = ({ petProfile, onClose }) => {
         known_allergies: petProfile.known_allergies || "",
         medications: petProfile.medications || "",
         special_needs: petProfile.special_needs || "",
+        pet_bio_picture_src_list: petProfile.pet_bio_picture_src_list || "",
       });
+      setPetProfilePicture(petProfile.profile_picture_src || "");
+      setPetBioPictureSrcList(petProfile.pet_bio_picture_src_list || "");
     }
   }, [petProfile, reset]);
 
@@ -42,48 +53,20 @@ const EditProfileForm: React.FC<Props> = ({ petProfile, onClose }) => {
     console.log(data);
     setIsLoading(true);
     try {
-      // Getting error with this endpoint
-      const idToken = await currentUser?.getIdToken();
-      const response = await fetch(`${apiURL}/appuser/${userInfo?.id}/pet`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${idToken}`,
-        },
-        body: JSON.stringify(data),
-      });
-
-      // const response = await axiosInstance.post(
-      //   `${apiURL}/appuser/${userInfo?.id}/pet`,
-      //   {
-      //     name: data.name,
-      //     type_of_animal: data.type_of_animal,
-      //     subtype: data.subtype,
-      //     weight: data.weight,
-      //     birthday: data.birthday,
-      //     known_allergies: data.known_allergies,
-      //     medications: data.medications,
-      //     special_needs: data.special_needs,
-      //     gender: null,
-      //     profile_picture_src: null,
-      //     pet_bio_picture_src_list: null,
-      //     profile_bio: null,
-      //   }
-      // );
-      if (response.status === 200) {
-        const newProfile = await response.json();
-        console.log("Profile created successfully:", newProfile);
-
+      const response = await axiosInstance.post(`${apiURL}/appuser/${userInfo?.id}/pet`, data);
+      
+      if (response.status === 201) {
         setSuccess(true);
         setError(null);
         onClose();
       } else {
-        const errorData = await response.json();
-        throw new Error(errorData.detail || "Failed to create profile.");
+        throw new Error(response.data.errors);
       }
-    } catch (error: any) {
-      console.error("Error creating profile:", error.message);
-      setError(error.message);
+    } catch (err) {
+      if (err instanceof Error) {
+        setError(err.message);
+        console.error("Error updating profile:", err.message);
+      }
       setSuccess(false);
     } finally {
       setIsLoading(false);
@@ -93,11 +76,12 @@ const EditProfileForm: React.FC<Props> = ({ petProfile, onClose }) => {
   const handleUpdate = async (data: PetProfileData) => {
     setIsLoading(true);
     try {
-      // const idToken = await currentUser?.getIdToken();
       const response = await axiosInstance.put(
         `${apiURL}/pet/${petProfile?.id}`,
         {
           name: data.name,
+          profile_picture_src: petProfilePicture,
+          pet_bio_picture_src_list: petBioPictureSrcList,
           type_of_animal: data.type_of_animal,
           subtype: data.subtype,
           weight: data.weight,
@@ -119,9 +103,11 @@ const EditProfileForm: React.FC<Props> = ({ petProfile, onClose }) => {
         // const errorData = await response.data();
         throw new Error(response.data.detail || "Failed to create profile.");
       }
-    } catch (error: any) {
-      console.error("Error updating profile:", error.message);
-      setError(error.message);
+    } catch (err) {
+      if (err instanceof Error) {
+        setError(err.message);
+        console.error("Error updating profile:", err.message);
+      }
       setSuccess(false);
     } finally {
       setIsLoading(false);
@@ -134,6 +120,25 @@ const EditProfileForm: React.FC<Props> = ({ petProfile, onClose }) => {
     } else {
       await handleCreate(data);
     }
+  };
+
+  const handleUpload = async (url: string) => {
+    setPetProfilePicture(url);
+    console.log("petProfilePicture : ", petProfilePicture);
+
+    // Update the form's value for pet profile_picture_src
+    setValue("profile_picture_src", petProfilePicture || "");
+  };
+
+  const handleMultiUpload = (urls: string[]) => {
+    // Combine existing URLs with new ones
+    const currentPictureList = getValues("pet_bio_picture_src_list") || "";
+    const updatedPictureList = currentPictureList
+      ? `${currentPictureList},${urls.join(",")}`
+      : urls.join(",");
+
+    setPetBioPictureSrcList(updatedPictureList);
+    setValue("pet_bio_picture_src_list", updatedPictureList);
   };
 
   const petOptions = [
@@ -175,6 +180,32 @@ const EditProfileForm: React.FC<Props> = ({ petProfile, onClose }) => {
           <h1 className="mx-2 font-bold text-2xl inline">
             {t("dashboard_account_page.edit_button")}
           </h1>
+        </div>
+
+        {/* Profile Picture */}
+        <div className="mb-6 ">
+          <p className={`${labelClass} mb-3`}>
+            {t("editPetProfileForm.profilePicture")}
+          </p>
+          <div className="flex flex-col sm:flex-row items-center p-6">
+            <img
+              src={
+                petProfilePicture ||
+                petProfile?.profile_picture_src ||
+                "https://firebasestorage.googleapis.com/v0/b/petsitter-84e85.firebasestorage.app/o/user_profile_pictures%2Fdefault-profile.svg?alt=media&token=aa84dc5e-41e5-4f6a-b966-6a1953b25971"
+              }
+              alt={petProfile?.name}
+              className="h-48 w-48 rounded-full object-cover"
+            />
+            <ProfilePictureUploader
+              id={petProfile?.id}
+              pictureType="pet_pictures"
+              onUpload={handleUpload}
+              existingPictureUrl={
+                petProfile?.profile_picture_src || ""
+              }
+            />
+          </div>
         </div>
 
         {/* Pets */}
@@ -298,6 +329,24 @@ const EditProfileForm: React.FC<Props> = ({ petProfile, onClose }) => {
               {...register("special_needs")}
             />
           </div>
+
+          {/* Additional Images */}
+          <div className="mt-6">
+            <h2 className={`${labelClass}`}>Add More Pictures</h2>
+            {petBioPictureSrcList ? (
+              <ViewMultiPicture
+                picture_src_list={petBioPictureSrcList || ""}
+              />
+            ) : (
+              ""
+            )}
+            <MultiPictureUploder
+              id={petProfile?.id}
+              pictureType="pet_pictures"
+              onUpload={handleMultiUpload}
+            />
+          </div>
+
         </div>
         <div className="flex justify-center md:justify-end px-3">
           <button
