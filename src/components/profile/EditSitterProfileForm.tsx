@@ -3,13 +3,12 @@ import { useAuth } from "../../contexts/AuthContext";
 import React, { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { MdOutlineArrowBackIos } from "react-icons/md";
-import axios from "axios";
+import axiosInstance from "../../api/axiosInstance";
 import ProfilePictureUploader from "../services/ProfilePictureUploader";
 import MultiPictureUploader from "../services/MultiPictureUploader";
 import ViewMultiPicture from "./ViewMultiPicture";
 import { Sitter } from "../../types/userProfile.ts";
 import AvailabilityManager from "../availability/AvailabilityManager.tsx";
-
 const apiURL: string = import.meta.env.VITE_API_BASE_URL;
 
 type Props = {
@@ -46,6 +45,8 @@ const EditSitterProfileForm: React.FC<Props> = ({
     useState<string>(sitterProfile?.sitter_bio_picture_src_list || "");
   console.log("sitterProfile: ", sitterProfile);
 
+  // axios.defaults.withCredentials = true;
+
   useEffect(() => {
     if (sitterProfile) {
       reset({
@@ -71,18 +72,21 @@ const EditSitterProfileForm: React.FC<Props> = ({
     data.sitter_bio_picture_src_list = sitterBioPictureSrcList;
     console.log("Submitting data:", data);
     try {
-      const response = await axios.post(`${apiURL}/sitter/${userInfo?.id}`, {
-        sitter_profile_bio: data.sitter_profile_bio,
-        sitter_bio_picture_src_list: data.sitter_bio_picture_src_list,
-        sitter_house_ok: data.sitter_house_ok,
-        owner_house_ok: data.owner_house_ok,
-        visit_ok: data.visit_ok,
-        dogs_ok: data.dogs_ok,
-        cats_ok: data.cats_ok,
-        fish_ok: data.fish_ok,
-        birds_ok: data.birds_ok,
-        rabbits_ok: data.rabbits_ok,
-      });
+      const response = await axiosInstance.post(
+        `${apiURL}/sitter/${userInfo?.id}`,
+        {
+          sitter_profile_bio: data.sitter_profile_bio,
+          sitter_bio_picture_src_list: data.sitter_bio_picture_src_list,
+          sitter_house_ok: data.sitter_house_ok,
+          owner_house_ok: data.owner_house_ok,
+          visit_ok: data.visit_ok,
+          dogs_ok: data.dogs_ok,
+          cats_ok: data.cats_ok,
+          fish_ok: data.fish_ok,
+          birds_ok: data.birds_ok,
+          rabbits_ok: data.rabbits_ok,
+        }
+      );
 
       if (response.status === 200) {
         const updatedProfile = response.data;
@@ -306,7 +310,7 @@ const EditSitterProfileForm: React.FC<Props> = ({
       </div>
 
       <div className="mt-6">
-        < AvailabilityManager />
+        <AvailabilityManager />
       </div>
 
       <div className="mt-6">

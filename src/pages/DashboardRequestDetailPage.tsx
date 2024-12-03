@@ -1,10 +1,9 @@
-import React, { useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
-import { useAuth } from '../contexts/AuthContext';
-import { Inquiry, AppUser } from '../types/userProfile';
-import Conversation from '../components/chat/Conversation'; // We'll create this later
-import UserProfileModal from '../components/profile/UserProfileModal';
-
+import React, { useState, useEffect } from "react";
+import { useParams } from "react-router-dom";
+import { useAuth } from "../contexts/AuthContext";
+import { Inquiry, AppUser } from "../types/userProfile";
+import Conversation from "../components/chat/Conversation"; // We'll create this later
+import UserProfileModal from "../components/profile/UserProfileModal";
 const apiURL: string = import.meta.env.VITE_API_BASE_URL;
 
 const DashboardRequestDetailPage: React.FC = () => {
@@ -30,47 +29,53 @@ const DashboardRequestDetailPage: React.FC = () => {
 
         // Fetch request details
         const requestResponse = await fetch(`${apiURL}/inquiry/${requestId}`, {
-          method: 'GET',
+          method: "GET",
           headers: {
-            'Content-Type': 'application/json',
+            "Content-Type": "application/json",
             Authorization: `Bearer ${idToken}`,
           },
         });
 
         if (!requestResponse.ok) {
-          throw new Error('Failed to fetch request details');
+          throw new Error("Failed to fetch request details");
         }
 
         const requestData: Inquiry = await requestResponse.json();
         setRequest(requestData);
 
         // Fetch owner info
-        const ownerResponse = await fetch(`${apiURL}/appuser/${requestData.owner_appuser_id}`, {
-          method: 'GET',
-          headers: {
-            'Content-Type': 'application/json',
-            Authorization: `Bearer ${idToken}`,
-          },
-        });
+        const ownerResponse = await fetch(
+          `${apiURL}/appuser/${requestData.owner_appuser_id}`,
+          {
+            method: "GET",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${idToken}`,
+            },
+          }
+        );
 
         if (!ownerResponse.ok) {
-          throw new Error('Failed to fetch owner info');
+          throw new Error("Failed to fetch owner info");
         }
 
         const ownerData: AppUser = await ownerResponse.json();
         setOwnerInfo(ownerData);
 
         // Fetch sitter info
-        const sitterResponse = await fetch(`${apiURL}/appuser/${requestData.sitter_appuser_id}`, {
-          method: 'GET',
-          headers: {
-            'Content-Type': 'application/json',
-            Authorization: `Bearer ${idToken}`,
-          },
-        });
+        const sitterResponse = await fetch(
+          `${apiURL}/appuser/${requestData.sitter_appuser_id}`,
+          {
+            method: "GET",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${idToken}`,
+            },
+          }
+        );
 
         if (!sitterResponse.ok) {
-          throw new Error('Failed to fetch sitter info');
+          throw new Error("Failed to fetch sitter info");
         }
 
         const sitterData: AppUser = await sitterResponse.json();
@@ -79,7 +84,7 @@ const DashboardRequestDetailPage: React.FC = () => {
         if (err instanceof Error) {
           setError(err.message);
         } else {
-          setError('An unexpected error occurred.');
+          setError("An unexpected error occurred.");
         }
       }
     };
@@ -94,57 +99,57 @@ const DashboardRequestDetailPage: React.FC = () => {
   const handleAccept = async () => {
     try {
       const idToken = await currentUser?.getIdToken();
-  
+
       const response = await fetch(`${apiURL}/inquiry/${requestId}`, {
-        method: 'PATCH',
+        method: "PATCH",
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
           Authorization: `Bearer ${idToken}`,
         },
-        body: JSON.stringify({ inquiry_status: 'approved' }),
+        body: JSON.stringify({ inquiry_status: "approved" }),
       });
-  
+
       if (!response.ok) {
         const errorData = await response.json();
-        throw new Error(errorData.detail || 'Failed to accept the request');
+        throw new Error(errorData.detail || "Failed to accept the request");
       }
-  
+
       // Update local state
-      setRequest({ ...request!, inquiry_status: 'approved' });
+      setRequest({ ...request!, inquiry_status: "approved" });
     } catch (err) {
       if (err instanceof Error) {
         setError(err.message);
       } else {
-        setError('An unexpected error occurred.');
+        setError("An unexpected error occurred.");
       }
     }
   };
-  
+
   const handleReject = async () => {
     try {
       const idToken = await currentUser?.getIdToken();
-  
+
       const response = await fetch(`${apiURL}/inquiry/${requestId}`, {
-        method: 'PATCH',
+        method: "PATCH",
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
           Authorization: `Bearer ${idToken}`,
         },
-        body: JSON.stringify({ inquiry_status: 'rejected' }),
+        body: JSON.stringify({ inquiry_status: "rejected" }),
       });
-  
+
       if (!response.ok) {
         const errorData = await response.json();
-        throw new Error(errorData.detail || 'Failed to reject the request');
+        throw new Error(errorData.detail || "Failed to reject the request");
       }
-  
+
       // Update local state
-      setRequest({ ...request!, inquiry_status: 'rejected' });
+      setRequest({ ...request!, inquiry_status: "rejected" });
     } catch (err) {
       if (err instanceof Error) {
         setError(err.message);
       } else {
-        setError('An unexpected error occurred.');
+        setError("An unexpected error occurred.");
       }
     }
   };
@@ -168,8 +173,8 @@ const DashboardRequestDetailPage: React.FC = () => {
           <strong>Service:</strong> {request.desired_service}
         </p>
         <p>
-          <strong>Dates:</strong>{' '}
-          {new Date(request.start_date).toLocaleDateString()} -{' '}
+          <strong>Dates:</strong>{" "}
+          {new Date(request.start_date).toLocaleDateString()} -{" "}
           {new Date(request.end_date).toLocaleDateString()}
         </p>
         <p>
@@ -182,7 +187,7 @@ const DashboardRequestDetailPage: React.FC = () => {
 
       {/* Owner Information */}
       {isSitter && ownerInfo && (
-        <div 
+        <div
           className="mb-6 cursor-pointermb-6 border rounded-lg p-4 bg-white shadow-md cursor-pointer hover:bg-gray-100"
           onClick={() => handleUserClick(ownerInfo)}
         >
@@ -200,10 +205,10 @@ const DashboardRequestDetailPage: React.FC = () => {
 
       {/* Sitter Information */}
       {isOwner && sitterInfo && (
-        <div 
+        <div
           className="mb-6 border rounded-lg p-4 bg-white shadow-md cursor-pointer hover:bg-gray-100"
           onClick={() => handleUserClick(sitterInfo)}
-          >
+        >
           <h3 className="font-semibold text-xl">Sitter Information</h3>
           <p>
             <strong>Name:</strong> {sitterInfo.firstname} {sitterInfo.lastname}
@@ -226,7 +231,7 @@ const DashboardRequestDetailPage: React.FC = () => {
       )}
 
       {/* Accept/Reject Buttons */}
-      {isSitter && request.inquiry_status === 'requested' && (
+      {isSitter && request.inquiry_status === "requested" && (
         <div className="flex space-x-4 mb-6">
           <button
             onClick={handleAccept}
@@ -244,7 +249,7 @@ const DashboardRequestDetailPage: React.FC = () => {
       )}
 
       {/* Show updated status if the inquiry has been finalized */}
-      {request.inquiry_status !== 'requested' && (
+      {request.inquiry_status !== "requested" && (
         <p className="text-lg font-semibold mb-6">
           This request has been {request.inquiry_status}.
         </p>
@@ -253,11 +258,7 @@ const DashboardRequestDetailPage: React.FC = () => {
       {/* Conversation Component */}
       <div className="mb-6">
         <h3 className="font-semibold text-xl">Conversation</h3>
-        {userInfo?.id && (
-          <Conversation
-            inquiry={request}
-          />
-        )}
+        {userInfo?.id && <Conversation inquiry={request} />}
       </div>
     </div>
   );

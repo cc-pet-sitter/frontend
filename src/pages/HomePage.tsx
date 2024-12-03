@@ -45,10 +45,6 @@ const HomePage: React.FC = () => {
     fetchPetProfiles();
   }, []);
 
-  useEffect(() => {
-    console.log(petProfiles);
-  }, [petProfiles]);
-
   const handleSearchSubmit = async (formData: SearchFormData) => {
     try {
       const queryParams = new URLSearchParams(
