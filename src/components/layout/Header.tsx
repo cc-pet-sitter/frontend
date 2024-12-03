@@ -44,6 +44,7 @@ const Header: React.FC = () => {
     event: React.MouseEvent<HTMLElement>,
     newAlignment: string
   ) => {
+    event.preventDefault();
     if (newAlignment) {
       setAlignment(newAlignment);
       i18n.changeLanguage(newAlignment);
