@@ -46,7 +46,9 @@
 
   "homePage": {
     "subtitle": "Find trusted pet sitters or list your services!",
-    "searchLabel": "Search for a Pet Sitter..."
+    "searchLabel": "Search for a Pet Sitter...",
+    "more_pet_view": "View more pets",
+    "titel_pets": " Check out our pets"
   },
   "header": {
     "logout": "Logout",

@@ -95,6 +95,7 @@ export interface PetProfileData {
   special_needs: string | null;
   appuser_id: number;
   profile_picture_src: string | undefined;
+  gender: string | undefined;
 }
 
 export interface Review {
@@ -116,4 +117,3 @@ export interface Message {
   time_sent: Date;
   sender_name?: string;
 }
-

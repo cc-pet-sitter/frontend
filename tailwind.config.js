@@ -1,10 +1,10 @@
 /** @type {import('tailwindcss').Config} */
-export default {
-  content: [
-    "./index.html",
-    "./src/**/*.{js,ts,jsx,tsx}",
-    "./node_modules/flowbite/**/*.js",
-  ],
+
+
+const withMT = require("@material-tailwind/react/utils/withMT");
+
+export default module.exports = withMT({
+  content: ["./index.html", "./src/**/*.{js,ts,jsx,tsx}","./node_modules/flowbite/**/*.js"],
   theme: {
     extend: {
       boxShadow: {
@@ -23,4 +23,5 @@ export default {
   },
 
   plugins: [require("flowbite/plugin")],
-};
+});
+
