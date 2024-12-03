@@ -6,18 +6,12 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { PetProfileData } from "../types/userProfile";
 import {
-  IoIosArrowDropleftCircle,
-  IoIosArrowDroprightCircle,
-} from "react-icons/io";
-
-import {
   Carousel,
   Card,
   CardHeader,
   CardBody,
   Typography,
 } from "@material-tailwind/react";
-
 
 const apiURL: string = import.meta.env.VITE_API_BASE_URL;
 

@@ -11,10 +11,7 @@ import {
   Card,
   CardHeader,
   CardBody,
-  CardFooter,
   Typography,
-  Avatar,
-  Tooltip,
 } from "@material-tailwind/react";
 
 const apiURL: string = import.meta.env.VITE_API_BASE_URL;
