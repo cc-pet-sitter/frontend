@@ -3,29 +3,17 @@ import { useAuth } from "../../contexts/AuthContext";
 import React, { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { MdOutlineArrowBackIos } from "react-icons/md";
+import axiosInstance from "../../api/axiosInstance";
+import { PetProfileData } from "../../types/userProfile.ts";
 const apiURL: string = import.meta.env.VITE_API_BASE_URL;
 
 type Props = {
-  petProfile: EditProfileFormData | null;
+  petProfile: PetProfileData | null;
   onClose: () => void;
 };
 
-type EditProfileFormData = {
-  id: Number;
-  name: string;
-  type_of_animal: string;
-  subtype: string | null;
-  weight: number | null;
-  birthday: string;
-  known_allergies: string | null;
-  medications: string | null;
-  special_needs: string | null;
-  appuser_id: number;
-  profile_picture_src: string | undefined;
-};
-
 const EditProfileForm: React.FC<Props> = ({ petProfile, onClose }) => {
-  const { register, handleSubmit, reset } = useForm<EditProfileFormData>({
+  const { register, handleSubmit, reset } = useForm<PetProfileData>({
     shouldUseNativeValidation: true,
   });
   const { currentUser, userInfo } = useAuth();
@@ -50,10 +38,11 @@ const EditProfileForm: React.FC<Props> = ({ petProfile, onClose }) => {
     }
   }, [petProfile, reset]);
 
-  const handleCreate = async (data: EditProfileFormData) => {
+  const handleCreate = async (data: PetProfileData) => {
     console.log(data);
     setIsLoading(true);
     try {
+      // Getting error with this endpoint
       const idToken = await currentUser?.getIdToken();
       const response = await fetch(`${apiURL}/appuser/${userInfo?.id}/pet`, {
         method: "POST",
@@ -64,7 +53,24 @@ const EditProfileForm: React.FC<Props> = ({ petProfile, onClose }) => {
         body: JSON.stringify(data),
       });
 
-      if (response.ok) {
+      // const response = await axiosInstance.post(
+      //   `${apiURL}/appuser/${userInfo?.id}/pet`,
+      //   {
+      //     name: data.name,
+      //     type_of_animal: data.type_of_animal,
+      //     subtype: data.subtype,
+      //     weight: data.weight,
+      //     birthday: data.birthday,
+      //     known_allergies: data.known_allergies,
+      //     medications: data.medications,
+      //     special_needs: data.special_needs,
+      //     gender: null,
+      //     profile_picture_src: null,
+      //     pet_bio_picture_src_list: null,
+      //     profile_bio: null,
+      //   }
+      // );
+      if (response.status === 200) {
         const newProfile = await response.json();
         console.log("Profile created successfully:", newProfile);
 
@@ -84,29 +90,34 @@ const EditProfileForm: React.FC<Props> = ({ petProfile, onClose }) => {
     }
   };
 
-  const handleUpdate = async (data: EditProfileFormData) => {
+  const handleUpdate = async (data: PetProfileData) => {
     setIsLoading(true);
     try {
-      const idToken = await currentUser?.getIdToken();
-      const response = await fetch(`${apiURL}/pet/${petProfile?.id}`, {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${idToken}`,
-        },
-        body: JSON.stringify(data),
-      });
+      // const idToken = await currentUser?.getIdToken();
+      const response = await axiosInstance.put(
+        `${apiURL}/pet/${petProfile?.id}`,
+        {
+          name: data.name,
+          type_of_animal: data.type_of_animal,
+          subtype: data.subtype,
+          weight: data.weight,
+          birthday: data.birthday,
+          known_allergies: data.known_allergies,
+          medications: data.medications,
+          special_needs: data.special_needs,
+        }
+      );
 
-      if (response.ok) {
-        const updatedProfile = await response.json();
+      if (response.status === 200) {
+        const updatedProfile = await response.data;
         console.log("Profile updated successfully:", updatedProfile);
 
         setSuccess(true);
         setError(null);
         onClose();
       } else {
-        const errorData = await response.json();
-        throw new Error(errorData.detail || "Failed to create profile.");
+        // const errorData = await response.data();
+        throw new Error(response.data.detail || "Failed to create profile.");
       }
     } catch (error: any) {
       console.error("Error updating profile:", error.message);
@@ -117,7 +128,7 @@ const EditProfileForm: React.FC<Props> = ({ petProfile, onClose }) => {
     }
   };
 
-  const onSubmit = async (data: EditProfileFormData) => {
+  const onSubmit = async (data: PetProfileData) => {
     if (petProfile) {
       await handleUpdate(data);
     } else {
@@ -213,9 +224,7 @@ const EditProfileForm: React.FC<Props> = ({ petProfile, onClose }) => {
               id="birthday"
               type="date"
               placeholder="2024/08/02"
-              {...register("birthday", {
-                required: "Please select a birthday.",
-              })}
+              {...register("birthday")}
               className={`${inputClass}`}
             />
           </div>
@@ -230,6 +239,7 @@ const EditProfileForm: React.FC<Props> = ({ petProfile, onClose }) => {
             <input
               id="weight"
               type="number"
+              step="0.1"
               {...register("weight")}
               className={inputClass}
             />
