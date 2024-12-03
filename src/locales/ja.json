@@ -45,7 +45,9 @@
   },
   "homePage": {
     "subtitle": "ペットシッターを探そう！",
-    "searchLabel": "ペットシッターを探す..."
+    "searchLabel": "ペットシッターを探す...",
+    "more_pet_view": "さらにペットを見る",
+    "titel_pets": "ペットをチェックしよう"
   },
   "header": {
     "logout": "ログアウト",
