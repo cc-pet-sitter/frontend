@@ -12,7 +12,12 @@ interface ProfilePictureUploaderProps {
 
 type PictureType = "user_profile_pictures" | "sitter_pictures" | "pet_pictures";
 
-const ProfilePictureUploader: React.FC<ProfilePictureUploaderProps> = ({ id, pictureType, onUpload, existingPictureUrl }) => {
+const ProfilePictureUploader: React.FC<ProfilePictureUploaderProps> = ({ 
+  id, 
+  pictureType, 
+  onUpload, 
+  existingPictureUrl 
+}) => {
     const [file, setFile] = useState<File | null>(null);
     const [progress, setProgress] = useState<number>(0);
     const [isEditing, setIsEditing] = useState<boolean>(false);

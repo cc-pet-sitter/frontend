@@ -215,7 +215,9 @@
     "breed": "品種は ",
     "allergies": "アレルギー",
     "medications": "服薬中のお薬",
-    "specialNeeds": "知っておいてほしいこと"
+    "specialNeeds": "知っておいてほしいこと",
+    "profilePicture": "Your pet profile picture",
+    "additionalImages": "Additional images"
   },
 
   "editPetProfileForm": {
