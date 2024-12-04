@@ -53,10 +53,12 @@
   },
 
   "homePage": {
-    "subtitle": "Find trusted pet sitters or list your services!",
+    "title": "Find trusted pet sitters or list your services",
+    "subtitle": "Connect with loving, reliable sitters near you",
     "searchLabel": "Search for a Pet Sitter...",
     "more_pet_view": "View more pets",
-    "titel_pets": " Check out our pets"
+    "titel_pets": " Check out our pets",
+    "search-btn": "Search now"
   },
   "header": {
     "logout": "Logout",
@@ -228,7 +230,7 @@
     "weight": "Weight (kg)",
     "breed": "Breed(s)",
     "typeOfPet": "What type of pet?",
-    "allergies": "Kown allergies",
+    "allergies": "Known allergies",
     "medications": "Medications",
     "specialNeeds": "Anything else a sitter should know?",
     "profilePicture": "Your pet profile picture",
