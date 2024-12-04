@@ -139,7 +139,7 @@ const HomePage: React.FC = () => {
       </div> */}
       <div className="m-10">
         <h2 className="text-center text-2xl font-semibold">
-          {t("homePage.titel_pets")}
+          {t("homePage.title_pets")}
         </h2>
         <Carousel
           className="rounded-xl w-full mx-auto max-w-[24rem]"
@@ -147,8 +147,8 @@ const HomePage: React.FC = () => {
             <div className="hidden"></div> // This hides the navigation dots
           )}
         >
-          {randomProfiles?.map((profile) => (
-            <Card className="max-w-[24rem] overflow-hidden m-2">
+          {randomProfiles?.map((profile, index) => (
+            <Card key={index} className="max-w-[24rem] overflow-hidden m-2">
               <CardHeader
                 floated={false}
                 shadow={false}
