@@ -3,18 +3,19 @@ import { useTranslation } from "react-i18next";
 import { LuDog, LuFish, LuSchool } from "react-icons/lu";
 import { TbHomeFilled, TbHomeMove } from "react-icons/tb";
 import { PiRabbitBold, PiCatBold, PiBirdBold } from "react-icons/pi";
+// import { prefectureOptions } from "../../options/Prefectures";
+import { cityOptions } from "../../options/Cities";
+import { useState } from "react";
 
 export interface SearchFormData {
   postcode?: string;
   prefecture?: string;
   city_ward?: string;
-  // pets?: string[];
   dogs_ok: boolean;
   cats_ok: boolean;
   fish_ok: boolean;
   birds_ok: boolean;
   rabbits_ok: boolean;
-  // types_of_service?: boolean;
   sitter_house_ok: boolean;
   owner_house_ok: boolean;
   visit_ok: boolean;
@@ -27,66 +28,23 @@ interface SearchBarProps {
 
 const SearchBar: React.FC<SearchBarProps> = ({ onSearchSubmit }) => {
   const { t } = useTranslation();
-  const { register, handleSubmit } = useForm<SearchFormData>();
-  // const [prefectureList, setPrefectureList] = useState<Console[]>([]);
+  const { register, handleSubmit, setValue } = useForm<SearchFormData>();
+  const [selectedPrefecture, setSelectedPrefecture] = useState("");
+
+  const prefectureOptions = Object.keys(cityOptions);
+
+  const handlePrefectureChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const selected = e.target.value;
+    setSelectedPrefecture(selected);
+
+    setValue("prefecture", selected as string);
+  };
 
   const inputClass =
     "appearance-none block w-full bg-gray-200 text-gray-700 border rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white";
   const labelClass =
     "block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2";
 
-  // const petOptions = ["dog", "cat", "fish", "bird", "rabbit"];
-  // const serviceOptions = ["boarding", "stayIn", "dropIn"];
-
-  const prefectureOptions = [
-    "Hokkaido",
-    "Aomori",
-    "Iwate",
-    "Miyagi",
-    "Akita",
-    "Yamagata",
-    "Fukushima",
-    "Ibaraki",
-    "Tochigi",
-    "Gunma",
-    "Saitama",
-    "Chiba",
-    "Tokyo",
-    "Kanagawa",
-    "Niigata",
-    "Toyama",
-    "Ishikawa",
-    "Fukui",
-    "Yamanashi",
-    "Nagano",
-    "Gifu",
-    "Shizuoka",
-    "Aichi",
-    "Mie",
-    "Shiga",
-    "Kyoto",
-    "Osaka",
-    "Hyogo",
-    "Nara",
-    "Wakayama",
-    "Tottori",
-    "Shimane",
-    "Okayama",
-    "Hiroshima",
-    "Yamaguchi",
-    "Tokushima",
-    "Kagawa",
-    "Ehime",
-    "Kochi",
-    "Fukuoka",
-    "Saga",
-    "Nagasaki",
-    "Kumamoto",
-    "Oita",
-    "Miyazaki",
-    "Kagoshima",
-    "Okinawa",
-  ];
   return (
     <div className="flex justify-center p-8 ">
       <form
@@ -94,6 +52,7 @@ const SearchBar: React.FC<SearchBarProps> = ({ onSearchSubmit }) => {
         className="w-full max-w-lg "
       >
         <div className="flex flex-wrap -mx-3 mb-6">
+          {/* Prefecture Selection */}
           <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
             <label className={labelClass} htmlFor="prefecture">
               {t("searchBar.prefecture")}
@@ -102,6 +61,7 @@ const SearchBar: React.FC<SearchBarProps> = ({ onSearchSubmit }) => {
               id="prefecture"
               list="prefecture-options"
               {...register("prefecture")}
+              onChange={handlePrefectureChange}
               placeholder={t("searchBar.selectPrefecture")}
               className={`${inputClass} pr-8`}
             />
@@ -113,28 +73,33 @@ const SearchBar: React.FC<SearchBarProps> = ({ onSearchSubmit }) => {
               ))}
             </datalist>
           </div>
-        </div>
 
-        <div className="flex flex-wrap -mx-3 mb-6">
-          {/* City/Ward */}
-          <div className="w-full px-3 mb-6 md:mb-0">
-            <label className={labelClass} htmlFor="city_ward">
+          {/* City Selection */}
+          <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
+            <label className={labelClass} htmlFor="city">
               {t("searchBar.cityWard")}
             </label>
             <input
-              id="city_ward"
-              type="text"
-              placeholder={t("searchBar.enterCityWard")}
+              id="city"
+              list="city-options"
               {...register("city_ward")}
-              className={inputClass}
+              placeholder={t("searchBar.enterCityWard")}
+              className={`${inputClass} pr-8`}
             />
+            <datalist id="city-options">
+              {(cityOptions[selectedPrefecture] || []).map((city) => (
+                <option key={city} value={city}>
+                  {t(`searchBar.cityOptions.${selectedPrefecture}.${city}`)}
+                </option>
+              ))}
+            </datalist>
           </div>
         </div>
+
         <div className="flex flex-wrap -mx-3 mb-6 ">
           <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
             {/* Your Pet */}
             <p className={`${labelClass} mb-3`}>{t("searchBar.yourPet")}:</p>
-
             <ul className="grid grid-cols-2 gap-6 md:grid-cols-2">
               <li>
                 <input

@@ -89,12 +89,14 @@ const SitterProfilePage: React.FC = () => {
             {/* <p className="text-gray-500">{user.appuser.email}</p> */}
           </div>
           <div>
-            <Rating
-              className="pt-2"
-              name="read-only"
-              value={user.appuser.average_user_rating}
-              readOnly
-            />
+            {user.appuser.average_user_rating !== null && (
+              <Rating
+                className="pt-2"
+                name="read-only"
+                value={user.appuser.average_user_rating}
+                readOnly
+              />
+            )}
           </div>
           <div className="mt-4 sm:mt-0 sm:ml-auto flex flex-col items-center">
             <button
@@ -118,7 +120,9 @@ const SitterProfilePage: React.FC = () => {
 
         {/* Account Bio */}
         <div className="p-6 border-t">
-          <h2 className="text-lg font-semibold mb-4">Bio</h2>
+          <h2 className="text-lg font-semibold mb-4">
+            {t("sitterProfilePage.accountBio")}
+          </h2>
           <p>
             {user.sitter.sitter_profile_bio}
             <br />
@@ -139,7 +143,7 @@ const SitterProfilePage: React.FC = () => {
 
                   return services.length > 1
                     ? services.slice(0, -1).join(", ") +
-                        " and " +
+                        t("sitterProfilePage.and") +
                         services.slice(-1)
                     : services[0];
                 })()}
@@ -260,7 +264,7 @@ const SitterProfilePage: React.FC = () => {
                 >
                   <div>
                     <p className="text-sm text-gray-500">
-                      {`Submitted on: ${new Date(
+                      {`${t("sitterProfilePage.submittedOn")} ${new Date(
                         review.submission_date
                       ).toLocaleDateString()}`}
                     </p>
