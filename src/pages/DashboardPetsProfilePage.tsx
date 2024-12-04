@@ -1,13 +1,12 @@
 import React, { useState, useEffect } from "react";
 import { useAuth } from "../contexts/AuthContext";
 import { useTranslation } from "react-i18next";
-import axios from "axios";
 const apiURL: string = import.meta.env.VITE_API_BASE_URL;
 import EditPetProfileForm from "../components/profile/EditPetProfileForm";
 import PetProfile from "../components/profile/PetProfile";
 import { PetProfileData } from "../types/userProfile";
+import axiosInstance from "../api/axiosInstance";
 
-// hi
 const DashboardPetsProfilePage: React.FC = () => {
   const [petProfiles, setPetProfiles] = useState<Array<PetProfileData> | null>(
     null
@@ -22,7 +21,9 @@ const DashboardPetsProfilePage: React.FC = () => {
 
   const fetchPetProfiles = async () => {
     try {
-      const response = await axios.get(`${apiURL}/appuser/${userInfo?.id}/pet`);
+      const response = await axiosInstance.get(
+        `${apiURL}/appuser/${userInfo?.id}/pet`
+      );
       setPetProfiles(response.data);
     } catch (error) {
       console.error("Unable to fetch pet profiles", error);

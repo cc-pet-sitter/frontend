@@ -34,7 +34,15 @@
   },
   "dashboard_Sitter_Profile_page": {
     "title": "シッタープロフィール",
-    "edit_button": "プロフィールを編集"
+    "edit_button": "プロフィールを編集",
+    "edit_photo_profile": "Edit Photo",
+    "save_profile_button": "Save Profile",
+    "introduction": "Introduction",
+    "pet_service": "Pets you can sit",
+    "type_service": "Types of Service You Offer",
+    "availability": "Select Your Available Dates",
+    "update_availability": "Update Availability",
+    "additional_images": "Add More Pictures"
   },
   "dashboard_requests_page": {
     "title": "リクエスト",
@@ -45,7 +53,9 @@
   },
   "homePage": {
     "subtitle": "ペットシッターを探そう！",
-    "searchLabel": "ペットシッターを探す..."
+    "searchLabel": "ペットシッターを探す...",
+    "more_pet_view": "さらにペットを見る",
+    "titel_pets": "ペットをチェックしよう"
   },
   "header": {
     "logout": "ログアウト",
@@ -163,6 +173,7 @@
     "additionalImages": "Additional images",
     "accountInformation": "Account Information",
     "iOffer": "I offer the following services:"
+    "availability": "Availability"
   },
   "enquiryForm": {
     "startDate": "開始日",

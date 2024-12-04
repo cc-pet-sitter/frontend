@@ -34,7 +34,15 @@
   },
   "dashboard_Sitter_Profile_page": {
     "title": "Your Sitter Profile",
-    "edit_button": "Edit profile"
+    "edit_button": "Edit profile",
+    "edit_photo_profile": "Edit Photo",
+    "save_profile_button": "Save Profile",
+    "introduction": "Introduction",
+    "pet_service": "Pets you can sit",
+    "type_service": "Types of Service You Offer",
+    "availability": "Select Your Available Dates",
+    "update_availability": "Update Availability",
+    "additional_images": "Add More Pictures"
   },
   "dashboard_requests_page": {
     "title": "Requests",
@@ -46,7 +54,9 @@
 
   "homePage": {
     "subtitle": "Find trusted pet sitters or list your services!",
-    "searchLabel": "Search for a Pet Sitter..."
+    "searchLabel": "Search for a Pet Sitter...",
+    "more_pet_view": "View more pets",
+    "titel_pets": " Check out our pets"
   },
   "header": {
     "logout": "Logout",
@@ -164,6 +174,7 @@
     "additionalImages": "Additional images",
     "accountInformation": "Account Information",
     "iOffer": "I offer the following services:"
+    "availability": "Availability"
   },
   "enquiryForm": {
     "startDate": "Start Date",

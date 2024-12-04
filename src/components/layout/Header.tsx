@@ -44,6 +44,7 @@ const Header: React.FC = () => {
     event: React.MouseEvent<HTMLElement>,
     newAlignment: string
   ) => {
+    event.preventDefault();
     if (newAlignment) {
       setAlignment(newAlignment);
       i18n.changeLanguage(newAlignment);
@@ -74,7 +75,7 @@ const Header: React.FC = () => {
   }, []);
 
   return (
-    <header className="bg-white border border-b">
+    <header className=" bg-white border border-b">
       <nav className="flex items-center justify-between h-12 px-4 sm:px-6 lg:px-8">
         {/* Logo */}
         <div
@@ -235,7 +236,7 @@ const Header: React.FC = () => {
       <div
         className={`${
           mobileMenuOpen ? "fixed" : "hidden"
-        }  md:hidden bg-white px-7 py-4 space-y-2 w-full justify-center z-50`}
+        }  md:hidden bg-white px-7 py-4 space-y-2 w-full justify-center z-50 border border-b`}
       >
         {!currentUser ? (
           <div>
