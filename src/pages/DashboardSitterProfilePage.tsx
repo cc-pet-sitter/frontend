@@ -8,8 +8,8 @@ import { Done } from "@mui/icons-material";
 import { formatDistanceToNow } from "date-fns";
 import Rating from "@mui/material/Rating";
 import { AppUser, Review, Sitter } from "../types/userProfile.ts";
-import ViewMultiPicture from "../components/profile/ViewMultiPicture.tsx";
 import ViewAvailability from "../components/profile/ViewAvailability";
+import FeaturedImageGallery from "../components/profile/FeaturedImageGallery.tsx";
 
 const DashboardSitterProfilePage: React.FC = () => {
   const [sitterProfile, setSitterProfile] = useState<Sitter | null>(null);
@@ -82,8 +82,7 @@ const DashboardSitterProfilePage: React.FC = () => {
               {/* Profile Header */}
               <div className="flex flex-col sm:flex-row items-center p-6">
                 <img
-                  src={
-                    sitterProfile?.sitter_bio_picture_src_list ||
+                  src={user.profile_picture_src ||
                     "https://firebasestorage.googleapis.com/v0/b/petsitter-84e85.firebasestorage.app/o/user_profile_pictures%2Fdefault-profile.svg?alt=media&token=aa84dc5e-41e5-4f6a-b966-6a1953b25971"
                   }
                   alt={`${user.firstname} ${user.lastname}`}
@@ -235,12 +234,11 @@ const DashboardSitterProfilePage: React.FC = () => {
                 <h2 className="text-lg font-semibold mb-4">
                   {t("sitterProfilePage.additionalImages")}
                 </h2>
-                <ViewMultiPicture
-                  picture_src_list={
-                    sitterProfile.sitter_bio_picture_src_list || ""
-                  }
+                < FeaturedImageGallery 
+                  picture_src_list={sitterProfile.sitter_bio_picture_src_list}
                 />
               </div>
+
             </div>
             <div className="mt-6 text-center">
               <button
