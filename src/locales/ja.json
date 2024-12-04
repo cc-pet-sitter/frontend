@@ -793,7 +793,8 @@
     "additionalImages": "追加画像",
     "accountInformation": "アカウント情報",
     "iOffer": "私は次のサービスを提供します。",
-    "availability": "可用性",
+    "availability": "可能日",
+    "noAvailabilities": "可能日の登録はありません。",
     "submittedOn": "提出日:",
     "and": "そして"
   },
