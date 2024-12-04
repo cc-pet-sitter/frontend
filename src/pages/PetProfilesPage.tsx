@@ -46,7 +46,7 @@ const PetProfilesPage: React.FC = () => {
         <MdOutlineArrowBackIos className="mr-3" /> <p>Back</p>
       </button>
       <h2 className="text-center text-2xl font-semibold mt-4">
-        {t("homePage.titel_pets")}
+        {t("homePage.title_pets")}
       </h2>
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-2 justify-center md:mx-20">
         {petProfiles?.map((profile) => (

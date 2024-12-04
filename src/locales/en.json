@@ -58,7 +58,7 @@
     "subtitle": "Connect with loving and reliable sitters near you.",
     "searchLabel": "Search for a Pet Sitter...",
     "more_pet_view": "View more pets",
-    "title_pets": "Check out our pets",
+    "title_pets": "Look at our pets",
     "search-btn": "Search now"
   },
   "header": {
@@ -793,7 +793,8 @@
     "iOffer": "I offer the following services:",
     "availability": "Availability",
     "submittedOn": "Submitted on:",
-    "and": " and "
+    "and": " and ",
+    "noAvailabilities": "No availability"
   },
   "enquiryForm": {
     "startDate": "Start Date",
