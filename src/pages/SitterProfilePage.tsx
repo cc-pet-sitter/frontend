@@ -255,8 +255,8 @@ const SitterProfilePage: React.FC = () => {
             {t("sitterProfilePage.additionalImages")}
           </h2>
           <ViewMultiPicture
-            sitter_bio_picture_src_list={
-              user.sitter.sitter_bio_picture_src_list || ""
+            picture_src_list={
+              user.sitter.bio_picture_src_list || ""
             }
           />
         </div>
