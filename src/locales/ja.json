@@ -813,8 +813,8 @@
     "email": "メールアドレス",
     "password": "パスワード",
     "loginButton": "ログイン",
-    "signupPrompt": "アカウントをお持ちでないですか？ぜひご参加ください！",
-    "signupButton": "サインアップ"
+    "signupPrompt": "",
+    "signupButton": "新規会員登録はこちら"
   },
   "signup": {
     "title": "サインアップ",
@@ -823,7 +823,7 @@
     "email": "メールアドレス",
     "password": "パスワード",
     "signupButton": "サインアップ",
-    "signupPrompt": "すでにアカウントをお持ちですか？ログインしてください！",
+    "signupPrompt": "すでにアカウントをお持ちですか？",
     "loginButton": "ログイン",
     "firstnamePlaceholder": "ジョン",
     "lastnamePlaceholder": "ドウ",
