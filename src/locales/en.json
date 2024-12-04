@@ -1,6 +1,6 @@
 {
   "title": {
-    "subtitle": "Find trusted pet sitters or list your services!"
+    "subtitle": "Find trusted pet sitters or list your services."
   },
   "hamburger_menu": {
     "account": "Account",
@@ -53,8 +53,8 @@
   },
 
   "homePage": {
-    "title": "Find trusted pet sitters or list your services",
-    "subtitle": "Connect with loving, reliable sitters near you",
+    "title": "Find trusted pet sitters or list your services.",
+    "subtitle": "Connect with loving and reliable sitters near you.",
     "searchLabel": "Search for a Pet Sitter...",
     "more_pet_view": "View more pets",
     "titel_pets": " Check out our pets",
