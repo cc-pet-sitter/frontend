@@ -6,7 +6,7 @@ import { DateObject } from "react-multi-date-picker";
 import { useAuth } from "../../contexts/AuthContext";
 import { useTranslation } from "react-i18next";
 import { MdUpdate } from "react-icons/md";
-import "react-multi-date-picker/styles/colors/yellow.css"
+import "react-multi-date-picker/styles/colors/yellow.css";
 
 const apiURL: string = import.meta.env.VITE_API_BASE_URL;
 
@@ -19,7 +19,9 @@ const AvailabilityManager: React.FC = () => {
   const { userInfo } = useAuth();
   const { t } = useTranslation();
   const [availabilities, setAvailabilities] = useState<Availability[]>([]);
-  const [originalAvailabilities, setOriginalAvailabilities] = useState<Availability[]>([]);
+  const [originalAvailabilities, setOriginalAvailabilities] = useState<
+    Availability[]
+  >([]);
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(false);
@@ -29,12 +31,16 @@ const AvailabilityManager: React.FC = () => {
       if (!userInfo) return;
       setLoading(true);
       try {
-        const response = await axiosInstance.get(`${apiURL}/appuser/${userInfo.id}/availability`);
+        const response = await axiosInstance.get(
+          `${apiURL}/appuser/${userInfo.id}/availability`
+        );
         if (response.status === 200) {
-          const data = response.data.map((item: { id: number; available_date: string }) => ({
-            id: item.id,
-            date: new Date(item.available_date),
-          }));
+          const data = response.data.map(
+            (item: { id: number; available_date: string }) => ({
+              id: item.id,
+              date: new Date(item.available_date),
+            })
+          );
           setAvailabilities(data);
           setOriginalAvailabilities(data);
         }
@@ -52,7 +58,9 @@ const AvailabilityManager: React.FC = () => {
   const handleDateChange = (dates: DateObject[]) => {
     const updatedAvailabilities = dates.map((dateObj) => {
       const date = dateObj.toDate();
-      const existing = availabilities.find((item) => item.date.toDateString() === date.toDateString());
+      const existing = availabilities.find(
+        (item) => item.date.toDateString() === date.toDateString()
+      );
       return existing || { id: null, date };
     });
     setAvailabilities(updatedAvailabilities);
@@ -65,7 +73,10 @@ const AvailabilityManager: React.FC = () => {
       const addedDates = availabilities.filter((item) => item.id === null);
 
       const removedAvailabilities = originalAvailabilities.filter(
-        (origItem) => !availabilities.some((item) => item.date.toDateString() === origItem.date.toDateString())
+        (origItem) =>
+          !availabilities.some(
+            (item) => item.date.toDateString() === origItem.date.toDateString()
+          )
       );
 
       // Create new availabilities
@@ -74,7 +85,10 @@ const AvailabilityManager: React.FC = () => {
           available_date: item.date.toISOString().split("T")[0],
         }));
 
-        await axiosInstance.post(`${apiURL}/appuser/${userInfo.id}/availability`, availabilityData);
+        await axiosInstance.post(
+          `${apiURL}/appuser/${userInfo.id}/availability`,
+          availabilityData
+        );
       }
 
       // Delete removed availabilities
@@ -83,12 +97,16 @@ const AvailabilityManager: React.FC = () => {
       }
 
       // Refresh availabilities
-      const response = await axiosInstance.get(`${apiURL}/appuser/${userInfo.id}/availability`);
+      const response = await axiosInstance.get(
+        `${apiURL}/appuser/${userInfo.id}/availability`
+      );
       if (response.status === 200) {
-        const data = response.data.map((item: { id: number; available_date: string }) => ({
-          id: item.id,
-          date: new Date(item.available_date),
-        }));
+        const data = response.data.map(
+          (item: { id: number; available_date: string }) => ({
+            id: item.id,
+            date: new Date(item.available_date),
+          })
+        );
         setAvailabilities(data);
         setOriginalAvailabilities(data);
       }
@@ -106,9 +124,9 @@ const AvailabilityManager: React.FC = () => {
   };
 
   return (
-    <div className="mb-6">
+    <div className="mb-6 -z-50">
       <label className="block tracking-wide text-gray-700 font-bold mb-2 mt-4 text-lg">
-          {t("dashboard_Sitter_Profile_page.availability")}
+        {t("dashboard_Sitter_Profile_page.availability")}
       </label>
       {loading ? (
         <p>{t("Loading")}...</p>
@@ -127,14 +145,18 @@ const AvailabilityManager: React.FC = () => {
           <div className="flex justify-center md:justify-end mt-4">
             <button
               onClick={handleSave}
-              className="flex items-center btn-primary focus:shadow-outline focus:outline-none font-semibold py-1 px-3 text-sm rounded w-auto mt-4" 
+              className="flex items-center btn-primary focus:shadow-outline focus:outline-none font-semibold py-1 px-3 text-sm rounded w-auto mt-4"
             >
-                <MdUpdate className="mr-1" size={20} />
-                {t("dashboard_Sitter_Profile_page.update_availability")}
+              <MdUpdate className="mr-1" size={20} />
+              {t("dashboard_Sitter_Profile_page.update_availability")}
             </button>
           </div>
           {error && <p className="text-red-500 text-xs italic mt-2">{error}</p>}
-          {success && <p className="text-green-500 text-xs italic mt-2">{t("Availabilities updated successfully!")}</p>}
+          {success && (
+            <p className="text-green-500 text-xs italic mt-2">
+              {t("Availabilities updated successfully!")}
+            </p>
+          )}
         </>
       )}
     </div>

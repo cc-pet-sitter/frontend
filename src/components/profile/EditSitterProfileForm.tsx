@@ -309,16 +309,14 @@ const EditSitterProfileForm: React.FC<Props> = ({
         ) : null}
       </div>
 
-      <div className="mt-6">
+      <div className="mt-6 -z-50">
         <AvailabilityManager />
       </div>
 
       <div className="mt-6">
         <h2 className={`${labelClass}`}>Add More Pictures</h2>
         {sitterBioPictureSrcList ? (
-          <ViewMultiPicture
-            picture_src_list={sitterBioPictureSrcList || ""}
-          />
+          <ViewMultiPicture picture_src_list={sitterBioPictureSrcList || ""} />
         ) : (
           ""
         )}

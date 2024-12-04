@@ -31,6 +31,11 @@ const Header: React.FC = () => {
   const toggleMobileMenu = () => setMobileMenuOpen((prev) => !prev);
   const toggleMenu = () => setMenuOpen((prev) => !prev);
 
+  const handleMenuClose = () => {
+    setMobileMenuOpen(false);
+    setMenuOpen(false);
+  };
+
   const handleLogout = async () => {
     try {
       await signOut(auth);
@@ -75,14 +80,16 @@ const Header: React.FC = () => {
   }, []);
 
   return (
-    <header className=" bg-white border border-b">
+    <header className="fixed top-0 left-0 w-full bg-white border border-b z-[102] h-12">
       <nav className="flex items-center justify-between h-12 px-4 sm:px-6 lg:px-8">
         {/* Logo */}
         <div
           className="text-brown
          text-xl font-bold"
         >
-          <Link to="/">むぎ （Mugi）</Link>
+          <Link to="/" onClick={handleMenuClose}>
+            むぎ （Mugi）
+          </Link>
         </div>
         <div className="flex space-x-8">
           {/* <div className="flex space-x-1"> */}
@@ -150,7 +157,7 @@ const Header: React.FC = () => {
                   {menuOpen && (
                     <div
                       ref={menuRef}
-                      className="absolute right-0 mt-2 w-64 bg-white rounded shadow-lg z-50 p-4 space-y-2 justify-center"
+                      className="absolute right-0 mt-4 w-64 bg-white rounded shadow-lg z-50 p-4 space-y-2 justify-center"
                     >
                       <Link
                         to="/dashboard/account"
@@ -236,7 +243,7 @@ const Header: React.FC = () => {
       <div
         className={`${
           mobileMenuOpen ? "fixed" : "hidden"
-        }  md:hidden bg-white px-7 py-4 space-y-2 w-full justify-center z-50 border border-b`}
+        }  md:hidden bg-white px-7 py-5 space-y-2 w-full justify-center z-[101] shadow-md h-full`}
       >
         {!currentUser ? (
           <div>
