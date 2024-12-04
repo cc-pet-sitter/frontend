@@ -16,9 +16,9 @@ import {
 const apiURL: string = import.meta.env.VITE_API_BASE_URL;
 
 const HomePage: React.FC = () => {
-  const [petProfiles, setPetProfiles] = useState<Array<PetProfileData> | null>(
-    null
-  );
+  // const [petProfiles, setPetProfiles] = useState<Array<PetProfileData> | null>(
+  //   null
+  // );
   const [randomProfiles, setRandomProfiles] =
     useState<Array<PetProfileData> | null>([]);
   const { t } = useTranslation();
@@ -28,7 +28,7 @@ const HomePage: React.FC = () => {
     try {
       const response = await axios.get(`${apiURL}/pet`);
       const data = response.data;
-      setPetProfiles(response.data);
+      // setPetProfiles(response.data);
 
       // Randomly select 30 profiles
       const shuffled = data.sort(() => 0.5 - Math.random());
