@@ -27,6 +27,7 @@ const AvailabilityManager: React.FC = () => {
   useEffect(() => {
     const fetchAvailabilities = async () => {
       if (!userInfo) return;
+      if (!userInfo.is_sitter) return;
       setLoading(true);
       try {
         const response = await axiosInstance.get(`${apiURL}/appuser/${userInfo.id}/availability`);
@@ -98,6 +99,10 @@ const AvailabilityManager: React.FC = () => {
       setError(null);
     } catch (error) {
       console.error("Error updating availabilities:", error);
+      if (!userInfo.is_sitter) {
+        setError(t("You need to save your profile first before updating availabilities"));
+        return;
+      }  
       setError(t("failed_to_update_availabilities"));
       setSuccess(false);
     } finally {

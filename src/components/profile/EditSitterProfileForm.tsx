@@ -4,7 +4,6 @@ import React, { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { MdOutlineArrowBackIos } from "react-icons/md";
 import axiosInstance from "../../api/axiosInstance";
-import ProfilePictureUploader from "../services/ProfilePictureUploader";
 import MultiPictureUploader from "../services/MultiPictureUploader";
 import ViewMultiPicture from "./ViewMultiPicture";
 import { Sitter } from "../../types/userProfile.ts";
@@ -38,9 +37,6 @@ const EditSitterProfileForm: React.FC<Props> = ({
   });
   const { userInfo, setUserInfo } = useAuth();
   const { t } = useTranslation();
-  const [sitterProfilePicture, setSitterProfilePicture] = useState<
-    string | null
-  >(null);
   const [sitterBioPictureSrcList, setSitterBioPictureSrcList] =
     useState<string>(sitterProfile?.sitter_bio_picture_src_list || "");
   console.log("sitterProfile: ", sitterProfile);
@@ -51,8 +47,7 @@ const EditSitterProfileForm: React.FC<Props> = ({
     if (sitterProfile) {
       reset({
         sitter_profile_bio: sitterProfile.sitter_profile_bio || "",
-        sitter_bio_picture_src_list:
-          sitterProfile.sitter_bio_picture_src_list || "",
+        sitter_bio_picture_src_list: sitterProfile.sitter_bio_picture_src_list || "",
         sitter_house_ok: sitterProfile.sitter_house_ok || false,
         owner_house_ok: sitterProfile.owner_house_ok || false,
         visit_ok: sitterProfile.visit_ok || false,
@@ -109,20 +104,6 @@ const EditSitterProfileForm: React.FC<Props> = ({
       setError(error.message);
       setSuccess(false);
     }
-  };
-
-  const handleUpload = async (url: string) => {
-    setSitterProfilePicture(url);
-
-    // Update the form data with the new image URL
-    const updatedPictureList = sitterBioPictureSrcList
-      ? `${sitterBioPictureSrcList},${url}`
-      : url;
-
-    setSitterBioPictureSrcList(updatedPictureList);
-
-    // Update the form's value for sitter_bio_picture_src_list
-    setValue("sitter_bio_picture_src_list", updatedPictureList);
   };
 
   const handleMultiUpload = (urls: string[]) => {
@@ -195,26 +176,18 @@ const EditSitterProfileForm: React.FC<Props> = ({
           {t("dashboard_Sitter_Profile_page.edit_button")}
         </h1>
 
+        {/* Profile Picture -> Taken from appuser profile picture */}
         <div className="flex flex-col sm:flex-row items-center p-6">
           <img
-            src={
-              sitterProfilePicture ||
-              sitterProfile?.sitter_bio_picture_src_list ||
+            src={userInfo?.profile_picture_src ||
               "https://firebasestorage.googleapis.com/v0/b/petsitter-84e85.firebasestorage.app/o/user_profile_pictures%2Fdefault-profile.svg?alt=media&token=aa84dc5e-41e5-4f6a-b966-6a1953b25971"
             }
             alt={`${userInfo?.firstname} ${userInfo?.lastname}`}
             className="h-48 w-48 rounded-full object-cover"
           />
-          <ProfilePictureUploader
-            id={userInfo?.id}
-            pictureType="sitter_pictures"
-            onUpload={handleUpload}
-            existingPictureUrl={
-              sitterProfile?.sitter_bio_picture_src_list || ""
-            }
-          />
         </div>
 
+        {/* Introduction */}
         <div className="flex flex-col mt-4 items-start">
           <label className={`${labelClass}`} htmlFor="introduction">
             {t("dashboard_Sitter_Profile_page.introduction")}
@@ -235,8 +208,9 @@ const EditSitterProfileForm: React.FC<Props> = ({
           )}
         </div>
       </div>
+      
+      {/* Pets */}
       <div className="mb-6">
-        {/* Pets */}
         <p className={`${labelClass} mb-3`}>
           {t("dashboard_Sitter_Profile_page.pet_service")}
         </p>
