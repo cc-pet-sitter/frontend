@@ -2,7 +2,7 @@ import { useForm } from "react-hook-form";
 import { useState } from "react";
 import Rating from "@mui/material/Rating";
 import { Inquiry, Review } from "../../types/userProfile";
-// import { useAuth } from "../../contexts/AuthContext";
+import { useAuth } from "../../contexts/AuthContext";
 
 const apiURL: string = import.meta.env.VITE_API_BASE_URL;
 
@@ -19,7 +19,7 @@ const WriteReview: React.FC<WriteReviewProps> = ({ booking, onClose }) => {
   const { register, handleSubmit } = useForm<ReviewForm>();
   const [ratingValue, setRatingValue] = useState<number | null>(null);
 
-  //   const { userInfo, currentUser } = useAuth();
+  const { currentUser } = useAuth();
 
   console.log(booking);
 
@@ -40,14 +40,14 @@ const WriteReview: React.FC<WriteReviewProps> = ({ booking, onClose }) => {
     };
 
     try {
-      //   const idToken = await currentUser?.getIdToken();
+      const idToken = await currentUser?.getIdToken();
       const response = await fetch(
         `${apiURL}/appuser/${booking.sitter_appuser_id}/review`,
         {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
-            // Authorization: `Bearer ${idToken}`,
+            Authorization: `Bearer ${idToken}`,
           },
           body: JSON.stringify(review),
         }
