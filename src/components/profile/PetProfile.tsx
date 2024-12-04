@@ -5,6 +5,7 @@ import { LiaBirthdayCakeSolid, LiaWeightSolid } from "react-icons/lia";
 import { MdOutlineArrowBackIos } from "react-icons/md";
 import { LuDog, LuFish } from "react-icons/lu";
 import { PetProfileData } from "../../types/userProfile";
+import FeaturedImageGallery from "./FeaturedImageGallery";
 
 type Props = {
   petProfile: PetProfileData | null;
@@ -32,9 +33,7 @@ const PetProfile: React.FC<Props> = ({ petProfile, onClose }) => {
             {/* Profile Header */}
             <div className="flex flex-col sm:flex-row items-center my-6">
               <img
-                // Hard coding the image URL for now
-                src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/3a/Cat03.jpg/640px-Cat03.jpg"
-                // src={petProfile.profile_picture_src}
+                src={petProfile.profile_picture_src || "https://upload.wikimedia.org/wikipedia/commons/thumb/3/3a/Cat03.jpg/640px-Cat03.jpg"}
                 alt={`Picture of ${petProfile.name}`}
                 className="h-48 w-48 rounded-full object-cover"
               />
@@ -98,6 +97,7 @@ const PetProfile: React.FC<Props> = ({ petProfile, onClose }) => {
                 </div>
               )}
             </div>
+
             {/* Care Info */}
             <div className="p-6 border-t">
               <h2 className="text-lg font-semibold mb-4">
@@ -119,6 +119,17 @@ const PetProfile: React.FC<Props> = ({ petProfile, onClose }) => {
                 <li></li>
               </ul>
             </div>
+
+            {/* Additional Images */}
+            {petProfile.pet_bio_picture_src_list && (
+            <div className="p-6 border-t">
+              <h2 className="text-lg font-semibold mb-4">
+                {t("sitterProfilePage.additionalImages")}
+              </h2>
+              < FeaturedImageGallery picture_src_list={petProfile.pet_bio_picture_src_list || ""}/>
+            </div>
+            )}
+            
           </div>
         </div>
       )}
