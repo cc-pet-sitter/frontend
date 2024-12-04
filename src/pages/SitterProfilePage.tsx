@@ -119,7 +119,36 @@ const SitterProfilePage: React.FC = () => {
         {/* Account Bio */}
         <div className="p-6 border-t">
           <h2 className="text-lg font-semibold mb-4">Bio</h2>
-          <p>{user.sitter.sitter_profile_bio}</p>
+          <p>
+            {user.sitter.sitter_profile_bio}
+            <br />
+            <br />
+          </p>
+          <p className="font-semibold">
+            {user.sitter?.visit_ok ||
+            user.sitter?.sitter_house_ok ||
+            user.sitter?.owner_house_ok ? (
+              <>
+                {t("sitterProfilePage.iOffer")}{" "}
+                {(() => {
+                  const services = [
+                    user.sitter.sitter_house_ok && t("searchPage.sitter_house"),
+                    user.sitter.owner_house_ok && t("searchPage.owner_house"),
+                    user.sitter.visit_ok && t("searchPage.visits"),
+                  ].filter(Boolean);
+
+                  return services.length > 1
+                    ? services.slice(0, -1).join(", ") +
+                        " and " +
+                        services.slice(-1)
+                    : services[0];
+                })()}
+                .
+              </>
+            ) : (
+              t("searchPage.notAvailable")
+            )}
+          </p>
         </div>
 
         {/* Sitter Details */}
