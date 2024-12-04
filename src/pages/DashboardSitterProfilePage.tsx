@@ -21,7 +21,6 @@ const DashboardSitterProfilePage: React.FC = () => {
     useState<boolean>(false);
   const [availabilities, setAvailabilities] = useState<Date[]>([]);
 
-
   const fetchAllProfileData = async (is_sitter: boolean | null | undefined) => {
     if (userInfo && is_sitter) {
       try {
@@ -82,7 +81,8 @@ const DashboardSitterProfilePage: React.FC = () => {
               {/* Profile Header */}
               <div className="flex flex-col sm:flex-row items-center p-6">
                 <img
-                  src={user.profile_picture_src ||
+                  src={
+                    user.profile_picture_src ||
                     "https://firebasestorage.googleapis.com/v0/b/petsitter-84e85.firebasestorage.app/o/user_profile_pictures%2Fdefault-profile.svg?alt=media&token=aa84dc5e-41e5-4f6a-b966-6a1953b25971"
                   }
                   alt={`${user.firstname} ${user.lastname}`}
@@ -93,12 +93,14 @@ const DashboardSitterProfilePage: React.FC = () => {
                   {/* <p className="text-gray-500">{user.appuser.email}</p> */}
                 </div>
                 <div>
-                  <Rating
-                    className="pt-2"
-                    name="read-only"
-                    value={user.average_user_rating}
-                    readOnly
-                  />
+                  {user.average_user_rating !== null && (
+                    <Rating
+                      className="pt-2"
+                      name="read-only"
+                      value={user.average_user_rating}
+                      readOnly
+                    />
+                  )}
                 </div>
               </div>
 
@@ -192,7 +194,7 @@ const DashboardSitterProfilePage: React.FC = () => {
 
               {/* Availability Section */}
               <ViewAvailability availabilities={availabilities} />
-              
+
               {/* Reviews */}
               <div className="p-6 border-t">
                 <h2 className="text-lg font-semibold mb-4">
@@ -234,11 +236,10 @@ const DashboardSitterProfilePage: React.FC = () => {
                 <h2 className="text-lg font-semibold mb-4">
                   {t("sitterProfilePage.additionalImages")}
                 </h2>
-                < FeaturedImageGallery 
+                <FeaturedImageGallery
                   picture_src_list={sitterProfile.sitter_bio_picture_src_list}
                 />
               </div>
-
             </div>
             <div className="mt-6 text-center">
               <button
