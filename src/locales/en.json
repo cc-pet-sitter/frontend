@@ -14,7 +14,8 @@
   "dashboard_account_page": {
     "title": "My Account Info",
     "edit_button": "Edit account info",
-    "save_button": "Save"
+    "save_button": "Save",
+    "memberSince": "Member Since"
   },
   "dashboard_pets_profile_page": {
     "title": "Your Pets Profile",

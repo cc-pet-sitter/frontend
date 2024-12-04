@@ -74,7 +74,11 @@ const DashboardAccountPage: React.FC = () => {
               {/* Profile Header */}
               <div className="flex flex-col sm:flex-row items-center p-6">
                 <img
-                  src={userInfo?.profile_picture_src || profilePicture || "https://firebasestorage.googleapis.com/v0/b/petsitter-84e85.firebasestorage.app/o/user_profile_pictures%2Fdefault-profile.svg?alt=media&token=aa84dc5e-41e5-4f6a-b966-6a1953b25971"}
+                  src={
+                    userInfo?.profile_picture_src ||
+                    profilePicture ||
+                    "https://firebasestorage.googleapis.com/v0/b/petsitter-84e85.firebasestorage.app/o/user_profile_pictures%2Fdefault-profile.svg?alt=media&token=aa84dc5e-41e5-4f6a-b966-6a1953b25971"
+                  }
                   alt={`${userInfo?.firstname} ${userInfo?.lastname}`}
                   className="h-48 w-48 rounded-full object-cover"
                 />
@@ -140,17 +144,12 @@ const DashboardAccountPage: React.FC = () => {
                   <li>
                     <div>
                       <strong>{`${t(
-                        "sitterProfilePage.accountCreated"
+                        "dashboard_account_page.memberSince"
                       )}: `}</strong>
                       {userInfo?.account_created?.toLocaleString().slice(0, 10)}
                     </div>
                   </li>
-                  <li>
-                    <div>
-                      <strong>{`${t("sitterProfilePage.lastLogin")}: `}</strong>
-                      {userInfo?.last_login?.toLocaleString().slice(0, 10)}
-                    </div>
-                  </li>
+
                   <li>
                     <div>
                       <strong>{`${t(
