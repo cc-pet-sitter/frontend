@@ -37,7 +37,7 @@ const EditProfileForm: React.FC<Props> = ({ petProfile, onClose }) => {
         name: petProfile.name || "",
         type_of_animal: petProfile.type_of_animal || "",
         subtype: petProfile.subtype || "",
-        weight: petProfile.weight || undefined,
+        weight: petProfile.weight || null,
         birthday: petProfile.birthday || "",
         known_allergies: petProfile.known_allergies || "",
         medications: petProfile.medications || "",
@@ -255,7 +255,7 @@ const EditProfileForm: React.FC<Props> = ({ petProfile, onClose }) => {
               id="birthday"
               type="date"
               placeholder="2024/08/02"
-              {...register("birthday")}
+              {...register("birthday", {setValueAs: value => value === "" ? null : value})}
               className={`${inputClass}`}
             />
           </div>
@@ -271,7 +271,7 @@ const EditProfileForm: React.FC<Props> = ({ petProfile, onClose }) => {
               id="weight"
               type="number"
               step="0.1"
-              {...register("weight")}
+              {...register("weight", {valueAsNumber: true, setValueAs: (val) => val ? null : val})}
               className={inputClass}
             />
           </div>

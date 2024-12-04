@@ -9,11 +9,11 @@ const ViewMultiPicture: React.FC<ViewMultiPictureProps> = ({ picture_src_list })
 
     return (
         <div className="flex flex-wrap">
-        {pictureList.slice(1).map((url, index) => (
+        {pictureList.map((url, index) => (
             <img
                 key={index}
                 src={url}
-                alt={`Picture ${index + 1}`}
+                alt={`Picture ${index}`}
                 className="h-32 w-32 rounded-full object-cover m-2"
             />
         ))}
