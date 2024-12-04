@@ -3,13 +3,14 @@ import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
-import axios from "axios";
+import axiosInstance from "../api/axiosInstance.ts";
 import { AppUser, Review, Sitter } from "../types/userProfile.ts";
 import { Done } from "@mui/icons-material";
 import { formatDistanceToNow } from "date-fns";
 // import WriteReview from "../components/reviews/WriteReview.tsx";
 import ViewMultiPicture from "../components/profile/ViewMultiPicture.tsx";
 import Rating from "@mui/material/Rating";
+import ViewAvailability from "../components/profile/ViewAvailability.tsx";
 
 const apiURL: string = import.meta.env.VITE_API_BASE_URL;
 
@@ -21,6 +22,7 @@ type UserResponse = {
 const SitterProfilePage: React.FC = () => {
   const [showEnquiryForm, setShowEnquiryForm] = useState<boolean>(false);
   const [user, setUser] = useState<UserResponse | null>(null);
+  const [availabilities, setAvailabilities] = useState<Date[]>([]);
   const [reviews, setReviews] = useState<Review[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
@@ -35,15 +37,28 @@ const SitterProfilePage: React.FC = () => {
     const fetchData = async () => {
       setLoading(true);
       try {
-        const profileResponse = await axios.get(
+        const profileResponse = await axiosInstance.get(
           `${apiURL}/appuser-extended/${id}`
         );
         setUser(profileResponse.data);
 
-        const reviewsResponse = await axios.get(
+        const reviewsResponse = await axiosInstance.get(
           `${apiURL}/appuser/${id}/review`
         );
         setReviews(reviewsResponse.data);
+
+        // Fetch availabilities
+        const availabilitiesResponse = await axiosInstance.get(
+          `${apiURL}/appuser/${id}/availability`
+        );
+        if (availabilitiesResponse.status === 200) {
+          const dates = availabilitiesResponse.data.map(
+            (item: { available_date: string }) => new Date(item.available_date)
+          );
+          setAvailabilities(dates);
+        } else {
+          setAvailabilities([]);
+        }
 
         setLoading(false);
       } catch (error) {
@@ -80,7 +95,7 @@ const SitterProfilePage: React.FC = () => {
         {/* Profile Header */}
         <div className="flex flex-col sm:flex-row items-center p-6">
           <img
-            src={user.sitter.sitter_bio_picture_src_list}
+            src={user.appuser.profile_picture_src}
             alt={`${user.appuser.firstname} ${user.appuser.lastname}`}
             className="h-48 w-48 rounded-full object-cover"
           />
@@ -202,6 +217,7 @@ const SitterProfilePage: React.FC = () => {
             )}
           </p>
         </div>
+
         {/* Profile Details */}
         <div className="p-6 border-t">
           <h2 className="text-lg font-semibold mb-4">
@@ -242,6 +258,10 @@ const SitterProfilePage: React.FC = () => {
             </li>
           </ul>
         </div>
+        
+        {/* Availability Section */}
+        <ViewAvailability availabilities={availabilities} />
+
         {/* Reviews */}
         <div className="p-6 border-t">
           <h2 className="text-lg font-semibold mb-4">

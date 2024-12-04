@@ -41,8 +41,6 @@ const EditSitterProfileForm: React.FC<Props> = ({
     useState<string>(sitterProfile?.sitter_bio_picture_src_list || "");
   console.log("sitterProfile: ", sitterProfile);
 
-  // axios.defaults.withCredentials = true;
-
   useEffect(() => {
     if (sitterProfile) {
       reset({
@@ -151,8 +149,7 @@ const EditSitterProfileForm: React.FC<Props> = ({
   return (
     <form
       onSubmit={handleSubmit(onSubmit)}
-      className="w-full max-w-lg mx-4 my-4 sm:mx-20 lg:mx-30
-    "
+      className="w-full max-w-lg mx-4 my-4 sm:mx-20 lg:mx-30"
     >
       {error && <p className="text-red-500 text-xs italic">{error}</p>}
       {success && (
@@ -248,8 +245,9 @@ const EditSitterProfileForm: React.FC<Props> = ({
           </p>
         ) : null}
       </div>
+      
+      {/* Types of Service You Offer */}
       <div className="mb-6">
-        {/* Types of Service You Offer */}
         <p className={`${labelClass} mb-3`}>
           {t("dashboard_Sitter_Profile_page.type_service")}
         </p>
@@ -283,10 +281,12 @@ const EditSitterProfileForm: React.FC<Props> = ({
         ) : null}
       </div>
 
+      {/* Availability */}
       <div className="mt-6">
         <AvailabilityManager />
       </div>
 
+      {/* Additional Pictures */}
       <div className="mt-6">
         <h2 className={`${labelClass}`}>Add More Pictures</h2>
         {sitterBioPictureSrcList ? (
@@ -303,6 +303,7 @@ const EditSitterProfileForm: React.FC<Props> = ({
         />
       </div>
 
+      {/* Save Profile */}
       <div className="flex justify-center md:justify-end ">
         <button
           type="submit"
