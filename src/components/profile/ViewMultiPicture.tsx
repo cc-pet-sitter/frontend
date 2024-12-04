@@ -1,11 +1,11 @@
 import React from "react";
 
 interface ViewMultiPictureProps {
-    sitter_bio_picture_src_list: string | null;
+    picture_src_list: string | null;
 }
 
-const ViewMultiPicture: React.FC<ViewMultiPictureProps> = ({ sitter_bio_picture_src_list }) => {
-    const pictureList = sitter_bio_picture_src_list ? sitter_bio_picture_src_list.split(',') : [];
+const ViewMultiPicture: React.FC<ViewMultiPictureProps> = ({ picture_src_list }) => {
+    const pictureList = picture_src_list ? picture_src_list.split(',') : [];
 
     return (
         <div className="flex flex-wrap">
@@ -13,7 +13,7 @@ const ViewMultiPicture: React.FC<ViewMultiPictureProps> = ({ sitter_bio_picture_
             <img
                 key={index}
                 src={url}
-                alt={`Sitter Picture ${index + 1}`}
+                alt={`Picture ${index + 1}`}
                 className="h-32 w-32 rounded-full object-cover m-2"
             />
         ))}

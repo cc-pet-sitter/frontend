@@ -230,7 +230,9 @@
     "typeOfPet": "What type of pet?",
     "allergies": "Kown allergies",
     "medications": "Medications",
-    "specialNeeds": "Anything else a sitter should know?"
+    "specialNeeds": "Anything else a sitter should know?",
+    "profilePicture": "Your pet profile picture",
+    "additionalImages": "Additional images"
   },
   "editProfileForm": {
     "header": "My Account Info",
