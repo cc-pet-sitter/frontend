@@ -765,7 +765,8 @@
     "bird": "Birds",
     "rabbit": "Rabbits",
     "viewProfile": "View Profile",
-    "noResultsFound": "Mugi can't find any matches. Please try to widen your search."
+    "noResultsFound": "Mugi can't find any matches. Please try to widen your search.",
+    "and": " and "
   },
   "sitterProfilePage": {
     "accountBio": "Bio",

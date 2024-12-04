@@ -767,7 +767,8 @@
     "bird": "鳥",
     "rabbit": "ウサギ",
     "viewProfile": "プロフィールを見る",
-    "noResultsFound": "麦（むぎ）は一致するものを見つけられませんでした。検索条件を広げてお試しください。"
+    "noResultsFound": "麦（むぎ）は一致するものを見つけられませんでした。検索条件を広げてお試しください。",
+    "and": "そして"
   },
   "sitterProfilePage": {
     "accountBio": "自己紹介",
