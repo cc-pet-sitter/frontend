@@ -70,19 +70,23 @@ const HomePage: React.FC = () => {
   };
   return (
     <div className="mb-12">
-      <div className="bg-white text-center py-12 px-6">
-        <h1 className="text-4xl font-bold text-brown">{t("homePage.title")}</h1>
-        <p className="text-lg text-gray-700 mt-4">{t("homePage.subtitle")}</p>
-        <button
-          onClick={handleScrollToSearch}
-          className="mt-6 bg-[#d87607] text-white py-2 px-6 rounded-lg hover:bg-[#bc560a] transition"
-        >
-          {t("homePage.search-btn")}
-        </button>
+      <div className="bg-white text-center pt-10 ">
+        <div className="px-6">
+          <h1 className="text-4xl font-bold text-brown">
+            {t("homePage.title")}
+          </h1>
+          <p className="text-lg text-gray-700 mt-4">{t("homePage.subtitle")}</p>
+          <button
+            onClick={handleScrollToSearch}
+            className="mt-6 bg-[#d87607] text-white py-2 px-6 rounded-lg hover:bg-[#bc560a] transition"
+          >
+            {t("homePage.search-btn")}
+          </button>
+        </div>
         <img
           src="https://images.unsplash.com/photo-1537151641189-e685b67326c5?q=80&w=2969&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
           alt="Cute pets"
-          className="mt-8 mx-auto w-full"
+          className="mt-8 my-2 mx-auto w-screen h-auto"
         />
       </div>
       <div

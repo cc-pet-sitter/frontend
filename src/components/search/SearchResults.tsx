@@ -72,7 +72,7 @@ const SearchResults: React.FC<SearchResultsProps> = ({ appUsers }) => {
 
                           return services.length > 1
                             ? services.slice(0, -1).join(", ") +
-                                " and " +
+                                t("searchPage.and") +
                                 services.slice(-1)
                             : services[0];
                         })()}

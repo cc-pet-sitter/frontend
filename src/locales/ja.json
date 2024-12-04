@@ -14,7 +14,8 @@
   "dashboard_account_page": {
     "title": "アカウント情報",
     "edit_button": "アカウント情報を編集",
-    "save_button": "保存"
+    "save_button": "保存",
+    "memberSince": "以来のメンバー"
   },
   "dashboard_pets_profile_page": {
     "title": "ペットプロフィール",
@@ -767,7 +768,8 @@
     "bird": "鳥",
     "rabbit": "ウサギ",
     "viewProfile": "プロフィールを見る",
-    "noResultsFound": "麦（むぎ）は一致するものを見つけられませんでした。検索条件を広げてお試しください。"
+    "noResultsFound": "麦（むぎ）は一致するものを見つけられませんでした。検索条件を広げてお試しください。",
+    "and": "そして"
   },
   "sitterProfilePage": {
     "accountBio": "自己紹介",
