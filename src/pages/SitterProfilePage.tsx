@@ -7,10 +7,9 @@ import axiosInstance from "../api/axiosInstance.ts";
 import { AppUser, Review, Sitter } from "../types/userProfile.ts";
 import { Done } from "@mui/icons-material";
 import { formatDistanceToNow } from "date-fns";
-// import WriteReview from "../components/reviews/WriteReview.tsx";
-import ViewMultiPicture from "../components/profile/ViewMultiPicture.tsx";
 import Rating from "@mui/material/Rating";
 import ViewAvailability from "../components/profile/ViewAvailability.tsx";
+import FeaturedImageGallery from "../components/profile/FeaturedImageGallery.tsx";
 
 const apiURL: string = import.meta.env.VITE_API_BASE_URL;
 
@@ -303,12 +302,9 @@ const SitterProfilePage: React.FC = () => {
           <h2 className="text-lg font-semibold mb-4">
             {t("sitterProfilePage.additionalImages")}
           </h2>
-          < ViewMultiPicture
-            picture_src_list={
-              user.sitter.bio_picture_src_list || ""
-            }
-          />
+          < FeaturedImageGallery picture_src_list={user.sitter.sitter_bio_picture_src_list}/>
         </div>
+
       </div>
       <div className="mt-6 text-center">
         <button onClick={() => navigate(-1)} className="btn-secondary">
