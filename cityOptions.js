@@ -1,4 +1,4 @@
-export const cityOptions: Record<string, string[]> = {
+const cityOptions = {
   Hokkaido: [
     "Sapporo",
     "Hakodate",
@@ -77,6 +77,7 @@ export const cityOptions: Record<string, string[]> = {
     "Kaminoyama",
     "Sagae",
     "Murayama",
+    "Yamagata",
     "Shinjo",
     "Nanyo",
   ],
@@ -192,6 +193,7 @@ export const cityOptions: Record<string, string[]> = {
     "Isehara",
     "Miura",
     "Sakae",
+    "Kawasaki",
     "Tama",
   ],
   Niigata: [
@@ -262,6 +264,7 @@ export const cityOptions: Record<string, string[]> = {
     "Iida",
     "Karuizawa",
     "Ueda",
+    "Nagano",
     "Okaya",
     "Azumino",
   ],
@@ -346,9 +349,12 @@ export const cityOptions: Record<string, string[]> = {
     "Kyotanabe",
     "Seika",
     "Sakyo",
+    "Fushimi",
     "Joyo",
     "Wazuka",
+    "Kizugawa",
     "Nantan",
+    "Kyotanabe",
     "Oyamazaki",
     "Mukaijima",
     "Ibaraki",
@@ -407,6 +413,7 @@ export const cityOptions: Record<string, string[]> = {
     "Arida",
     "Gobo",
     "Kihoku",
+    "Wakayama",
     "Kozagawa",
     "Yura",
   ],
@@ -415,6 +422,7 @@ export const cityOptions: Record<string, string[]> = {
     "Kurayoshi",
     "Yonago",
     "Sakaiminato",
+    "Kurayoshi",
     "Tatsuno",
     "Hojyo",
     "Koyama",
@@ -510,6 +518,7 @@ export const cityOptions: Record<string, string[]> = {
     "Nankoku",
     "Ooka",
     "Niyodogawa",
+    "Kochi",
     "Aki",
     "Sukumo",
     "Konan",
@@ -536,6 +545,7 @@ export const cityOptions: Record<string, string[]> = {
     "Shiroishi",
     "Kawasaki",
     "Kudoyama",
+    "Saga",
     "Ureshino",
     "Takeo",
   ],
@@ -596,6 +606,7 @@ export const cityOptions: Record<string, string[]> = {
     "Koshikijima",
     "Kirishima",
     "Amami",
+    "Kagoshima",
     "Tarumizu",
   ],
   Okinawa: [
@@ -611,3 +622,9 @@ export const cityOptions: Record<string, string[]> = {
     "Ginoza",
   ],
 };
+
+for (const region in cityOptions) {
+  cityOptions[region] = [...new Set(cityOptions[region])];
+}
+
+console.log(cityOptions);
