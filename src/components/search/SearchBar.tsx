@@ -113,6 +113,7 @@ const SearchBar: React.FC<SearchBarProps> = ({ onSearchSubmit }) => {
             </select>
           </div>
         </div>
+
         <div className="flex flex-wrap -mx-3 mb-6">
           {/* City/Ward */}
           <div className="w-full px-3 mb-6 md:mb-0">
@@ -123,9 +124,7 @@ const SearchBar: React.FC<SearchBarProps> = ({ onSearchSubmit }) => {
               id="city_ward"
               type="text"
               placeholder={t("searchBar.enterCityWard")}
-              {...register("city_ward", {
-                required: "Please enter a city.",
-              })}
+              {...register("city_ward")}
               className={inputClass}
             />
           </div>

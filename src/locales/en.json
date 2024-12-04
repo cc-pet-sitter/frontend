@@ -143,7 +143,7 @@
     "sitter_house": "boarding",
     "owner_house": "stay in",
     "available": "Available for",
-    "notAvailable": "Not available",
+    "notAvailable": "Currently not available for any service.",
     "dog": "Dogs",
     "cat": "Cats",
     "fish": "Fish",
@@ -172,6 +172,8 @@
     "animalsICareFor": "Animals I Care For",
     "noReviews": "has not been given a review yet.",
     "additionalImages": "Additional images",
+    "accountInformation": "Account Information",
+    "iOffer": "I offer the following services:"
     "availability": "Availability"
   },
   "enquiryForm": {
