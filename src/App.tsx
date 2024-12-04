@@ -27,9 +27,10 @@ const App: React.FC = () => {
 
   return (
     <Router>
-      <div className="flex flex-col h-screen justify-between bg-white">
+      <div className="flex flex-col h-screen justify-between bg-white w-full">
         <Header />
-        <div>
+
+        <div className="flex-grow pt-12">
           <nav>
             <ul></ul>
           </nav>
