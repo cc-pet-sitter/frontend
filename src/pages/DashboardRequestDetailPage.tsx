@@ -97,59 +97,63 @@ const DashboardRequestDetailPage: React.FC = () => {
   const isSitter = userInfo?.id === request?.sitter_appuser_id;
 
   const handleAccept = async () => {
-    try {
-      const idToken = await currentUser?.getIdToken();
+    if (window.confirm("Are you sure you would like to accept this request?")) {
+      try {
+        const idToken = await currentUser?.getIdToken();
 
-      const response = await fetch(`${apiURL}/inquiry/${requestId}`, {
-        method: "PATCH",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${idToken}`,
-        },
-        body: JSON.stringify({ inquiry_status: "approved" }),
-      });
+        const response = await fetch(`${apiURL}/inquiry/${requestId}`, {
+          method: "PATCH",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${idToken}`,
+          },
+          body: JSON.stringify({ inquiry_status: "approved" }),
+        });
 
-      if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(errorData.detail || "Failed to accept the request");
-      }
+        if (!response.ok) {
+          const errorData = await response.json();
+          throw new Error(errorData.detail || "Failed to accept the request");
+        }
 
-      // Update local state
-      setRequest({ ...request!, inquiry_status: "approved" });
-    } catch (err) {
-      if (err instanceof Error) {
-        setError(err.message);
-      } else {
-        setError("An unexpected error occurred.");
+        // Update local state
+        setRequest({ ...request!, inquiry_status: "approved" });
+      } catch (err) {
+        if (err instanceof Error) {
+          setError(err.message);
+        } else {
+          setError("An unexpected error occurred.");
+        }
       }
     }
   };
 
   const handleReject = async () => {
-    try {
-      const idToken = await currentUser?.getIdToken();
+    if (window.confirm("Are you sure you would like to reject this request?")) {
+      try {
+        const idToken = await currentUser?.getIdToken();
 
-      const response = await fetch(`${apiURL}/inquiry/${requestId}`, {
-        method: "PATCH",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${idToken}`,
-        },
-        body: JSON.stringify({ inquiry_status: "rejected" }),
-      });
+        const response = await fetch(`${apiURL}/inquiry/${requestId}`, {
+          method: "PATCH",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${idToken}`,
+          },
+          body: JSON.stringify({ inquiry_status: "rejected" }),
+        });
 
-      if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(errorData.detail || "Failed to reject the request");
-      }
+        if (!response.ok) {
+          const errorData = await response.json();
+          throw new Error(errorData.detail || "Failed to reject the request");
+        }
 
-      // Update local state
-      setRequest({ ...request!, inquiry_status: "rejected" });
-    } catch (err) {
-      if (err instanceof Error) {
-        setError(err.message);
-      } else {
-        setError("An unexpected error occurred.");
+        // Update local state
+        setRequest({ ...request!, inquiry_status: "rejected" });
+      } catch (err) {
+        if (err instanceof Error) {
+          setError(err.message);
+        } else {
+          setError("An unexpected error occurred.");
+        }
       }
     }
   };
