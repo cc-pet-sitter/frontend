@@ -6,6 +6,8 @@ import EditPetProfileForm from "../components/profile/EditPetProfileForm";
 import PetProfile from "../components/profile/PetProfile";
 import { PetProfileData } from "../types/userProfile";
 import axiosInstance from "../api/axiosInstance";
+import { TailSpin } from "react-loader-spinner";
+import { PiDog } from "react-icons/pi";
 
 const DashboardPetsProfilePage: React.FC = () => {
   const [petProfiles, setPetProfiles] = useState<Array<PetProfileData> | null>(
@@ -13,11 +15,13 @@ const DashboardPetsProfilePage: React.FC = () => {
   );
   const [selectedPetProfile, setSelectedPetProfile] =
     useState<PetProfileData | null>(null);
-  const { t } = useTranslation();
-  const { userInfo } = useAuth();
   const [showEditProfileForm, setShowEditProfileForm] =
-    useState<boolean>(false);
+      useState<boolean>(false);
   const [showProfileView, setShowProfileView] = useState<boolean>(false);
+  const [imageLoaded, setImageLoaded] = useState<boolean>(false);
+
+  const { userInfo } = useAuth();
+  const { t } = useTranslation();
 
   const fetchPetProfiles = async () => {
     try {
@@ -73,11 +77,33 @@ const DashboardPetsProfilePage: React.FC = () => {
                     className="mx-6 my-3 border border-transparent shadow-custom rounded w-80 sm:w-100 p-4"
                   >
                     <div className="sm:mt-0 sm:ml-6 flex items-center justify-between gap-4">
-                      <img
-                        src={profile.profile_picture_src || "https://upload.wikimedia.org/wikipedia/commons/thumb/3/3a/Cat03.jpg/640px-Cat03.jpg"}
-                        alt={`Picture of ${profile.name}`}
-                        className="h-20 w-20 rounded-full object-cover"
-                      />
+                      <div className="relative h-20 w-20">
+                        {/* Loader */}
+                        {!imageLoaded && (
+                          <div className="absolute inset-0 flex items-center justify-center bg-gray-200 rounded-full">
+                            <TailSpin
+                              height="50"
+                              width="50"
+                              color="#fabe25"
+                              ariaLabel="loading"
+                            />
+                          </div>
+                        )}
+                        {/* Profile Picture */}
+                        {userInfo?.profile_picture_src ? (
+                          <img
+                            src={profile.profile_picture_src}
+                            alt={`Picture of ${profile.name}`}
+                            className={`h-20 w-20 rounded-full object-cover ${
+                              imageLoaded ? "block" : "hidden"
+                            }`}
+                            onLoad={() => setImageLoaded(true)}
+                            onError={() => setImageLoaded(true)}
+                          />
+                        ) : (
+                          <PiDog className="h-20 w-20 text-gray-400" />
+                        )}
+                      </div>                    
                       <div>
                         <h2 className="font-medium my-1 text-lg">
                           {profile.name}
