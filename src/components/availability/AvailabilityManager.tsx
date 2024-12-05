@@ -15,6 +15,8 @@ interface Availability {
   date: Date;
 }
 
+const labelClass = "block text-gray-700 text-lg font-bold mb-2";
+
 const AvailabilityManager: React.FC = () => {
   const { userInfo } = useAuth();
   const { t } = useTranslation();
@@ -118,9 +120,13 @@ const AvailabilityManager: React.FC = () => {
     } catch (error) {
       console.error("Error updating availabilities:", error);
       if (!userInfo.is_sitter) {
-        setError(t("You need to save your profile first before updating availabilities"));
+        setError(
+          t(
+            "You need to save your profile first before updating availabilities"
+          )
+        );
         return;
-      }  
+      }
       setError(t("failed_to_update_availabilities"));
       setSuccess(false);
     } finally {
@@ -130,23 +136,25 @@ const AvailabilityManager: React.FC = () => {
 
   return (
     <div className="mb-6 -z-50">
-      <label className="block tracking-wide text-gray-700 font-bold mb-2 mt-4 text-lg">
+      <label className={`${labelClass} mb-6`}>
         {t("dashboard_Sitter_Profile_page.availability")}
       </label>
       {loading ? (
         <p>{t("Loading")}...</p>
       ) : (
         <>
-          <Calendar
-            multiple
-            value={availabilities.map((item) => item.date)}
-            onChange={handleDateChange}
-            format="YYYY-MM-DD"
-            minDate={new Date()}
-            numberOfMonths={1} // Optional: Displays two months side by side
-            className="rmdp-mobile yellow"
-            sort
-          />
+          <div className="flex justify-center ">
+            <Calendar
+              multiple
+              value={availabilities.map((item) => item.date)}
+              onChange={handleDateChange}
+              format="YYYY-MM-DD"
+              minDate={new Date()}
+              numberOfMonths={1} // Optional: Displays two months side by side
+              className="rmdp-mobile yellow"
+              sort
+            />
+          </div>
           <div className="flex justify-center md:justify-end mt-4">
             <button
               onClick={handleSave}

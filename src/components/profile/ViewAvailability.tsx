@@ -7,12 +7,14 @@ interface ViewAvailabilityProps {
   availabilities: Date[];
 }
 
-const ViewAvailability: React.FC<ViewAvailabilityProps> = ({ availabilities }) => {
+const ViewAvailability: React.FC<ViewAvailabilityProps> = ({
+  availabilities,
+}) => {
   const { t } = useTranslation();
 
   return (
     <div className="p-6 border-t">
-      <h2 className="text-lg font-semibold mb-4">
+      <h2 className="text-lg font-bold mb-4">
         {t("sitterProfilePage.availability")}
       </h2>
       {availabilities.length === 0 ? (

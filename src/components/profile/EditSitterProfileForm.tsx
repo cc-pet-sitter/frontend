@@ -45,7 +45,8 @@ const EditSitterProfileForm: React.FC<Props> = ({
     if (sitterProfile) {
       reset({
         sitter_profile_bio: sitterProfile.sitter_profile_bio || "",
-        sitter_bio_picture_src_list: sitterProfile.sitter_bio_picture_src_list || "",
+        sitter_bio_picture_src_list:
+          sitterProfile.sitter_bio_picture_src_list || "",
         sitter_house_ok: sitterProfile.sitter_house_ok || false,
         owner_house_ok: sitterProfile.owner_house_ok || false,
         visit_ok: sitterProfile.visit_ok || false,
@@ -127,9 +128,12 @@ const EditSitterProfileForm: React.FC<Props> = ({
   // Shared styles
   const textAreaClass =
     "appearance-none block w-11/12 bg-gray-200 sm:w-full text-gray-700 border rounded py-2 px-4 md:px-6 md:py-3 leading-tight focus:outline-none focus:bg-white sm:mx-0 sm:-mr-4 shadow-md";
-  const labelClass =
-    "block tracking-wide text-gray-700 font-bold mb-2 mt-4 text-lg";
-  const inputClass = "block tracking-wide text-gray-700 mb-2 text-lg";
+  // const inputClass =
+  // "appearance-none block w-full bg-gray-200 text-gray-700 border rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white";
+
+  const checkboxClass =
+    "appearance-none block w-full text-gray-700  rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white";
+  const labelClass = "block text-gray-700 text-lg font-bold mb-2";
 
   const petOptions = ["Dog", "Cat", "Fish", "Bird", "Rabbit"];
   const petOptionsKey: Array<keyof Sitter> = [
@@ -154,7 +158,7 @@ const EditSitterProfileForm: React.FC<Props> = ({
       {error && <p className="text-red-500 text-xs italic">{error}</p>}
       {success && (
         <p className="text-green-500 text-xs italic">
-          Profile updated successfully!
+          {t("dashboard_Sitter_Profile_page.pageEdited")}
         </p>
       )}
 
@@ -176,7 +180,8 @@ const EditSitterProfileForm: React.FC<Props> = ({
         {/* Profile Picture -> Taken from appuser profile picture */}
         <div className="flex flex-col sm:flex-row items-center p-6">
           <img
-            src={userInfo?.profile_picture_src ||
+            src={
+              userInfo?.profile_picture_src ||
               "https://firebasestorage.googleapis.com/v0/b/petsitter-84e85.firebasestorage.app/o/user_profile_pictures%2Fdefault-profile.svg?alt=media&token=aa84dc5e-41e5-4f6a-b966-6a1953b25971"
             }
             alt={`${userInfo?.firstname} ${userInfo?.lastname}`}
@@ -185,9 +190,13 @@ const EditSitterProfileForm: React.FC<Props> = ({
         </div>
 
         {/* Introduction */}
-        <div className="flex flex-col mt-4 items-start">
-          <label className={`${labelClass}`} htmlFor="introduction">
+        <div className="flex flex-col mt-4 items-start ">
+          <label
+            className={`${labelClass} flex items-center`}
+            htmlFor="introduction"
+          >
             {t("dashboard_Sitter_Profile_page.introduction")}
+            <span className="text-red-500 ml-1">*</span>
           </label>
           <textarea
             className={textAreaClass}
@@ -205,16 +214,17 @@ const EditSitterProfileForm: React.FC<Props> = ({
           )}
         </div>
       </div>
-      
+
       {/* Pets */}
       <div className="mb-6">
         <p className={`${labelClass} mb-3`}>
           {t("dashboard_Sitter_Profile_page.pet_service")}
+          <span className="text-red-500 ml-1">*</span>
         </p>
         {petOptionsKey.map((pet, index) => (
           <label
             key={pet}
-            className={`${inputClass} flex items-center`}
+            className={`${checkboxClass} flex items-center`}
             htmlFor={`${pet}_ok`}
           >
             <input
@@ -245,16 +255,17 @@ const EditSitterProfileForm: React.FC<Props> = ({
           </p>
         ) : null}
       </div>
-      
+
       {/* Types of Service You Offer */}
       <div className="mb-6">
         <p className={`${labelClass} mb-3`}>
           {t("dashboard_Sitter_Profile_page.type_service")}
+          <span className="text-red-500 ml-1">*</span>
         </p>
         {serviceOptionsKey.map((service, index) => (
           <label
             key={service}
-            className={`${inputClass} flex items-center`}
+            className={`${checkboxClass} flex items-center`}
             htmlFor={`${service}_ok`}
           >
             <input
@@ -287,7 +298,9 @@ const EditSitterProfileForm: React.FC<Props> = ({
 
       {/* Additional Pictures */}
       <div className="mt-6">
-        <h2 className={`${labelClass}`}>Add More Pictures</h2>
+        <h2 className={`${labelClass}`}>
+          {t("dashboard_Sitter_Profile_page.addMorePictures")}
+        </h2>
         {sitterBioPictureSrcList ? (
           <ViewMultiPicture picture_src_list={sitterBioPictureSrcList || ""} />
         ) : (
