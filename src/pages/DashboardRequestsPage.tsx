@@ -126,11 +126,15 @@ const DashboardRequests: React.FC = () => {
                 <p className="text-xs text-gray-500 my-1">
                   {request.inquiry_status}
                 </p>
-                <p className="text-xs text-brown underline my-1 cursor-pointer hover:text-lime-600"
-                  onClick={() => setSelectedRequest(request)}
-                >
-                  {t("dashboard_bookings_page.review")}
-                </p>
+                {
+                  request.inquiry_status == "approved" ? 
+                  <p className="text-xs text-brown underline my-1 cursor-pointer hover:text-lime-600"
+                    onClick={() => setSelectedRequest(request)}
+                  >
+                    {t("dashboard_bookings_page.review")}
+                  </p> 
+                  : <p className="text-xs invisible">Unreviewed</p>
+                }
                 <div className="absolute top-4 right-4 hover:text-lime-600">
                   <FaRegMessage />
                 </div>
