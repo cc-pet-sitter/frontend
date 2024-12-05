@@ -9,13 +9,14 @@ const apiURL: string = import.meta.env.VITE_API_BASE_URL;
 interface WriteReviewProps {
   booking: Inquiry;
   onClose: () => void;
+  recipientType: string
 }
 
 interface ReviewForm {
   comment: string;
 }
 
-const WriteReview: React.FC<WriteReviewProps> = ({ booking, onClose }) => {
+const WriteReview: React.FC<WriteReviewProps> = ({ booking, onClose, recipientType }) => {
   const { register, handleSubmit } = useForm<ReviewForm>();
   const [ratingValue, setRatingValue] = useState<number | null>(null);
 
@@ -29,11 +30,15 @@ const WriteReview: React.FC<WriteReviewProps> = ({ booking, onClose }) => {
     "block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2";
 
   const onReviewSubmit = async (data: ReviewForm) => {
+    let isReviewOfSitter = recipientType === "sitter";
+    let authorID = isReviewOfSitter ? booking.owner_appuser_id : booking.sitter_appuser_id;
+    let recipientID = isReviewOfSitter ? booking.sitter_appuser_id : booking.owner_appuser_id;
+
     const review: Review = {
       id: 0,
-      author_appuser_id: booking.owner_appuser_id,
-      recipient_appuser_type: "sitter",
-      recipient_appuser_id: booking.sitter_appuser_id,
+      author_appuser_id: authorID,
+      recipient_appuser_type: recipientType,
+      recipient_appuser_id: recipientID,
       comment: data.comment,
       score: ratingValue || 0,
       submission_date: new Date(),
@@ -42,7 +47,7 @@ const WriteReview: React.FC<WriteReviewProps> = ({ booking, onClose }) => {
     try {
       const idToken = await currentUser?.getIdToken();
       const response = await fetch(
-        `${apiURL}/appuser/${booking.sitter_appuser_id}/review`,
+        `${apiURL}/appuser/${recipientID}/review`,
         {
           method: "POST",
           headers: {
