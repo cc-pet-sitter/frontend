@@ -6,7 +6,7 @@ import { MdOutlineArrowBackIos } from "react-icons/md";
 import axiosInstance from "../../api/axiosInstance";
 import { PetProfileData } from "../../types/userProfile.ts";
 import ProfilePictureUploader from "../services/ProfilePictureUploader.tsx";
-import MultiPictureUploder from "../services/MultiPictureUploader.tsx"
+import MultiPictureUploder from "../services/MultiPictureUploader.tsx";
 import ViewMultiPicture from "./ViewMultiPicture.tsx";
 
 const apiURL: string = import.meta.env.VITE_API_BASE_URL;
@@ -17,16 +17,20 @@ type Props = {
 };
 
 const EditProfileForm: React.FC<Props> = ({ petProfile, onClose }) => {
-  const { register, handleSubmit, reset, getValues, setValue } = useForm<PetProfileData>({
-    shouldUseNativeValidation: true,
-  });
+  const { register, handleSubmit, reset, getValues, setValue } =
+    useForm<PetProfileData>({
+      shouldUseNativeValidation: true,
+    });
   const { userInfo } = useAuth();
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState<boolean>(false);
   const [isLoading, setIsLoading] = useState<boolean>(false);
-  const [petProfilePicture, setPetProfilePicture] = useState<string | null>(null);
-  const [petBioPictureSrcList, setPetBioPictureSrcList] =
-    useState<string>(petProfile?.pet_bio_picture_src_list || "");
+  const [petProfilePicture, setPetProfilePicture] = useState<string | null>(
+    null
+  );
+  const [petBioPictureSrcList, setPetBioPictureSrcList] = useState<string>(
+    petProfile?.pet_bio_picture_src_list || ""
+  );
   const { t } = useTranslation();
 
   // Pre-fill form if editing an existing pet profile
@@ -53,8 +57,11 @@ const EditProfileForm: React.FC<Props> = ({ petProfile, onClose }) => {
     console.log(data);
     setIsLoading(true);
     try {
-      const response = await axiosInstance.post(`${apiURL}/appuser/${userInfo?.id}/pet`, data);
-      
+      const response = await axiosInstance.post(
+        `${apiURL}/appuser/${userInfo?.id}/pet`,
+        data
+      );
+
       if (response.status === 201) {
         setSuccess(true);
         setError(null);
@@ -201,9 +208,7 @@ const EditProfileForm: React.FC<Props> = ({ petProfile, onClose }) => {
               id={petProfile?.id}
               pictureType="pet_pictures"
               onUpload={handleUpload}
-              existingPictureUrl={
-                petProfile?.profile_picture_src || ""
-              }
+              existingPictureUrl={petProfile?.profile_picture_src || ""}
             />
           </div>
         </div>
@@ -255,7 +260,9 @@ const EditProfileForm: React.FC<Props> = ({ petProfile, onClose }) => {
               id="birthday"
               type="date"
               placeholder="2024/08/02"
-              {...register("birthday", {setValueAs: value => value === "" ? null : value})}
+              {...register("birthday", {
+                setValueAs: (value) => (value === "" ? null : value),
+              })}
               className={`${inputClass}`}
             />
           </div>
@@ -271,7 +278,10 @@ const EditProfileForm: React.FC<Props> = ({ petProfile, onClose }) => {
               id="weight"
               type="number"
               step="0.1"
-              {...register("weight", {valueAsNumber: true, setValueAs: (val) => val ? null : val})}
+              {...register("weight", {
+                valueAsNumber: true,
+                setValueAs: (val) => (val ? null : val),
+              })}
               className={inputClass}
             />
           </div>
@@ -333,20 +343,17 @@ const EditProfileForm: React.FC<Props> = ({ petProfile, onClose }) => {
           {/* Additional Images */}
           <div className="mt-6">
             <h2 className={`${labelClass}`}>Add More Pictures</h2>
-            {petBioPictureSrcList ? (
-              <ViewMultiPicture
-                picture_src_list={petBioPictureSrcList || ""}
-              />
-            ) : (
-              ""
-            )}
             <MultiPictureUploder
               id={petProfile?.id}
               pictureType="pet_pictures"
               onUpload={handleMultiUpload}
             />
+            {petBioPictureSrcList ? (
+              <ViewMultiPicture picture_src_list={petBioPictureSrcList || ""} />
+            ) : (
+              ""
+            )}
           </div>
-
         </div>
         <div className="flex justify-center md:justify-end px-3">
           <button
