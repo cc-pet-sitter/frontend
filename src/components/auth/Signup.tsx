@@ -19,22 +19,24 @@ const SignUp: React.FC = () => {
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    setError('');
+    setError("");
     try {
       // Create user in Firebase
-      const userCredential: UserCredential = await createUserWithEmailAndPassword(auth, email, password);
+      const userCredential: UserCredential =
+        await createUserWithEmailAndPassword(auth, email, password);
       const user = userCredential.user;
 
       // Obtain ID token
       const idToken = await user.getIdToken();
 
       // Send user data to backend
-      const backendURL = import.meta.env.VITE_API_BASE_URL || "http://localhost:8000";
+      const backendURL =
+        import.meta.env.VITE_API_BASE_URL || "http://localhost:8000";
       const response = await fetch(`${backendURL}/signup`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          "Authorization": `Bearer ${idToken}`,
+          Authorization: `Bearer ${idToken}`,
         },
         body: JSON.stringify({ firstname, lastname, email }),
       });
@@ -48,22 +50,23 @@ const SignUp: React.FC = () => {
       setUserInfo(data.appuser);
 
       // Navigate to dashboard account or home
-      navigate('/dashboard/account');
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      navigate("/dashboard/account");
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (err: any) {
       setError(err.message);
     }
-  }
+  };
 
   const inputClass =
-    "appearance-none block w-full bg-gray-200 text-gray-700 border rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white";
-  const labelClass =
-    "block uppercase tracking-wide text-gray-700 text-sm font-bold mb-2";
+    "appearance-none block w-full bg-white text-gray-700 border rounded py-3 px-4 leading-tight focus:outline-none focus:ring-1 focus:ring-brown focus:border-brown";
+  const labelClass = "block tracking-wide text-sm mb-2";
 
   return (
-    <div className="flex items-center justify-center min-h-screen bg-gray-100 p-4">
-      <div className="w-full max-w-md bg-white rounded-lg shadow-md p-8">
-      <h2 className="text-2xl font-bold mb-6 text-center">{t("signup.title")}</h2>
+    <div className="flex items-center justify-center min-h-screen bg-white p-4">
+      <div className="w-full max-w-md bg-white rounded-lg border border-gray p-8">
+        <h2 className="text-2xl font-bold mb-6 text-center">
+          {t("signup.title")}
+        </h2>
         {error && (
           <p
             className="text-red-500 text-sm italic mb-4 text-center"
@@ -74,15 +77,15 @@ const SignUp: React.FC = () => {
           </p>
         )}
         <form onSubmit={handleSubmit} className="w-full">
-          <div className="flex flex-wrap -mx-3 mb-6">
+          <div className="flex flex-wrap -mx-3">
             {/* First Name */}
             <div className="w-full px-3 mb-6">
               <label className={labelClass} htmlFor="firstname">
-                {t("signup.firstname")}:
+                {t("signup.firstname")}
               </label>
               <input
-                type="text" 
-                id="firstname" 
+                type="text"
+                id="firstname"
                 value={firstname}
                 onChange={(e) => setFirstname(e.target.value)}
                 required
@@ -94,11 +97,11 @@ const SignUp: React.FC = () => {
             {/* Last Name */}
             <div className="w-full px-3 mb-6">
               <label className={labelClass} htmlFor="lastname">
-               {t("signup.lastname")}:
+                {t("signup.lastname")}
               </label>
               <input
-                type="text" 
-                id="lastname" 
+                type="text"
+                id="lastname"
                 value={lastname}
                 onChange={(e) => setLastname(e.target.value)}
                 required
@@ -110,7 +113,7 @@ const SignUp: React.FC = () => {
             {/* Email */}
             <div className="w-full px-3 mb-6">
               <label className={labelClass} htmlFor="email">
-               {t("signup.email")}:
+                {t("signup.email")}
               </label>
               <input
                 type="email"
@@ -126,7 +129,7 @@ const SignUp: React.FC = () => {
             {/* Password */}
             <div className="w-full px-3 mb-6">
               <label className={labelClass} htmlFor="password">
-                {t("signup.password")}:
+                {t("signup.password")}
               </label>
               <div className="relative">
                 <input
@@ -178,7 +181,7 @@ const SignUp: React.FC = () => {
             <div className="w-full px-3 mb-6">
               <button
                 type="submit"
-                className="w-full bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline transition duration-200"
+                className="w-full btn-primary font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline transition duration-200"
               >
                 {t("signup.signupButton")}
               </button>
@@ -186,20 +189,20 @@ const SignUp: React.FC = () => {
           </div>
         </form>
         {/* Explanatory Text and Login Navigation */}
-        <div className="text-center mt-6">
-          <p className="text-gray-600 mb-2">
-            {t("signup.signupPrompt")}
+        <div className="text-center ">
+          <p className="text-gray-500 mb-2 text-sm">
+            {t("signup.signupPrompt")}{" "}
+            <a
+              onClick={() => navigate("/login")}
+              className="text-black underline"
+            >
+              {t("signup.loginButton")}
+            </a>
           </p>
-          <button
-            onClick={() => navigate("/login")}
-            className="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline transition duration-200"
-          >
-            {t("signup.loginButton")}
-          </button>
         </div>
       </div>
     </div>
-  )
+  );
 };
 
 export default SignUp;

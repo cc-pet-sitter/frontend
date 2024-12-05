@@ -60,21 +60,22 @@ const Login: React.FC = () => {
 
       // Navigate to dashboard or home
       navigate("/");
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (err: any) {
       setError(err.message);
     }
   };
 
   const inputClass =
-    "appearance-none block w-full bg-gray-200 text-gray-700 border rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white";
-  const labelClass =
-    "block uppercase tracking-wide text-gray-700 text-sm font-bold mb-2";
+    "appearance-none block w-full bg-white text-gray-700 border rounded py-3 px-4 leading-tight focus:outline-none focus:ring-1 focus:ring-brown focus:border-brown";
+  const labelClass = "block tracking-wide text-sm mb-2";
 
   return (
-    <div className="flex items-center justify-center min-h-screen bg-gray-100 p-4">
-      <div className="w-full max-w-md bg-white rounded-lg shadow-md p-8">
-        <h2 className="text-2xl font-bold mb-6 text-center">{t("login.title")}</h2>
+    <div className="flex items-center justify-center min-h-screen bg-white p-4 ">
+      <div className="w-full max-w-md bg-white rounded-lg border border-gray p-8">
+        <h2 className="text-2xl font-bold mb-6 text-center">
+          {t("login.title")}
+        </h2>
         {error && (
           <p
             className="text-red-500 text-sm italic mb-4 text-center"
@@ -88,7 +89,7 @@ const Login: React.FC = () => {
           {/* Email Field */}
           <div className="mb-4">
             <label className={labelClass} htmlFor="email">
-              {t("login.email")}:
+              {t("login.email")}
             </label>
             <input
               type="email"
@@ -104,7 +105,7 @@ const Login: React.FC = () => {
           {/* Password Field */}
           <div className="mb-6">
             <label className={labelClass} htmlFor="password">
-              {t("login.password")}:
+              {t("login.password")}
             </label>
             <div className="relative">
               <input
@@ -156,7 +157,7 @@ const Login: React.FC = () => {
           <div className="mb-6">
             <button
               type="submit"
-              className="w-full bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline transition duration-200"
+              className="w-full btn-primary font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline transition duration-200"
             >
               {t("login.loginButton")}
             </button>
@@ -164,15 +165,15 @@ const Login: React.FC = () => {
         </form>
         {/* Explanatory Text and Sign Up Navigation */}
         <div className="text-center">
-          <p className="text-gray-600 mb-2">
-            {t("login.signupPrompt")}
+          <p className="text-gray-500 mb-2 text-sm">
+            {t("login.signupPrompt")}{" "}
+            <a
+              onClick={() => navigate("/signup")}
+              className="text-black underline"
+            >
+              {t("login.signupButton")}
+            </a>
           </p>
-          <button
-            onClick={() => navigate("/signup")}
-            className="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline transition duration-200"
-          >
-            {t("login.signupButton")}
-          </button>
         </div>
       </div>
     </div>

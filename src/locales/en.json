@@ -804,7 +804,7 @@
     "additionalInfo": "Additional Info",
     "submit": "Submit",
     "loginButton": "Login",
-    "signupButton": "Sign Up",
+    "signupButton": "Create account",
     "loginRequired": "Authentication Required",
     "explanation": "You need to be logged in to submit an enquiry. Please log in or create an account to continue."
   },
@@ -813,8 +813,8 @@
     "email": "Email",
     "password": "Password",
     "loginButton": "Login",
-    "signupPrompt": "Don't have an account? Join us!",
-    "signupButton": "Sign Up"
+    "signupPrompt": "Not registered?",
+    "signupButton": "Create account"
   },
   "signup": {
     "title": "Sign Up",
@@ -823,7 +823,7 @@
     "email": "Email",
     "password": "Password",
     "signupButton": "Sign Up",
-    "signupPrompt": "Already have an account? Log in!",
+    "signupPrompt": "Already have an account?",
     "loginButton": "Login",
     "firstnamePlaceholder": "John",
     "lastnamePlaceholder": "Doe",
