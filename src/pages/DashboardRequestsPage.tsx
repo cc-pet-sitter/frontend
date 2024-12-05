@@ -4,11 +4,14 @@ import { useTranslation } from "react-i18next";
 import { useAuth } from "../contexts/AuthContext";
 import { Inquiry, AppUser } from "../types/userProfile";
 import { Link } from "react-router-dom";
+import WriteReview from "../components/reviews/WriteReview";
 const apiURL: string = import.meta.env.VITE_API_BASE_URL;
 
 const DashboardRequests: React.FC = () => {
   const [requests, setRequests] = useState<Array<Inquiry> | null>(null);
   const [ownerInfo, setOwnerInfo] = useState<Array<AppUser> | null>(null);
+  const [selectedRequest, setSelectedRequest] = useState<Inquiry | null>(null);
+
   const { t } = useTranslation();
   const { userInfo, currentUser } = useAuth();
 
@@ -123,7 +126,9 @@ const DashboardRequests: React.FC = () => {
                 <p className="text-xs text-gray-500 my-1">
                   {request.inquiry_status}
                 </p>
-                <p className="text-xs underline my-1 cursor-pointer hover:text-lime-600">
+                <p className="text-xs text-brown underline my-1 cursor-pointer hover:text-lime-600"
+                  onClick={() => setSelectedRequest(request)}
+                >
                   {t("dashboard_bookings_page.review")}
                 </p>
                 <div className="absolute top-4 right-4 hover:text-lime-600">
@@ -134,6 +139,23 @@ const DashboardRequests: React.FC = () => {
         </div>
       ) : (
         <p className="mx-6 mb-2">{t("dashboard_requests_page.no_requests")}</p>
+      )}
+      {selectedRequest && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center">
+          <div className="bg-white p-6 rounded shadow-lg w-96">
+            <WriteReview
+              booking={selectedRequest}
+              onClose={() => setSelectedRequest(null)}
+              recipientType="owner"
+            />
+            <button
+              onClick={() => setSelectedRequest(null)}
+              className="mt-4 text-red-500"
+            >
+              {t("dashboard_bookings_page.close_review")}
+            </button>
+          </div>
+        </div>
       )}
     </div>
   );

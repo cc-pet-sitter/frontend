@@ -150,6 +150,7 @@ const DashboardBookingsPage: React.FC = () => {
             <WriteReview
               booking={selectedBooking}
               onClose={() => setSelectedBooking(null)}
+              recipientType="sitter"
             />
             <button
               onClick={() => setSelectedBooking(null)}
