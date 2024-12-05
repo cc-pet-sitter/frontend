@@ -58,7 +58,14 @@
     "search-btn": "ペットシッターを探す",
     "searchLabel": "ペットシッターを探す...",
     "more_pet_view": "さらにペットを見る",
-    "title_pets": "ペットをチェックしよう"
+    "title_pets": "ペットをチェックしよう",
+    "how_it_works": "サービスの使い方",
+    "how_it_works_title_1": "ペットプロフィールを作成",
+    "how_it_works_title_2": "ペットシッターを探す",
+    "how_it_works_title_3": "リクエストを送り予約",
+    "how_it_works_description_1": "まずは、ペットの詳細情報を追加してください。",
+    "how_it_works_description_2": "近くのシッターを検索し、最適なシッターを見つけましょう。",
+    "how_it_works_description_3": "リクエストを送信し、予約を確定しましょう。"
   },
   "header": {
     "logout": "ログアウト",
