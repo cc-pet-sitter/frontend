@@ -46,7 +46,8 @@ const SignUp: React.FC = () => {
       if (!response.ok) {
         throw new Error(data.detail || "Failed to create user in backend.");
       }
-
+      // LOG for test
+      console.log("Registered user :", data);
       setUserInfo(data.appuser);
 
       // Navigate to dashboard account or home

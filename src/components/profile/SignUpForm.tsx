@@ -1,16 +1,47 @@
+/// NOT USED RIGHT NOW?? DELETE?
+
 import { useForm } from "react-hook-form";
 import { useAuth } from "../../contexts/AuthContext";
+import ProfilePictureUploader from "../services/ProfilePictureUploader";
+import { useState } from "react";
 
 type Props = {
   closeEditForm: () => void;
 };
 
 const SignUpForm: React.FC<Props> = ({ closeEditForm }) => {
+  const [profilePicture, setProfilePicture] = useState<string | null>(null);
   const { register, handleSubmit } = useForm({
     shouldUseNativeValidation: true,
   });
-  const { userInfo} = useAuth();
+  const { currentUser, userInfo, setUserInfo} = useAuth();
 
+  const handleUpload = async (url: string) => {
+    setProfilePicture(url);
+
+    const idToken = await currentUser?.getIdToken();
+    const backendURL =
+      import.meta.env.VITE_API_BASE_URL || "http://localhost:8000";
+    const response = await fetch(`${backendURL}/appuser/${userInfo?.id}`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${idToken}`,
+      },
+      body: JSON.stringify({
+        id: userInfo?.id,
+        profile_picture_src: url,
+      }),
+    });
+
+    if (!response.ok) {
+      const data = await response.json();
+      throw new Error(data.detail || "Failed to save user profile picture.");
+    }
+
+    const updatedUser = await response.json();
+    setUserInfo(updatedUser);
+  };
 
   const onSubmit = async (data: unknown) => {
     console.log(data);
@@ -28,6 +59,25 @@ const SignUpForm: React.FC<Props> = ({ closeEditForm }) => {
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="w-full max-w-lg">
       <div className="flex flex-wrap -mx-3 mb-6">
+        
+        {/* Profile Picture */}
+        <div className="flex flex-col sm:flex-row items-center p-6">
+          <img
+            src={
+              userInfo?.profile_picture_src ||
+              profilePicture ||
+              "https://firebasestorage.googleapis.com/v0/b/petsitter-84e85.firebasestorage.app/o/user_profile_pictures%2Fdefault-profile.svg?alt=media&token=aa84dc5e-41e5-4f6a-b966-6a1953b25971"
+            }
+            alt={`${userInfo?.firstname} ${userInfo?.lastname}`}
+            className="h-48 w-48 rounded-full object-cover"
+          />
+          <ProfilePictureUploader
+            id={userInfo?.id}
+            pictureType="user_profile_pictures"
+            onUpload={handleUpload}
+          />
+        </div>
+
         {/* First Name */}
         <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
           <label className={labelClass} htmlFor="firstName">
@@ -43,6 +93,7 @@ const SignUpForm: React.FC<Props> = ({ closeEditForm }) => {
             className={inputClass}
           />
         </div>
+
         {/* Last Name */}
         <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
           <label className={labelClass} htmlFor="lastName">
@@ -58,8 +109,7 @@ const SignUpForm: React.FC<Props> = ({ closeEditForm }) => {
             className={inputClass}
           />
         </div>
-      </div>
-      <div className="flex flex-wrap -mx-3 mb-6">
+      
         {/* Email */}
         <div className="w-full px-3 mb-6 md:mb-0">
           <label className={labelClass} htmlFor="email">
@@ -75,8 +125,7 @@ const SignUpForm: React.FC<Props> = ({ closeEditForm }) => {
             className={inputClass}
           />
         </div>
-      </div>
-      <div className="flex flex-wrap -mx-3 mb-6">
+
         {/* Postcode */}
         <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
           <label className={labelClass} htmlFor="postcode">
@@ -92,6 +141,7 @@ const SignUpForm: React.FC<Props> = ({ closeEditForm }) => {
             className={inputClass}
           />
         </div>
+
         {/* Prefecture */}
         <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
           <label className={labelClass} htmlFor="prefecture">
@@ -111,8 +161,7 @@ const SignUpForm: React.FC<Props> = ({ closeEditForm }) => {
             ))}
           </select>
         </div>
-      </div>
-      <div className="flex flex-wrap -mx-3 mb-6">
+
         {/* City */}
         <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
           <label className={labelClass} htmlFor="city">
@@ -128,6 +177,7 @@ const SignUpForm: React.FC<Props> = ({ closeEditForm }) => {
             className={inputClass}
           />
         </div>
+
         {/* Street */}
         <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
           <label className={labelClass} htmlFor="street">
@@ -144,8 +194,9 @@ const SignUpForm: React.FC<Props> = ({ closeEditForm }) => {
           />
         </div>
       </div>
+
+      {/* Languages */}
       <div className="mb-6">
-        {/* Languages */}
         <p className={`${labelClass} mb-3`}>Languages:</p>
         <label className={`${labelClass} flex items-center`}>
           Japanese:
@@ -157,6 +208,7 @@ const SignUpForm: React.FC<Props> = ({ closeEditForm }) => {
         </label>
       </div>
 
+      {/* Save Button */}
       <div className="md:flex md:items-center">
         <div className="md:w-2/3">
           <button
