@@ -8,6 +8,10 @@ import MultiPictureUploader from "../services/MultiPictureUploader";
 import ViewMultiPicture from "./ViewMultiPicture";
 import { Sitter } from "../../types/userProfile.ts";
 import AvailabilityManager from "../availability/AvailabilityManager.tsx";
+import { TailSpin } from "react-loader-spinner";
+import { FaUserCircle } from "react-icons/fa";
+
+
 const apiURL: string = import.meta.env.VITE_API_BASE_URL;
 
 type Props = {
@@ -24,6 +28,12 @@ const EditSitterProfileForm: React.FC<Props> = ({
 }) => {
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState<boolean>(false);
+  const [sitterBioPictureSrcList, setSitterBioPictureSrcList] =
+    useState<string>(sitterProfile?.sitter_bio_picture_src_list || "");
+  const [imageLoaded, setImageLoaded] = useState<boolean>(false);
+  const [profileSaved, setProfileSaved] = useState<boolean>(!!sitterProfile);
+
+  
   const {
     register,
     handleSubmit,
@@ -37,9 +47,6 @@ const EditSitterProfileForm: React.FC<Props> = ({
   });
   const { userInfo, setUserInfo } = useAuth();
   const { t } = useTranslation();
-  const [sitterBioPictureSrcList, setSitterBioPictureSrcList] =
-    useState<string>(sitterProfile?.sitter_bio_picture_src_list || "");
-  console.log("sitterProfile: ", sitterProfile);
 
   useEffect(() => {
     if (sitterProfile) {
@@ -58,8 +65,11 @@ const EditSitterProfileForm: React.FC<Props> = ({
       setSitterBioPictureSrcList(
         sitterProfile.sitter_bio_picture_src_list || ""
       );
+      if (!userInfo?.profile_picture_src) {
+        setImageLoaded(true);
+      }
     }
-  }, [sitterProfile, reset]);
+  }, [sitterProfile, reset, userInfo]);
 
   const onSubmit = async (data: Sitter) => {
     data.sitter_bio_picture_src_list = sitterBioPictureSrcList;
@@ -91,8 +101,8 @@ const EditSitterProfileForm: React.FC<Props> = ({
         fetchAllProfileData(true);
         setSuccess(true);
         setError(null);
-        // onSave(updatedProfile);
-        closeEditForm();
+        setProfileSaved(true);
+        // closeEditForm();
       } else {
         throw new Error(response.data.detail || "Failed to update profile.");
       }
@@ -101,6 +111,7 @@ const EditSitterProfileForm: React.FC<Props> = ({
       console.error("Error updating profile:", error.message);
       setError(error.message);
       setSuccess(false);
+      closeEditForm();
     }
   };
 
@@ -158,6 +169,7 @@ const EditSitterProfileForm: React.FC<Props> = ({
         </p>
       )}
 
+      {/* Back Button and Title */}
       <div className="mb-6">
         <button
           onClick={(e) => {
@@ -172,16 +184,38 @@ const EditSitterProfileForm: React.FC<Props> = ({
         <h1 className="mx-2 font-bold text-2xl inline">
           {t("dashboard_Sitter_Profile_page.edit_button")}
         </h1>
-
-        {/* Profile Picture -> Taken from appuser profile picture */}
+        
+        {/* Profile Picture */}
         <div className="flex flex-col sm:flex-row items-center p-6">
-          <img
-            src={userInfo?.profile_picture_src ||
-              "https://firebasestorage.googleapis.com/v0/b/petsitter-84e85.firebasestorage.app/o/user_profile_pictures%2Fdefault-profile.svg?alt=media&token=aa84dc5e-41e5-4f6a-b966-6a1953b25971"
-            }
-            alt={`${userInfo?.firstname} ${userInfo?.lastname}`}
-            className="h-48 w-48 rounded-full object-cover"
-          />
+          {/* Profile Picture taken from appuser profile picture or Loader */}
+          <div className="relative h-48 w-48">
+            {/* Loader */}
+            {!imageLoaded && (
+              <div className="absolute inset-0 flex items-center justify-center bg-gray-200 rounded-full">
+                <TailSpin
+                  height="50"
+                  width="50"
+                  color="#fabe25"
+                  ariaLabel="loading"
+                />
+              </div>
+            )}
+
+            {/* Profile Picture */}
+            {userInfo?.profile_picture_src ? (
+              <img
+                src={userInfo.profile_picture_src}
+                alt={`${userInfo?.firstname} ${userInfo?.lastname}`}
+                className={`h-48 w-48 rounded-full object-cover ${
+                  imageLoaded ? "block" : "hidden"
+                }`}
+                onLoad={() => setImageLoaded(true)}
+                onError={() => setImageLoaded(true)}
+              />
+            ) : (
+              <FaUserCircle className="h-48 w-48 text-gray-400"/>
+            )}
+          </div>
         </div>
 
         {/* Introduction */}
@@ -281,9 +315,18 @@ const EditSitterProfileForm: React.FC<Props> = ({
         ) : null}
       </div>
 
-      <div className="mt-6 -z-50">
-        <AvailabilityManager />
-      </div>
+      {/* Availability Manager: Render Only After Profile is Saved */}
+      {profileSaved ? (
+        <div className="mt-6 -z-50">
+          <AvailabilityManager />
+        </div>
+      ) : (
+        <div className="mt-6">
+          <p className="text-blue-500 text-sm italic">
+            {t("Please save your profile first to manage availabilities.")}
+          </p>
+        </div>
+      )}
 
       {/* Additional Pictures */}
       <div className="mt-6">
