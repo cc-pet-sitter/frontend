@@ -3,6 +3,9 @@ import { useAuth } from "../../contexts/AuthContext";
 import React, { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { MdOutlineArrowBackIos } from "react-icons/md";
+import ProfilePictureUploader from "../services/ProfilePictureUploader";
+import { FaUserCircle } from "react-icons/fa";
+import { TailSpin } from 'react-loader-spinner'
 
 type Props = {
   closeEditForm: () => void;
@@ -22,13 +25,16 @@ type EditProfileFormData = {
 };
 
 const EditProfileForm: React.FC<Props> = ({ closeEditForm }) => {
+  const [profilePicture, setProfilePicture] = useState<string | undefined>(undefined);
+  const [error, setError] = useState<string | null>(null);
+  const [success, setSuccess] = useState<boolean>(false);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [imageLoaded, setImageLoaded] = useState<boolean>(false);
+  
   const { register, handleSubmit, reset } = useForm<EditProfileFormData>({
     shouldUseNativeValidation: true,
   });
   const { currentUser, userInfo } = useAuth();
-  const [error, setError] = useState<string | null>(null);
-  const [success, setSuccess] = useState<boolean>(false);
-  const [isLoading, setIsLoading] = useState<boolean>(false);
   const { setUserInfo } = useAuth();
   const { t } = useTranslation();
 
@@ -87,6 +93,35 @@ const EditProfileForm: React.FC<Props> = ({ closeEditForm }) => {
     }
   };
 
+  const handleUpload = async (url: string) => {
+    setProfilePicture(url);
+    setImageLoaded(false);
+
+    const idToken = await currentUser?.getIdToken();
+    const backendURL =
+      import.meta.env.VITE_API_BASE_URL || "http://localhost:8000";
+    
+      const response = await fetch(`${backendURL}/appuser/${userInfo?.id}`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${idToken}`,
+      },
+      body: JSON.stringify({
+        id: userInfo?.id,
+        profile_picture_src: url,
+      }),
+    });
+
+    if (!response.ok) {
+      const data = await response.json();
+      throw new Error(data.detail || "Failed to save user profile picture.");
+    }
+
+    const updatedUser = await response.json();
+    setUserInfo(updatedUser);
+  };
+
   const inputClass =
     "appearance-none block w-full bg-gray-200 text-gray-700 border rounded py-3 px-4 text-lg　mb-2 leading-tight focus:outline-none focus:bg-white";
   const labelClass =
@@ -114,43 +149,86 @@ const EditProfileForm: React.FC<Props> = ({ closeEditForm }) => {
           >
             <MdOutlineArrowBackIos />
           </button>
-
           <h1 className="mx-2 font-bold text-2xl inline">
             {t("dashboard_account_page.edit_button")}
           </h1>
+        </div>
 
-          {/* <div className="flex flex-wrap -mx-3 mb-6"> */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            {/* First Name */}
-            <div className="w-full px-3 mb-6 md:mb-0">
-              <label className={labelClass} htmlFor="firstName">
-                {`${t("editProfileForm.firstname")}`}
-              </label>
-              <input
-                id="firstName"
-                type="text"
-                {...register("firstname", {
-                  required: "Please enter your first name.",
-                })}
-                className={inputClass}
+        {/* Profile Picture */}
+        <div className="flex flex-col sm:flex-row items-center p-6">
+          {/* Profile Picture or Loader */}
+          <div className="relative h-48 w-48">
+            {/* Loader */}
+            {!imageLoaded && (
+              <div className="absolute inset-0 flex items-center justify-center bg-gray-200 rounded-full">
+                <TailSpin
+                  height="50"
+                  width="50"
+                  color="#fabe25"
+                  ariaLabel="loading"
+                />
+              </div>
+            )}
+
+            {/* Profile Picture */}
+            {userInfo?.profile_picture_src || profilePicture ? (
+              <img
+                src={userInfo?.profile_picture_src || profilePicture}
+                alt={`${userInfo?.firstname} ${userInfo?.lastname}`}
+                className={`h-48 w-48 rounded-full object-cover ${
+                  imageLoaded ? "block" : "hidden"
+                }`}
+                onLoad={() => setImageLoaded(true)}
+                onError={() => setImageLoaded(true)}
               />
-            </div>
-            {/* Last Name */}
-            <div className="w-full px-3 mb-6 md:mb-0">
-              <label className={labelClass} htmlFor="lastName">
-                {`${t("editProfileForm.lastname")}`}
-              </label>
-              <input
-                id="lastName"
-                type="text"
-                {...register("lastname", {
-                  required: "Please enter your last name.",
-                })}
-                className={`${inputClass}`}
-              />
-            </div>
+            ) : (
+              <FaUserCircle className="h-48 w-48 text-gray-400" />
+            )}
+          </div>
+
+          {/* ProfilePictureUploader Component */}
+          <ProfilePictureUploader
+            id={userInfo?.id}
+            pictureType="user_profile_pictures"
+            onUpload={(url: string) => {
+              handleUpload(url);
+              setImageLoaded(false); // Reset loader state for new image
+            }}
+          />
+        </div>
+      
+        <div className="flex flex-wrap -mx-3 mb-6">
+          {/* First Name */}
+          <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
+            <label className={labelClass} htmlFor="firstName">
+              {`${t("editProfileForm.firstname")}`}
+            </label>
+            <input
+              id="firstName"
+              type="text"
+              {...register("firstname", {
+                required: "Please enter your first name.",
+              })}
+              className={inputClass}
+            />
+          </div>
+
+          {/* Last Name */}
+          <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
+            <label className={labelClass} htmlFor="lastName">
+              {`${t("editProfileForm.lastname")}`}
+            </label>
+            <input
+              id="lastName"
+              type="text"
+              {...register("lastname", {
+                required: "Please enter your last name.",
+              })}
+              className={`${inputClass}`}
+            />
           </div>
         </div>
+
         <div className="flex flex-wrap -mx-3 mb-6">
           {/* Email */}
           <div className="w-full px-3 mb-6 md:mb-0">
@@ -168,6 +246,7 @@ const EditProfileForm: React.FC<Props> = ({ closeEditForm }) => {
             />
           </div>
         </div>
+
         <div className="flex flex-wrap -mx-3 mb-6">
           {/* Postcode */}
           <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
@@ -183,6 +262,7 @@ const EditProfileForm: React.FC<Props> = ({ closeEditForm }) => {
               className={inputClass}
             />
           </div>
+
           {/* Prefecture */}
           <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
             <label className={labelClass} htmlFor="prefecture">
@@ -204,7 +284,9 @@ const EditProfileForm: React.FC<Props> = ({ closeEditForm }) => {
             </select>
           </div>
         </div>
+
         <div className="flex flex-wrap -mx-3 mb-6">
+          
           {/* City */}
           <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
             <label className={labelClass} htmlFor="city">
@@ -220,6 +302,7 @@ const EditProfileForm: React.FC<Props> = ({ closeEditForm }) => {
             />
           </div>
           {/* Street */}
+
           <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
             <label className={labelClass} htmlFor="street">
               {`${t("editProfileForm.houseAndStreet")}`}
@@ -235,6 +318,7 @@ const EditProfileForm: React.FC<Props> = ({ closeEditForm }) => {
           </div>
         </div>
         <div className="mb-6">
+
           {/* Languages */}
           <p className={`${labelClass} mb-3`}>{`${t(
             "editProfileForm.languages"
