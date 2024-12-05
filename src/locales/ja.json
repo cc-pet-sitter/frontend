@@ -44,7 +44,9 @@
     "availability": "Select Your Available DatesJ",
     "update_availability": "Update AvailabilityJ",
     "additional_images": "Add More PicturesJ",
-    "pageEdited": "Profile updated successfullyJ"
+    "pageEdited": "Profile updated successfullyJ",
+    "createHeader": "Become A SitterJ",
+    "createSubtitle": "Create your sitter profile to start offering services.J"
   },
   "dashboard_requests_page": {
     "title": "リクエスト",
