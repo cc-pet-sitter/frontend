@@ -42,15 +42,15 @@ const SearchPage: React.FC = () => {
 
   return (
     <div>
-      <div className="mt-4 sm:mt-0 sm:ml-auto flex flex-col items-center pb-4">
+      <div className="mt-4 sm:ml-auto flex flex-col items-center pb-4">
         <button
           onClick={() => setShowSearchBar((prev: boolean) => !prev)}
-          className="btn-secondary"
+          className="btn-secondary py-1 px-3 text-sm"
         >
           {showSearchBar ? (
             t("sitterProfilePage.close")
           ) : (
-            <FaSearch size={"1.55em"} />
+            <FaSearch size={"0.8rem"} className="m-1" />
           )}
         </button>
         {showSearchBar && (
