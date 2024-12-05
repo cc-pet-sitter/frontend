@@ -193,26 +193,30 @@ const Conversation: React.FC<ConversationProps> = ({ inquiry }) => {
             })}
           </div>
           <div className="p-4 border-t flex items-center">
-            <textarea
-              value={newMessage}
-              onChange={(e) => setNewMessage(e.target.value)}
-              onKeyDown={(e) => {
-                if (e.key === "Enter" && !e.shiftKey) {
-                  e.preventDefault(); // Prevents adding a new line
-                  sendMessage();
-                }
-              }}
-              placeholder="Type your message here... (Shift+Enter for new line)"
-              className="flex-grow border rounded-l p-2 focus:outline-none focus:ring-2 focus:ring-orange-500 resize-none"
-              rows={4}
-            />
-            <button
-              onClick={sendMessage}
-              className="bg-orange-500 hover:bg-orange-600 text-white font-bold py-2 px-4 rounded-r ml-2"
-              aria-label="Send message"
-            >
-              Send
-            </button>
+            { inquiry.inquiry_status !== "rejected" ?
+              <>
+                <textarea
+                  value={newMessage}
+                  onChange={(e) => setNewMessage(e.target.value)}
+                  onKeyDown={(e) => {
+                    if (e.key === "Enter" && !e.shiftKey) {
+                      e.preventDefault(); // Prevents adding a new line
+                      sendMessage();
+                    }
+                  }}
+                  placeholder="Type your message here... (Shift+Enter for new line)"
+                  className="flex-grow border rounded-l p-2 focus:outline-none focus:ring-2 focus:ring-orange-500 resize-none"
+                  rows={4}
+                />
+                <button
+                  onClick={sendMessage}
+                  className="bg-orange-500 hover:bg-orange-600 text-white font-bold py-2 px-4 rounded-r ml-2"
+                  aria-label="Send message"
+                >
+                  Send
+                </button>
+              </> : <p>Further messaging has been disabled.</p>
+            }
           </div>
         </div>
     );
