@@ -5,6 +5,10 @@ import { SearchFormData } from "../components/search/SearchBar";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { PetProfileData } from "../types/userProfile";
+import { BsCalendar2Date } from "react-icons/bs";
+import { FaPaw } from "react-icons/fa";
+import { BsSearchHeart } from "react-icons/bs";
+
 import {
   Carousel,
   Card,
@@ -12,6 +16,7 @@ import {
   CardBody,
   Typography,
 } from "@material-tailwind/react";
+import { ChevronLeftIcon, ChevronRightIcon } from "@heroicons/react/24/outline";
 
 const apiURL: string = import.meta.env.VITE_API_BASE_URL;
 
@@ -68,6 +73,28 @@ const HomePage: React.FC = () => {
       alert("Failed to fetch search results. Please try again.");
     }
   };
+
+  const steps = [
+    {
+      title: "Create Your Pet Profile",
+      description: "Start by adding details about your pet.",
+      icon: <FaPaw className="mx-auto text-2xl" />,
+    },
+    {
+      title: "Find the Perfect Sitter",
+      description:
+        "Search sitters nearby and explore profiles to find the best match.",
+      icon: <BsSearchHeart className="mx-auto text-2xl" />,
+    },
+    {
+      title: "Connect & Book",
+      description:
+        "Send requests, chat with sitters, and confirm your bookings easily.",
+
+      icon: <BsCalendar2Date className="mx-auto text-2xl" />,
+    },
+  ];
+
   return (
     <div className="mb-12">
       <div className="bg-white text-center pt-10 ">
@@ -89,17 +116,7 @@ const HomePage: React.FC = () => {
           className="mt-8 my-2 mx-auto w-screen h-auto"
         />
       </div>
-      <div
-        ref={searchSectionRef}
-        className="justify-items-center  bg-[#fef6e4]"
-      >
-        {/* <div className="my-6"> */}
-        {/* <img src={bannerImage} /> */}
-        {/* <h1 className="text-center text-2xl font-semibold">
-            {t("homePage.subtitle")}
-          </h1>
-        </div>
-        <h3 className="italic">{t("homePage.searchLabel")}</h3> */}
+      <div ref={searchSectionRef} className="justify-items-center bg-white">
         <SearchBar
           onSearchSubmit={handleSearchSubmit}
           closeSearchBar={function (): void {
@@ -108,41 +125,80 @@ const HomePage: React.FC = () => {
         />
       </div>
 
-      {/* Features Section (will change later) */}
-      {/* <div className="bg-[#fef6e4] py-12">
-        <div className="max-w-4xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-8">
-          {[
-            {
-              icon: "🐾",
-              title: "Experienced Sitters",
-              description: "Only the best for your pets!",
-            },
-            {
-              icon: "📅",
-              title: "Easy Booking",
-              description: "Schedule care with ease.",
-            },
-            {
-              icon: "🔒",
-              title: "Secure Payments",
-              description: "Your money is safe with us.",
-            },
-          ].map((feature, index) => (
+      {/* Features Section (how  the app works) */}
+      <section className="py-12 bg-[#fef6e4]">
+        <h2 className="text-3xl font-bold text-center mb-6">How It Works</h2>
+
+        {/* Desktop View */}
+        <div className="hidden md:grid md:grid-cols-3 gap-6 px-6">
+          {steps.map((step, index) => (
             <div
               key={index}
-              className="p-6 bg-white shadow-md rounded-lg text-center hover:shadow-lg transition"
+              className="bg-white shadow-md p-6 rounded-lg text-center"
             >
-              <div className="text-4xl">{feature.icon}</div>
-              <h3 className="text-lg font-bold mt-4">{feature.title}</h3>
-              <p className="text-sm text-gray-600 mt-2">
-                {feature.description}
-              </p>
+              <div className="text-4xl mb-4">{step.icon}</div>
+              <h3 className="text-xl font-semibold text-seBtnBg mb-2">
+                {step.title}
+              </h3>
+              <p className="text-gray-700">{step.description}</p>
             </div>
           ))}
         </div>
-      </div> */}
+
+        {/* Mobile View: Swiper */}
+        <div className="md:hidden h-52">
+          <Carousel
+            className="rounded-xl w-full mx-auto max-w-[24rem] relative"
+            prevArrow={({ loop, handlePrev, firstIndex }) => (
+              <button
+                onClick={handlePrev}
+                disabled={!loop && firstIndex}
+                className="!absolute top-2/4 left-2 -translate-y-2/4 rounded-full select-none transition-all disabled:opacity-50 disabled:shadow-none disabled:pointer-events-none w-12 max-w-[48px] h-12 max-h-[48px] text-black hover:bg-white/10 active:bg-white/30 grid place-items-center"
+              >
+                <ChevronLeftIcon strokeWidth={3} className="-ml-1 h-7 w-7" />
+              </button>
+            )}
+            nextArrow={({ loop, handleNext, lastIndex }) => (
+              <button
+                onClick={handleNext}
+                disabled={!loop && lastIndex}
+                className="!absolute top-2/4 right-2 -translate-y-2/4 rounded-full select-none transition-all disabled:opacity-50 disabled:shadow-none disabled:pointer-events-none w-12 max-w-[48px] h-12 max-h-[48px] text-black hover:bg-white/10 active:bg-white/30 grid place-items-center"
+              >
+                <ChevronRightIcon strokeWidth={3} className="ml-1 h-7 w-7" />
+              </button>
+            )}
+            navigation={({ setActiveIndex, activeIndex, length }) => (
+              <div className="absolute bottom-0 left-2/4 z-50 flex -translate-x-2/4 gap-2">
+                {new Array(length).fill("").map((_, i) => (
+                  <span
+                    key={i}
+                    className={`block h-3 w-3 cursor-pointer rounded-full transition-colors content-[''] ${
+                      activeIndex === i ? "bg-[#d87607]" : "bg-[#d87607]/50"
+                    }`}
+                    onClick={() => setActiveIndex(i)}
+                  />
+                ))}
+              </div>
+            )}
+          >
+            {steps.map((step, index) => (
+              <div
+                key={index}
+                className="bg-white shadow-md p-6 rounded-lg text-center mx-auto w-3/4 h-44 center-center"
+              >
+                <div className="text-4xl mb-4">{step.icon}</div>
+                <h3 className="text-xl font-semibold text-seBtnBg mb-2">
+                  {step.title}
+                </h3>
+                <p className="text-gray-700">{step.description}</p>
+              </div>
+            ))}
+          </Carousel>
+        </div>
+      </section>
+
       <div className="m-10">
-        <h2 className="text-center text-2xl font-semibold">
+        <h2 className="text-3xl font-bold text-center mb-6">
           {t("homePage.title_pets")}
         </h2>
         <Carousel
