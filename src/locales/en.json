@@ -59,7 +59,14 @@
     "searchLabel": "Search for a Pet Sitter...",
     "more_pet_view": "View more pets",
     "title_pets": "Look at our pets",
-    "search-btn": "Search now"
+    "search-btn": "Search now",
+    "how_it_works": "How it works",
+    "how_it_works_title_1": "Create Your Pet Profile",
+    "how_it_works_title_2": "Find the Perfect Sitter",
+    "how_it_works_title_3": "Connect & Book",
+    "how_it_works_description_1": "Start by adding details about your pet.",
+    "how_it_works_description_2": "Search sitters nearby and explore profiles to find the best match.",
+    "how_it_works_description_3": "Send requests, chat with sitters, and confirm your bookings easily."
   },
   "header": {
     "logout": "Logout",
