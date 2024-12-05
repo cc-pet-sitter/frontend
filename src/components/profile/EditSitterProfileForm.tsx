@@ -45,7 +45,8 @@ const EditSitterProfileForm: React.FC<Props> = ({
     if (sitterProfile) {
       reset({
         sitter_profile_bio: sitterProfile.sitter_profile_bio || "",
-        sitter_bio_picture_src_list: sitterProfile.sitter_bio_picture_src_list || "",
+        sitter_bio_picture_src_list:
+          sitterProfile.sitter_bio_picture_src_list || "",
         sitter_house_ok: sitterProfile.sitter_house_ok || false,
         owner_house_ok: sitterProfile.owner_house_ok || false,
         visit_ok: sitterProfile.visit_ok || false,
@@ -176,7 +177,8 @@ const EditSitterProfileForm: React.FC<Props> = ({
         {/* Profile Picture -> Taken from appuser profile picture */}
         <div className="flex flex-col sm:flex-row items-center p-6">
           <img
-            src={userInfo?.profile_picture_src ||
+            src={
+              userInfo?.profile_picture_src ||
               "https://firebasestorage.googleapis.com/v0/b/petsitter-84e85.firebasestorage.app/o/user_profile_pictures%2Fdefault-profile.svg?alt=media&token=aa84dc5e-41e5-4f6a-b966-6a1953b25971"
             }
             alt={`${userInfo?.firstname} ${userInfo?.lastname}`}
@@ -205,7 +207,7 @@ const EditSitterProfileForm: React.FC<Props> = ({
           )}
         </div>
       </div>
-      
+
       {/* Pets */}
       <div className="mb-6">
         <p className={`${labelClass} mb-3`}>
@@ -245,7 +247,7 @@ const EditSitterProfileForm: React.FC<Props> = ({
           </p>
         ) : null}
       </div>
-      
+
       {/* Types of Service You Offer */}
       <div className="mb-6">
         <p className={`${labelClass} mb-3`}>

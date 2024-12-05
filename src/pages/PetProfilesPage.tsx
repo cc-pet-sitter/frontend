@@ -42,8 +42,8 @@ const PetProfilesPage: React.FC = () => {
   }, []);
   return (
     <div className="mx-4">
-      <button onClick={() => navigate("/")} className="m-6 flex">
-        <MdOutlineArrowBackIos className="mr-3" /> <p>Back</p>
+      <button onClick={() => navigate("/")} className="mt-6 ml-1 flex">
+        <MdOutlineArrowBackIos className="mr-3 mt-1" /> <p>Back</p>
       </button>
       <h2 className="text-center text-2xl font-semibold mt-4">
         {t("homePage.title_pets")}

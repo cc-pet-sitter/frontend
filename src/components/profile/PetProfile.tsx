@@ -24,7 +24,7 @@ const PetProfile: React.FC<Props> = ({ petProfile, onClose }) => {
         }}
         className="m-6 flex"
       >
-        <MdOutlineArrowBackIos className="mr-3" /> <p>Back</p>
+        <MdOutlineArrowBackIos className="mr-3 mt-1" /> <p>Back</p>
       </button>
 
       {petProfile && (
@@ -33,7 +33,10 @@ const PetProfile: React.FC<Props> = ({ petProfile, onClose }) => {
             {/* Profile Header */}
             <div className="flex flex-col sm:flex-row items-center my-6">
               <img
-                src={petProfile.profile_picture_src || "https://upload.wikimedia.org/wikipedia/commons/thumb/3/3a/Cat03.jpg/640px-Cat03.jpg"}
+                src={
+                  petProfile.profile_picture_src ||
+                  "https://upload.wikimedia.org/wikipedia/commons/thumb/3/3a/Cat03.jpg/640px-Cat03.jpg"
+                }
                 alt={`Picture of ${petProfile.name}`}
                 className="h-48 w-48 rounded-full object-cover"
               />
@@ -122,14 +125,15 @@ const PetProfile: React.FC<Props> = ({ petProfile, onClose }) => {
 
             {/* Additional Images */}
             {petProfile.pet_bio_picture_src_list && (
-            <div className="p-6 border-t">
-              <h2 className="text-lg font-semibold mb-4">
-                {t("sitterProfilePage.additionalImages")}
-              </h2>
-              < FeaturedImageGallery picture_src_list={petProfile.pet_bio_picture_src_list || ""}/>
-            </div>
+              <div className="p-6 border-t">
+                <h2 className="text-lg font-semibold mb-4">
+                  {t("sitterProfilePage.additionalImages")}
+                </h2>
+                <FeaturedImageGallery
+                  picture_src_list={petProfile.pet_bio_picture_src_list || ""}
+                />
+              </div>
             )}
-            
           </div>
         </div>
       )}
