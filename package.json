@@ -24,6 +24,7 @@
     "flowbite": "^2.5.2",
     "i18next": "^23.16.8",
     "i18next-browser-languagedetector": "^8.0.0",
+    "jp-zipcode-lookup": "^0.3.3",
     "pretty-checkbox-react": "^3.2.0",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
