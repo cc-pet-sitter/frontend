@@ -162,7 +162,7 @@ const Header: React.FC = () => {
                 <div className="relative">
                   <Menu>
                     <MenuHandler>
-                      <Button className="cursor-pointer btn-secondary bg-#D87607 ">
+                      <Button className="cursor-pointer btn-secondary bg-#D87607 px-auto py-2">
                         {userInfo?.firstname}
                       </Button>
                     </MenuHandler>
@@ -231,7 +231,7 @@ const Header: React.FC = () => {
                       </MenuItem>
                     </MenuList>
                   </Menu>
-                  <span
+                  {/* <span
                     ref={triggerRef}
                     onClick={() => setMenuOpen((prev) => !prev)}
                     className="cursor-pointer btn-secondary"
@@ -292,7 +292,7 @@ const Header: React.FC = () => {
                         {t("hamburger_menu.logout")}
                       </button>
                     </div>
-                  )}
+                  )} */}
                 </div>
               </>
             )}
