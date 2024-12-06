@@ -137,7 +137,8 @@ const EditSitterProfileForm: React.FC<Props> = ({
 
   // const checkboxClass =
   //   "appearance-none block w-full text-gray-700  rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white";
-
+  // const inputClass =
+  //   "appearance-none block w-full bg-gray-200 text-gray-700 border rounded py-3 px-4 text-lg　mb-2 leading-tight focus:outline-none focus:bg-white";
   const checkboxLabelClass =
     "flex flex-col items-center justify-center p-4 text-gray-600 bg-white border-2 border-gray-300 rounded-lg cursor-pointer hover:bg-gray-50 peer-checked:border-blue-500 peer-checked:bg-blue-50";
   const labelClass = "block text-gray-700 text-lg font-bold mb-2";
@@ -185,17 +186,16 @@ const EditSitterProfileForm: React.FC<Props> = ({
             {t("dashboard_Sitter_Profile_page.edit_button")}
           </h1>
 
-
           {/* Profile Picture -> Taken from appuser profile picture */}
-            <div className="flex flex-col sm:flex-row items-center p-6">
-          <img
-            src={
-              userInfo?.profile_picture_src ||
-              "https://firebasestorage.googleapis.com/v0/b/petsitter-84e85.firebasestorage.app/o/user_profile_pictures%2Fdefault-profile.svg?alt=media&token=aa84dc5e-41e5-4f6a-b966-6a1953b25971"
-            }
-            alt={`${userInfo?.firstname} ${userInfo?.lastname}`}
-            className="h-48 w-48 rounded-full object-cover"
-          />
+          <div className="flex flex-col sm:flex-row items-center p-6">
+            <img
+              src={
+                userInfo?.profile_picture_src ||
+                "https://firebasestorage.googleapis.com/v0/b/petsitter-84e85.firebasestorage.app/o/user_profile_pictures%2Fdefault-profile.svg?alt=media&token=aa84dc5e-41e5-4f6a-b966-6a1953b25971"
+              }
+              alt={`${userInfo?.firstname} ${userInfo?.lastname}`}
+              className="h-48 w-48 rounded-full object-cover"
+            />
           </div>
 
           {/* Introduction */}
@@ -222,7 +222,6 @@ const EditSitterProfileForm: React.FC<Props> = ({
               </p>
             )}
           </div>
-
         </div>
 
         {/* Pets */}
@@ -274,10 +273,9 @@ const EditSitterProfileForm: React.FC<Props> = ({
           ) : null}
         </div>
 
-      </div>
+        {/* Pets */}
 
-      {/* Pets */}
-      <div className="mb-6">
+        {/*<div className="mb-6">
         <p className={`${labelClass} mb-3`}>
           {t("dashboard_Sitter_Profile_page.pet_service")}
                      <span className="text-red-500 ml-1">*</span>
@@ -315,9 +313,10 @@ const EditSitterProfileForm: React.FC<Props> = ({
               "Please select at least one pet."}
           </p>
         ) : null}
-      </div>
+      </div> */}
 
-      {/* Types of Service You Offer */}
+        {/* Types of Service You Offer */}
+        {/*
       <div className="mb-6">
         <p className={`${labelClass} mb-3`}>
           {t("dashboard_Sitter_Profile_page.type_service")}
@@ -341,14 +340,16 @@ const EditSitterProfileForm: React.FC<Props> = ({
             {serviceOptions[index]}
           </label>
         ))}
+        </div> */}
+
         {/* Error Message for Services */}
-        {errors.sitter_house_ok || errors.owner_house_ok || errors.visit_ok ? (
+        {/* {errors.sitter_house_ok || errors.owner_house_ok || errors.visit_ok ? ( */}
+        <div className="mb-6">
           <p className="text-red-500 text-xs italic">
             {errors.sitter_house_ok?.message ||
               errors.owner_house_ok?.message ||
               errors.visit_ok?.message ||
               "Please select at least one service."}
-
           </p>
           <ul className="grid grid-cols-3 gap-4">
             {serviceOptionsKey.map((service, index) => (
@@ -375,6 +376,7 @@ const EditSitterProfileForm: React.FC<Props> = ({
               </li>
             ))}
           </ul>
+
           {/* Error Message for Services */}
           {errors.sitter_house_ok ||
           errors.owner_house_ok ||

@@ -6,15 +6,14 @@ import { MdOutlineArrowBackIos } from "react-icons/md";
 import axiosInstance from "../../api/axiosInstance";
 import { PetProfileData } from "../../types/userProfile.ts";
 import ProfilePictureUploader from "../services/ProfilePictureUploader.tsx";
-import MultiPictureUploder from "../services/MultiPictureUploader.tsx";
+// import MultiPictureUploder from "../services/MultiPictureUploader.tsx";
 import ViewMultiPicture from "./ViewMultiPicture.tsx";
 
 import { LuDog, LuFish } from "react-icons/lu";
-import { PiBirdBold, PiCatBold, PiRabbitBold, PiDog  } from "react-icons/pi";
+import { PiBirdBold, PiCatBold, PiRabbitBold, PiDog } from "react-icons/pi";
 
 import { TailSpin } from "react-loader-spinner";
-i
-
+import MultiPictureUploader from "../services/MultiPictureUploader.tsx";
 
 const apiURL: string = import.meta.env.VITE_API_BASE_URL;
 
@@ -24,18 +23,21 @@ type Props = {
 };
 
 const EditProfileForm: React.FC<Props> = ({ petProfile, onClose }) => {
-
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState<boolean>(false);
   const [isLoading, setIsLoading] = useState<boolean>(false);
-  const [petProfilePicture, setPetProfilePicture] = useState<string | undefined>(undefined);
-  const [petBioPictureSrcList, setPetBioPictureSrcList] =
-    useState<string>(petProfile?.pet_bio_picture_src_list || "");
+  const [petProfilePicture, setPetProfilePicture] = useState<
+    string | undefined
+  >(undefined);
+  const [petBioPictureSrcList, setPetBioPictureSrcList] = useState<string>(
+    petProfile?.pet_bio_picture_src_list || ""
+  );
   const [imageLoaded, setImageLoaded] = useState<boolean>(false);
-  
-  const { register, handleSubmit, reset, getValues, setValue } = useForm<PetProfileData>({
-    shouldUseNativeValidation: true,
-  });
+
+  const { register, handleSubmit, reset, getValues, setValue } =
+    useForm<PetProfileData>({
+      shouldUseNativeValidation: true,
+    });
   const { userInfo } = useAuth();
   const { t } = useTranslation();
 
@@ -203,53 +205,45 @@ const EditProfileForm: React.FC<Props> = ({ petProfile, onClose }) => {
         </div>
 
         {/* Profile Picture */}
-
-       <div className="mb-6 ">
+        <div className="mb-6">
           <p className={`${labelClass} mb-3`}>
             {t("editPetProfileForm.profilePicture")}
           </p>
-            {/* Loader */}
-            {!imageLoaded && (
-              <div className="absolute inset-0 flex items-center justify-center bg-gray-200 rounded-full">
-                <TailSpin
-                  height="50"
-                  width="50"
-                  color="#fabe25"
-                  ariaLabel="loading"
-                />
-              </div>
-            )}
-
-            {/* Pet Profile Picture */}
-            {petProfilePicture || petProfile?.profile_picture_src ? (
-              <img
-                src={petProfile?.profile_picture_src || petProfilePicture}
-                alt={petProfile?.name}
-                className={`h-48 w-48 rounded-full object-cover ${
-                  imageLoaded ? "block" : "hidden"
-                }`}
-                onLoad={() => setImageLoaded(true)}
-                onError={() => setImageLoaded(true)}
+          {!imageLoaded && (
+            <div className="absolute inset-0 flex items-center justify-center bg-gray-200 rounded-full">
+              <TailSpin
+                height="50"
+                width="50"
+                color="#fabe25"
+                ariaLabel="loading"
               />
-            ) : (
-              <PiDog className="h-48 w-48 text-gray-400"/>
-            )}
-
-          </div>
-
-          {/* ProfilePictureUploader Component */}
+            </div>
+          )}
+          {petProfilePicture || petProfile?.profile_picture_src ? (
+            <img
+              src={petProfile?.profile_picture_src || petProfilePicture}
+              alt={petProfile?.name}
+              className={`h-48 w-48 rounded-full object-cover ${
+                imageLoaded ? "block" : "hidden"
+              }`}
+              onLoad={() => setImageLoaded(true)}
+              onError={() => setImageLoaded(true)}
+            />
+          ) : (
+            <PiDog className="h-48 w-48 text-gray-400" />
+          )}
           <ProfilePictureUploader
             id={petProfile?.id}
             pictureType="pet_pictures"
-            onUpload={(url: string) => {
+            onUpload={(url) => {
               handleUpload(url);
-              setImageLoaded(false); // Reset loader state for new image
+              setImageLoaded(false);
             }}
           />
         </div>
 
         {/* Pets */}
-        <div className="mb-6 ">
+        <div className="mb-6">
           <p className={`${labelClass} mb-3`}>
             {t("editPetProfileForm.typeOfPet")}
           </p>
@@ -265,7 +259,6 @@ const EditProfileForm: React.FC<Props> = ({ petProfile, onClose }) => {
                   value={pet.name}
                   className="mb-2"
                 />
-
                 {pet.name === "dog" && <LuDog size="2em" />}
                 {pet.name === "cat" && <PiCatBold size="2em" />}
                 {pet.name === "fish" && <LuFish size="2em" />}
@@ -275,18 +268,12 @@ const EditProfileForm: React.FC<Props> = ({ petProfile, onClose }) => {
               </label>
             ))}
           </ul>
-          {/* {errors.type_of_animal && (
-              <p className="text-red-500 text-xs italic">
-                {errors.type_of_animal.message}
-              </p>
-            )} */}
         </div>
-
 
         {/* Name */}
         <div className="mb-6">
           <label className={labelClass} htmlFor="name">
-            {`${t("editPetProfileForm.name")}`}
+            {t("editPetProfileForm.name")}
           </label>
           <input
             id="name"
@@ -297,10 +284,11 @@ const EditProfileForm: React.FC<Props> = ({ petProfile, onClose }) => {
             className={inputClass}
           />
         </div>
+
         {/* Birthday */}
         <div className="mb-6">
           <label className={labelClass} htmlFor="birthday">
-            {`${t("editPetProfileForm.birthday")}`}
+            {t("editPetProfileForm.birthday")}
           </label>
           <input
             id="birthday"
@@ -309,15 +297,14 @@ const EditProfileForm: React.FC<Props> = ({ petProfile, onClose }) => {
             {...register("birthday", {
               setValueAs: (value) => (value === "" ? null : value),
             })}
-            className={`${inputClass}`}
+            className={inputClass}
           />
         </div>
 
-        {/* <div className="flex flex-wrap  "> */}
         {/* Weight */}
         <div className="mb-6">
           <label className={labelClass} htmlFor="weight">
-            {`${t("editPetProfileForm.weight")}`}
+            {t("editPetProfileForm.weight")}
           </label>
           <input
             id="weight"
@@ -329,74 +316,12 @@ const EditProfileForm: React.FC<Props> = ({ petProfile, onClose }) => {
             })}
             className={inputClass}
           />
+        </div>
 
-   
-          {/* Name */}
-         <div className="mb-6">
-          <label className={labelClass} htmlFor="name">
-              {`${t("editPetProfileForm.name")}`}
-            </label>
-            <input
-              id="name"
-              type="text"
-              {...register("name", {
-                required: "Please enter a name.",
-              })}
-              className={inputClass}
-            />
-          </div>
-          {/* Birthday */}
-           <div className="mb-6">
-          <label className={labelClass} htmlFor="birthday">
-              {`${t("editPetProfileForm.birthday")}`}
-            </label>
-            <input
-              id="birthday"
-              type="date"
-              placeholder="2024/08/02"
-              {...register("birthday", {
-                setValueAs: (value) => (value === "" ? null : value),
-              })}
-              className={`${inputClass}`}
-            />
-          </div>
-
-
-
-          {/* Weight */}
-           <div className="mb-6">
-          <label className={labelClass} htmlFor="weight">
-              {`${t("editPetProfileForm.weight")}`}
-            </label>
-            <input
-              id="weight"
-              type="number"
-              step="0.1"
-              {...register("weight", {
-                valueAsNumber: true,
-                setValueAs: (val) => (val ? null : val),
-              })}
-              className={inputClass}
-            />
-          </div>
-          {/* Breed */}
-          <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
-            <label className={labelClass} htmlFor="subtype">
-              {`${t("editPetProfileForm.breed")}`}
-            </label>
-            <input
-              id="subtype"
-              type="text"
-              {...register("subtype")}
-              className={inputClass}
-            />
-          </div>
-
- 
         {/* Breed */}
         <div className="mb-6">
           <label className={labelClass} htmlFor="subtype">
-            {`${t("editPetProfileForm.breed")}`}
+            {t("editPetProfileForm.breed")}
           </label>
           <input
             id="subtype"
@@ -409,7 +334,7 @@ const EditProfileForm: React.FC<Props> = ({ petProfile, onClose }) => {
         {/* Allergies */}
         <div className="mb-6">
           <label className={labelClass} htmlFor="known_allergies">
-            {`${t("editPetProfileForm.allergies")}`}
+            {t("editPetProfileForm.allergies")}
           </label>
           <input
             id="known_allergies"
@@ -418,10 +343,11 @@ const EditProfileForm: React.FC<Props> = ({ petProfile, onClose }) => {
             className={inputClass}
           />
         </div>
+
         {/* Medications */}
         <div className="mb-6">
           <label className={labelClass} htmlFor="medications">
-            {`${t("editPetProfileForm.medications")}`}
+            {t("editPetProfileForm.medications")}
           </label>
           <input
             id="medications"
@@ -430,46 +356,41 @@ const EditProfileForm: React.FC<Props> = ({ petProfile, onClose }) => {
             className={inputClass}
           />
         </div>
-        <div className="mb-6">
-          {/* Special needs */}
 
+        {/* Special Needs */}
+        <div className="mb-6">
           <label className={labelClass} htmlFor="special_needs">
-            {`${t("editPetProfileForm.specialNeeds")}`}
+            {t("editPetProfileForm.specialNeeds")}
           </label>
           <textarea
-            className={textAreaClass}
             id="special_needs"
             rows={4}
             cols={40}
             {...register("special_needs")}
+            className={textAreaClass}
           />
-
-          {/* Additional Images */}
-          <div className="mb-6">
-            <h2 className={`${labelClass}`}>Add More Pictures</h2>
-
-            {petBioPictureSrcList ? (
-              <ViewMultiPicture picture_src_list={petBioPictureSrcList || ""} />
-            ) : (
-              ""
-            )}
-
-            <MultiPictureUploder
-              id={petProfile?.id}
-              pictureType="pet_pictures"
-              onUpload={handleMultiUpload}
-            />
-            {petBioPictureSrcList ? (
-              <ViewMultiPicture picture_src_list={petBioPictureSrcList || ""} />
-            ) : (
-              ""
-            )}
-          </div>
         </div>
+
+        {/* Additional Images */}
+        <div className="mb-6">
+          <h2 className={`${labelClass}`}>Add More Pictures</h2>
+          {petBioPictureSrcList ? (
+            <ViewMultiPicture picture_src_list={petBioPictureSrcList || ""} />
+          ) : (
+            ""
+          )}
+          <MultiPictureUploader
+            id={petProfile?.id}
+            pictureType="pet_pictures"
+            onUpload={handleMultiUpload}
+          />
+        </div>
+
+        {/* Save Button */}
         <div className="mb-6">
           <button
             type="submit"
-            className="shadow btn-primary focus:shadow-outline focus:outline-nonefont-bold py-2 4 text-sm rounded w-full sm:w-auto sm:mr-4 md:mr-6 md:w-48 md:py-3 md:px-8 mt-6"
+            className="shadow btn-primary focus:shadow-outline focus:outline-none font-bold py-2 px-4 text-sm rounded w-full sm:w-auto sm:mr-4 md:mr-6 md:w-48 md:py-3 md:px-8 mt-6"
             disabled={isLoading}
           >
             {isLoading
