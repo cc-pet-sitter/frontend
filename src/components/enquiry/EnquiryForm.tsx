@@ -273,19 +273,24 @@ const EnquiryForm: React.FC<EnquiryFormProps> = ({
             <h2 className="text-xl font-bold mb-4">
               {t("enquiryForm.loginRequired")}
             </h2>
-            <p className="text-gray-600 mb-6">{t("enquiryForm.explanation")}</p>
+            <p className="text-gray-600 mb-4">{t("enquiryForm.explanation")}</p>
             <button
               onClick={() => navigate("/login")}
-              className="shadow bg-blue-500 hover:bg-blue-400 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded"
+              className="btn-secondary py-2 w-24 rounded text-sm mb-4"
             >
               {t("enquiryForm.loginButton")}
             </button>
-            <button
-              onClick={() => navigate("/signup")}
-              className="shadow bg-green-500 hover:bg-green-400 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded"
-            >
-              {t("enquiryForm.signupButton")}
-            </button>
+            <div className="text-center">
+              <p className="text-gray-500 mb-2 text-sm">
+                {t("login.signupPrompt")}{" "}
+                <a
+                  onClick={() => navigate("/signup")}
+                  className="text-black underline cursor-pointer"
+                >
+                  {t("login.signupButton")}
+                </a>
+              </p>
+            </div>
           </div>
         ) : (
           <button
