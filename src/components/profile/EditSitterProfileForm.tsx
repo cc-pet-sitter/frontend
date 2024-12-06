@@ -138,7 +138,7 @@ const EditSitterProfileForm: React.FC<Props> = ({
   // const checkboxClass =
   //   "appearance-none block w-full text-gray-700  rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white";
   // const inputClass =
-  //   "appearance-none block w-full bg-gray-200 text-gray-700 border rounded py-3 px-4 text-lg　mb-2 leading-tight focus:outline-none focus:bg-white";
+  //   "appearance-none block w-full bg-gray-200 text-gray-700 border rounded py-3 px-4 text-lg mb-2 leading-tight focus:outline-none focus:bg-white";
   const checkboxLabelClass =
     "flex flex-col items-center justify-center p-4 text-gray-600 bg-white border-2 border-gray-300 rounded-lg cursor-pointer hover:bg-gray-50 peer-checked:border-blue-500 peer-checked:bg-blue-50";
   const labelClass = "block text-gray-700 text-lg font-bold mb-2";
@@ -345,18 +345,21 @@ const EditSitterProfileForm: React.FC<Props> = ({
         {/* Error Message for Services */}
         {/* {errors.sitter_house_ok || errors.owner_house_ok || errors.visit_ok ? ( */}
         <div className="mb-6">
-          <p className="text-red-500 text-xs italic">
+          <p className={`${labelClass} mb-3`}>
+            {t("dashboard_Sitter_Profile_page.type_service")}
+          </p>
+          {/* <p className="text-red-500 text-xs italic">
             {errors.sitter_house_ok?.message ||
               errors.owner_house_ok?.message ||
               errors.visit_ok?.message ||
               "Please select at least one service."}
-          </p>
+          </p> */}
           <ul className="grid grid-cols-3 gap-4">
             {serviceOptionsKey.map((service, index) => (
               <li key={service}>
                 <input
                   type="checkbox"
-                  id={`${service}_ok`}
+                  id={`${service}`}
                   className="hidden peer"
                   {...register(service, {
                     validate: () =>
@@ -365,7 +368,7 @@ const EditSitterProfileForm: React.FC<Props> = ({
                   })}
                 />
                 <label
-                  htmlFor={`${service}_ok`}
+                  htmlFor={`${service}`}
                   className={`${checkboxLabelClass} flex items-center`}
                 >
                   {service === "sitter_house_ok" && <LuSchool size="2em" />}
