@@ -8,8 +8,13 @@ import { PetProfileData } from "../../types/userProfile.ts";
 import ProfilePictureUploader from "../services/ProfilePictureUploader.tsx";
 import MultiPictureUploder from "../services/MultiPictureUploader.tsx";
 import ViewMultiPicture from "./ViewMultiPicture.tsx";
+
+import { LuDog, LuFish } from "react-icons/lu";
+import { PiBirdBold, PiCatBold, PiRabbitBold, PiDog  } from "react-icons/pi";
+
 import { TailSpin } from "react-loader-spinner";
-import { PiDog } from "react-icons/pi";
+i
+
 
 const apiURL: string = import.meta.env.VITE_API_BASE_URL;
 
@@ -19,6 +24,7 @@ type Props = {
 };
 
 const EditProfileForm: React.FC<Props> = ({ petProfile, onClose }) => {
+
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState<boolean>(false);
   const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -167,10 +173,11 @@ const EditProfileForm: React.FC<Props> = ({ petProfile, onClose }) => {
   const labelClass =
     "block tracking-wide text-gray-700 font-bold mb-2 mt-2 text-lg";
   const textAreaClass =
-    "appearance-none block w-full bg-gray-200 sm:w-full text-gray-700 border rounded py-2 px-4 md:px-6 md:py-3 leading-tight focus:outline-none focus:bg-white sm:mx-0 sm:-mr-4 shadow-md";
-
+    "appearance-none block w-full bg-gray-200 sm:w-full text-gray-700 border rounded py-2 px-4 md:px-6 md:py-3 leading-tight focus:outline-none focus:bg-white sm:mx-0  shadow-md";
+  const checkboxLabelClass =
+    "flex flex-col items-center justify-center p-4 text-gray-600 bg-white border-2 border-gray-300 rounded-lg cursor-pointer hover:bg-gray-50 peer-checked:border-blue-500 peer-checked:bg-blue-50";
   return (
-    <div className="flex justify-center p-8">
+    <div className="flex justify-center p-4">
       <form onSubmit={handleSubmit(onSubmit)} className="w-full max-w-lg">
         {error && <p className="text-red-500 text-xs italic">{error}</p>}
         {success && (
@@ -196,9 +203,11 @@ const EditProfileForm: React.FC<Props> = ({ petProfile, onClose }) => {
         </div>
 
         {/* Profile Picture */}
-        <div className="flex flex-col sm:flex-row items-center p-6">
-          {/* Pet Picture or Loader */}
-          <div className="relative h-48 w-48">
+
+       <div className="mb-6 ">
+          <p className={`${labelClass} mb-3`}>
+            {t("editPetProfileForm.profilePicture")}
+          </p>
             {/* Loader */}
             {!imageLoaded && (
               <div className="absolute inset-0 flex items-center justify-center bg-gray-200 rounded-full">
@@ -225,6 +234,7 @@ const EditProfileForm: React.FC<Props> = ({ petProfile, onClose }) => {
             ) : (
               <PiDog className="h-48 w-48 text-gray-400"/>
             )}
+
           </div>
 
           {/* ProfilePictureUploader Component */}
@@ -243,17 +253,28 @@ const EditProfileForm: React.FC<Props> = ({ petProfile, onClose }) => {
           <p className={`${labelClass} mb-3`}>
             {t("editPetProfileForm.typeOfPet")}
           </p>
-          {petOptions.map((pet) => (
-            <label key={pet.name} className={`${labelClass} flex items-center`}>
-              <input
-                type="radio"
-                {...register("type_of_animal")}
-                value={pet.name}
-                className="mr-2"
-              />
-              {t(`searchBar.petOptions.${pet.name}`)}
-            </label>
-          ))}
+          <ul className="grid grid-cols-3 gap-4">
+            {petOptions.map((pet) => (
+              <label
+                key={pet.name}
+                className={`${checkboxLabelClass} flex items-center`}
+              >
+                <input
+                  type="radio"
+                  {...register("type_of_animal")}
+                  value={pet.name}
+                  className="mb-2"
+                />
+
+                {pet.name === "dog" && <LuDog size="2em" />}
+                {pet.name === "cat" && <PiCatBold size="2em" />}
+                {pet.name === "fish" && <LuFish size="2em" />}
+                {pet.name === "bird" && <PiBirdBold size="2em" />}
+                {pet.name === "rabbit" && <PiRabbitBold size="2em" />}
+                <span>{t(`searchBar.petOptions.${pet.name}`)}</span>
+              </label>
+            ))}
+          </ul>
           {/* {errors.type_of_animal && (
               <p className="text-red-500 text-xs italic">
                 {errors.type_of_animal.message}
@@ -261,10 +282,58 @@ const EditProfileForm: React.FC<Props> = ({ petProfile, onClose }) => {
             )} */}
         </div>
 
-        <div className="flex flex-wrap  ">
+
+        {/* Name */}
+        <div className="mb-6">
+          <label className={labelClass} htmlFor="name">
+            {`${t("editPetProfileForm.name")}`}
+          </label>
+          <input
+            id="name"
+            type="text"
+            {...register("name", {
+              required: "Please enter a name.",
+            })}
+            className={inputClass}
+          />
+        </div>
+        {/* Birthday */}
+        <div className="mb-6">
+          <label className={labelClass} htmlFor="birthday">
+            {`${t("editPetProfileForm.birthday")}`}
+          </label>
+          <input
+            id="birthday"
+            type="date"
+            placeholder="2024/08/02"
+            {...register("birthday", {
+              setValueAs: (value) => (value === "" ? null : value),
+            })}
+            className={`${inputClass}`}
+          />
+        </div>
+
+        {/* <div className="flex flex-wrap  "> */}
+        {/* Weight */}
+        <div className="mb-6">
+          <label className={labelClass} htmlFor="weight">
+            {`${t("editPetProfileForm.weight")}`}
+          </label>
+          <input
+            id="weight"
+            type="number"
+            step="0.1"
+            {...register("weight", {
+              valueAsNumber: true,
+              setValueAs: (val) => (val ? null : val),
+            })}
+            className={inputClass}
+          />
+
+   
           {/* Name */}
-          <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
-            <label className={labelClass} htmlFor="name">
+         <div className="mb-6">
+          <label className={labelClass} htmlFor="name">
               {`${t("editPetProfileForm.name")}`}
             </label>
             <input
@@ -277,8 +346,8 @@ const EditProfileForm: React.FC<Props> = ({ petProfile, onClose }) => {
             />
           </div>
           {/* Birthday */}
-          <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
-            <label className={labelClass} htmlFor="birthday">
+           <div className="mb-6">
+          <label className={labelClass} htmlFor="birthday">
               {`${t("editPetProfileForm.birthday")}`}
             </label>
             <input
@@ -291,12 +360,12 @@ const EditProfileForm: React.FC<Props> = ({ petProfile, onClose }) => {
               className={`${inputClass}`}
             />
           </div>
-        </div>
 
-        <div className="flex flex-wrap  ">
+
+
           {/* Weight */}
-          <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
-            <label className={labelClass} htmlFor="weight">
+           <div className="mb-6">
+          <label className={labelClass} htmlFor="weight">
               {`${t("editPetProfileForm.weight")}`}
             </label>
             <input
@@ -322,52 +391,69 @@ const EditProfileForm: React.FC<Props> = ({ petProfile, onClose }) => {
               className={inputClass}
             />
           </div>
+
+ 
+        {/* Breed */}
+        <div className="mb-6">
+          <label className={labelClass} htmlFor="subtype">
+            {`${t("editPetProfileForm.breed")}`}
+          </label>
+          <input
+            id="subtype"
+            type="text"
+            {...register("subtype")}
+            className={inputClass}
+          />
         </div>
-        <div className="flex flex-wrap ">
-          {/* Allergies */}
-          <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
-            <label className={labelClass} htmlFor="known_allergies">
-              {`${t("editPetProfileForm.allergies")}`}
-            </label>
-            <input
-              id="known_allergies"
-              type="text"
-              {...register("known_allergies")}
-              className={inputClass}
-            />
-          </div>
-          {/* Medications */}
-          <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
-            <label className={labelClass} htmlFor="medications">
-              {`${t("editPetProfileForm.medications")}`}
-            </label>
-            <input
-              id="medications"
-              type="text"
-              {...register("medications")}
-              className={inputClass}
-            />
-          </div>
+
+        {/* Allergies */}
+        <div className="mb-6">
+          <label className={labelClass} htmlFor="known_allergies">
+            {`${t("editPetProfileForm.allergies")}`}
+          </label>
+          <input
+            id="known_allergies"
+            type="text"
+            {...register("known_allergies")}
+            className={inputClass}
+          />
+        </div>
+        {/* Medications */}
+        <div className="mb-6">
+          <label className={labelClass} htmlFor="medications">
+            {`${t("editPetProfileForm.medications")}`}
+          </label>
+          <input
+            id="medications"
+            type="text"
+            {...register("medications")}
+            className={inputClass}
+          />
         </div>
         <div className="mb-6">
           {/* Special needs */}
 
-          <div className="w-full px-3 mb-6 md:mb-0">
-            <label className={labelClass} htmlFor="special_needs">
-              {`${t("editPetProfileForm.specialNeeds")}`}
-            </label>
-            <textarea
-              className={textAreaClass}
-              id="special_needs"
-              rows={4}
-              cols={40}
-              {...register("special_needs")}
-            />
-          </div>
+          <label className={labelClass} htmlFor="special_needs">
+            {`${t("editPetProfileForm.specialNeeds")}`}
+          </label>
+          <textarea
+            className={textAreaClass}
+            id="special_needs"
+            rows={4}
+            cols={40}
+            {...register("special_needs")}
+          />
 
           {/* Additional Images */}
-          <div className="mt-6">
+          <div className="mb-6">
             <h2 className={`${labelClass}`}>Add More Pictures</h2>
+
+            {petBioPictureSrcList ? (
+              <ViewMultiPicture picture_src_list={petBioPictureSrcList || ""} />
+            ) : (
+              ""
+            )}
+
             <MultiPictureUploder
               id={petProfile?.id}
               pictureType="pet_pictures"
@@ -380,7 +466,7 @@ const EditProfileForm: React.FC<Props> = ({ petProfile, onClose }) => {
             )}
           </div>
         </div>
-        <div className="flex justify-center md:justify-end px-3">
+        <div className="mb-6">
           <button
             type="submit"
             className="shadow btn-primary focus:shadow-outline focus:outline-nonefont-bold py-2 4 text-sm rounded w-full sm:w-auto sm:mr-4 md:mr-6 md:w-48 md:py-3 md:px-8 mt-6"

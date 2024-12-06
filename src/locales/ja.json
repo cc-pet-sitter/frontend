@@ -36,14 +36,17 @@
   "dashboard_Sitter_Profile_page": {
     "title": "シッタープロフィール",
     "edit_button": "プロフィールを編集",
-    "edit_photo_profile": "Edit Photo",
-    "save_profile_button": "Save Profile",
-    "introduction": "Introduction",
-    "pet_service": "Pets you can sit",
-    "type_service": "Types of Service You Offer",
-    "availability": "Select Your Available Dates",
-    "update_availability": "Update Availability",
-    "additional_images": "Add More Pictures"
+    "edit_photo_profile": "Edit PhotoJ",
+    "save_profile_button": "Save ProfileJ",
+    "introduction": "IntroductionJ",
+    "pet_service": "Pets you can sitJ",
+    "type_service": "Types of Service You OfferJ",
+    "availability": "Select Your Available DatesJ",
+    "update_availability": "Update AvailabilityJ",
+    "additional_images": "Add More PicturesJ",
+    "pageEdited": "Profile updated successfullyJ",
+    "createHeader": "Become A SitterJ",
+    "createSubtitle": "Create your sitter profile to start offering services.J"
   },
   "dashboard_requests_page": {
     "title": "リクエスト",

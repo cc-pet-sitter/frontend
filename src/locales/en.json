@@ -43,7 +43,11 @@
     "type_service": "Types of Service You Offer",
     "availability": "Select Your Available Dates",
     "update_availability": "Update Availability",
-    "additional_images": "Add More Pictures"
+    "additional_images": "Add More Pictures",
+    "pageEdited": "Profile updated successfully",
+    "addMorePictures": "Add More Pictures",
+    "createHeader": "Become A Sitter",
+    "createSubtitle": "Create your sitter profile to start offering services."
   },
   "dashboard_requests_page": {
     "title": "Requests",

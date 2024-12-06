@@ -55,9 +55,9 @@ const EnquiryForm: React.FC<EnquiryFormProps> = ({
   const { t } = useTranslation();
 
   const inputClass =
-    "appearance-none block w-full bg-gray-200 text-gray-700 border rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white justify-center";
-  const labelClass =
-    "block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2";
+    "appearance-none block w-full bg-gray-200 text-gray-700 border rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white";
+
+  const labelClass = "block text-gray-700 text-sm font-bold mb-2";
 
   const petOptions = [
     { name: "dog", id: "1" },
@@ -151,16 +151,19 @@ const EnquiryForm: React.FC<EnquiryFormProps> = ({
   };
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className="w-full max-w-lg">
-      {error && <p className="text-red-500 text-xs italic">{error}</p>}
+    <form
+      onSubmit={handleSubmit(onSubmit)}
+      className="w-full max-w-lg p-8 bg-white shadow-md rounded-lg"
+    >
+      {error && <p className="text-red-500 text-sm italic mb-4">{error}</p>}
       {success && (
-        <p className="text-green-500 text-xs italic">
+        <p className="text-green-500 text-sm italic mb-4">
           Enquiry sent successfully!
         </p>
       )}
 
-      <div className="flex flex-wrap -mx-3 mb-6 ">
-        {/* start_date */}
+      <div className="flex flex-wrap -mx-3 mb-6">
+        {/* Start Date */}
         <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
           <label className={labelClass} htmlFor="start_date">
             {`${t("enquiryForm.startDate")}:`}
@@ -180,7 +183,8 @@ const EnquiryForm: React.FC<EnquiryFormProps> = ({
             </p>
           )}
         </div>
-        {/* end_date */}
+
+        {/* End Date */}
         <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
           <label className={labelClass} htmlFor="end_date">
             {`${t("enquiryForm.endDate")}:`}
@@ -204,15 +208,15 @@ const EnquiryForm: React.FC<EnquiryFormProps> = ({
 
       {/* Pets */}
       <div className="mb-6">
-        <p className={`${labelClass} mb-3`}>{`${t(
-          "enquiryForm.petToLookAfter"
-        )}:`}</p>
+        <p className={`${labelClass} mb-3`}>
+          {`${t("enquiryForm.petToLookAfter")}:`}
+        </p>
         {petOptions.map((pet) => (
           <label key={pet.id} className={`${labelClass} flex items-center`}>
             <input
               type="checkbox"
               {...register("pet_id_list")}
-              value={pet.id} // Use pet ID as the value
+              value={pet.id}
               className="mr-2"
             />
             {t(`searchBar.petOptions.${pet.name}`)}
@@ -225,11 +229,11 @@ const EnquiryForm: React.FC<EnquiryFormProps> = ({
         )}
       </div>
 
-      {/* Desired Service You Offer */}
+      {/* Desired Service */}
       <div className="mb-6">
-        <p className={`${labelClass} mb-3`}>{`${t(
-          "enquiryForm.desiredService"
-        )}:`}</p>
+        <p className={`${labelClass} mb-3`}>
+          {`${t("enquiryForm.desiredService")}:`}
+        </p>
         {serviceOptions.map((serviceOption) => (
           <label
             key={serviceOption.value}
@@ -240,10 +244,10 @@ const EnquiryForm: React.FC<EnquiryFormProps> = ({
               {...register("desired_service", {
                 required: "Please select a desired service.",
               })}
-              value={serviceOption.value} // Use exact enum value
+              value={serviceOption.value}
               className="mr-2"
             />
-            {serviceOption.label} {/* Display user-friendly label */}
+            {serviceOption.label}
           </label>
         ))}
         {errors.desired_service && (
@@ -269,20 +273,20 @@ const EnquiryForm: React.FC<EnquiryFormProps> = ({
 
       <div className="flex justify-center">
         {!currentUser ? (
-          <div className="w-full max-w-lg p-6 bg-white rounded-lg shadow-md text-center">
-            <h2 className="text-xl font-bold mb-4">
+          <div className="w-full max-w-lg p-6 bg-gray-100 rounded-lg text-center">
+            <h2 className="text-lg font-bold mb-4">
               {t("enquiryForm.loginRequired")}
             </h2>
             <p className="text-gray-600 mb-6">{t("enquiryForm.explanation")}</p>
             <button
               onClick={() => navigate("/login")}
-              className="shadow bg-blue-500 hover:bg-blue-400 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded"
+              className="shadow bg-blue-500 hover:bg-blue-400 text-white font-bold py-2 px-4 rounded mb-2"
             >
               {t("enquiryForm.loginButton")}
             </button>
             <button
               onClick={() => navigate("/signup")}
-              className="shadow bg-green-500 hover:bg-green-400 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded"
+              className="shadow bg-green-500 hover:bg-green-400 text-white font-bold py-2 px-4 rounded"
             >
               {t("enquiryForm.signupButton")}
             </button>
@@ -290,7 +294,7 @@ const EnquiryForm: React.FC<EnquiryFormProps> = ({
         ) : (
           <button
             type="submit"
-            className="shadow bg-gray-500 hover:bg-gray-400 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded"
+            className="shadow bg-gray-500 hover:bg-gray-400 text-white font-bold py-2 px-4 rounded"
             disabled={isLoading || !currentUser}
           >
             {isLoading ? "Sending..." : `${t("enquiryForm.submit")}`}

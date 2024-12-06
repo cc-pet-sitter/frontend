@@ -64,12 +64,12 @@ const DashboardPetsProfilePage: React.FC = () => {
         </div>
       ) : (
         <div className="my-6">
-          <h1 className="mx-6 mb-2 font-bold text-2xl">
-            {t("dashboard_pets_profile_page.title")}
-          </h1>
-
           {petProfiles?.length !== 0 ? (
             <>
+              <h1 className="mx-6 mb-2 font-bold text-2xl">
+                {t("dashboard_pets_profile_page.title")}
+              </h1>
+
               <div className="flex flex-col">
                 {petProfiles?.map((profile, index) => (
                   <div
@@ -77,6 +77,7 @@ const DashboardPetsProfilePage: React.FC = () => {
                     className="mx-6 my-3 border border-transparent shadow-custom rounded w-80 sm:w-100 p-4"
                   >
                     <div className="sm:mt-0 sm:ml-6 flex items-center justify-between gap-4">
+
                       <div className="relative h-20 w-20">
                         {/* Loader */}
                         {!imageLoaded && (
@@ -104,6 +105,7 @@ const DashboardPetsProfilePage: React.FC = () => {
                           <PiDog className="h-20 w-20 text-gray-400" />
                         )}
                       </div>                    
+
                       <div>
                         <h2 className="font-medium my-1 text-lg">
                           {profile.name}
@@ -147,15 +149,21 @@ const DashboardPetsProfilePage: React.FC = () => {
             </>
           ) : (
             <>
-              <p className="mx-6">
-                {t("dashboard_pets_profile_page.subtitle")}
-              </p>
-              <button
-                onClick={() => setShowEditProfileForm(true)}
-                className="m-6 shadow btn-primary focus:shadow-outline focus:outline-none font-bold py-2 px-4 rounded"
-              >
-                {t("dashboard_pets_profile_page.first_profile")}
-              </button>
+              <div className="flex flex-col items-center justify-center h-screen text-center">
+                <h1 className="mb-2 font-bold text-2xl">
+                  {t("dashboard_pets_profile_page.title")}
+                </h1>
+
+                <p className="mb-4">
+                  {t("dashboard_pets_profile_page.subtitle")}
+                </p>
+                <button
+                  onClick={() => setShowEditProfileForm(true)}
+                  className="shadow btn-primary focus:shadow-outline focus:outline-none font-bold py-2 px-4 rounded"
+                >
+                  {t("dashboard_pets_profile_page.first_profile")}
+                </button>
+              </div>
             </>
           )}
         </div>

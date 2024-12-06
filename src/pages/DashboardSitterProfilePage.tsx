@@ -253,16 +253,20 @@ const DashboardSitterProfilePage: React.FC = () => {
         </>
       ) : (
         <>
-          <h1 className="mx-6 mb-2 font-bold text-2xl">Become a Sitter</h1>
-          <p className="mx-6">
-            Create your sitter profile to start offering services.
-          </p>
-          <button
-            onClick={() => setShowEditProfileForm(true)}
-            className="m-6 shadow btn-primary focus:shadow-outline focus:outline-none font-bold py-2 px-4 rounded"
-          >
-            Create Profile
-          </button>
+          <div className="flex flex-col items-center justify-center h-screen text-center">
+            <h1 className="mb-2 font-bold text-2xl">
+              {t("dashboard_Sitter_Profile_page.createHeader")}
+            </h1>
+            <p className="mb-4">
+              {t("dashboard_Sitter_Profile_page.createSubtitle")}
+            </p>
+            <button
+              onClick={() => setShowEditProfileForm(true)}
+              className="shadow btn-primary focus:shadow-outline focus:outline-none font-bold py-2 px-4 rounded"
+            >
+              Create Profile
+            </button>
+          </div>
         </>
       )}
     </div>

@@ -8,6 +8,10 @@ import MultiPictureUploader from "../services/MultiPictureUploader";
 import ViewMultiPicture from "./ViewMultiPicture";
 import { Sitter } from "../../types/userProfile.ts";
 import AvailabilityManager from "../availability/AvailabilityManager.tsx";
+import { LuDog, LuFish, LuSchool } from "react-icons/lu";
+import { TbHomeFilled, TbHomeMove } from "react-icons/tb";
+import { PiRabbitBold, PiCatBold, PiBirdBold } from "react-icons/pi";
+
 const apiURL: string = import.meta.env.VITE_API_BASE_URL;
 
 type Props = {
@@ -127,10 +131,16 @@ const EditSitterProfileForm: React.FC<Props> = ({
 
   // Shared styles
   const textAreaClass =
-    "appearance-none block w-11/12 bg-gray-200 sm:w-full text-gray-700 border rounded py-2 px-4 md:px-6 md:py-3 leading-tight focus:outline-none focus:bg-white sm:mx-0 sm:-mr-4 shadow-md";
-  const labelClass =
-    "block tracking-wide text-gray-700 font-bold mb-2 mt-4 text-lg";
-  const inputClass = "block tracking-wide text-gray-700 mb-2 text-lg";
+    "appearance-none block bg-gray-200 sm:w-full text-gray-700 border rounded py-2 px-4 md:px-6 md:py-3 leading-tight focus:outline-none focus:bg-white sm:mx-0 sm:-mr-4 shadow-md";
+  // const inputClass =
+  // "appearance-none block w-full bg-gray-200 text-gray-700 border rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white";
+
+  // const checkboxClass =
+  //   "appearance-none block w-full text-gray-700  rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white";
+
+  const checkboxLabelClass =
+    "flex flex-col items-center justify-center p-4 text-gray-600 bg-white border-2 border-gray-300 rounded-lg cursor-pointer hover:bg-gray-50 peer-checked:border-blue-500 peer-checked:bg-blue-50";
+  const labelClass = "block text-gray-700 text-lg font-bold mb-2";
 
   const petOptions = ["Dog", "Cat", "Fish", "Bird", "Rabbit"];
   const petOptionsKey: Array<keyof Sitter> = [
@@ -148,34 +158,36 @@ const EditSitterProfileForm: React.FC<Props> = ({
   ];
 
   return (
-    <form
-      onSubmit={handleSubmit(onSubmit)}
-      className="w-full max-w-lg mx-4 my-4 sm:mx-20 lg:mx-30"
-    >
-      {error && <p className="text-red-500 text-xs italic">{error}</p>}
-      {success && (
-        <p className="text-green-500 text-xs italic">
-          Profile updated successfully!
-        </p>
-      )}
+    <div className="flex justify-center p-4">
+      <form
+        onSubmit={handleSubmit(onSubmit)}
+        className="w-full max-w-lg mx-4 my-4 sm:mx-20 lg:mx-30"
+      >
+        {error && <p className="text-red-500 text-xs italic">{error}</p>}
+        {success && (
+          <p className="text-green-500 text-xs italic">
+            {t("dashboard_Sitter_Profile_page.pageEdited")}
+          </p>
+        )}
 
-      <div className="mb-6">
-        <button
-          onClick={(e) => {
-            e.preventDefault();
-            closeEditForm();
-          }}
-          className="text-2xl my-8 mt-0"
-        >
-          <MdOutlineArrowBackIos />
-        </button>
+        <div className="mb-6">
+          <button
+            onClick={(e) => {
+              e.preventDefault();
+              closeEditForm();
+            }}
+            className="text-2xl my-8 mt-0"
+          >
+            <MdOutlineArrowBackIos />
+          </button>
 
-        <h1 className="mx-2 font-bold text-2xl inline">
-          {t("dashboard_Sitter_Profile_page.edit_button")}
-        </h1>
+          <h1 className="mx-2 font-bold text-2xl inline">
+            {t("dashboard_Sitter_Profile_page.edit_button")}
+          </h1>
 
-        {/* Profile Picture -> Taken from appuser profile picture */}
-        <div className="flex flex-col sm:flex-row items-center p-6">
+
+          {/* Profile Picture -> Taken from appuser profile picture */}
+            <div className="flex flex-col sm:flex-row items-center p-6">
           <img
             src={
               userInfo?.profile_picture_src ||
@@ -184,34 +196,91 @@ const EditSitterProfileForm: React.FC<Props> = ({
             alt={`${userInfo?.firstname} ${userInfo?.lastname}`}
             className="h-48 w-48 rounded-full object-cover"
           />
+          </div>
+
+          {/* Introduction */}
+          <div className="flex flex-col mt-4 items-start ">
+            <label
+              className={`${labelClass} flex items-center`}
+              htmlFor="introduction"
+            >
+              {t("dashboard_Sitter_Profile_page.introduction")}
+              <span className="text-red-500 ml-1">*</span>
+            </label>
+            <textarea
+              className={textAreaClass}
+              rows={4}
+              cols={40}
+              id="introduction"
+              {...register("sitter_profile_bio", {
+                required: "Please fill out your introduction.",
+              })}
+            />
+            {errors.sitter_profile_bio && (
+              <p className="text-red-500 text-xs italic">
+                {errors.sitter_profile_bio.message}
+              </p>
+            )}
+          </div>
+
         </div>
 
-        {/* Introduction */}
-        <div className="flex flex-col mt-4 items-start">
-          <label className={`${labelClass}`} htmlFor="introduction">
-            {t("dashboard_Sitter_Profile_page.introduction")}
-          </label>
-          <textarea
-            className={textAreaClass}
-            rows={4}
-            cols={40}
-            id="introduction"
-            {...register("sitter_profile_bio", {
-              required: "Please fill out your introduction.",
-            })}
-          />
-          {errors.sitter_profile_bio && (
+        {/* Pets */}
+        <div className="mb-6">
+          <p className={`${labelClass} mb-3`}>
+            {t("dashboard_Sitter_Profile_page.pet_service")}
+            <span className="text-red-500 ml-1">*</span>
+          </p>
+          <ul className="grid grid-cols-3 gap-4">
+            {petOptionsKey.map((pet, index) => (
+              <li key={pet}>
+                <input
+                  type="checkbox"
+                  id={`${pet}_ok`}
+                  className="hidden peer"
+                  {...register(pet, {
+                    validate: () =>
+                      validateAtLeastOneSelected(petOptionsKey) ||
+                      "Please select at least one pet.",
+                  })}
+                />
+                <label
+                  htmlFor={`${pet}_ok`}
+                  className={`${checkboxLabelClass} flex items-center`}
+                >
+                  {pet === "dogs_ok" && <LuDog size="2em" />}
+                  {pet === "cats_ok" && <PiCatBold size="2em" />}
+                  {pet === "fish_ok" && <LuFish size="2em" />}
+                  {pet === "birds_ok" && <PiBirdBold size="2em" />}
+                  {pet === "rabbits_ok" && <PiRabbitBold size="2em" />}
+                  <span>{petOptions[index]}</span>
+                </label>
+              </li>
+            ))}
+          </ul>
+          {errors.dogs_ok ||
+          errors.cats_ok ||
+          errors.fish_ok ||
+          errors.birds_ok ||
+          errors.rabbits_ok ? (
             <p className="text-red-500 text-xs italic">
-              {errors.sitter_profile_bio.message}
+              {errors.dogs_ok?.message ||
+                errors.cats_ok?.message ||
+                errors.fish_ok?.message ||
+                errors.birds_ok?.message ||
+                errors.rabbits_ok?.message ||
+                "Please select at least one pet."}
             </p>
-          )}
+          ) : null}
         </div>
+
       </div>
 
       {/* Pets */}
       <div className="mb-6">
         <p className={`${labelClass} mb-3`}>
           {t("dashboard_Sitter_Profile_page.pet_service")}
+                     <span className="text-red-500 ml-1">*</span>
         </p>
         {petOptionsKey.map((pet, index) => (
           <label
@@ -279,39 +348,80 @@ const EditSitterProfileForm: React.FC<Props> = ({
               errors.owner_house_ok?.message ||
               errors.visit_ok?.message ||
               "Please select at least one service."}
+
           </p>
-        ) : null}
-      </div>
+          <ul className="grid grid-cols-3 gap-4">
+            {serviceOptionsKey.map((service, index) => (
+              <li key={service}>
+                <input
+                  type="checkbox"
+                  id={`${service}_ok`}
+                  className="hidden peer"
+                  {...register(service, {
+                    validate: () =>
+                      validateAtLeastOneSelected(serviceOptionsKey) ||
+                      "Please select at least one service.",
+                  })}
+                />
+                <label
+                  htmlFor={`${service}_ok`}
+                  className={`${checkboxLabelClass} flex items-center`}
+                >
+                  {service === "sitter_house_ok" && <LuSchool size="2em" />}
+                  {service === "owner_house_ok" && <TbHomeFilled size="2em" />}
+                  {service === "visit_ok" && <TbHomeMove size="2em" />}
+                  <span>{serviceOptions[index]}</span>
+                </label>
+              </li>
+            ))}
+          </ul>
+          {/* Error Message for Services */}
+          {errors.sitter_house_ok ||
+          errors.owner_house_ok ||
+          errors.visit_ok ? (
+            <p className="text-red-500 text-xs italic">
+              {errors.sitter_house_ok?.message ||
+                errors.owner_house_ok?.message ||
+                errors.visit_ok?.message ||
+                "Please select at least one service."}
+            </p>
+          ) : null}
+        </div>
 
-      <div className="mt-6 -z-50">
-        <AvailabilityManager />
-      </div>
+        <div className="mt-6 -z-50">
+          <AvailabilityManager />
+        </div>
 
-      {/* Additional Pictures */}
-      <div className="mt-6">
-        <h2 className={`${labelClass}`}>Add More Pictures</h2>
-        {sitterBioPictureSrcList ? (
-          <ViewMultiPicture picture_src_list={sitterBioPictureSrcList || ""} />
-        ) : (
-          ""
-        )}
-        <MultiPictureUploader
-          id={userInfo?.id}
-          pictureType="sitter_pictures"
-          onUpload={handleMultiUpload}
-        />
-      </div>
+        {/* Additional Pictures */}
+        <div className="mt-6">
+          <h2 className={`${labelClass}`}>
+            {t("dashboard_Sitter_Profile_page.addMorePictures")}
+          </h2>
+          {sitterBioPictureSrcList ? (
+            <ViewMultiPicture
+              picture_src_list={sitterBioPictureSrcList || ""}
+            />
+          ) : (
+            ""
+          )}
+          <MultiPictureUploader
+            id={userInfo?.id}
+            pictureType="sitter_pictures"
+            onUpload={handleMultiUpload}
+          />
+        </div>
 
-      {/* Save Profile */}
-      <div className="flex justify-center md:justify-end ">
-        <button
-          type="submit"
-          className="shadow btn-primary focus:shadow-outline focus:outline-nonefont-bold py-2 px-4 text-sm rounded w-full mr-8 sm:w-auto sm:mr-4 md:mr-6 md:w-48 md:py-3 md:px-8 mt-6"
-        >
-          {t("dashboard_Sitter_Profile_page.save_profile_button")}
-        </button>
-      </div>
-    </form>
+        {/* Save Profile */}
+        <div className="flex justify-center md:justify-end ">
+          <button
+            type="submit"
+            className="shadow btn-primary focus:shadow-outline focus:outline-nonefont-bold py-2 px-4 text-sm rounded w-full mr-8 sm:w-auto sm:mr-4 md:mr-6 md:w-48 md:py-3 md:px-8 mt-6"
+          >
+            {t("dashboard_Sitter_Profile_page.save_profile_button")}
+          </button>
+        </div>
+      </form>
+    </div>
   );
 };
 
