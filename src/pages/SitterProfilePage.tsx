@@ -118,14 +118,21 @@ const SitterProfilePage: React.FC = () => {
               )}
             </div>
             <div className="mt-4 sm:mt-0 sm:ml-auto flex flex-col items-center">
-              <button
-                onClick={() => setShowEnquiryForm((prev: boolean) => !prev)}
-                className="btn-primary"
-              >
-                {showEnquiryForm
-                  ? t("sitterProfilePage.close")
-                  : t("sitterProfilePage.makeAnEnquiry")}
-              </button>
+              {showEnquiryForm ? (
+                <button
+                  onClick={() => setShowEnquiryForm((prev: boolean) => !prev)}
+                  className="btn-secondary text-sm py-1 px-2 "
+                >
+                  {t("sitterProfilePage.close")}
+                </button>
+              ) : (
+                <button
+                  onClick={() => setShowEnquiryForm((prev: boolean) => !prev)}
+                  className="btn-primary"
+                >
+                  {t("sitterProfilePage.makeAnEnquiry")}
+                </button>
+              )}
               {showEnquiryForm && (
                 <div className="mt-6 w-full sm:w-auto">
                   <EnquiryForm

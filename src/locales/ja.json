@@ -816,7 +816,9 @@
     "additionalInfo": "追加情報",
     "submit": "送信",
     "loginButton": "ログイン",
-    "signupButton": "サインアップ"
+    "signupButton": "サインアップ",
+    "loginRequired": "認証が必要です",
+    "explanation": "お問い合わせを送信するにはログインが必要です。続行するにはログインするかアカウントを作成してください。"
   },
   "login": {
     "title": "ログイン",
