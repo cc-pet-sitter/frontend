@@ -23,6 +23,12 @@ export default module.exports = withMT({
         prBtnText: "#333333",
         prBtnHover: "#f9b70c",
       },
+      width: {
+        full: "100%", // Ensure full width is 100% viewport width
+      },
+      maxWidth: {
+        none: "none", // Remove any default max width
+      },
     },
   },
 
