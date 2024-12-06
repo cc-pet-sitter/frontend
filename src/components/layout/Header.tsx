@@ -6,6 +6,13 @@ import { auth } from "../../firebase";
 import { useTranslation } from "react-i18next";
 import { ToggleButtonGroup, ToggleButton } from "@mui/material";
 import logoImage from "../../Images/mugi-logo-transparent.png";
+import {
+  Menu,
+  MenuHandler,
+  MenuList,
+  MenuItem,
+  Button,
+} from "@material-tailwind/react";
 
 const lngs: Record<string, { nativeName: string }> = {
   en: { nativeName: "English" },
@@ -153,6 +160,77 @@ const Header: React.FC = () => {
             ) : (
               <>
                 <div className="relative">
+                  <Menu>
+                    <MenuHandler>
+                      <Button className="cursor-pointer btn-secondary bg-#D87607 ">
+                        {userInfo?.firstname}
+                      </Button>
+                    </MenuHandler>
+                    <MenuList>
+                      <MenuItem>
+                        <Link
+                          to="/dashboard/account"
+                          // className="block px-4 hover:bg-gray-200 text-lg border-gray "
+                          onClick={toggleMenu}
+                        >
+                          {t("hamburger_menu.account")}
+                        </Link>
+                      </MenuItem>
+                      <MenuItem>
+                        <Link
+                          to="/dashboard/pets_profile"
+                          // className="block px-4 hover:bg-gray-200 text-lg py-2 border-gray "
+                          onClick={toggleMenu}
+                        >
+                          {t("hamburger_menu.pets_profile")}
+                        </Link>
+                      </MenuItem>
+                      <MenuItem>
+                        <Link
+                          to="/dashboard/bookings"
+                          // className="block px-4 hover:bg-gray-200 text-lg pb-4 border-b border-gray "
+                          onClick={toggleMenu}
+                        >
+                          {t("hamburger_menu.bookings")}
+                        </Link>
+                      </MenuItem>
+                      <hr className="my-3" />
+                      <MenuItem>
+                        <Link
+                          to="/dashboard/sitter_profile"
+                          // className="block px-4 hover:bg-gray-200 text-lg pb-2 pt-2 border-gray"
+                          onClick={toggleMenu}
+                        >
+                          {userInfo?.is_sitter
+                            ? t("hamburger_menu.sitter_profile")
+                            : t("hamburger_menu.become_sitter")}
+                        </Link>
+                      </MenuItem>
+                      {userInfo?.is_sitter && (
+                        <MenuItem>
+                          <Link
+                            to="/dashboard/requests"
+                            // className="block px-4 hover:bg-gray-200 text-lg pb-2 border-gray"
+                            onClick={toggleMenu}
+                          >
+                            {t("hamburger_menu.requests")}
+                          </Link>
+                        </MenuItem>
+                      )}
+                      <hr className="my-3" />
+                      <MenuItem>
+                        <button
+                          onClick={() => {
+                            handleLogout();
+                            toggleMenu();
+                          }}
+                          // className="w-full text-left px-4 pb-2 hover:bg-gray-200 text-lg pt-4 border-t flex"
+                        >
+                          {t("hamburger_menu.logout")}
+                        </button>
+                      </MenuItem>
+                    </MenuList>
+                  </Menu>
                   <span
                     ref={triggerRef}
                     onClick={() => setMenuOpen((prev) => !prev)}
