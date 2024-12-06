@@ -928,6 +928,10 @@
     "houseAndStreet": "番地と通り名",
     "profileUpdateSuccess": "プロフィールが正常に更新されました。",
     "save": "保存",
-    "saving": "節約"
+    "saving": "節約",
+    "selectPrefecture": "Select Prefecture",
+    "postalCodePlaceholder": "Postal code without hyphen (ex. 1234567)",
+    "postalCodeRequired": "Please enter your postal code.",
+    "postalCodeError": "Postal code must be exactly 7 digits"
   }
 }
