@@ -171,24 +171,24 @@ const DashboardRequestDetailPage: React.FC = () => {
 
   return (
     <div className="p-6">
-      <h2 className="font-bold text-2xl mb-4">Request Details</h2>
+      <h2 className="font-bold text-2xl mb-4">{t("request_details_page.page-title")}</h2>
 
       {/* Request Information */}
       <div className="mb-6">
-        <h3 className="font-semibold text-xl">Request Information</h3>
+        <h3 className="font-semibold text-xl">{t("request_details_page.section-title")}</h3>
         <p>
-          <strong>Service:</strong> {request.desired_service}
+          <strong>{t("request_details_page.service")}</strong> {request.desired_service}
         </p>
         <p>
-          <strong>Dates:</strong>{" "}
+          <strong>{t("request_details_page.dates")}</strong>{" "}
           {new Date(request.start_date).toLocaleDateString()} -{" "}
           {new Date(request.end_date).toLocaleDateString()}
         </p>
         <p>
-          <strong>Status:</strong> {request.inquiry_status}
+          <strong>{t("request_details_page.status")}</strong> {request.inquiry_status}
         </p>
         <p>
-          <strong>Message:</strong> {request.additional_info}
+          <strong>{t("request_details_page.comment")}</strong> {request.additional_info}
         </p>
       </div>
 
@@ -244,13 +244,13 @@ const DashboardRequestDetailPage: React.FC = () => {
             onClick={handleAccept}
             className="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded"
           >
-            Accept
+            {t("request_details_page.accept")}
           </button>
           <button
             onClick={handleReject}
             className="bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded"
           >
-            Reject
+            {t("request_details_page.reject")}
           </button>
         </div>
       )}
@@ -258,7 +258,7 @@ const DashboardRequestDetailPage: React.FC = () => {
       {/* Show updated status if the inquiry has been finalized */}
       {request.inquiry_status !== "requested" && (
         <p className="text-lg font-semibold mb-6">
-          This request has been {request.inquiry_status}.
+          {t("request_details_page.result")}{request.inquiry_status}
         </p>
       )}
 

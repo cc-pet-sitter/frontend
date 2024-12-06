@@ -60,9 +60,18 @@
     "submit": "送信する"
   },
   "request_details_page": {
+    "page-title": "リクエスト内容",
+    "section-title": "リクエスト詳細",
+    "service": "サービス：",
+    "dates": "日付：",
+    "status": "ステータス：",
+    "comment": "コメント：",
+    "accept": "承認する",
+    "reject": "却下する",
+    "result": "こちらのリクエストは",
     "convo": "メッセージ",
     "send": "送信",
-    "input-box": "メッセージを入力 (Shift+Enterで改行可)",
+    "input-box": "メッセージを入力",
     "chat-over": "これ以上メッセージを送ることはできません。"
   },
   "homePage": {

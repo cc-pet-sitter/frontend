@@ -208,17 +208,17 @@ const Conversation: React.FC<ConversationProps> = ({ inquiry }) => {
                     }
                   }}
                   placeholder={t("request_details_page.input-box")}
-                  className="flex-grow border rounded-l p-2 focus:outline-none focus:ring-2 focus:ring-orange-500 resize-none"
+                  className="text-sm flex-grow border rounded-l p-2 focus:outline-none focus:ring-2 focus:ring-orange-500 resize-none"
                   rows={4}
                 />
                 <button
                   onClick={sendMessage}
-                  className="bg-orange-500 hover:bg-orange-600 text-white font-bold py-2 px-4 rounded-r ml-2"
+                  className="btn-secondary py-2 px-4 rounded-r ml-2"
                   aria-label="Send message"
                 >
                   {t("request_details_page.send")}
                 </button>
-              </> : <p>{t("request_details_page.chat-over")}</p>
+              </> : <p className="text-sm text-gray-400">{t("request_details_page.chat-over")}</p>
             }
           </div>
         </div>
