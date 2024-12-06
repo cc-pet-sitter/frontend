@@ -3,6 +3,7 @@ import { useState } from "react";
 import Rating from "@mui/material/Rating";
 import { Inquiry, Review } from "../../types/userProfile";
 import { useAuth } from "../../contexts/AuthContext";
+import { useTranslation } from "react-i18next";
 
 const apiURL: string = import.meta.env.VITE_API_BASE_URL;
 
@@ -21,6 +22,8 @@ const WriteReview: React.FC<WriteReviewProps> = ({ booking, onClose, recipientTy
   const [ratingValue, setRatingValue] = useState<number | null>(null);
 
   const { currentUser } = useAuth();
+
+  const { t } = useTranslation();
 
   console.log(booking);
 
@@ -77,7 +80,7 @@ const WriteReview: React.FC<WriteReviewProps> = ({ booking, onClose, recipientTy
         className="w-full max-w-lg "
       >
         <div className="md:flex md:items-center">
-          <label className={`${labelClass} block`}>{"Give your rating:"}</label>
+          <label className={`${labelClass} block`}>{t("review_input_page.rating")}</label>
           <div className="md:w-1/2 flex justify-center py-6">
             <Rating
               name="simple-controlled"
@@ -90,7 +93,7 @@ const WriteReview: React.FC<WriteReviewProps> = ({ booking, onClose, recipientTy
         </div>
         <div className="mb-6">
           <label className={`${labelClass} block`} htmlFor="comment">
-            {"Comments:"}
+            {t("review_input_page.comment")}
           </label>
           <textarea
             id="comment"
@@ -104,7 +107,7 @@ const WriteReview: React.FC<WriteReviewProps> = ({ booking, onClose, recipientTy
         <div className="md:flex md:items-center">
           <div className="md:w-1/2 flex justify-center">
             <button type="submit" className="btn-primary">
-              {"Submit"}
+              {t("review_input_page.submit")}
             </button>
           </div>
         </div>

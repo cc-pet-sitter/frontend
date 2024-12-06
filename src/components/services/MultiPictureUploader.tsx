@@ -26,17 +26,19 @@ const MultiPictureUploader: React.FC<MultiPictureUploaderProps> = ({
   const [uploadProgress, setUploadProgress] = useState<number>(0);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
-  const VisuallyHiddenInput = styled("input")({
-    clip: "rect(0 0 0 0)",
-    clipPath: "inset(50%)",
-    height: 1,
-    overflow: "hidden",
-    position: "absolute",
-    bottom: 0,
-    left: 0,
-    whiteSpace: "nowrap",
-    width: 1,
-  });
+
+    const VisuallyHiddenInput = styled("input")({
+        clip: "rect(0 0 0 0)",
+        clipPath: "inset(50%)",
+        height: 1,
+        overflow: "hidden",
+        position: "absolute",
+        bottom: 0,
+        left: 0,
+        whiteSpace: "nowrap",
+        width: 1,
+    });
+
 
   const handleFileChange = async (fileList: FileList | null) => {
     if (!fileList || fileList.length === 0) {
@@ -106,26 +108,10 @@ const MultiPictureUploader: React.FC<MultiPictureUploaderProps> = ({
         variant="contained"
         startIcon={<CloudUploadIcon />}
         disabled={isUploading}
+
+        className="btn-secondary"
         aria-label="Add Photos"
-        sx={{
-          display: "flex",
-          alignItems: "center",
-          fontWeight: "500",
-          padding: "0.25rem 0.5rem",
-          fontSize: "0.875rem",
-          borderRadius: "0.25rem",
-          width: "auto",
-          marginTop: "1rem",
-          backgroundColor: "rgba(244, 157, 12, 0.3)",
-          color: "brown",
-          "&:hover": {
-            backgroundColor: "rgba(216, 118, 7, 0.3)",
-          },
-          "&:focus": {
-            outline: "2px solid transparent",
-            boxShadow: "0 0 0 3px rgba(66, 153, 225, 0.5)",
-          },
-        }}
+
       >
         {isUploading ? "Loading..." : "Add Images"}
         <VisuallyHiddenInput
@@ -161,9 +147,10 @@ const MultiPictureUploader: React.FC<MultiPictureUploaderProps> = ({
             {uploadProgress.toFixed(0)}%
           </p>
         </div>
-      )}
+
+    )};
     </div>
-  );
-};
+)};
+
 
 export default MultiPictureUploader;

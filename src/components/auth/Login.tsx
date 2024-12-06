@@ -171,7 +171,7 @@ const Login: React.FC = () => {
             {t("login.signupPrompt")}{" "}
             <a
               onClick={() => navigate("/signup")}
-              className="text-black underline"
+              className="text-black underline cursor-pointer"
             >
               {t("login.signupButton")}
             </a>

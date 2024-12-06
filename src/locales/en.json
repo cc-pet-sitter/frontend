@@ -28,10 +28,12 @@
   "dashboard_bookings_page": {
     "title": "Bookings",
     "no_bookings": "You have no bookings",
-    "booked_with_en": "Booked with",
+    "booked_with_en": "Requested to ",
     "booked_with_jp": "",
     "review": "Write Review",
-    "close_review": "Close"
+    "close_review": "Close",
+    "status": "Status: ",
+    "service": "Service: "
   },
   "dashboard_Sitter_Profile_page": {
     "title": "Your Sitter Profile",
@@ -56,7 +58,36 @@
     "requested_by_en": "Requested by",
     "requested_by_jp": ""
   },
+  "review_input_page": {
+    "rating": "Give your rating:",
+    "comment": "Comments:",
+    "submit": "Submit"
+  },
+  "request_details_page": {
+    "page-title": "Request Information",
+    "section-title": "Request Details",
+    "service": "Service: ",
+    "dates": "Dates: ",
+    "status": "Status: ",
+    "comment": "Comments: ",
+    "accept": "Accept",
+    "reject": "Reject",
+    "confirm-accept": "Are you sure you would like to accept this request?",
+    "confirm-reject": "Are you sure you would like to reject this request?",
+    "owner-title": "Owner Information",
+    "sitter-title": "Sitter Information",
+    "name": "Name:",
+    "email": "Email:",
+    "tap": "Tap to view full profile",
+    "result": "This request has been ",
+    "convo": "Conversation",
+    "send": "Send",
+    "input-box": "Type your message here",
+    "chat-over": "Further messaging has been disabled."
+  },
+  "user_profile_modal": {
 
+  },
   "homePage": {
     "title": "Find trusted pet sitters or list your services",
     "subtitle": "Connect with loving and reliable sitters near you",
@@ -928,6 +959,10 @@
     "houseAndStreet": "House No. and Street",
     "profileUpdateSuccess": "Profile updated successfully!",
     "save": "save",
-    "saving": "saving"
+    "saving": "saving",
+    "selectPrefecture": "Select Prefecture",
+    "postalCodePlaceholder": "Postal code without hyphen (ex. 1234567)",
+    "postalCodeRequired": "Please enter your postal code.",
+    "postalCodeError": "Postal code must be exactly 7 digits"
   }
 }

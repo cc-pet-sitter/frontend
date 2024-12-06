@@ -2,6 +2,7 @@ import React from "react";
 import { AppUser } from "../../types/userProfile";
 import Modal from "./Modal";
 import { MdClose } from "react-icons/md";
+import Rating from "@mui/material/Rating";
 
 interface UserProfileModalProps {
     isOpen: boolean;
@@ -10,6 +11,7 @@ interface UserProfileModalProps {
 }
 
 const UserProfileModal: React.FC<UserProfileModalProps> = ({ isOpen, onClose, user }) => {
+
     return (
         <Modal isOpen={isOpen} onClose={onClose}>
           <div className="p-6 max-h-screen overflow-y-auto">
@@ -20,34 +22,28 @@ const UserProfileModal: React.FC<UserProfileModalProps> = ({ isOpen, onClose, us
             >
               <MdClose size={24} />
             </button>
-            <h2 className="text-2xl font-semibold mb-4">User Profile</h2>
-            <div className="flex flex-col items-center">
+            <div className="flex flex-col items-center gap-1">
               {user.profile_picture_src ? (
                 <img
                   src={user.profile_picture_src}
                   alt={`${user.firstname} ${user.lastname}`}
-                  className="w-24 h-24 rounded-full mb-4 object-cover"
+                  className="w-32 h-32 rounded-full object-cover"
                 />
               ) : (
-                <div className="w-24 h-24 rounded-full bg-gray-300 mb-4 flex items-center justify-center">
+                <div className="w-32 h-32 rounded-full bg-gray-300 flex items-center justify-center">
                   <span className="text-xl text-white">
                     {user.firstname.charAt(0)}
                     {user.lastname.charAt(0)}
                   </span>
                 </div>
               )}
-              <p className="text-lg font-medium">
+              <p className="text-xl font-semibold">
                 {user.firstname} {user.lastname}
               </p>
-              <p className="text-gray-600 mb-4">{user.email}</p>
+              <Rating name="read-only" value={user.average_user_rating ? user.average_user_rating : 0} readOnly />
+              <p className="text-gray-600">{user.email}</p>
+              <p className="text-gray-600">{user.prefecture}, {user.city_ward}</p>
             </div>
-            {/* Add more profile details as needed */}
-            {user.profile_bio && (
-              <div className="mt-4">
-                <h3 className="text-xl font-semibold mb-2">About</h3>
-                <p>{user.profile_bio}</p>
-              </div>
-            )}
           </div>
         </Modal>
       );

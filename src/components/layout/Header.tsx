@@ -5,6 +5,7 @@ import { signOut } from "firebase/auth";
 import { auth } from "../../firebase";
 import { useTranslation } from "react-i18next";
 import { ToggleButtonGroup, ToggleButton } from "@mui/material";
+import logoImage from "../../Images/mugi-logo-transparent.png";
 
 const lngs: Record<string, { nativeName: string }> = {
   en: { nativeName: "English" },
@@ -88,7 +89,12 @@ const Header: React.FC = () => {
          text-xl font-bold"
         >
           <Link to="/" onClick={handleMenuClose}>
-            むぎ （Mugi）
+            <img
+              src={logoImage}
+              alt="Cute pets"
+              className="h-9 w-18"
+              // className="mt-8 my-2 mx-auto w-screen h-auto"
+            />
           </Link>
         </div>
         <div className="flex space-x-8">
