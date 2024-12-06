@@ -247,7 +247,7 @@ const EnquiryForm: React.FC<EnquiryFormProps> = ({
               value={serviceOption.value}
               className="mr-2"
             />
-            {serviceOption.label}
+            {t(`enquiryForm.${serviceOption.label}`)}
           </label>
         ))}
         {errors.desired_service && (
