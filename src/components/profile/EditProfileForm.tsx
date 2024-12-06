@@ -5,7 +5,12 @@ import { useTranslation } from "react-i18next";
 import { MdOutlineArrowBackIos } from "react-icons/md";
 import ProfilePictureUploader from "../services/ProfilePictureUploader";
 import { FaUserCircle } from "react-icons/fa";
-import { TailSpin } from 'react-loader-spinner'
+import { TailSpin } from 'react-loader-spinner';
+import { Pref, City } from "jp-zipcode-lookup";
+import LabelWithAsterisk from "../icons/LabelWithAsterisk";
+// import { cityOptions } from "../../options/Cities";
+// import { prefectureOptions } from "../../options/Prefectures";
+
 
 type Props = {
   closeEditForm: () => void;
@@ -31,7 +36,7 @@ const EditProfileForm: React.FC<Props> = ({ closeEditForm }) => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [imageLoaded, setImageLoaded] = useState<boolean>(false);
   
-  const { register, handleSubmit, reset } = useForm<EditProfileFormData>({
+  const { register, handleSubmit, reset, setValue } = useForm<EditProfileFormData>({
     shouldUseNativeValidation: true,
   });
   const { currentUser, userInfo } = useAuth();
@@ -55,11 +60,42 @@ const EditProfileForm: React.FC<Props> = ({ closeEditForm }) => {
         setImageLoaded(true);
       }
     }
-  }, [userInfo, reset]);
+  }, [userInfo, reset, profilePicture]);
+
+  // Handler for postal code changes
+  const handlePostalCodeChange = async (postalCode: string) => {
+    const cleanedPostalCode = postalCode.replace(/[^0-9]/g, ""); // Remove any non-numeric characters
+
+    if (!cleanedPostalCode || cleanedPostalCode.length !== 7) {
+      return;
+    }
+
+    try {
+      const prefecture = Pref.byZipcode(postalCode)[0]?.name;
+      const city = City.byZipcode(postalCode)[0]?.name;
+
+      if (prefecture) {
+        setValue("prefecture", prefecture); // Populate prefecture field
+      }
+      if (city) {
+        setValue("city_ward", city); // Populate city field
+      }
+    } catch (err) {
+      console.error("Failed to fetch address:", err);
+    }
+  };  
 
   const onSubmit = async (data: EditProfileFormData) => {
     setIsLoading(true);
     try {
+      // Clean the postal code to remove non-numeric characters
+      const cleanedPostalCode = data.postal_code.replace(/[^0-9]/g, "");
+
+      // Create a new data object with the cleaned postal code
+      const sanitizedData = {
+        ...data,
+        postal_code: cleanedPostalCode,
+      };
       const backendURL =
         import.meta.env.VITE_API_BASE_URL || "http://localhost:8000";
       const idToken = await currentUser?.getIdToken();
@@ -69,7 +105,7 @@ const EditProfileForm: React.FC<Props> = ({ closeEditForm }) => {
           "Content-Type": "application/json",
           Authorization: `Bearer ${idToken}`,
         },
-        body: JSON.stringify(data),
+        body: JSON.stringify(sanitizedData),
       });
 
       if (!response.ok) {
@@ -78,13 +114,10 @@ const EditProfileForm: React.FC<Props> = ({ closeEditForm }) => {
       }
 
       const updatedUser = await response.json();
-      console.log("Profile updated successfully:", updatedUser);
-
       setUserInfo(updatedUser);
 
       setSuccess(true);
       setError(null);
-
       closeEditForm();
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error: any) {
@@ -130,7 +163,7 @@ const EditProfileForm: React.FC<Props> = ({ closeEditForm }) => {
   const labelClass =
     "block tracking-wide text-gray-700 font-bold mb-2 mt-2 text-lg";
 
-  const prefectureOptions = ["Tokyo", "Saitama", "Chiba"];
+  // const prefectureOptions = ["Tokyo", "Saitama", "Chiba"];
 
   return (
     <div className="flex justify-center p-8">
@@ -204,7 +237,7 @@ const EditProfileForm: React.FC<Props> = ({ closeEditForm }) => {
           {/* First Name */}
           <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
             <label className={labelClass} htmlFor="firstName">
-              {`${t("editProfileForm.firstname")}`}
+              <LabelWithAsterisk text={t("editProfileForm.firstname")} required={true} />
             </label>
             <input
               id="firstName"
@@ -219,7 +252,7 @@ const EditProfileForm: React.FC<Props> = ({ closeEditForm }) => {
           {/* Last Name */}
           <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
             <label className={labelClass} htmlFor="lastName">
-              {`${t("editProfileForm.lastname")}`}
+              <LabelWithAsterisk text={t("editProfileForm.lastname")} required={true} />
             </label>
             <input
               id="lastName"
@@ -236,7 +269,7 @@ const EditProfileForm: React.FC<Props> = ({ closeEditForm }) => {
           {/* Email */}
           <div className="w-full px-3 mb-6 md:mb-0">
             <label className={labelClass} htmlFor="email">
-              {`${t("editProfileForm.email")}`}
+              <LabelWithAsterisk text={t("editProfileForm.email")} required={true} />
             </label>
             <input
               id="email"
@@ -251,18 +284,24 @@ const EditProfileForm: React.FC<Props> = ({ closeEditForm }) => {
         </div>
 
         <div className="flex flex-wrap -mx-3 mb-6">
-          {/* Postcode */}
+          {/* Postal Code */}
           <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
-            <label className={labelClass} htmlFor="postcode">
+            <label className={labelClass} htmlFor="postal_code">
               {`${t("editProfileForm.postCode")}`}
             </label>
             <input
-              id="postcode"
+              id="postal_code"
               type="text"
+              placeholder={`${t("editProfileForm.postalCodePlaceholder")}`}
               {...register("postal_code", {
-                required: "Please enter your postcode.",
+                // required: `${t("editProfileForm.postalCodeRequired")}`,
+                pattern: {
+                  value: /^[0-9]{7}$/, // Matches exactly 7 numeric digits
+                  message: `${t("editProfileForm.postalCodeError")}`,
+                },
               })}
               className={inputClass}
+              onChange={(e) => handlePostalCodeChange(e.target.value)}
             />
           </div>
 
@@ -271,20 +310,21 @@ const EditProfileForm: React.FC<Props> = ({ closeEditForm }) => {
             <label className={labelClass} htmlFor="prefecture">
               {`${t("editProfileForm.prefecture")}`}
             </label>
-            <select
+            <input
               id="prefecture"
-              {...register("prefecture", {
-                required: "Please select a prefecture.",
-              })}
+              type="text"
               className={`${inputClass} pr-8`}
-            >
-              <option value="">Select Prefecture</option>
+              {...register("prefecture", {
+                // required: "Please select a prefecture.",
+              })}
+            />
+              {/* <option value="">{t("editProfileForm.selectPrefecture")}</option>
               {prefectureOptions.map((pref) => (
                 <option key={pref} value={pref}>
                   {pref}
                 </option>
               ))}
-            </select>
+            </select> */}
           </div>
         </div>
 
@@ -292,14 +332,14 @@ const EditProfileForm: React.FC<Props> = ({ closeEditForm }) => {
           
           {/* City */}
           <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
-            <label className={labelClass} htmlFor="city">
+            <label className={labelClass} htmlFor="city_ward">
               {`${t("editProfileForm.cityWard")}`}
             </label>
             <input
-              id="city"
+              id="city_ward"
               type="text"
               {...register("city_ward", {
-                required: "Please enter a city.",
+                // required: "Please enter a city/ward.",
               })}
               className={inputClass}
             />
@@ -314,7 +354,7 @@ const EditProfileForm: React.FC<Props> = ({ closeEditForm }) => {
               id="street"
               type="text"
               {...register("street_address", {
-                required: "Please enter a street.",
+                // required: "Please enter a street.",
               })}
               className={inputClass}
             />

@@ -15,6 +15,8 @@ interface Availability {
   date: Date;
 }
 
+const labelClass = "block text-gray-700 text-lg font-bold mb-2";
+
 const AvailabilityManager: React.FC = () => {
   const { userInfo } = useAuth();
   const { t } = useTranslation();
@@ -134,24 +136,26 @@ const AvailabilityManager: React.FC = () => {
 
   return (
     <div className="mb-6 -z-50">
-      <label className="block tracking-wide text-gray-700 font-bold mb-2 mt-4 text-lg">
+      <label className={`${labelClass} mb-6`}>
         {t("dashboard_Sitter_Profile_page.availability")}
       </label>
       {loading ? (
         <p>{t("Loading")}...</p>
       ) : (
         <>
-          <Calendar
-            multiple
-            value={availabilities.map((item) => item.date)}
-            onChange={handleDateChange}
-            format="YYYY-MM-DD"
-            minDate={new Date()}
-            numberOfMonths={1} // Optional: Displays two months side by side
-            className="rmdp-mobile yellow"
-            sort
-          />
-          <div className="md:justify-end mt-4">
+          <div className="flex justify-center ">
+            <Calendar
+              multiple
+              value={availabilities.map((item) => item.date)}
+              onChange={handleDateChange}
+              format="YYYY-MM-DD"
+              minDate={new Date()}
+              numberOfMonths={1} // Optional: Displays two months side by side
+              className="rmdp-mobile yellow"
+              sort
+            />
+          </div>
+          <div className="flex justify-center md:justify-end mt-4">
             <button
               onClick={handleSave}
               className="flex items-center btn-secondary focus:shadow-outline focus:outline-none font-bold-none font-medium py-1 px-2 text-sm rounded w-auto mt-4 bg-[#f49d0c]/30 hover:bg-[#D87607]/30 text-brown"

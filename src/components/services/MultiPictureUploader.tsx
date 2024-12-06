@@ -26,17 +26,17 @@ const MultiPictureUploader: React.FC<MultiPictureUploaderProps> = ({
   const [uploadProgress, setUploadProgress] = useState<number>(0);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
-  const VisuallyHiddenInput = styled("input")({
-    clip: "rect(0 0 0 0)",
-    clipPath: "inset(50%)",
-    height: 1,
-    overflow: "hidden",
-    position: "absolute",
-    bottom: 0,
-    left: 0,
-    whiteSpace: "nowrap",
-    width: 1,
-  });
+    const VisuallyHiddenInput = styled("input")({
+        clip: "rect(0 0 0 0)",
+        clipPath: "inset(50%)",
+        height: 1,
+        overflow: "hidden",
+        position: "absolute",
+        bottom: 0,
+        left: 0,
+        whiteSpace: "nowrap",
+        width: 1,
+    });
 
   const handleFileChange = async (fileList: FileList | null) => {
     if (!fileList || fileList.length === 0) {
@@ -143,9 +143,7 @@ const MultiPictureUploader: React.FC<MultiPictureUploaderProps> = ({
             {uploadProgress.toFixed(0)}%
           </p>
         </div>
-      )}
-    </div>
-  );
+    );
 };
 
 export default MultiPictureUploader;

@@ -41,21 +41,22 @@ const SearchBar: React.FC<SearchBarProps> = ({ onSearchSubmit }) => {
   };
 
   const inputClass =
-    "appearance-none block w-full bg-gray-200 text-gray-700 border rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white";
-  const labelClass =
-    "block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2";
+    "appearance-none block w-full bg-gray-100 text-gray-800 border border-gray-300 rounded-md py-2 px-4 leading-tight focus:outline-none focus:bg-white focus:border-blue-500";
+  const labelClass = "block text-sm font-medium text-gray-700 mb-2";
+  const checkboxLabelClass =
+    "flex flex-col items-center justify-center p-4 text-gray-600 bg-white border-2 border-gray-300 rounded-lg cursor-pointer hover:bg-gray-50 peer-checked:border-blue-500 peer-checked:bg-blue-50";
 
   return (
-    <div className="flex justify-center p-8 ">
+    <div className="flex justify-center p-6">
       <form
         onSubmit={handleSubmit(onSearchSubmit)}
-        className="w-full max-w-lg "
+        className="w-full max-w-lg bg-white p-6 shadow-md rounded-lg"
       >
-        <div className="flex flex-wrap -mx-3 mb-6">
+        <div className="flex flex-wrap -mx-3 mb-4">
           {/* Prefecture Selection */}
-          <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
+          <div className="w-full md:w-1/2 px-3 mb-4 md:mb-0">
             <label className={labelClass} htmlFor="prefecture">
-              {t("searchBar.prefecture")}
+              {`${t("searchBar.prefecture")}:`}
             </label>
             <input
               id="prefecture"
@@ -63,7 +64,7 @@ const SearchBar: React.FC<SearchBarProps> = ({ onSearchSubmit }) => {
               {...register("prefecture")}
               onChange={handlePrefectureChange}
               placeholder={t("searchBar.selectPrefecture")}
-              className={`${inputClass} pr-8`}
+              className={inputClass}
             />
             <datalist id="prefecture-options">
               {prefectureOptions.map((pref) => (
@@ -75,16 +76,16 @@ const SearchBar: React.FC<SearchBarProps> = ({ onSearchSubmit }) => {
           </div>
 
           {/* City Selection */}
-          <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
+          <div className="w-full md:w-1/2 px-3 relative searchable-list">
             <label className={labelClass} htmlFor="city">
-              {t("searchBar.cityWard")}
+              {`${t("searchBar.cityWard")}:`}
             </label>
             <input
               id="city"
               list="city-options"
               {...register("city_ward")}
               placeholder={t("searchBar.enterCityWard")}
-              className={`${inputClass} pr-8`}
+              className={inputClass}
             />
             <datalist id="city-options">
               {(cityOptions[selectedPrefecture] || []).map((city) => (
@@ -96,193 +97,121 @@ const SearchBar: React.FC<SearchBarProps> = ({ onSearchSubmit }) => {
           </div>
         </div>
 
-        <div className="flex flex-wrap -mx-3 mb-6 ">
-          <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
-            {/* Your Pet */}
-            <p className={`${labelClass} mb-3`}>{t("searchBar.yourPet")}:</p>
-            <ul className="grid grid-cols-2 gap-6 md:grid-cols-2">
-              <li>
-                <input
-                  type="checkbox"
-                  id="dog"
-                  value=""
-                  className="hidden peer"
-                  {...register("dogs_ok")}
-                />
-                <label
-                  htmlFor="dog"
-                  className="flex flex-col items-center justify-center w-full p-5 text-gray-500 bg-white border-2 border-gray-200 rounded-lg cursor-pointer dark:hover:text-gray-300 dark:border-gray-700 peer-checked:border-blue-600 hover:text-gray-600 dark:peer-checked:text-gray-300 peer-checked:text-gray-600 hover:bg-gray-50 dark:text-gray-400 dark:bg-gray-800 dark:hover:bg-gray-700"
-                >
-                  <div className="flex flex-col items-center">
-                    <LuDog size="3em" />
-                    <div className="w-full text-lg text-center font-semibold">
-                      {t("searchBar.petOptions.dog")}
-                    </div>
-                  </div>
-                </label>
-              </li>
-              <li>
-                <input
-                  type="checkbox"
-                  id="cat"
-                  value=""
-                  className="hidden peer"
-                  {...register("cats_ok")}
-                />
-                <label
-                  htmlFor="cat"
-                  className="flex flex-col items-center justify-center w-full p-5 text-gray-500 bg-white border-2 border-gray-200 rounded-lg cursor-pointer dark:hover:text-gray-300 dark:border-gray-700 peer-checked:border-blue-600 hover:text-gray-600 dark:peer-checked:text-gray-300 peer-checked:text-gray-600 hover:bg-gray-50 dark:text-gray-400 dark:bg-gray-800 dark:hover:bg-gray-700"
-                >
-                  <div className="flex flex-col items-center">
-                    <PiCatBold size="3em" />
-                    <div className="w-full text-lg text-center font-semibold justify-center">
-                      {t("searchBar.petOptions.cat")}
-                    </div>
-                  </div>
-                </label>
-              </li>
-              <li>
-                <input
-                  type="checkbox"
-                  id="fish"
-                  value=""
-                  className="hidden peer"
-                  {...register("fish_ok")}
-                />
-                <label
-                  htmlFor="fish"
-                  className="flex flex-col items-center justify-center w-full p-5 text-gray-500 bg-white border-2 border-gray-200 rounded-lg cursor-pointer dark:hover:text-gray-300 dark:border-gray-700 peer-checked:border-blue-600 hover:text-gray-600 dark:peer-checked:text-gray-300 peer-checked:text-gray-600 hover:bg-gray-50 dark:text-gray-400 dark:bg-gray-800 dark:hover:bg-gray-700"
-                >
-                  <div className="flex flex-col items-center">
-                    <LuFish size="3em" />
-                    <div className="w-full text-lg text-center font-semibold">
-                      {t("searchBar.petOptions.fish")}
-                    </div>
-                  </div>
-                </label>
-              </li>
-              <li>
-                <input
-                  type="checkbox"
-                  id="bird"
-                  value=""
-                  className="hidden peer"
-                  {...register("birds_ok")}
-                />
-                <label
-                  htmlFor="bird"
-                  className="flex flex-col items-center justify-center w-full p-5 text-gray-500 bg-white border-2 border-gray-200 rounded-lg cursor-pointer dark:hover:text-gray-300 dark:border-gray-700 peer-checked:border-blue-600 hover:text-gray-600 dark:peer-checked:text-gray-300 peer-checked:text-gray-600 hover:bg-gray-50 dark:text-gray-400 dark:bg-gray-800 dark:hover:bg-gray-700"
-                >
-                  <div className="flex flex-col items-center">
-                    <PiBirdBold size="3em" />
-                    <div className="w-full text-lg text-center font-semibold">
-                      {t("searchBar.petOptions.bird")}
-                    </div>
-                  </div>
-                </label>
-              </li>
-              <li>
-                <input
-                  type="checkbox"
-                  id="rabbit"
-                  value=""
-                  className="hidden peer"
-                  {...register("rabbits_ok")}
-                />
-                <label
-                  htmlFor="rabbit"
-                  className="flex flex-col items-center justify-center w-full p-5 text-gray-500 bg-white border-2 border-gray-200 rounded-lg cursor-pointer dark:hover:text-gray-300 dark:border-gray-700 peer-checked:border-blue-600 hover:text-gray-600 dark:peer-checked:text-gray-300 peer-checked:text-gray-600 hover:bg-gray-50 dark:text-gray-400 dark:bg-gray-800 dark:hover:bg-gray-700"
-                >
-                  <div className="flex flex-col items-center">
-                    <PiRabbitBold size="3em" />
-                    <div className="w-full text-lg text-center font-semibold">
-                      {t("searchBar.petOptions.rabbit")}
-                    </div>
-                  </div>
-                </label>
-              </li>
-            </ul>
-          </div>
-          <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
-            {/* Type Of Service */}
-            <p className={`${labelClass} mb-3`}>
-              {t("searchBar.typeOfService")}:
-            </p>
-
-            <ul className="grid grid-cols-2 gap-6 md:grid-cols-2">
-              <li className="flex justify-center ">
-                <input
-                  type="checkbox"
-                  id="boarding"
-                  value=""
-                  className="hidden peer"
-                  {...register("sitter_house_ok")}
-                />
-                <label
-                  htmlFor="boarding"
-                  className="flex flex-col items-center justify-center w-full p-5 text-gray-500 bg-white border-2 border-gray-200 rounded-lg cursor-pointer dark:hover:text-gray-300 dark:border-gray-700 peer-checked:border-blue-600 hover:text-gray-600 dark:peer-checked:text-gray-300 peer-checked:text-gray-600 hover:bg-gray-50 dark:text-gray-400 dark:bg-gray-800 dark:hover:bg-gray-700"
-                >
-                  <div className="flex flex-col items-center">
-                    <LuSchool
-                      className="inline-flex justify-center"
-                      size="3em"
-                    />
-                    <div className="w-full text-lg text-center font-semibold">
-                      {t("searchBar.serviceOptions.boarding")}
-                    </div>
-                  </div>
-                </label>
-              </li>
-              <li className="flex justify-center">
-                <input
-                  type="checkbox"
-                  id="stayIn"
-                  value=""
-                  className="hidden peer"
-                  {...register("owner_house_ok")}
-                />
-                <label
-                  htmlFor="stayIn"
-                  className="flex flex-col items-center justify-center w-full p-5 text-gray-500 bg-white border-2 border-gray-200 rounded-lg cursor-pointer dark:hover:text-gray-300 dark:border-gray-700 peer-checked:border-blue-600 hover:text-gray-600 dark:peer-checked:text-gray-300 peer-checked:text-gray-600 hover:bg-gray-50 dark:text-gray-400 dark:bg-gray-800 dark:hover:bg-gray-700"
-                >
-                  <div className="flex flex-col items-center">
-                    <TbHomeFilled size="3em" />
-                    <div className="w-full text-lg text-center font-semibold">
-                      {t("searchBar.serviceOptions.stayIn")}
-                    </div>
-                  </div>
-                </label>
-              </li>
-              <li className="flex justify-center ">
-                <input
-                  type="checkbox"
-                  id="visit"
-                  value=""
-                  className="hidden peer"
-                  {...register("visit_ok")}
-                />
-                <label
-                  htmlFor="visit"
-                  className="flex flex-col items-center justify-center w-full p-5 text-gray-500 bg-white border-2 border-gray-200 rounded-lg cursor-pointer dark:hover:text-gray-300 dark:border-gray-700 peer-checked:border-blue-600 hover:text-gray-600 dark:peer-checked:text-gray-300 peer-checked:text-gray-600 hover:bg-gray-50 dark:text-gray-400 dark:bg-gray-800 dark:hover:bg-gray-700"
-                >
-                  <div className="flex flex-col items-center">
-                    <TbHomeMove size="3em" />
-                    <div className="w-full text-lg text-center font-semibold">
-                      {t("searchBar.serviceOptions.dropIn")}
-                    </div>
-                  </div>
-                </label>
-              </li>
-            </ul>
-          </div>
+        {/* Pet Options */}
+        <div className="mb-6">
+          <p className={labelClass}>{t("searchBar.yourPet")}:</p>
+          <ul className="grid grid-cols-3 gap-4">
+            <li>
+              <input
+                type="checkbox"
+                id="dog"
+                className="hidden peer"
+                {...register("dogs_ok")}
+              />
+              <label htmlFor="dog" className={checkboxLabelClass}>
+                <LuDog size="2em" />
+                <span>{t("searchBar.petOptions.dog")}</span>
+              </label>
+            </li>
+            <li>
+              <input
+                type="checkbox"
+                id="cat"
+                className="hidden peer"
+                {...register("cats_ok")}
+              />
+              <label htmlFor="cat" className={checkboxLabelClass}>
+                <PiCatBold size="2em" />
+                <span>{t("searchBar.petOptions.cat")}</span>
+              </label>
+            </li>
+            <li>
+              <input
+                type="checkbox"
+                id="fish"
+                className="hidden peer"
+                {...register("fish_ok")}
+              />
+              <label htmlFor="fish" className={checkboxLabelClass}>
+                <LuFish size="2em" />
+                <span>{t("searchBar.petOptions.fish")}</span>
+              </label>
+            </li>
+            <li>
+              <input
+                type="checkbox"
+                id="bird"
+                className="hidden peer"
+                {...register("birds_ok")}
+              />
+              <label htmlFor="bird" className={checkboxLabelClass}>
+                <PiBirdBold size="2em" />
+                <span>{t("searchBar.petOptions.bird")}</span>
+              </label>
+            </li>
+            <li>
+              <input
+                type="checkbox"
+                id="rabbit"
+                className="hidden peer"
+                {...register("rabbits_ok")}
+              />
+              <label htmlFor="rabbit" className={checkboxLabelClass}>
+                <PiRabbitBold size="2em" />
+                <span>{t("searchBar.petOptions.rabbit")}</span>
+              </label>
+            </li>
+          </ul>
         </div>
 
-        <div className="md:flex md:items-center">
-          <div className="md:w-1/2 flex justify-center ">
-            <button type="submit" className="btn-primary w-full">
-              {t("searchBar.search")}
-            </button>
-          </div>
+        {/* Service Options */}
+        <div className="mb-6">
+          <p className={labelClass}>{t("searchBar.typeOfService")}:</p>
+          <ul className="grid grid-cols-3 gap-4">
+            <li>
+              <input
+                type="checkbox"
+                id="boarding"
+                className="hidden peer"
+                {...register("sitter_house_ok")}
+              />
+              <label htmlFor="boarding" className={checkboxLabelClass}>
+                <LuSchool size="2em" />
+                <span>{t("searchBar.serviceOptions.boarding")}</span>
+              </label>
+            </li>
+            <li>
+              <input
+                type="checkbox"
+                id="stayIn"
+                className="hidden peer"
+                {...register("owner_house_ok")}
+              />
+              <label htmlFor="stayIn" className={checkboxLabelClass}>
+                <TbHomeFilled size="2em" />
+                <span>{t("searchBar.serviceOptions.stayIn")}</span>
+              </label>
+            </li>
+            <li>
+              <input
+                type="checkbox"
+                id="visit"
+                className="hidden peer"
+                {...register("visit_ok")}
+              />
+              <label htmlFor="visit" className={checkboxLabelClass}>
+                <TbHomeMove size="2em" />
+                <span>{t("searchBar.serviceOptions.dropIn")}</span>
+              </label>
+            </li>
+          </ul>
+        </div>
+
+        {/* Submit Button */}
+        <div className="flex justify-center">
+          <button type="submit" className={"btn-primary"}>
+            {t("searchBar.search")}
+          </button>
         </div>
       </form>
     </div>
