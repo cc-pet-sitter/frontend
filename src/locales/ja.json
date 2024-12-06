@@ -59,6 +59,12 @@
     "comment": "コメント",
     "submit": "送信する"
   },
+  "request_details_page": {
+    "convo": "メッセージ",
+    "send": "送信",
+    "input-box": "メッセージを入力 (Shift+Enterで改行可)",
+    "chat-over": "これ以上メッセージを送ることはできません。"
+  },
   "homePage": {
     "title": "信頼できるペットシッターをを見つけましょう",
     "subtitle": "あなたの大切なペットを安心して任せられるシッターとつながりましょう",

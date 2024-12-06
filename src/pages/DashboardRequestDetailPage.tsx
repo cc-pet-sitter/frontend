@@ -4,6 +4,7 @@ import { useAuth } from "../contexts/AuthContext";
 import { Inquiry, AppUser } from "../types/userProfile";
 import Conversation from "../components/chat/Conversation"; // We'll create this later
 import UserProfileModal from "../components/profile/UserProfileModal";
+import { useTranslation } from "react-i18next";
 const apiURL: string = import.meta.env.VITE_API_BASE_URL;
 
 const DashboardRequestDetailPage: React.FC = () => {
@@ -16,6 +17,8 @@ const DashboardRequestDetailPage: React.FC = () => {
 
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const [selectedUser, setSelectedUser] = useState<AppUser | null>(null);
+
+  const { t } = useTranslation();
 
   const handleUserClick = (user: AppUser) => {
     setSelectedUser(user);
@@ -261,7 +264,7 @@ const DashboardRequestDetailPage: React.FC = () => {
 
       {/* Conversation Component */}
       <div className="mb-6">
-        <h3 className="font-semibold text-xl">Conversation</h3>
+        <h3 className="font-semibold text-xl">{t("request_details_page.convo")}</h3>
         {userInfo?.id && <Conversation inquiry={request} />}
       </div>
     </div>

@@ -59,6 +59,12 @@
     "comment": "Comments:",
     "submit": "Submit"
   },
+  "request_details_page": {
+    "convo": "Conversation",
+    "send": "Send",
+    "input-box": "Type your message here... (Shift+Enter for new line)",
+    "chat-over": "Further messaging has been disabled."
+  },
   "homePage": {
     "title": "Find trusted pet sitters or list your services",
     "subtitle": "Connect with loving and reliable sitters near you",
