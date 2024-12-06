@@ -7,6 +7,7 @@ import ProfilePictureUploader from "../services/ProfilePictureUploader";
 import { FaUserCircle } from "react-icons/fa";
 import { TailSpin } from 'react-loader-spinner';
 import { Pref, City } from "jp-zipcode-lookup";
+import LabelWithAsterisk from "../icons/LabelWithAsterisk";
 // import { cityOptions } from "../../options/Cities";
 // import { prefectureOptions } from "../../options/Prefectures";
 
@@ -236,7 +237,7 @@ const EditProfileForm: React.FC<Props> = ({ closeEditForm }) => {
           {/* First Name */}
           <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
             <label className={labelClass} htmlFor="firstName">
-              {`${t("editProfileForm.firstname")}`}
+              <LabelWithAsterisk text={t("editProfileForm.firstname")} required={true} />
             </label>
             <input
               id="firstName"
@@ -251,7 +252,7 @@ const EditProfileForm: React.FC<Props> = ({ closeEditForm }) => {
           {/* Last Name */}
           <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
             <label className={labelClass} htmlFor="lastName">
-              {`${t("editProfileForm.lastname")}`}
+              <LabelWithAsterisk text={t("editProfileForm.lastname")} required={true} />
             </label>
             <input
               id="lastName"
@@ -268,7 +269,7 @@ const EditProfileForm: React.FC<Props> = ({ closeEditForm }) => {
           {/* Email */}
           <div className="w-full px-3 mb-6 md:mb-0">
             <label className={labelClass} htmlFor="email">
-              {`${t("editProfileForm.email")}`}
+              <LabelWithAsterisk text={t("editProfileForm.email")} required={true} />
             </label>
             <input
               id="email"
@@ -293,7 +294,7 @@ const EditProfileForm: React.FC<Props> = ({ closeEditForm }) => {
               type="text"
               placeholder={`${t("editProfileForm.postalCodePlaceholder")}`}
               {...register("postal_code", {
-                required: `${t("editProfileForm.postalCodeRequired")}`,
+                // required: `${t("editProfileForm.postalCodeRequired")}`,
                 pattern: {
                   value: /^[0-9]{7}$/, // Matches exactly 7 numeric digits
                   message: `${t("editProfileForm.postalCodeError")}`,
@@ -312,10 +313,10 @@ const EditProfileForm: React.FC<Props> = ({ closeEditForm }) => {
             <input
               id="prefecture"
               type="text"
-              {...register("prefecture", {
-                required: "Please select a prefecture.",
-              })}
               className={`${inputClass} pr-8`}
+              {...register("prefecture", {
+                // required: "Please select a prefecture.",
+              })}
             />
               {/* <option value="">{t("editProfileForm.selectPrefecture")}</option>
               {prefectureOptions.map((pref) => (
@@ -338,7 +339,7 @@ const EditProfileForm: React.FC<Props> = ({ closeEditForm }) => {
               id="city_ward"
               type="text"
               {...register("city_ward", {
-                required: "Please enter a city/ward.",
+                // required: "Please enter a city/ward.",
               })}
               className={inputClass}
             />
@@ -353,7 +354,7 @@ const EditProfileForm: React.FC<Props> = ({ closeEditForm }) => {
               id="street"
               type="text"
               {...register("street_address", {
-                required: "Please enter a street.",
+                // required: "Please enter a street.",
               })}
               className={inputClass}
             />

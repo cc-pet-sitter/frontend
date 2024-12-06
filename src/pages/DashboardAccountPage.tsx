@@ -74,7 +74,9 @@ const DashboardAccountPage: React.FC = () => {
                   <li>
                     <div>
                       <strong>{`${t("sitterProfilePage.location")}: `}</strong>
-                      {userInfo?.prefecture}, {userInfo?.city_ward}
+                      {userInfo?.prefecture || userInfo?.city_ward
+                        ? `${userInfo.prefecture || ""}${userInfo.prefecture && userInfo.city_ward ? ", " : ""}${userInfo.city_ward || ""}`
+                        : ""}
                     </div>
                   </li>
                   <li>
