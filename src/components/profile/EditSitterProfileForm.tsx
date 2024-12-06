@@ -340,6 +340,7 @@ const EditSitterProfileForm: React.FC<Props> = ({
         <div className="mb-6">
           <p className={`${labelClass} mb-3`}>
             {t("dashboard_Sitter_Profile_page.type_service")}
+            <span className="text-red-500 ml-1">*</span>
           </p>
           {/* <p className="text-red-500 text-xs italic">
             {errors.sitter_house_ok?.message ||

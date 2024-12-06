@@ -85,9 +85,7 @@
     "input-box": "Type your message here",
     "chat-over": "Further messaging has been disabled."
   },
-  "user_profile_modal": {
-
-  },
+  "user_profile_modal": {},
   "homePage": {
     "title": "Find trusted pet sitters or list your services",
     "subtitle": "Connect with loving and reliable sitters near you",
@@ -953,7 +951,7 @@
       "Okinawa": "Okinawa"
     },
     "cityWard": "City/Ward",
-    "languages": "languages",
+    "languages": "Languages",
     "english": "English ",
     "japanese": "Japanese ",
     "houseAndStreet": "House No. and Street",
