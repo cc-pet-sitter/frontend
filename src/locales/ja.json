@@ -54,6 +54,11 @@
     "requested_by_en": "",
     "requested_by_jp": "さんからのリクエスト"
   },
+  "review_input_page": {
+    "rating": "レビューを書く",
+    "comment": "コメント",
+    "submit": "送信する"
+  },
   "homePage": {
     "title": "信頼できるペットシッターをを見つけましょう",
     "subtitle": "あなたの大切なペットを安心して任せられるシッターとつながりましょう",

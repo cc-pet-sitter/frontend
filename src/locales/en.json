@@ -54,7 +54,11 @@
     "requested_by_en": "Requested by",
     "requested_by_jp": ""
   },
-
+  "review_input_page": {
+    "rating": "Give your rating:",
+    "comment": "Comments:",
+    "submit": "Submit"
+  },
   "homePage": {
     "title": "Find trusted pet sitters or list your services",
     "subtitle": "Connect with loving and reliable sitters near you",
