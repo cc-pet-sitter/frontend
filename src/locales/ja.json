@@ -29,9 +29,11 @@
     "title": "予約",
     "no_bookings": "予約はありません",
     "booked_with_en": "",
-    "booked_with_jp": "さんとの予約",
+    "booked_with_jp": "さんへの依頼",
     "review": "レビューを書く",
-    "close_review": "Close"
+    "close_review": "閉じる",
+    "status": "ステータス：",
+    "service": "サービス： "
   },
   "dashboard_Sitter_Profile_page": {
     "title": "シッタープロフィール",

@@ -28,10 +28,12 @@
   "dashboard_bookings_page": {
     "title": "Bookings",
     "no_bookings": "You have no bookings",
-    "booked_with_en": "Booked with",
+    "booked_with_en": "Requested to ",
     "booked_with_jp": "",
     "review": "Write Review",
-    "close_review": "Close"
+    "close_review": "Close",
+    "status": "Status: ",
+    "service": "Service: "
   },
   "dashboard_Sitter_Profile_page": {
     "title": "Your Sitter Profile",

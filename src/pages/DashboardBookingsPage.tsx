@@ -109,26 +109,31 @@ const DashboardBookingsPage: React.FC = () => {
                 className="mx-6 my-3 border border-transparent shadow-custom rounded w-72 px-4 py-2 relative"
               >
                 <Link to={`/dashboard/requests/${booking.id}`}>
-                  <h3 className="text-sm font-medium my-1">
-                    {t("dashboard_bookings_page.booked_with_en")}{" "}
-                    {sitterInfo[index].firstname}
-                    {t("dashboard_bookings_page.booked_with_jp")}
-                  </h3>
+                    <h3 className="text-sm font-medium my-1">
+                      {t("dashboard_bookings_page.booked_with_en")}{" "}
+                      {sitterInfo[index].firstname}
+                      {t("dashboard_bookings_page.booked_with_jp")}
+                    </h3>
+                  
+                  <p className="text-xs text-gray-500 my-1">
+                    {new Date(booking.start_date).toLocaleDateString("ja-JP")} -{" "}
+                    {new Date(booking.end_date).toLocaleDateString("ja-JP")}
+                  </p>
+                  <p className="text-xs text-gray-500 my-1">
+                    {
+                      t("dashboard_bookings_page.service") +
+                      desired_service[
+                        booking.desired_service as keyof typeof desired_service
+                      ]
+                    }
+                  </p>
+                  <p className="text-xs text-gray-500 my-1">
+                    {t("dashboard_bookings_page.status") + booking.inquiry_status}
+                  </p>
+                  <div className="absolute top-4 right-4 hover:text-lime-600">
+                    <FaRegMessage />
+                  </div>
                 </Link>
-                <p className="text-xs text-gray-500 my-1">
-                  {new Date(booking.start_date).toLocaleDateString("ja-JP")} -{" "}
-                  {new Date(booking.end_date).toLocaleDateString("ja-JP")}
-                </p>
-                <p className="text-xs text-gray-500 my-1">
-                  {
-                    desired_service[
-                      booking.desired_service as keyof typeof desired_service
-                    ]
-                  }
-                </p>
-                <p className="text-xs text-gray-500 my-1">
-                  {booking.inquiry_status}
-                </p>
                   {
                     booking.inquiry_status == "approved" ? 
                     <p className="text-xs text-brown underline my-1 cursor-pointer hover:text-lime-600"
@@ -138,9 +143,6 @@ const DashboardBookingsPage: React.FC = () => {
                     </p> 
                     : <p className="text-xs invisible">Unreviewed</p>
                   }
-                <div className="absolute top-4 right-4 hover:text-lime-600">
-                  <FaRegMessage />
-                </div>
               </div>
             ))}
         </div>

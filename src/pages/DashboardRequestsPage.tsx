@@ -106,26 +106,30 @@ const DashboardRequests: React.FC = () => {
                 className="mx-6 my-3 border border-transparent shadow-custom rounded w-72 px-4 py-2 relative"
               >
                 <Link to={`/dashboard/requests/${request.id}`}>
-                  <h3 className="text-sm font-medium my-1">
-                    {t("dashboard_requests_page.requested_by_en")}{" "}
-                    {ownerInfo[index].firstname}
-                    {t("dashboard_requests_page.requested_by_jp")}
-                  </h3>
+                    <h3 className="text-sm font-medium my-1">
+                      {t("dashboard_requests_page.requested_by_en")}{" "}
+                      {ownerInfo[index].firstname}
+                      {t("dashboard_requests_page.requested_by_jp")}
+                    </h3>
+                  <p className="text-xs text-gray-500 my-1">
+                    {new Date(request.start_date).toLocaleDateString("ja-JP")} -{" "}
+                    {new Date(request.end_date).toLocaleDateString("ja-JP")}
+                  </p>
+                  <p className="text-xs text-gray-500 my-1">
+                    {
+                      t("dashboard_bookings_page.service") +
+                      desired_service[
+                        request.desired_service as keyof typeof desired_service
+                      ]
+                    }
+                  </p>
+                  <p className="text-xs text-gray-500 my-1">
+                    {t("dashboard_bookings_page.status") + request.inquiry_status}
+                  </p>
+                  <div className="absolute top-4 right-4 hover:text-lime-600">
+                    <FaRegMessage />
+                  </div>
                 </Link>
-                <p className="text-xs text-gray-500 my-1">
-                  {new Date(request.start_date).toLocaleDateString("ja-JP")} -{" "}
-                  {new Date(request.end_date).toLocaleDateString("ja-JP")}
-                </p>
-                <p className="text-xs text-gray-500 my-1">
-                  {
-                    desired_service[
-                      request.desired_service as keyof typeof desired_service
-                    ]
-                  }
-                </p>
-                <p className="text-xs text-gray-500 my-1">
-                  {request.inquiry_status}
-                </p>
                 {
                   request.inquiry_status == "approved" ? 
                   <p className="text-xs text-brown underline my-1 cursor-pointer hover:text-lime-600"
@@ -135,9 +139,6 @@ const DashboardRequests: React.FC = () => {
                   </p> 
                   : <p className="text-xs invisible">Unreviewed</p>
                 }
-                <div className="absolute top-4 right-4 hover:text-lime-600">
-                  <FaRegMessage />
-                </div>
               </div>
             ))}
         </div>
