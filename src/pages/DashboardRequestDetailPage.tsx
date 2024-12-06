@@ -195,18 +195,17 @@ const DashboardRequestDetailPage: React.FC = () => {
       {/* Owner Information */}
       {isSitter && ownerInfo && (
         <div
-          className="mb-6 cursor-pointermb-6 border rounded-lg p-4 bg-white shadow-md cursor-pointer hover:bg-gray-100"
+          className="flex items-center justify-center gap-4 cursor-pointer mb-6 border rounded-lg p-2 bg-white shadow-md  hover:bg-gray-100"
           onClick={() => handleUserClick(ownerInfo)}
         >
-          <h3 className="font-semibold text-xl">{t("request_details_page.owner-title")}</h3>
           {ownerInfo.profile_picture_src ? (
                 <img
                   src={ownerInfo.profile_picture_src}
                   alt={`${ownerInfo.firstname} ${ownerInfo.lastname}`}
-                  className="w-24 h-24 rounded-full mb-4 object-cover"
+                  className="w-20 h-20 rounded-full object-cover"
                 />
               ) : (
-                <div className="w-24 h-24 rounded-full bg-gray-300 mb-4 flex items-center justify-center">
+                <div className="w-20 h-20 rounded-full bg-gray-300 flex items-center justify-center">
                   <span className="text-xl text-white">
                     {ownerInfo.firstname.charAt(0)}
                     {ownerInfo.lastname.charAt(0)}
@@ -214,31 +213,25 @@ const DashboardRequestDetailPage: React.FC = () => {
                 </div>
               )}
           <p>
-            <strong>{t("request_details_page.name")}</strong> {ownerInfo.firstname} {ownerInfo.lastname}
+            {ownerInfo.firstname} {ownerInfo.lastname}
           </p>
-          <p>
-            <strong>{t("request_details_page.email")}</strong> {ownerInfo.email}
-          </p>
-          {/* Add more owner details as needed */}
-          <p className="text-blue-500 mt-2">{t("request_details_page.tap")}</p>
         </div>
       )}
 
       {/* Sitter Information */}
       {isOwner && sitterInfo && (
         <div
-          className="mb-6 border rounded-lg p-4 bg-white shadow-md cursor-pointer hover:bg-gray-100"
+          className="flex items-center justify-center gap-4 mb-6 border rounded-lg p-2 bg-white shadow-md cursor-pointer hover:bg-gray-100"
           onClick={() => handleUserClick(sitterInfo)}
         >
-          <h3 className="font-semibold text-xl">t("request_details_page.sitter-title")</h3>
           {sitterInfo.profile_picture_src ? (
                 <img
                   src={sitterInfo.profile_picture_src}
                   alt={`${sitterInfo.firstname} ${sitterInfo.lastname}`}
-                  className="w-24 h-24 rounded-full mb-4 object-cover"
+                  className="w-20 h-20 rounded-full object-cover"
                 />
               ) : (
-                <div className="w-24 h-24 rounded-full bg-gray-300 mb-4 flex items-center justify-center">
+                <div className="w-20 h-20 rounded-full bg-gray-300 flex items-center justify-center">
                   <span className="text-xl text-white">
                     {sitterInfo.firstname.charAt(0)}
                     {sitterInfo.lastname.charAt(0)}
@@ -246,13 +239,8 @@ const DashboardRequestDetailPage: React.FC = () => {
                 </div>
               )}
           <p>
-            <strong>{t("request_details_page.name")}</strong> {sitterInfo.firstname} {sitterInfo.lastname}
+            {sitterInfo.firstname} {sitterInfo.lastname}
           </p>
-          <p>
-            <strong>{t("request_details_page.email")}</strong> {sitterInfo.email}
-          </p>
-          {/* Add more sitter details as needed */}
-          <p className="text-blue-500 mt-2">{t("request_details_page.tap")}</p>
         </div>
       )}
 
