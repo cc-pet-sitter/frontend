@@ -51,6 +51,9 @@ const EditProfileForm: React.FC<Props> = ({ closeEditForm }) => {
         japanese_ok: userInfo.japanese_ok || false,
         english_ok: userInfo.english_ok || false,
       });
+      if (!userInfo?.profile_picture_src && !profilePicture) {
+        setImageLoaded(true);
+      }
     }
   }, [userInfo, reset]);
 

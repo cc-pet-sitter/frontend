@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useAuth } from "../contexts/AuthContext";
 
 import { useTranslation } from "react-i18next";
@@ -13,6 +13,12 @@ const DashboardAccountPage: React.FC = () => {
   
   const { userInfo } = useAuth();
   const { t } = useTranslation();
+
+  useEffect(() => {
+    if (!userInfo?.profile_picture_src) {
+      setImageLoaded(true);
+    }
+  }, [userInfo]);
 
 
   return (
