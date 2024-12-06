@@ -10,10 +10,11 @@ import ProfilePictureUploader from "../services/ProfilePictureUploader.tsx";
 import ViewMultiPicture from "./ViewMultiPicture.tsx";
 
 import { LuDog, LuFish } from "react-icons/lu";
-import { PiBirdBold, PiCatBold, PiRabbitBold, PiDog } from "react-icons/pi";
+import { PiBirdBold, PiCatBold, PiRabbitBold } from "react-icons/pi";
 
 import { TailSpin } from "react-loader-spinner";
 import MultiPictureUploader from "../services/MultiPictureUploader.tsx";
+import { FaDog } from "react-icons/fa";
 
 const apiURL: string = import.meta.env.VITE_API_BASE_URL;
 
@@ -178,6 +179,7 @@ const EditProfileForm: React.FC<Props> = ({ petProfile, onClose }) => {
     "appearance-none block w-full bg-gray-200 sm:w-full text-gray-700 border rounded py-2 px-4 md:px-6 md:py-3 leading-tight focus:outline-none focus:bg-white sm:mx-0  shadow-md";
   const checkboxLabelClass =
     "flex flex-col items-center justify-center p-4 text-gray-600 bg-white border-2 border-gray-300 rounded-lg cursor-pointer hover:bg-gray-50 peer-checked:border-blue-500 peer-checked:bg-blue-50";
+
   return (
     <div className="flex justify-center p-4">
       <form onSubmit={handleSubmit(onSubmit)} className="w-full max-w-lg">
@@ -188,7 +190,7 @@ const EditProfileForm: React.FC<Props> = ({ petProfile, onClose }) => {
           </p>
         )}
 
-        <div className="flex flex-wrap -mx-3 mb-6">
+        <div className="mb-2">
           <button
             onClick={(e) => {
               e.preventDefault();
@@ -198,40 +200,41 @@ const EditProfileForm: React.FC<Props> = ({ petProfile, onClose }) => {
           >
             <MdOutlineArrowBackIos />
           </button>
-
-          <h1 className="mx-2 font-bold text-2xl inline">
-            {t("dashboard_account_page.edit_button")}
-          </h1>
         </div>
 
         {/* Profile Picture */}
         <div className="mb-6">
-          <p className={`${labelClass} mb-3`}>
+          {/* <p className={`${labelClass} mb-3`}>
             {t("editPetProfileForm.profilePicture")}
-          </p>
-          {!imageLoaded && (
-            <div className="absolute inset-0 flex items-center justify-center bg-gray-200 rounded-full">
-              <TailSpin
-                height="50"
-                width="50"
-                color="#fabe25"
-                ariaLabel="loading"
+          </p> */}
+          <div className="flex items-center justify-center pb-4">
+            {!imageLoaded && (
+              <div className="absolute inset-0 flex items-center justify-center bg-gray-200 rounded-full">
+                <TailSpin
+                  height="50"
+                  width="50"
+                  color="#fabe25"
+                  ariaLabel="loading"
+                />
+              </div>
+            )}
+
+            {petProfilePicture || petProfile?.profile_picture_src ? (
+              <img
+                src={petProfile?.profile_picture_src || petProfilePicture}
+                alt={petProfile?.name}
+                className={`h-48 w-48 rounded-full object-cover ${
+                  imageLoaded ? "block" : "hidden"
+                }`}
+                onLoad={() => setImageLoaded(true)}
+                onError={() => setImageLoaded(true)}
               />
-            </div>
-          )}
-          {petProfilePicture || petProfile?.profile_picture_src ? (
-            <img
-              src={petProfile?.profile_picture_src || petProfilePicture}
-              alt={petProfile?.name}
-              className={`h-48 w-48 rounded-full object-cover ${
-                imageLoaded ? "block" : "hidden"
-              }`}
-              onLoad={() => setImageLoaded(true)}
-              onError={() => setImageLoaded(true)}
-            />
-          ) : (
-            <PiDog className="h-48 w-48 text-gray-400" />
-          )}
+            ) : (
+              <div className="flex items-center justify-center bg-gray-300 h-48 w-48 rounded-full ">
+                <FaDog className="h-40 w-40" color="white" />
+              </div>
+            )}
+          </div>
           <ProfilePictureUploader
             id={petProfile?.id}
             pictureType="pet_pictures"

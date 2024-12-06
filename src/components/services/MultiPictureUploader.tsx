@@ -26,6 +26,7 @@ const MultiPictureUploader: React.FC<MultiPictureUploaderProps> = ({
   const [uploadProgress, setUploadProgress] = useState<number>(0);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
+
     const VisuallyHiddenInput = styled("input")({
         clip: "rect(0 0 0 0)",
         clipPath: "inset(50%)",
@@ -37,6 +38,7 @@ const MultiPictureUploader: React.FC<MultiPictureUploaderProps> = ({
         whiteSpace: "nowrap",
         width: 1,
     });
+
 
   const handleFileChange = async (fileList: FileList | null) => {
     if (!fileList || fileList.length === 0) {
@@ -106,8 +108,10 @@ const MultiPictureUploader: React.FC<MultiPictureUploaderProps> = ({
         variant="contained"
         startIcon={<CloudUploadIcon />}
         disabled={isUploading}
+
         className="btn-secondary"
         aria-label="Add Photos"
+
       >
         {isUploading ? "Loading..." : "Add Images"}
         <VisuallyHiddenInput
@@ -143,8 +147,10 @@ const MultiPictureUploader: React.FC<MultiPictureUploaderProps> = ({
             {uploadProgress.toFixed(0)}%
           </p>
         </div>
+
     )};
     </div>
 )};
+
 
 export default MultiPictureUploader;

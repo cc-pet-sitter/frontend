@@ -160,10 +160,7 @@ const EditSitterProfileForm: React.FC<Props> = ({
 
   return (
     <div className="flex justify-center p-4">
-      <form
-        onSubmit={handleSubmit(onSubmit)}
-        className="w-full max-w-lg mx-4 my-4 sm:mx-20 lg:mx-30"
-      >
+      <form onSubmit={handleSubmit(onSubmit)} className="w-full max-w-lg">
         {error && <p className="text-red-500 text-xs italic">{error}</p>}
         {success && (
           <p className="text-green-500 text-xs italic">
@@ -171,7 +168,7 @@ const EditSitterProfileForm: React.FC<Props> = ({
           </p>
         )}
 
-        <div className="mb-6">
+        <div className="mb-2">
           <button
             onClick={(e) => {
               e.preventDefault();
@@ -182,12 +179,8 @@ const EditSitterProfileForm: React.FC<Props> = ({
             <MdOutlineArrowBackIos />
           </button>
 
-          <h1 className="mx-2 font-bold text-2xl inline">
-            {t("dashboard_Sitter_Profile_page.edit_button")}
-          </h1>
-
           {/* Profile Picture -> Taken from appuser profile picture */}
-          <div className="flex flex-col sm:flex-row items-center p-6">
+          <div className="flex items-center justify-center pb-4">
             <img
               src={
                 userInfo?.profile_picture_src ||
@@ -420,7 +413,7 @@ const EditSitterProfileForm: React.FC<Props> = ({
         <div className="flex justify-center md:justify-end ">
           <button
             type="submit"
-            className="shadow btn-primary focus:shadow-outline focus:outline-nonefont-bold py-2 px-4 text-sm rounded w-full mr-8 sm:w-auto sm:mr-4 md:mr-6 md:w-48 md:py-3 md:px-8 mt-6"
+            className="shadow btn-primary focus:shadow-outline focus:outline-none font-bold py-2 px-4 text-sm rounded w-full sm:w-auto sm:mr-4 md:mr-6 md:w-48 md:py-3 md:px-8 mt-6"
           >
             {t("dashboard_Sitter_Profile_page.save_profile_button")}
           </button>
