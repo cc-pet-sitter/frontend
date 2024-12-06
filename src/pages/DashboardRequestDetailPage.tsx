@@ -2,8 +2,10 @@ import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { useAuth } from "../contexts/AuthContext";
 import { Inquiry, AppUser } from "../types/userProfile";
-import Conversation from "../components/chat/Conversation"; // We'll create this later
+import Conversation from "../components/chat/Conversation";
 import UserProfileModal from "../components/profile/UserProfileModal";
+import { useTranslation } from "react-i18next";
+
 const apiURL: string = import.meta.env.VITE_API_BASE_URL;
 
 const DashboardRequestDetailPage: React.FC = () => {
@@ -13,6 +15,7 @@ const DashboardRequestDetailPage: React.FC = () => {
   const [error, setError] = useState<string | null>(null);
   const { currentUser, userInfo } = useAuth();
   const { requestId } = useParams<{ requestId: string }>();
+  const { t } = useTranslation();
 
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const [selectedUser, setSelectedUser] = useState<AppUser | null>(null);
@@ -168,24 +171,28 @@ const DashboardRequestDetailPage: React.FC = () => {
 
   return (
     <div className="p-6">
-      <h2 className="font-bold text-2xl mb-4">Request Details</h2>
+      <h2 className="font-bold text-2xl mb-4">
+        {t("requestDetailPage.title")}
+      </h2>
 
       {/* Request Information */}
       <div className="mb-6">
-        <h3 className="font-semibold text-xl">Request Information</h3>
+        <h3 className="font-semibold text-xl">
+          {t("requestDetailPage.requestInformation")}
+        </h3>
         <p>
-          <strong>Service:</strong> {request.desired_service}
+          <strong>{t("requestDetailPage.service")}:</strong> {request.desired_service}
         </p>
         <p>
-          <strong>Dates:</strong>{" "}
+          <strong>{t("requestDetailPage.dates")}:</strong>{" "}
           {new Date(request.start_date).toLocaleDateString()} -{" "}
           {new Date(request.end_date).toLocaleDateString()}
         </p>
         <p>
-          <strong>Status:</strong> {request.inquiry_status}
+          <strong>{t("requestDetailPage.status")}:</strong> {request.inquiry_status}
         </p>
         <p>
-          <strong>Message:</strong> {request.additional_info}
+          <strong>{t("requestDetailPage.message")}:</strong> {request.additional_info}
         </p>
       </div>
 
@@ -195,15 +202,15 @@ const DashboardRequestDetailPage: React.FC = () => {
           className="mb-6 cursor-pointermb-6 border rounded-lg p-4 bg-white shadow-md cursor-pointer hover:bg-gray-100"
           onClick={() => handleUserClick(ownerInfo)}
         >
-          <h3 className="font-semibold text-xl">Owner Information</h3>
+          <h3 className="font-semibold text-xl">{t("requestDetailPage.ownerInformation")}</h3>
           <p>
-            <strong>Name:</strong> {ownerInfo.firstname} {ownerInfo.lastname}
+            <strong>{t("requestDetailPage.ownerName")}:</strong> {ownerInfo.firstname} {ownerInfo.lastname}
           </p>
           <p>
-            <strong>Email:</strong> {ownerInfo.email}
+            <strong>{t("requestDetailPage.ownerEmail")}:</strong> {ownerInfo.email}
           </p>
           {/* Add more owner details as needed */}
-          <p className="text-blue-500 mt-2">Tap to view full profile</p>
+          <p className="text-blue-500 mt-2">{t("requestDetailPage.ownerMore")}</p>
         </div>
       )}
 
@@ -213,15 +220,15 @@ const DashboardRequestDetailPage: React.FC = () => {
           className="mb-6 border rounded-lg p-4 bg-white shadow-md cursor-pointer hover:bg-gray-100"
           onClick={() => handleUserClick(sitterInfo)}
         >
-          <h3 className="font-semibold text-xl">Sitter Information</h3>
+          <h3 className="font-semibold text-xl">{t("requestDetailPage.sitterInformation")}</h3>
           <p>
-            <strong>Name:</strong> {sitterInfo.firstname} {sitterInfo.lastname}
+            <strong>{t("requestDetailPage.sitterName")}:</strong> {sitterInfo.firstname} {sitterInfo.lastname}
           </p>
           <p>
-            <strong>Email:</strong> {sitterInfo.email}
+            <strong>{t("requestDetailPage.sitterEmail")}:</strong> {sitterInfo.email}
           </p>
           {/* Add more sitter details as needed */}
-          <p className="text-blue-500 mt-2">Tap to view full profile</p>
+          <p className="text-blue-500 mt-2">{t("requestDetailPage.sitterMore")}</p>
         </div>
       )}
 
@@ -241,13 +248,13 @@ const DashboardRequestDetailPage: React.FC = () => {
             onClick={handleAccept}
             className="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded"
           >
-            Accept
+            {t("requestDetailPage.requestAccept")}
           </button>
           <button
             onClick={handleReject}
             className="bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded"
           >
-            Reject
+            {t("requestDetailPage.requestReject")}
           </button>
         </div>
       )}
@@ -255,13 +262,13 @@ const DashboardRequestDetailPage: React.FC = () => {
       {/* Show updated status if the inquiry has been finalized */}
       {request.inquiry_status !== "requested" && (
         <p className="text-lg font-semibold mb-6">
-          This request has been {request.inquiry_status}.
+          {t("requestDetailPage.requestResolution")} {request.inquiry_status}.
         </p>
       )}
 
       {/* Conversation Component */}
       <div className="mb-6">
-        <h3 className="font-semibold text-xl">Conversation</h3>
+        <h3 className="font-semibold text-xl">{t("requestDetailPage.conversation")}</h3>
         {userInfo?.id && <Conversation inquiry={request} />}
       </div>
     </div>

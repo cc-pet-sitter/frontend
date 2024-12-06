@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useAuth } from "../../contexts/AuthContext";
 import { Inquiry, Message } from "../../types/userProfile";
+import { useTranslation } from "react-i18next";
 
 const apiURL: string = import.meta.env.VITE_API_BASE_URL;
 
@@ -15,6 +16,8 @@ const Conversation: React.FC<ConversationProps> = ({ inquiry }) => {
 
     const [senderId, setSenderId] = useState<number | null>(null);
     const [receiverId, setReceiverId] = useState<number | null>(null);
+
+    const { t } = useTranslation();
 
     useEffect(() => {
         if (!userInfo) return;
@@ -204,7 +207,7 @@ const Conversation: React.FC<ConversationProps> = ({ inquiry }) => {
                       sendMessage();
                     }
                   }}
-                  placeholder="Type your message here... (Shift+Enter for new line)"
+                  placeholder={t("conversation.placeholder")}
                   className="flex-grow border rounded-l p-2 focus:outline-none focus:ring-2 focus:ring-orange-500 resize-none"
                   rows={4}
                 />
@@ -213,9 +216,9 @@ const Conversation: React.FC<ConversationProps> = ({ inquiry }) => {
                   className="bg-orange-500 hover:bg-orange-600 text-white font-bold py-2 px-4 rounded-r ml-2"
                   aria-label="Send message"
                 >
-                  Send
+                  {t("conversation.send")}
                 </button>
-              </> : <p>Further messaging has been disabled.</p>
+              </> : <p>{t("conversation.messageDisabled")}</p>
             }
           </div>
         </div>

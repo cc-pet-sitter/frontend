@@ -935,5 +935,30 @@
     "postalCodePlaceholder": "Postal code without hyphen (ex. 1234567)",
     "postalCodeRequired": "Please enter your postal code.",
     "postalCodeError": "Postal code must be exactly 7 digits"
+  },
+  "requestDetailPage": {
+    "title": "リクエスト詳細",
+    "requestInformation": "リクエスト情報",
+    "service": "サービス",
+    "dates": "日付",
+    "status": "ステータス",
+    "message": "メッセージ",
+    "ownerInformation": "オーナー情報",
+    "ownerName": "名前",
+    "ownerEmail": "メールアドレス",
+    "ownerMore": "オーナーの詳細プロフィールを見るにはタップしてください",
+    "sitterInformation": "シッター情報",
+    "sitterName": "名前",
+    "sitterEmail": "メールアドレス",
+    "sitterMore": "シッターの詳細プロフィールを見るにはタップしてください",
+    "requestAccept": "承認",
+    "requestReject": "拒否",
+    "conversation": "会話",
+    "requestResolution": "このリクエストは次のように解決されました: "
+  },
+    "conversation": {
+      "send": "送信",
+      "messageDisabled": "これ以上のメッセージ送信は無効です。",
+      "placeholder": "ここにメッセージを入力してください...(Shift+Enterで改行)"
   }
 }

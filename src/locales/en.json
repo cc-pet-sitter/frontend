@@ -933,5 +933,30 @@
     "postalCodePlaceholder": "Postal code without hyphen (ex. 1234567)",
     "postalCodeRequired": "Please enter your postal code.",
     "postalCodeError": "Postal code must be exactly 7 digits"
+  },
+  "requestDetailPage": {
+    "title": "Request Details",
+    "requestInformation": "Request Information",
+    "service": "Service",
+    "dates": "Dates",
+    "status": "Status",
+    "message": "Message",
+    "ownerInformation": "Owner Information",
+    "ownerName": "Name",
+    "ownerEmail": "Email",
+    "ownerMore": "Tap to view Owner full profile",
+    "sitterInformation": "Sitter Information",
+    "sitterName": "Name",
+    "sitterEmail": "Email",
+    "sitterMore": "Tap to view Sitter full profile",
+    "requestAccept": "Accept",
+    "requestReject": "Reject",
+    "conversation": "Conversation",
+    "requestResolution": "This request has been "
+  },
+  "conversation": {
+    "send": "Send",
+    "messageDisabled": "Further messaging has been disabled.",
+    "placeholder": "Type your message here... (Shift+Enter for new line)"
   }
 }
