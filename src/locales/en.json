@@ -848,7 +848,11 @@
     "loginButton": "Login",
     "signupButton": "Create account",
     "loginRequired": "Authentication Required",
-    "explanation": "You need to be logged in to submit an enquiry. Please log in or create an account to continue."
+    "explanation": "You need to be logged in to submit an enquiry. Please log in or create an account to continue.",
+    "boarding": "Boarding",
+    "stay-in": "Stay In",
+    "visit": "Visit",
+    "no-pets": "Please register your pets before proceeding"
   },
   "login": {
     "title": "Login",
