@@ -7,7 +7,8 @@ import PetProfile from "../components/profile/PetProfile";
 import { PetProfileData } from "../types/userProfile";
 import axiosInstance from "../api/axiosInstance";
 import { TailSpin } from "react-loader-spinner";
-import { PiDog } from "react-icons/pi";
+// import { PiDog } from "react-icons/pi";
+import { FaDog } from "react-icons/fa";
 
 const DashboardPetsProfilePage: React.FC = () => {
   const [petProfiles, setPetProfiles] = useState<Array<PetProfileData> | null>(
@@ -16,7 +17,7 @@ const DashboardPetsProfilePage: React.FC = () => {
   const [selectedPetProfile, setSelectedPetProfile] =
     useState<PetProfileData | null>(null);
   const [showEditProfileForm, setShowEditProfileForm] =
-      useState<boolean>(false);
+    useState<boolean>(false);
   const [showProfileView, setShowProfileView] = useState<boolean>(false);
   const [imageLoaded, setImageLoaded] = useState<boolean>(false);
 
@@ -77,7 +78,6 @@ const DashboardPetsProfilePage: React.FC = () => {
                     className="mx-6 my-3 border border-transparent shadow-custom rounded w-80 sm:w-100 p-4"
                   >
                     <div className="sm:mt-0 sm:ml-6 flex items-center justify-between gap-4">
-
                       <div className="relative h-20 w-20">
                         {/* Loader */}
                         {!imageLoaded && (
@@ -102,9 +102,9 @@ const DashboardPetsProfilePage: React.FC = () => {
                             onError={() => setImageLoaded(true)}
                           />
                         ) : (
-                          <PiDog className="h-20 w-20 text-gray-400" />
+                          <FaDog className="h-20 w-20 text-gray-400" />
                         )}
-                      </div>                    
+                      </div>
 
                       <div>
                         <h2 className="font-medium my-1 text-lg">
