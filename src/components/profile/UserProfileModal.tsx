@@ -2,6 +2,7 @@ import React from "react";
 import { AppUser } from "../../types/userProfile";
 import Modal from "./Modal";
 import { MdClose } from "react-icons/md";
+import { useTranslation } from "react-i18next";
 
 interface UserProfileModalProps {
     isOpen: boolean;
@@ -10,6 +11,8 @@ interface UserProfileModalProps {
 }
 
 const UserProfileModal: React.FC<UserProfileModalProps> = ({ isOpen, onClose, user }) => {
+  const { t } = useTranslation();
+
     return (
         <Modal isOpen={isOpen} onClose={onClose}>
           <div className="p-6 max-h-screen overflow-y-auto">
