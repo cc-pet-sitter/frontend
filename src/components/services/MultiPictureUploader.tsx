@@ -143,7 +143,8 @@ const MultiPictureUploader: React.FC<MultiPictureUploaderProps> = ({
             {uploadProgress.toFixed(0)}%
           </p>
         </div>
-    );
-};
+    )};
+    </div>
+)};
 
 export default MultiPictureUploader;
