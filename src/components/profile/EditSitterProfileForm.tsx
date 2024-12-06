@@ -185,16 +185,17 @@ const EditSitterProfileForm: React.FC<Props> = ({
             {t("dashboard_Sitter_Profile_page.edit_button")}
           </h1>
 
+
           {/* Profile Picture -> Taken from appuser profile picture */}
-          <div className="flex flex-col sm:flex-row items-center p-6">
-            <img
-              src={
-                userInfo?.profile_picture_src ||
-                "https://firebasestorage.googleapis.com/v0/b/petsitter-84e85.firebasestorage.app/o/user_profile_pictures%2Fdefault-profile.svg?alt=media&token=aa84dc5e-41e5-4f6a-b966-6a1953b25971"
-              }
-              alt={`${userInfo?.firstname} ${userInfo?.lastname}`}
-              className="h-48 w-48 rounded-full object-cover"
-            />
+            <div className="flex flex-col sm:flex-row items-center p-6">
+          <img
+            src={
+              userInfo?.profile_picture_src ||
+              "https://firebasestorage.googleapis.com/v0/b/petsitter-84e85.firebasestorage.app/o/user_profile_pictures%2Fdefault-profile.svg?alt=media&token=aa84dc5e-41e5-4f6a-b966-6a1953b25971"
+            }
+            alt={`${userInfo?.firstname} ${userInfo?.lastname}`}
+            className="h-48 w-48 rounded-full object-cover"
+          />
           </div>
 
           {/* Introduction */}
@@ -221,6 +222,7 @@ const EditSitterProfileForm: React.FC<Props> = ({
               </p>
             )}
           </div>
+
         </div>
 
         {/* Pets */}
@@ -272,11 +274,81 @@ const EditSitterProfileForm: React.FC<Props> = ({
           ) : null}
         </div>
 
-        {/* Types of Service You Offer */}
-        <div className="mb-6">
-          <p className={`${labelClass} mb-3`}>
-            {t("dashboard_Sitter_Profile_page.type_service")}
-            <span className="text-red-500 ml-1">*</span>
+      </div>
+
+      {/* Pets */}
+      <div className="mb-6">
+        <p className={`${labelClass} mb-3`}>
+          {t("dashboard_Sitter_Profile_page.pet_service")}
+                     <span className="text-red-500 ml-1">*</span>
+        </p>
+        {petOptionsKey.map((pet, index) => (
+          <label
+            key={pet}
+            className={`${inputClass} flex items-center`}
+            htmlFor={`${pet}_ok`}
+          >
+            <input
+              id={`${pet}_ok`}
+              type="checkbox"
+              {...register(pet, {
+                validate: () =>
+                  validateAtLeastOneSelected(petOptionsKey) ||
+                  "Please select at least one pet.",
+              })}
+              className="mr-2"
+            />
+            {petOptions[index]}
+          </label>
+        ))}
+        {errors.dogs_ok ||
+        errors.cats_ok ||
+        errors.fish_ok ||
+        errors.birds_ok ||
+        errors.rabbits_ok ? (
+          <p className="text-red-500 text-xs italic">
+            {errors.dogs_ok?.message ||
+              errors.cats_ok?.message ||
+              errors.fish_ok?.message ||
+              errors.birds_ok?.message ||
+              errors.rabbits_ok?.message ||
+              "Please select at least one pet."}
+          </p>
+        ) : null}
+      </div>
+
+      {/* Types of Service You Offer */}
+      <div className="mb-6">
+        <p className={`${labelClass} mb-3`}>
+          {t("dashboard_Sitter_Profile_page.type_service")}
+        </p>
+        {serviceOptionsKey.map((service, index) => (
+          <label
+            key={service}
+            className={`${inputClass} flex items-center`}
+            htmlFor={`${service}_ok`}
+          >
+            <input
+              id={`${service}_ok`}
+              type="checkbox"
+              {...register(service, {
+                validate: () =>
+                  validateAtLeastOneSelected(serviceOptionsKey) ||
+                  "Please select at least one service.",
+              })}
+              className="mr-2"
+            />
+            {serviceOptions[index]}
+          </label>
+        ))}
+        {/* Error Message for Services */}
+        {errors.sitter_house_ok || errors.owner_house_ok || errors.visit_ok ? (
+          <p className="text-red-500 text-xs italic">
+            {errors.sitter_house_ok?.message ||
+              errors.owner_house_ok?.message ||
+              errors.visit_ok?.message ||
+              "Please select at least one service."}
+
           </p>
           <ul className="grid grid-cols-3 gap-4">
             {serviceOptionsKey.map((service, index) => (

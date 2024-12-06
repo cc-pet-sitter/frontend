@@ -158,7 +158,7 @@ const AvailabilityManager: React.FC = () => {
           <div className="flex justify-center md:justify-end mt-4">
             <button
               onClick={handleSave}
-              className="flex items-center btn-primary focus:shadow-outline focus:outline-none font-semibold py-1 px-3 text-sm rounded w-auto mt-4"
+              className="flex items-center btn-secondary focus:shadow-outline focus:outline-none font-bold-none font-medium py-1 px-2 text-sm rounded w-auto mt-4 bg-[#f49d0c]/30 hover:bg-[#D87607]/30 text-brown"
             >
               <MdUpdate className="mr-1" size={20} />
               {t("dashboard_Sitter_Profile_page.update_availability")}
@@ -166,7 +166,7 @@ const AvailabilityManager: React.FC = () => {
           </div>
           {error && <p className="text-red-500 text-xs italic mt-2">{error}</p>}
           {success && (
-            <p className="text-green-500 text-xs italic mt-2">
+            <p className="text-brown text-xs italic mt-2">
               {t("Availabilities updated successfully!")}
             </p>
           )}

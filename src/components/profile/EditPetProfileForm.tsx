@@ -8,8 +8,13 @@ import { PetProfileData } from "../../types/userProfile.ts";
 import ProfilePictureUploader from "../services/ProfilePictureUploader.tsx";
 import MultiPictureUploder from "../services/MultiPictureUploader.tsx";
 import ViewMultiPicture from "./ViewMultiPicture.tsx";
+
 import { LuDog, LuFish } from "react-icons/lu";
-import { PiBirdBold, PiCatBold, PiRabbitBold } from "react-icons/pi";
+import { PiBirdBold, PiCatBold, PiRabbitBold, PiDog  } from "react-icons/pi";
+
+import { TailSpin } from "react-loader-spinner";
+i
+
 
 const apiURL: string = import.meta.env.VITE_API_BASE_URL;
 
@@ -19,20 +24,19 @@ type Props = {
 };
 
 const EditProfileForm: React.FC<Props> = ({ petProfile, onClose }) => {
-  const { register, handleSubmit, reset, getValues, setValue } =
-    useForm<PetProfileData>({
-      shouldUseNativeValidation: true,
-    });
-  const { userInfo } = useAuth();
+
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState<boolean>(false);
   const [isLoading, setIsLoading] = useState<boolean>(false);
-  const [petProfilePicture, setPetProfilePicture] = useState<string | null>(
-    null
-  );
-  const [petBioPictureSrcList, setPetBioPictureSrcList] = useState<string>(
-    petProfile?.pet_bio_picture_src_list || ""
-  );
+  const [petProfilePicture, setPetProfilePicture] = useState<string | undefined>(undefined);
+  const [petBioPictureSrcList, setPetBioPictureSrcList] =
+    useState<string>(petProfile?.pet_bio_picture_src_list || "");
+  const [imageLoaded, setImageLoaded] = useState<boolean>(false);
+  
+  const { register, handleSubmit, reset, getValues, setValue } = useForm<PetProfileData>({
+    shouldUseNativeValidation: true,
+  });
+  const { userInfo } = useAuth();
   const { t } = useTranslation();
 
   // Pre-fill form if editing an existing pet profile
@@ -54,6 +58,12 @@ const EditProfileForm: React.FC<Props> = ({ petProfile, onClose }) => {
       setPetBioPictureSrcList(petProfile.pet_bio_picture_src_list || "");
     }
   }, [petProfile, reset]);
+
+  useEffect(() => {
+    if (!petProfilePicture && !petProfile?.profile_picture_src) {
+      setImageLoaded(true);
+    }
+  }, [petProfilePicture, petProfile]);
 
   const handleCreate = async (data: PetProfileData) => {
     console.log(data);
@@ -193,27 +203,49 @@ const EditProfileForm: React.FC<Props> = ({ petProfile, onClose }) => {
         </div>
 
         {/* Profile Picture */}
-        <div className="mb-6 ">
+
+       <div className="mb-6 ">
           <p className={`${labelClass} mb-3`}>
             {t("editPetProfileForm.profilePicture")}
           </p>
-          <div className="flex flex-col sm:flex-row items-center p-6">
-            <img
-              src={
-                petProfilePicture ||
-                petProfile?.profile_picture_src ||
-                "https://firebasestorage.googleapis.com/v0/b/petsitter-84e85.firebasestorage.app/o/user_profile_pictures%2Fdefault-profile.svg?alt=media&token=aa84dc5e-41e5-4f6a-b966-6a1953b25971"
-              }
-              alt={petProfile?.name}
-              className="h-48 w-48 rounded-full object-cover"
-            />
-            <ProfilePictureUploader
-              id={petProfile?.id}
-              pictureType="pet_pictures"
-              onUpload={handleUpload}
-              existingPictureUrl={petProfile?.profile_picture_src || ""}
-            />
+            {/* Loader */}
+            {!imageLoaded && (
+              <div className="absolute inset-0 flex items-center justify-center bg-gray-200 rounded-full">
+                <TailSpin
+                  height="50"
+                  width="50"
+                  color="#fabe25"
+                  ariaLabel="loading"
+                />
+              </div>
+            )}
+
+            {/* Pet Profile Picture */}
+            {petProfilePicture || petProfile?.profile_picture_src ? (
+              <img
+                src={petProfile?.profile_picture_src || petProfilePicture}
+                alt={petProfile?.name}
+                className={`h-48 w-48 rounded-full object-cover ${
+                  imageLoaded ? "block" : "hidden"
+                }`}
+                onLoad={() => setImageLoaded(true)}
+                onError={() => setImageLoaded(true)}
+              />
+            ) : (
+              <PiDog className="h-48 w-48 text-gray-400"/>
+            )}
+
           </div>
+
+          {/* ProfilePictureUploader Component */}
+          <ProfilePictureUploader
+            id={petProfile?.id}
+            pictureType="pet_pictures"
+            onUpload={(url: string) => {
+              handleUpload(url);
+              setImageLoaded(false); // Reset loader state for new image
+            }}
+          />
         </div>
 
         {/* Pets */}
@@ -249,6 +281,7 @@ const EditProfileForm: React.FC<Props> = ({ petProfile, onClose }) => {
               </p>
             )} */}
         </div>
+
 
         {/* Name */}
         <div className="mb-6">
@@ -296,7 +329,70 @@ const EditProfileForm: React.FC<Props> = ({ petProfile, onClose }) => {
             })}
             className={inputClass}
           />
-        </div>
+
+   
+          {/* Name */}
+         <div className="mb-6">
+          <label className={labelClass} htmlFor="name">
+              {`${t("editPetProfileForm.name")}`}
+            </label>
+            <input
+              id="name"
+              type="text"
+              {...register("name", {
+                required: "Please enter a name.",
+              })}
+              className={inputClass}
+            />
+          </div>
+          {/* Birthday */}
+           <div className="mb-6">
+          <label className={labelClass} htmlFor="birthday">
+              {`${t("editPetProfileForm.birthday")}`}
+            </label>
+            <input
+              id="birthday"
+              type="date"
+              placeholder="2024/08/02"
+              {...register("birthday", {
+                setValueAs: (value) => (value === "" ? null : value),
+              })}
+              className={`${inputClass}`}
+            />
+          </div>
+
+
+
+          {/* Weight */}
+           <div className="mb-6">
+          <label className={labelClass} htmlFor="weight">
+              {`${t("editPetProfileForm.weight")}`}
+            </label>
+            <input
+              id="weight"
+              type="number"
+              step="0.1"
+              {...register("weight", {
+                valueAsNumber: true,
+                setValueAs: (val) => (val ? null : val),
+              })}
+              className={inputClass}
+            />
+          </div>
+          {/* Breed */}
+          <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
+            <label className={labelClass} htmlFor="subtype">
+              {`${t("editPetProfileForm.breed")}`}
+            </label>
+            <input
+              id="subtype"
+              type="text"
+              {...register("subtype")}
+              className={inputClass}
+            />
+          </div>
+
+ 
         {/* Breed */}
         <div className="mb-6">
           <label className={labelClass} htmlFor="subtype">
@@ -351,16 +447,23 @@ const EditProfileForm: React.FC<Props> = ({ petProfile, onClose }) => {
           {/* Additional Images */}
           <div className="mb-6">
             <h2 className={`${labelClass}`}>Add More Pictures</h2>
+
             {petBioPictureSrcList ? (
               <ViewMultiPicture picture_src_list={petBioPictureSrcList || ""} />
             ) : (
               ""
             )}
+
             <MultiPictureUploder
               id={petProfile?.id}
               pictureType="pet_pictures"
               onUpload={handleMultiUpload}
             />
+            {petBioPictureSrcList ? (
+              <ViewMultiPicture picture_src_list={petBioPictureSrcList || ""} />
+            ) : (
+              ""
+            )}
           </div>
         </div>
         <div className="mb-6">

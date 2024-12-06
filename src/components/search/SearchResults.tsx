@@ -43,24 +43,30 @@ const SearchResults: React.FC<SearchResultsProps> = ({ appUsers }) => {
             <div className="relative flex flex-col rounded-lg border border-slate-200 bg-white shadow-sm sm:flex-row sm:gap-6">
               <nav className="flex flex-col gap-1 p-4 sm:flex-row sm:items-center sm:p-6">
                 {/* Image */}
-                <div className="mr-0 mb-4 grid place-items-center sm:mr-6 sm:mb-0">
+                <div className="mr-0 mb-3 grid place-items-center sm:mr-6 sm:mb-0">
                   <img
                     alt="Petter Sitter Image"
                     src={ele.appuser.profile_picture_src}
                     className="h-32 w-32 rounded-full object-cover object-center sm:h-32 sm:w-32"
                   />
+                  <h2 className="text-2xl font-semibold mt-3 text-gray-800">
+                    {" "}
+                    {ele.appuser.firstname}
+                  </h2>
                 </div>
+
                 {/* Content */}
                 <div>
-                  <h6 className="text-slate-800 font-medium text-base sm:text-lg">
+                  <h6 className="text-gray-800 font-medium text-base sm:text-lg">
                     {ele.sitter.sitter_profile_bio}
                   </h6>
-                  <p className="text-slate-500 text-sm sm:text-base">
+                  <p className="text-gray-500 text-sm sm:text-base mt-3">
                     {ele.sitter?.visit_ok ||
                     ele.sitter?.sitter_house_ok ||
                     ele.sitter?.owner_house_ok ? (
                       <>
-                        {t("searchPage.available")}{" "}
+                        {t("searchPage.available")}
+                        {"  "}
                         {(() => {
                           const services = [
                             ele.sitter.sitter_house_ok &&
@@ -76,54 +82,58 @@ const SearchResults: React.FC<SearchResultsProps> = ({ appUsers }) => {
                                 services.slice(-1)
                             : services[0];
                         })()}
-                        .
                       </>
                     ) : (
                       t("searchPage.notAvailable")
                     )}
                   </p>
 
-                  <div className="pt-4 pb-4">
-                    <p className="text-slate-500 text-sm">
+                  <div className="pt-3 pb-4">
+                    <p className="text-gray-500 text-sm">
                       {ele.sitter.dogs_ok ? (
                         <>
-                          <Done /> {t("searchPage.dog")}
+                          <Done sx={{ fontSize: "20px" }} />{" "}
+                          {t("searchPage.dog")}
                         </>
                       ) : (
                         <>{/* <NotInterested /> {t("searchPage.dog")} */}</>
                       )}
                     </p>
-                    <p className="text-slate-500 text-sm">
+                    <p className="text-gray-500 text-sm">
                       {ele.sitter.cats_ok ? (
                         <>
-                          <Done /> {t("searchPage.cat")}
+                          <Done sx={{ fontSize: "20px" }} />{" "}
+                          {t("searchPage.cat")}
                         </>
                       ) : (
                         <>{/* <NotInterested /> {t("searchPage.cat")} */}</>
                       )}
                     </p>
-                    <p className="text-slate-500 text-sm">
+                    <p className="text-gray-500 text-sm">
                       {ele.sitter.fish_ok ? (
                         <>
-                          <Done /> {t("searchPage.fish")}
+                          <Done sx={{ fontSize: "20px" }} />{" "}
+                          {t("searchPage.fish")}
                         </>
                       ) : (
                         <>{/* <NotInterested /> {t("searchPage.fish")} */}</>
                       )}
                     </p>
-                    <p className="text-slate-500 text-sm">
+                    <p className="text-gray-500 text-sm">
                       {ele.sitter.birds_ok ? (
                         <>
-                          <Done /> {t("searchPage.bird")}
+                          <Done sx={{ fontSize: "20px" }} />{" "}
+                          {t("searchPage.bird")}
                         </>
                       ) : (
                         <>{/* <NotInterested /> {t("searchPage.bird")} */}</>
                       )}
                     </p>
-                    <p className="text-slate-500 text-sm">
+                    <p className="text-gray-500 text-sm">
                       {ele.sitter.rabbits_ok ? (
                         <>
-                          <Done /> {t("searchPage.rabbit")}
+                          <Done sx={{ fontSize: "20px" }} />{" "}
+                          {t("searchPage.rabbit")}
                         </>
                       ) : (
                         <>{/* <NotInterested /> {t("searchPage.rabbit")} */}</>

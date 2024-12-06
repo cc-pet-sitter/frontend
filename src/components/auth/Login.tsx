@@ -58,6 +58,8 @@ const Login: React.FC = () => {
       // Update AuthContext with userInfo
       setUserInfo(data);
 
+      // LOG FOR TEST
+      console.log(data);
       // Navigate to dashboard or home
       navigate("/");
       // eslint-disable-next-line @typescript-eslint/no-explicit-any

@@ -14,7 +14,7 @@ const ViewMultiPicture: React.FC<ViewMultiPictureProps> = ({ picture_src_list })
                 key={index}
                 src={url}
                 alt={`Picture ${index}`}
-                className="h-32 w-32 rounded-full object-cover m-2"
+                className="h-32 w-32 object-cover m-2"
             />
         ))}
         </div>

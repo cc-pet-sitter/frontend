@@ -1,69 +1,28 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useAuth } from "../contexts/AuthContext";
 
 import { useTranslation } from "react-i18next";
 import EditProfileForm from "../components/profile/EditProfileForm";
-import ProfilePictureUploader from "../components/services/ProfilePictureUploader";
+import { FaUserCircle } from "react-icons/fa";
+import { TailSpin } from 'react-loader-spinner'
+
 
 const DashboardAccountPage: React.FC = () => {
-  const { currentUser, userInfo, setUserInfo } = useAuth();
+  const [showSignUpForm, setShowSignUpForm] = useState<boolean>(false);
+  const [imageLoaded, setImageLoaded] = useState<boolean>(false);
+  
+  const { userInfo } = useAuth();
   const { t } = useTranslation();
 
-  const [showSignUpForm, setShowSignUpForm] = useState<boolean>(false);
-
-  const [profilePicture, setProfilePicture] = useState<string | null>(null);
-
-  const handleUpload = async (url: string) => {
-    setProfilePicture(url);
-
-    const idToken = await currentUser?.getIdToken();
-    const backendURL =
-      import.meta.env.VITE_API_BASE_URL || "http://localhost:8000";
-    const response = await fetch(`${backendURL}/appuser/${userInfo?.id}`, {
-      method: "PUT",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${idToken}`,
-      },
-      body: JSON.stringify({
-        id: userInfo?.id,
-        profile_picture_src: url,
-      }),
-    });
-
-    if (!response.ok) {
-      const data = await response.json();
-      throw new Error(data.detail || "Failed to save user profile picture.");
+  useEffect(() => {
+    if (!userInfo?.profile_picture_src) {
+      setImageLoaded(true);
     }
+  }, [userInfo]);
 
-    const updatedUser = await response.json();
-    setUserInfo(updatedUser);
-  };
 
   return (
     <div className="dashboard-container">
-      {/* <div>
-        <div>
-          <p>First name</p>
-          <p>{"firstname"}</p>
-        </div>
-        <div>
-          <p>Last name</p>
-          <p>{"lastname"}</p>
-        </div>
-        <div>
-          <p>Email address</p>
-          <p>{"email"}</p>
-        </div>
-        <div>
-          <p>Address</p>
-          <p>{"poatal_code, prefecture, city_ward, street_address"}</p>
-        </div>
-        <div>
-          <p>Languages</p>
-          <p>{"english, japanese"}</p>
-        </div>
-      </div> */}
       {!showSignUpForm && (
         <div>
           <div className="container mx-auto p-6">
@@ -73,27 +32,39 @@ const DashboardAccountPage: React.FC = () => {
             <div className="bg-white shadow-md rounded-lg overflow-hidden">
               {/* Profile Header */}
               <div className="flex flex-col sm:flex-row items-center p-6">
-                <img
-                  src={
-                    userInfo?.profile_picture_src ||
-                    profilePicture ||
-                    "https://firebasestorage.googleapis.com/v0/b/petsitter-84e85.firebasestorage.app/o/user_profile_pictures%2Fdefault-profile.svg?alt=media&token=aa84dc5e-41e5-4f6a-b966-6a1953b25971"
-                  }
-                  alt={`${userInfo?.firstname} ${userInfo?.lastname}`}
-                  className="h-48 w-48 rounded-full object-cover"
-                />
-                <ProfilePictureUploader
-                  id={userInfo?.id}
-                  pictureType="user_profile_pictures"
-                  onUpload={handleUpload}
-                  existingPictureUrl={userInfo?.profile_picture_src || ""}
-                />
+                <div className="relative h-48 w-48">
+                  {/* Loader */}
+                  {!imageLoaded && (
+                    <div className="absolute inset-0 flex items-center justify-center bg-gray-200 rounded-full">
+                      <TailSpin
+                        height="50"
+                        width="50"
+                        color="#fabe25"
+                        ariaLabel="loading"
+                      />
+                    </div>
+                  )}
+                  {/* Profile Picture */}
+                  {userInfo?.profile_picture_src ? (
+                    <img
+                      src={userInfo?.profile_picture_src}
+                      alt={`${userInfo?.firstname} ${userInfo?.lastname}`}
+                      className={`h-48 w-48 rounded-full object-cover ${
+                        imageLoaded ? "block" : "hidden"
+                      }`}
+                      onLoad={() => setImageLoaded(true)}
+                      onError={() => setImageLoaded(true)}
+                    />
+                  ) : (
+                    <FaUserCircle className="h-48 w-48 text-gray-400" />
+                  )}
+                </div>
                 <div className="mt-4 sm:mt-0 sm:ml-6 text-center sm:text-left">
                   <h1 className="text-2xl font-bold">{`${userInfo?.firstname} ${userInfo?.lastname}`}</h1>
                   <p className="text-gray-500">{userInfo?.email}</p>
                 </div>
-              </div>
-
+              </div>            
+              
               {/* Profile Details */}
               <div className="p-6 border-t">
                 <h2 className="text-lg font-semibold mb-4">
@@ -126,12 +97,6 @@ const DashboardAccountPage: React.FC = () => {
                       {userInfo?.japanese_ok ? "Japanese" : ""}{" "}
                     </div>
                   </li>
-                  {/* <li>
-                    <div>
-                      <strong>{`${t("sitterProfilePage.languages")}: `}</strong>
-                      {userInfo?.account_language}
-                    </div>
-                  </li> */}
                 </ul>
               </div>
 
