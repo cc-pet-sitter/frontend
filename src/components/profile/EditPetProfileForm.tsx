@@ -209,7 +209,7 @@ const EditProfileForm: React.FC<Props> = ({ petProfile, onClose }) => {
           </p> */}
           <div className="flex items-center justify-center pb-4">
             {!imageLoaded && (
-              <div className="absolute inset-0 flex items-center justify-center bg-gray-200 rounded-full">
+              <div className="flex items-center justify-center bg-gray-300 h-48 w-48 rounded-full ">
                 <TailSpin
                   height="50"
                   width="50"
