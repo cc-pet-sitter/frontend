@@ -1,9 +1,12 @@
 import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import { useAuth } from "../../contexts/AuthContext";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { PetServices, serviceOptions } from "../../enums/PetServices";
 import { useNavigate } from "react-router-dom";
+import axiosInstance from "../../api/axiosInstance";
+import { PetProfileData } from "../../types/userProfile";
+const apiURL: string = import.meta.env.VITE_API_BASE_URL;
 
 type EnquiryFormProps = {
   closeEnquiryForm: () => void;
@@ -50,6 +53,7 @@ const EnquiryForm: React.FC<EnquiryFormProps> = ({
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState<boolean>(false);
   const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [petOptions, setPetOptions] = useState<PetProfileData[]>([]);
   const navigate = useNavigate();
 
   const { t } = useTranslation();
@@ -59,13 +63,18 @@ const EnquiryForm: React.FC<EnquiryFormProps> = ({
 
   const labelClass = "block text-gray-700 text-sm font-bold mb-2";
 
-  const petOptions = [
-    { name: "dog", id: "1" },
-    { name: "cat", id: "2" },
-    { name: "fish", id: "3" },
-    { name: "bird", id: "4" },
-    { name: "rabbit", id: "5" },
-  ];
+  useEffect(() => {
+    handleGetPets();
+  }, [])
+
+  const handleGetPets = async () => {
+    try {
+      const response = await axiosInstance.get(`${apiURL}/appuser/${userInfo?.id}/pet`);
+      setPetOptions(response.data);
+    } catch (err) {
+      console.error(err);
+    } 
+  }
 
   const onSubmit = async (data: EnquiryFormData) => {
     setIsLoading(true);
@@ -88,7 +97,12 @@ const EnquiryForm: React.FC<EnquiryFormProps> = ({
       }
 
       // Serialize pet_id_list to a comma-separated string
-      const serializedPetIdList = data.pet_id_list.join(",");
+      let serializedPetIdList;
+      if (Array.isArray(data.pet_id_list)) {
+        serializedPetIdList = data.pet_id_list.join(",");
+      } else {
+        serializedPetIdList = data.pet_id_list; // expected to be a string of a single pet ID
+      }
 
       const payload = {
         owner_appuser_id: ownerAppUserId,
@@ -211,17 +225,21 @@ const EnquiryForm: React.FC<EnquiryFormProps> = ({
         <p className={`${labelClass} mb-3`}>
           {`${t("enquiryForm.petToLookAfter")}:`}
         </p>
-        {petOptions.map((pet) => (
-          <label key={pet.id} className={`${labelClass} flex items-center`}>
-            <input
-              type="checkbox"
-              {...register("pet_id_list")}
-              value={pet.id}
-              className="mr-2"
-            />
-            {t(`searchBar.petOptions.${pet.name}`)}
-          </label>
-        ))}
+        {
+          petOptions.length > 0 ?
+          petOptions.map((pet) => (
+            <label key={pet.id} className={`${labelClass} flex items-center`}>
+              <input
+                type="checkbox"
+                {...register("pet_id_list")}
+                value={pet.id}
+                className="mr-2"
+              />
+              {`${pet.name} (${t(`searchBar.petOptions.${pet.type_of_animal}`)})`}
+            </label>
+          ))
+          : <p className={`${labelClass} font-normal`}>{t("enquiryForm.no-pets")}</p>
+        }
         {errors.pet_id_list && (
           <p className="text-red-500 text-xs italic">
             {errors.pet_id_list.message}

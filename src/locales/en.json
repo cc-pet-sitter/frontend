@@ -851,7 +851,8 @@
     "explanation": "You need to be logged in to submit an enquiry. Please log in or create an account to continue.",
     "boarding": "Boarding",
     "stay-in": "Stay In",
-    "visit": "Visit"
+    "visit": "Visit",
+    "no-pets": "Please register your pets before proceeding"
   },
   "login": {
     "title": "Login",
