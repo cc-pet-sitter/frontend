@@ -5,12 +5,11 @@ import { useTranslation } from "react-i18next";
 import { MdOutlineArrowBackIos } from "react-icons/md";
 import ProfilePictureUploader from "../services/ProfilePictureUploader";
 import { FaUserCircle } from "react-icons/fa";
-import { TailSpin } from 'react-loader-spinner';
+import { TailSpin } from "react-loader-spinner";
 import { Pref, City } from "jp-zipcode-lookup";
 import LabelWithAsterisk from "../icons/LabelWithAsterisk";
 // import { cityOptions } from "../../options/Cities";
 // import { prefectureOptions } from "../../options/Prefectures";
-
 
 type Props = {
   closeEditForm: () => void;
@@ -30,15 +29,18 @@ type EditProfileFormData = {
 };
 
 const EditProfileForm: React.FC<Props> = ({ closeEditForm }) => {
-  const [profilePicture, setProfilePicture] = useState<string | undefined>(undefined);
+  const [profilePicture, setProfilePicture] = useState<string | undefined>(
+    undefined
+  );
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState<boolean>(false);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [imageLoaded, setImageLoaded] = useState<boolean>(false);
-  
-  const { register, handleSubmit, reset, setValue } = useForm<EditProfileFormData>({
-    shouldUseNativeValidation: true,
-  });
+
+  const { register, handleSubmit, reset, setValue } =
+    useForm<EditProfileFormData>({
+      shouldUseNativeValidation: true,
+    });
   const { currentUser, userInfo } = useAuth();
   const { setUserInfo } = useAuth();
   const { t } = useTranslation();
@@ -83,7 +85,7 @@ const EditProfileForm: React.FC<Props> = ({ closeEditForm }) => {
     } catch (err) {
       console.error("Failed to fetch address:", err);
     }
-  };  
+  };
 
   const onSubmit = async (data: EditProfileFormData) => {
     setIsLoading(true);
@@ -136,8 +138,8 @@ const EditProfileForm: React.FC<Props> = ({ closeEditForm }) => {
     const idToken = await currentUser?.getIdToken();
     const backendURL =
       import.meta.env.VITE_API_BASE_URL || "http://localhost:8000";
-    
-      const response = await fetch(`${backendURL}/appuser/${userInfo?.id}`, {
+
+    const response = await fetch(`${backendURL}/appuser/${userInfo?.id}`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
@@ -166,7 +168,7 @@ const EditProfileForm: React.FC<Props> = ({ closeEditForm }) => {
   // const prefectureOptions = ["Tokyo", "Saitama", "Chiba"];
 
   return (
-    <div className="flex justify-center p-8">
+    <div className="flex justify-center p-4">
       <form onSubmit={handleSubmit(onSubmit)} className="w-full max-w-lg">
         {error && <p className="text-red-500 text-xs italic">{error}</p>}
         {success && (
@@ -175,7 +177,7 @@ const EditProfileForm: React.FC<Props> = ({ closeEditForm }) => {
           </p>
         )}
 
-        <div className="flex flex-wrap -mx-3 mb-6">
+        <div className="mb-2">
           <button
             onClick={(e) => {
               e.preventDefault();
@@ -185,15 +187,12 @@ const EditProfileForm: React.FC<Props> = ({ closeEditForm }) => {
           >
             <MdOutlineArrowBackIos />
           </button>
-          <h1 className="mx-2 font-bold text-2xl inline">
-            {t("dashboard_account_page.edit_button")}
-          </h1>
         </div>
 
         {/* Profile Picture */}
-        <div className="flex flex-col sm:flex-row items-center p-6">
+        <div className="flex flex-col items-center mb-6">
           {/* Profile Picture or Loader */}
-          <div className="relative h-48 w-48">
+          <div className="relative h-48 w-48 mb-4">
             {/* Loader */}
             {!imageLoaded && (
               <div className="absolute inset-0 flex items-center justify-center bg-gray-200 rounded-full">
@@ -218,7 +217,9 @@ const EditProfileForm: React.FC<Props> = ({ closeEditForm }) => {
                 onError={() => setImageLoaded(true)}
               />
             ) : (
-              <FaUserCircle className="h-48 w-48 text-gray-400" />
+              <div className="flex items-center justify-center  h-48 w-48 rounded-full">
+                <FaUserCircle className="h-48 w-48 text-gray-300" />
+              </div>
             )}
           </div>
 
@@ -232,44 +233,50 @@ const EditProfileForm: React.FC<Props> = ({ closeEditForm }) => {
             }}
           />
         </div>
-      
-        <div className="flex flex-wrap -mx-3 mb-6">
+
+        <div className="mb-6">
           {/* First Name */}
-          <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
-            <label className={labelClass} htmlFor="firstName">
-              <LabelWithAsterisk text={t("editProfileForm.firstname")} required={true} />
-            </label>
-            <input
-              id="firstName"
-              type="text"
-              {...register("firstname", {
-                required: "Please enter your first name.",
-              })}
-              className={inputClass}
+          <label className={`${labelClass} mb-3`} htmlFor="firstName">
+            <LabelWithAsterisk
+              text={t("editProfileForm.firstname")}
+              required={true}
             />
-          </div>
+          </label>
+          <input
+            id="firstName"
+            type="text"
+            {...register("firstname", {
+              required: "Please enter your first name.",
+            })}
+            className={inputClass}
+          />
 
           {/* Last Name */}
-          <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
-            <label className={labelClass} htmlFor="lastName">
-              <LabelWithAsterisk text={t("editProfileForm.lastname")} required={true} />
-            </label>
-            <input
-              id="lastName"
-              type="text"
-              {...register("lastname", {
-                required: "Please enter your last name.",
-              })}
-              className={`${inputClass}`}
+
+          <label className={labelClass} htmlFor="lastName">
+            <LabelWithAsterisk
+              text={t("editProfileForm.lastname")}
+              required={true}
             />
-          </div>
+          </label>
+          <input
+            id="lastName"
+            type="text"
+            {...register("lastname", {
+              required: "Please enter your last name.",
+            })}
+            className={`${inputClass}`}
+          />
         </div>
 
         <div className="flex flex-wrap -mx-3 mb-6">
           {/* Email */}
           <div className="w-full px-3 mb-6 md:mb-0">
             <label className={labelClass} htmlFor="email">
-              <LabelWithAsterisk text={t("editProfileForm.email")} required={true} />
+              <LabelWithAsterisk
+                text={t("editProfileForm.email")}
+                required={true}
+              />
             </label>
             <input
               id="email"
@@ -318,7 +325,7 @@ const EditProfileForm: React.FC<Props> = ({ closeEditForm }) => {
                 // required: "Please select a prefecture.",
               })}
             />
-              {/* <option value="">{t("editProfileForm.selectPrefecture")}</option>
+            {/* <option value="">{t("editProfileForm.selectPrefecture")}</option>
               {prefectureOptions.map((pref) => (
                 <option key={pref} value={pref}>
                   {pref}
@@ -329,7 +336,6 @@ const EditProfileForm: React.FC<Props> = ({ closeEditForm }) => {
         </div>
 
         <div className="flex flex-wrap -mx-3 mb-6">
-          
           {/* City */}
           <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
             <label className={labelClass} htmlFor="city_ward">
@@ -361,7 +367,6 @@ const EditProfileForm: React.FC<Props> = ({ closeEditForm }) => {
           </div>
         </div>
         <div className="mb-6">
-
           {/* Languages */}
           <p className={`${labelClass} mb-3`}>{`${t(
             "editProfileForm.languages"
