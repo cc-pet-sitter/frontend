@@ -39,7 +39,7 @@ const EditProfileForm: React.FC<EditProfileFormProps> = ({
 
   const { register, handleSubmit, reset, getValues, setValue } =
     useForm<PetProfileData>({
-      shouldUseNativeValidation: true,
+      shouldUseNativeValidation: false,
     });
   const { userInfo } = useAuth();
   const { t } = useTranslation();

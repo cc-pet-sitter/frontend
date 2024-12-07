@@ -41,7 +41,7 @@ const EditProfileForm: React.FC<Props> = ({ closeEditForm }) => {
 
   const { register, handleSubmit, reset, setValue } =
     useForm<EditProfileFormData>({
-      shouldUseNativeValidation: true,
+      shouldUseNativeValidation: false,
     });
   const { currentUser, userInfo } = useAuth();
   const { setUserInfo } = useAuth();

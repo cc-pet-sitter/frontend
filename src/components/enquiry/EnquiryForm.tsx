@@ -47,7 +47,7 @@ const EnquiryForm: React.FC<EnquiryFormProps> = ({
     reset,
     formState: { errors },
   } = useForm<EnquiryFormData>({
-    shouldUseNativeValidation: true,
+    shouldUseNativeValidation: false,
   });
   const { currentUser, userInfo } = useAuth();
   const [error, setError] = useState<string | null>(null);
@@ -228,6 +228,7 @@ const EnquiryForm: React.FC<EnquiryFormProps> = ({
       <div className="mb-6">
         <p className={`${labelClass} mb-3`}>
           {`${t("enquiryForm.petToLookAfter")}:`}
+          <span className="text-red-500 ml-1">*</span>
         </p>
         {petOptions.length > 0 ? (
           petOptions.map((pet) => (

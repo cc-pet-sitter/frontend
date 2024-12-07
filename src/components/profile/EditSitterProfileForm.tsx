@@ -38,7 +38,7 @@ const EditSitterProfileForm: React.FC<Props> = ({
     setValue,
     formState: { errors },
   } = useForm<Sitter>({
-    shouldUseNativeValidation: true,
+    shouldUseNativeValidation: false,
     mode: "onSubmit",
   });
   const { userInfo, setUserInfo } = useAuth();
