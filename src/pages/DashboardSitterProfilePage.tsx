@@ -141,7 +141,7 @@ const DashboardSitterProfilePage: React.FC = () => {
               {/* Sitter Details */}
               <div className="p-6 border-t">
                 <h2 className="text-lg font-semibold mb-4">
-                  {t("sitterProfilePage.animalsICareFor")}
+                  {t("dashboard_Sitter_Profile_page.pet_service")}
                 </h2>
                 <p className="text-slate-500 text-sm">
                   {sitterProfile.dogs_ok && (
@@ -181,7 +181,7 @@ const DashboardSitterProfilePage: React.FC = () => {
               </div>
               <div className="p-6 border-t">
                 <h2 className="text-lg font-semibold mb-4">
-                  {t("sitterProfilePage.animalsICareFor")}
+                  {t("dashboard_Sitter_Profile_page.type_service")}
                 </h2>
                 <p className="text-slate-500 text-sm">
                   {sitterProfile.sitter_house_ok && (
