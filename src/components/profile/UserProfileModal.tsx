@@ -78,7 +78,7 @@ const UserProfileModal: React.FC<UserProfileModalProps> = ({ isOpen, onClose, us
               </p>
               {pet.subtype && <p className="text-gray-600 text-center">{`${t("editPetProfileForm.breed")}: ${pet.subtype}`}</p>}
               {pet.gender && <p className="text-gray-600 text-center">{`${t("editPetProfileForm.gender")}: ${pet.gender}`}</p>}
-              {pet.birthday && <p className="text-gray-600" text-center>{`${t("editPetProfileForm.birthday")}: ${pet.birthday}`}</p>}
+              {pet.birthday && <p className="text-gray-600 text-center">{`${t("editPetProfileForm.birthday")}: ${pet.birthday}`}</p>}
               {pet.weight && <p className="text-gray-600 text-center">{`${t("editPetProfileForm.weight")}: ${pet.weight}`}</p>}
               {pet.known_allergies && <p className="text-gray-600 text-center">{`${t("PetProfile.allergies")}: ${pet.known_allergies}`}</p>}
               {pet.medications && <p className="text-gray-600 text-center">{`${t("editPetProfileForm.medications")}: ${pet.medications}`}</p>}
