@@ -177,7 +177,7 @@ const EditProfileForm: React.FC<Props> = ({ closeEditForm }) => {
           </p>
         )}
 
-        <div className="flex flex-wrap -mx-3 mb-6">
+        <div className="mb-2">
           <button
             onClick={(e) => {
               e.preventDefault();
@@ -190,9 +190,9 @@ const EditProfileForm: React.FC<Props> = ({ closeEditForm }) => {
         </div>
 
         {/* Profile Picture */}
-        <div className="flex flex-col sm:flex-row items-center p-6">
+        <div className="flex flex-col items-center mb-6">
           {/* Profile Picture or Loader */}
-          <div className="relative h-48 w-48">
+          <div className="relative h-48 w-48 mb-4">
             {/* Loader */}
             {!imageLoaded && (
               <div className="absolute inset-0 flex items-center justify-center bg-gray-200 rounded-full">
@@ -217,7 +217,9 @@ const EditProfileForm: React.FC<Props> = ({ closeEditForm }) => {
                 onError={() => setImageLoaded(true)}
               />
             ) : (
-              <FaUserCircle className="h-48 w-48 text-gray-400" />
+              <div className="flex items-center justify-center  h-48 w-48 rounded-full">
+                <FaUserCircle className="h-48 w-48 text-gray-300" />
+              </div>
             )}
           </div>
 
@@ -232,42 +234,38 @@ const EditProfileForm: React.FC<Props> = ({ closeEditForm }) => {
           />
         </div>
 
-        <div className="flex flex-wrap -mx-3 mb-6">
+        <div className="mb-6">
           {/* First Name */}
-          <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
-            <label className={labelClass} htmlFor="firstName">
-              <LabelWithAsterisk
-                text={t("editProfileForm.firstname")}
-                required={true}
-              />
-            </label>
-            <input
-              id="firstName"
-              type="text"
-              {...register("firstname", {
-                required: "Please enter your first name.",
-              })}
-              className={inputClass}
+          <label className={`${labelClass} mb-3`} htmlFor="firstName">
+            <LabelWithAsterisk
+              text={t("editProfileForm.firstname")}
+              required={true}
             />
-          </div>
+          </label>
+          <input
+            id="firstName"
+            type="text"
+            {...register("firstname", {
+              required: "Please enter your first name.",
+            })}
+            className={inputClass}
+          />
 
           {/* Last Name */}
-          <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
-            <label className={labelClass} htmlFor="lastName">
-              <LabelWithAsterisk
-                text={t("editProfileForm.lastname")}
-                required={true}
-              />
-            </label>
-            <input
-              id="lastName"
-              type="text"
-              {...register("lastname", {
-                required: "Please enter your last name.",
-              })}
-              className={`${inputClass}`}
+          <label className={labelClass} htmlFor="lastName">
+            <LabelWithAsterisk
+              text={t("editProfileForm.lastname")}
+              required={true}
             />
-          </div>
+          </label>
+          <input
+            id="lastName"
+            type="text"
+            {...register("lastname", {
+              required: "Please enter your last name.",
+            })}
+            className={`${inputClass}`}
+          />
         </div>
 
         <div className="flex flex-wrap -mx-3 mb-6">

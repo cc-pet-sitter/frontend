@@ -894,7 +894,7 @@
     "breed": "My breed is ",
     "allergies": "Allergies",
     "medications": "Medications",
-    "specialNeeds": "Special needs"
+    "specialNeeds": "Additional info"
   },
   "editPetProfileForm": {
     "name": "Name",
@@ -965,7 +965,7 @@
       "Okinawa": "Okinawa"
     },
     "cityWard": "City/Ward",
-    "languages": "languages",
+    "languages": "Languages",
     "english": "English ",
     "japanese": "Japanese ",
     "houseAndStreet": "House No. and Street",
