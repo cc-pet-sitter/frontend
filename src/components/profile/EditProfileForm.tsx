@@ -234,42 +234,39 @@ const EditProfileForm: React.FC<Props> = ({ closeEditForm }) => {
           />
         </div>
 
-        <div className="flex flex-wrap -mx-3 mb-6">
+        <div className="mb-6">
           {/* First Name */}
-          <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
-            <label className={labelClass} htmlFor="firstName">
-              <LabelWithAsterisk
-                text={t("editProfileForm.firstname")}
-                required={true}
-              />
-            </label>
-            <input
-              id="firstName"
-              type="text"
-              {...register("firstname", {
-                required: "Please enter your first name.",
-              })}
-              className={inputClass}
+          <label className={`${labelClass} mb-3`} htmlFor="firstName">
+            <LabelWithAsterisk
+              text={t("editProfileForm.firstname")}
+              required={true}
             />
-          </div>
+          </label>
+          <input
+            id="firstName"
+            type="text"
+            {...register("firstname", {
+              required: "Please enter your first name.",
+            })}
+            className={inputClass}
+          />
 
           {/* Last Name */}
-          <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
-            <label className={labelClass} htmlFor="lastName">
-              <LabelWithAsterisk
-                text={t("editProfileForm.lastname")}
-                required={true}
-              />
-            </label>
-            <input
-              id="lastName"
-              type="text"
-              {...register("lastname", {
-                required: "Please enter your last name.",
-              })}
-              className={`${inputClass}`}
+
+          <label className={labelClass} htmlFor="lastName">
+            <LabelWithAsterisk
+              text={t("editProfileForm.lastname")}
+              required={true}
             />
-          </div>
+          </label>
+          <input
+            id="lastName"
+            type="text"
+            {...register("lastname", {
+              required: "Please enter your last name.",
+            })}
+            className={`${inputClass}`}
+          />
         </div>
 
         <div className="flex flex-wrap -mx-3 mb-6">
