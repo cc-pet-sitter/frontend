@@ -19,6 +19,7 @@ const SearchPage: React.FC = () => {
 
   const handleSecondSearchSubmit = async (formData: SearchFormData) => {
     try {
+      handleCloseSearchBar();
       const queryParams = new URLSearchParams(
         formData as unknown as Record<string, string>
       ).toString();

@@ -209,7 +209,7 @@ const SearchBar: React.FC<SearchBarProps> = ({ onSearchSubmit }) => {
 
         {/* Submit Button */}
         <div className="flex justify-center">
-          <button type="submit" className={"btn-primary"}>
+          <button type="submit" className="btn-primary w-full">
             {t("searchBar.search")}
           </button>
         </div>
