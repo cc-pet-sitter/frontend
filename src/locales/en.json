@@ -838,7 +838,8 @@
     "submittedOn": "Submitted on:",
     "and": " and ",
     "noAvailabilities": "No availability",
-    "createProfile": "Create Profile"
+    "createProfile": "Create Profile",
+    "bio": "Bio"
   },
   "enquiryForm": {
     "startDate": "Start Date",
@@ -978,5 +979,10 @@
   },
   "featuredImageGallery": {
     "noImages": "No images available"
+  },
+  "PictureUploader": {
+    "uploading": "Uploading...",
+    "edit_photo": "Edit photo",
+    "upload_photo": "Upload photo"
   }
 }
