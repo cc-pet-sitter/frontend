@@ -332,7 +332,7 @@ const EnquiryForm: React.FC<EnquiryFormProps> = ({
         ) : (
           <button
             type="submit"
-            className="shadow bg-gray-500 hover:bg-gray-400 text-white font-bold py-2 px-4 rounded"
+            className="shadow btn-primary font-bold py-2 px-4 w-full rounded"
             disabled={isLoading || !currentUser}
           >
             {isLoading ? "Sending..." : `${t("enquiryForm.submit")}`}

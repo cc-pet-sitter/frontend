@@ -177,7 +177,7 @@ const EditProfileForm: React.FC<Props> = ({ closeEditForm }) => {
   // const prefectureOptions = ["Tokyo", "Saitama", "Chiba"];
 
   return (
-    <div className="flex justify-center p-4">
+    <div className="flex justify-center px-8 pt-2 mb-8">
       <form onSubmit={handleSubmit(onSubmit)} className="w-full max-w-lg">
         {error && <p className="text-red-500 text-xs italic">{error}</p>}
         {success && (
@@ -191,9 +191,9 @@ const EditProfileForm: React.FC<Props> = ({ closeEditForm }) => {
               e.preventDefault();
               closeEditForm();
             }}
-            className="text-2xl my-8 mt-0"
+            className="ml-2 flex"
           >
-            <MdOutlineArrowBackIos />
+            <MdOutlineArrowBackIos className="mr-3 mt-1" /> <p>Back</p>
           </button>
         </div>
         {/* Profile Picture */}

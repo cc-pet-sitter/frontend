@@ -162,15 +162,17 @@ const EditSitterProfileForm: React.FC<Props> = ({
         )}
 
         <div className="mb-2">
-          <button
-            onClick={(e) => {
-              e.preventDefault();
-              closeEditForm();
-            }}
-            className="text-2xl my-8 mt-0"
-          >
-            <MdOutlineArrowBackIos />
-          </button>
+          <div className="flex flex-wrap -mx-3 mb-6 my-2">
+            <button
+              onClick={(e) => {
+                e.preventDefault();
+                closeEditForm();
+              }}
+              className="ml-2 flex"
+            >
+              <MdOutlineArrowBackIos className="mr-3 mt-1" /> <p>Back</p>
+            </button>
+          </div>
 
           {/* Profile Picture */}
           <div className="flex items-center justify-center pb-4">

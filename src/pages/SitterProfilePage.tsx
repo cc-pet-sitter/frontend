@@ -93,10 +93,10 @@ const SitterProfilePage: React.FC = () => {
 
   return (
     <div>
-      <button onClick={() => navigate(-1)} className="ml-6 mt-6 flex">
-        <MdOutlineArrowBackIos className="mr-3 mt-1" /> <p>Back</p>
-      </button>
       <div className="container mx-auto p-6">
+        <button onClick={() => navigate(-1)} className="my-6 flex">
+          <MdOutlineArrowBackIos className="mr-3 mt-1" /> <p>Back</p>
+        </button>
         <div className="bg-white shadow-md rounded-lg overflow-hidden">
           {/* Profile Header */}
           <div className="flex flex-col sm:flex-row items-center p-6">
@@ -105,21 +105,22 @@ const SitterProfilePage: React.FC = () => {
               alt={`${user.appuser.firstname} ${user.appuser.lastname}`}
               className="h-48 w-48 rounded-full object-cover"
             />
-            <div className="mt-4 sm:mt-0 sm:ml-6 text-center sm:text-left">
+            <div className="mt-4 sm:mt-0 sm:ml-10 text-center sm:text-left">
               <h1 className="text-2xl font-bold">{`${user.appuser.firstname} ${user.appuser.lastname}`}</h1>
               {/* <p className="text-gray-500">{user.appuser.email}</p> */}
+              <div>
+                {user.appuser.average_user_rating !== null && (
+                  <Rating
+                    className="pt-2"
+                    name="read-only"
+                    value={user.appuser.average_user_rating}
+                    readOnly
+                  />
+                )}
+              </div>
             </div>
-            <div>
-              {user.appuser.average_user_rating !== null && (
-                <Rating
-                  className="pt-2"
-                  name="read-only"
-                  value={user.appuser.average_user_rating}
-                  readOnly
-                />
-              )}
-            </div>
-            <div className="mt-4 sm:mt-0 sm:ml-auto flex flex-col items-center">
+
+            <div className="mt-4 sm:mt-0 sm:mx-auto flex flex-col items-center">
               {showEnquiryForm ? (
                 <button
                   onClick={() => setShowEnquiryForm((prev: boolean) => !prev)}

@@ -15,7 +15,7 @@
     "title": "アカウント情報",
     "edit_button": "アカウント情報を編集",
     "save_button": "保存",
-    "memberSince": "以来のメンバー"
+    "memberSince": "アカウント登録日"
   },
   "dashboard_pets_profile_page": {
     "title": "ペットプロフィール",
@@ -38,23 +38,26 @@
   "dashboard_Sitter_Profile_page": {
     "title": "シッタープロフィール",
     "edit_button": "プロフィールを編集",
-    "edit_photo_profile": "Edit PhotoJ",
-    "save_profile_button": "Save ProfileJ",
-    "introduction": "IntroductionJ",
-    "pet_service": "Pets you can sitJ",
-    "type_service": "Types of Service You OfferJ",
-    "availability": "Select Your Available DatesJ",
-    "update_availability": "Update AvailabilityJ",
-    "additional_images": "Add More PicturesJ",
-    "pageEdited": "Profile updated successfullyJ",
-    "createHeader": "Become A SitterJ",
-    "createSubtitleGo": "Create your sitter profile to start offering services.J",
+    "edit_photo_profile": "写真を編集",
+    "save_profile_button": "保存",
+    "introduction": "自己紹介",
+    "pet_service": "お世話が可能な動物",
+    "type_service": "対応可能なサービス",
+    "availability": "可能日を登録",
+    "update_availability": "可能日をアップデート",
+    "additional_images": "写真を追加",
+    "addMorePictures": "フォトギャラリー",
+    "pageEdited": "プロフィールが正常に更新されました。",
+    "createHeader": "シッターになる",
+    "createSubtitleGo": "サービスを提供するために、シッタープロフィールを作成しましょう。",
     "createButtonGo": "プロフィールを作成",
-    "createSubtitleNoGo": "Please complete your account information before creating your sitter profile.",
-    "createButtonNoGo": "Edit Account info",
     "visits": "訪問",
     "sitter_house": "シッターに家でお預かり",
     "owner_house": "オーナーの家でデイケア"
+
+    "createSubtitleNoGo": "シッタープロフィールの作成前にアカウント情報の登録を完了してください。",
+    "createButtonNoGo": "アカウント情報を編集"
+
   },
   "dashboard_requests_page": {
     "title": "リクエスト",
@@ -91,7 +94,7 @@
     "chat-over": "これ以上メッセージを送ることはできません。"
   },
   "homePage": {
-    "title": "信頼できるペットシッターをを見つけましょう",
+    "title": "信頼できるペットシッターを見つけましょう",
     "subtitle": "あなたの大切なペットを安心して任せられるシッターとつながりましょう",
     "search-btn": "今すぐ検索",
     "searchLabel": "ペットシッターを探す...",
@@ -177,9 +180,9 @@
     },
     "typeOfService": "お探しのサービスの種類",
     "serviceOptions": {
-      "boarding": "宿泊",
-      "stayIn": "訪問滞在",
-      "dropIn": "立ち寄り"
+      "boarding": "お預かりサービス",
+      "stayIn": "お留守番サポート",
+      "dropIn": "立ち寄りサービス"
     },
     "search": "検索",
     "enterCityWard": "市区町村を入力してください",
@@ -802,9 +805,9 @@
     }
   },
   "searchPage": {
-    "visits": "訪問",
-    "sitter_house": "シッターに家でお預かり",
-    "owner_house": "オーナーの家でデイケア",
+    "visits": "立ち寄りサービス",
+    "sitter_house": "お預かりサービス",
+    "owner_house": "お留守番サポート",
     "available": "可能なサービス: ",
     "notAvailable": "訪問不可",
     "dog": "犬",
@@ -813,8 +816,8 @@
     "bird": "鳥",
     "rabbit": "ウサギ",
     "viewProfile": "プロフィールを見る",
-    "noResultsFound": "麦（むぎ）は一致するものを見つけられませんでした。検索条件を広げてお試しください。",
-    "and": "そして"
+    "noResultsFound": "一致するシッターを見つけられませんでした。検索条件を広げてお試しください。",
+    "and": ", "
   },
   "sitterProfilePage": {
     "accountBio": "自己紹介",
@@ -833,21 +836,22 @@
     "backToSearchResults": "検索結果に戻る",
     "makeAnEnquiry": "お問い合わせ",
     "close": "閉じる",
-    "animalsICareFor": "私が世話している動物たち",
-    "noReviews": "まだレビューが与えられていません。",
-    "additionalImages": "追加画像",
+    "animalsICareFor": "お世話が可能な動物",
+    "noReviews": "はまだレビューがありません。",
+    "additionalImages": "フォトギャラリー",
     "accountInformation": "アカウント情報",
-    "iOffer": "私は次のサービスを提供します。",
+    "iOffer": "可能なサービス：",
     "availability": "可能日",
     "noAvailabilities": "可能日の登録はありません。",
     "submittedOn": "提出日:",
-    "and": "そして",
-    "createProfile": "プロフィール作成"
+    "and": ", ",
+    "createProfile": "プロフィール作成",
+    "bio": "自己紹介"
   },
   "enquiryForm": {
     "startDate": "開始日",
     "endDate": "終了日",
-    "petToLookAfter": "お世話するペット",
+    "petToLookAfter": "依頼するペット",
     "desiredService": "希望するサービス",
     "additionalInfo": "追加情報",
     "submit": "送信",
@@ -878,8 +882,8 @@
     "signupButton": "サインアップ",
     "signupPrompt": "すでにアカウントをお持ちですか？",
     "loginButton": "ログイン",
-    "firstnamePlaceholder": "ジョン",
-    "lastnamePlaceholder": "ドウ",
+    "firstnamePlaceholder": "太郎",
+    "lastnamePlaceholder": "山田",
     "emailPlaceholder": "you@example.com",
     "passwordPlaceholder": "••••••••",
     "showPassword": "パスワードを表示",
@@ -911,7 +915,8 @@
     "typeOfPet": "ペットの種類",
     "allergies": "アレルギー",
     "medications": "服薬中のお薬",
-    "specialNeeds": "その他シッターさんに知っておいてほしいことはありますか？"
+    "specialNeeds": "その他シッターさんに知っておいてほしいことはありますか？",
+    "additionalImages": "フォトギャラリー"
   },
   "editProfileForm": {
     "header": "アカウント情報",
@@ -973,7 +978,7 @@
     "languages": "言語",
     "english": "英語",
     "japanese": "日本語",
-    "houseAndStreet": "番地と通り名",
+    "houseAndStreet": "番地・建物名",
     "profileUpdateSuccess": "プロフィールが正常に更新されました。",
     "save": "保存",
     "saving": "節約",
@@ -984,6 +989,11 @@
     "reqMessage": "ペットシッターになるには、すべての項目の入力が必須です。"
   },
   "featuredImageGallery": {
-    "noImages": "No images available"
+    "noImages": "写真の投稿はまだありません。"
+  },
+  "PictureUploader": {
+    "uploading": "アップロード中...",
+    "edit_photo": "写真を編集",
+    "upload_photo": "写真を追加"
   }
 }

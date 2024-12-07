@@ -841,7 +841,8 @@
     "submittedOn": "Submitted on:",
     "and": " and ",
     "noAvailabilities": "No availability",
-    "createProfile": "Create Profile"
+    "createProfile": "Create Profile",
+    "bio": "Bio"
   },
   "enquiryForm": {
     "startDate": "Start Date",
@@ -897,7 +898,7 @@
     "breed": "My breed is ",
     "allergies": "Allergies",
     "medications": "Medications",
-    "specialNeeds": "Special needs"
+    "specialNeeds": "Additional info"
   },
   "editPetProfileForm": {
     "name": "Name",
@@ -983,5 +984,10 @@
   },
   "featuredImageGallery": {
     "noImages": "No images available"
+  },
+  "PictureUploader": {
+    "uploading": "Uploading...",
+    "edit_photo": "Edit photo",
+    "upload_photo": "Upload photo"
   }
 }

@@ -203,15 +203,15 @@ const EditProfileForm: React.FC<EditProfileFormProps> = ({
           </p>
         )}
 
-        <div className="mb-2">
+        <div className="flex flex-wrap -mx-3 mb-6">
           <button
             onClick={(e) => {
               e.preventDefault();
               onClose();
             }}
-            className="text-2xl my-8 mt-0"
+            className="ml-2 flex"
           >
-            <MdOutlineArrowBackIos />
+            <MdOutlineArrowBackIos className="mr-3 mt-1" /> <p>Back</p>
           </button>
         </div>
 
@@ -406,7 +406,10 @@ const EditProfileForm: React.FC<EditProfileFormProps> = ({
 
         {/* Additional Images */}
         <div className="mb-6">
-          <h2 className={`${labelClass}`}>Add More Pictures</h2>
+          <h2 className={`${labelClass}`}>
+            {t("editPetProfileForm.additionalImages")}
+          </h2>
+
           {petBioPictureSrcList ? (
             <ViewMultiPicture picture_src_list={petBioPictureSrcList || ""} />
           ) : (

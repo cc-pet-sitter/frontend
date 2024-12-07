@@ -134,7 +134,9 @@ const DashboardSitterProfilePage: React.FC = () => {
 
               {/* Account Bio */}
               <div className="p-6 border-t">
-                <h2 className="text-lg font-semibold mb-4">Bio</h2>
+                <h2 className="text-lg font-semibold mb-4">
+                  {t("sitterProfilePage.bio")}
+                </h2>
                 <p>{sitterProfile.sitter_profile_bio}</p>
               </div>
 
@@ -212,12 +214,16 @@ const DashboardSitterProfilePage: React.FC = () => {
                 </h2>
                 <ul className="list-none space-y-2 text-left">
                   <li>
-                    <strong>{`${t("sitterProfilePage.location")}:`}</strong>{" "}
-                    {`${user.prefecture}, ${user.city_ward}`}
-                  </li>
-                  <li>
                     <strong>{`${t("sitterProfilePage.postCode")}:`}</strong>{" "}
                     {user.postal_code}
+                  </li>
+                  <li>
+                    <div>
+                      <strong>{`${t("sitterProfilePage.address")}: `}</strong>
+                      {[user?.prefecture, user?.city_ward, user?.street_address]
+                        .filter(Boolean)
+                        .join(",")}
+                    </div>
                   </li>
                   <li>
                     <strong>{`${t("sitterProfilePage.languages")}:`}</strong>{" "}
@@ -309,7 +315,7 @@ const DashboardSitterProfilePage: React.FC = () => {
         </>
       ) : (
         <>
-          <div className="flex flex-col items-center justify-center h-screen text-center">
+          <div className="flex flex-col items-center justify-center h-screen text-center px-4">
             <h1 className="mb-2 font-bold text-2xl">
               {t("dashboard_Sitter_Profile_page.createHeader")}
             </h1>
