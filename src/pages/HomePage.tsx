@@ -8,7 +8,7 @@ import { PetProfileData } from "../types/userProfile";
 import { BsCalendar2Date } from "react-icons/bs";
 import { FaPaw } from "react-icons/fa";
 import { BsSearchHeart } from "react-icons/bs";
-
+import topImage from "../Images/Homepage-top.jpg";
 import {
   Carousel,
   Card,
@@ -91,8 +91,8 @@ const HomePage: React.FC = () => {
 
   return (
     <div className="mb-12">
-      <div className="bg-white text-center pt-10 ">
-        <div className="px-6">
+      <div className="bg-white text-center mb-6 pt-10 md:pt-0 md:flex">
+        <div className="px-6 md:mb-0 md:content-center md:pl-12">
           <h1 className="text-4xl font-bold text-brown">
             {t("homePage.title")}
           </h1>
@@ -105,9 +105,9 @@ const HomePage: React.FC = () => {
           </button>
         </div>
         <img
-          src="https://images.unsplash.com/photo-1537151641189-e685b67326c5?q=80&w=2969&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+          src={topImage}
           alt="Cute pets"
-          className="mt-8 my-2 mx-auto w-screen h-auto"
+          className="mt-8 md:my-0 my-2 mx-auto w-screen h-auto sm:h-96 md:h-[33rem] 2xl:h-[38rem] md:w-3/4 2xl:w-4/5 md:rounded-bl-full object-cover"
         />
       </div>
       <div ref={searchSectionRef} className="justify-items-center bg-white">

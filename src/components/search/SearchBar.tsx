@@ -41,22 +41,22 @@ const SearchBar: React.FC<SearchBarProps> = ({ onSearchSubmit }) => {
   };
 
   const inputClass =
-    "appearance-none block w-full bg-gray-100 text-gray-800 border border-gray-300 rounded-md py-2 px-4 leading-tight focus:outline-none focus:bg-white focus:border-blue-500";
+    "appearance-none block w-full bg-white text-gray-700 text-sm border border-gray-400 rounded-md py-2 px-4 leading-tight focus:outline-none focus:bg-white focus:ring-[#D87607] focus:border-[#D87607]";
   const labelClass = "block text-sm font-medium text-gray-700 mb-2";
   const checkboxLabelClass =
-    "flex flex-col items-center justify-center p-4 text-gray-600 bg-white border-2 border-gray-300 rounded-lg cursor-pointer hover:bg-gray-50 peer-checked:border-blue-500 peer-checked:bg-blue-50";
+    "flex flex-col items-center justify-center px-3 py-2 text-gray-500 text-sm bg-white border-2 border- border-gray-300 rounded-lg cursor-pointer hover:border-[#D87607]/60 peer-checked:border-[#D87607] peer-checked:bg-white";
 
   return (
     <div className="flex justify-center p-6">
       <form
         onSubmit={handleSubmit(onSearchSubmit)}
-        className="w-full max-w-lg bg-white p-6 shadow-md rounded-lg"
+        className="w-full max-w-lg bg-white p-6 shadow-custom rounded-lg "
       >
         <div className="flex flex-wrap -mx-3 mb-4">
           {/* Prefecture Selection */}
           <div className="w-full md:w-1/2 px-3 mb-4 md:mb-0">
             <label className={labelClass} htmlFor="prefecture">
-              {`${t("searchBar.prefecture")}:`}
+              {`${t("searchBar.prefecture")}`}
             </label>
             <input
               id="prefecture"
@@ -78,7 +78,7 @@ const SearchBar: React.FC<SearchBarProps> = ({ onSearchSubmit }) => {
           {/* City Selection */}
           <div className="w-full md:w-1/2 px-3 relative searchable-list">
             <label className={labelClass} htmlFor="city">
-              {`${t("searchBar.cityWard")}:`}
+              {`${t("searchBar.cityWard")}`}
             </label>
             <input
               id="city"
@@ -99,7 +99,7 @@ const SearchBar: React.FC<SearchBarProps> = ({ onSearchSubmit }) => {
 
         {/* Pet Options */}
         <div className="mb-6">
-          <p className={labelClass}>{t("searchBar.yourPet")}:</p>
+          <p className={labelClass}>{t("searchBar.yourPet")}</p>
           <ul className="grid grid-cols-3 gap-4">
             <li>
               <input
@@ -109,8 +109,8 @@ const SearchBar: React.FC<SearchBarProps> = ({ onSearchSubmit }) => {
                 {...register("dogs_ok")}
               />
               <label htmlFor="dog" className={checkboxLabelClass}>
-                <LuDog size="2em" />
-                <span>{t("searchBar.petOptions.dog")}</span>
+                <LuDog size="1.8em" />
+                <span className="mt-1">{t("searchBar.petOptions.dog")}</span>
               </label>
             </li>
             <li>
@@ -121,8 +121,8 @@ const SearchBar: React.FC<SearchBarProps> = ({ onSearchSubmit }) => {
                 {...register("cats_ok")}
               />
               <label htmlFor="cat" className={checkboxLabelClass}>
-                <PiCatBold size="2em" />
-                <span>{t("searchBar.petOptions.cat")}</span>
+                <PiCatBold size="1.8em" />
+                <span className="mt-1">{t("searchBar.petOptions.cat")}</span>
               </label>
             </li>
             <li>
@@ -133,8 +133,8 @@ const SearchBar: React.FC<SearchBarProps> = ({ onSearchSubmit }) => {
                 {...register("fish_ok")}
               />
               <label htmlFor="fish" className={checkboxLabelClass}>
-                <LuFish size="2em" />
-                <span>{t("searchBar.petOptions.fish")}</span>
+                <LuFish size="1.8em" />
+                <span className="mt-1">{t("searchBar.petOptions.fish")}</span>
               </label>
             </li>
             <li>
@@ -145,8 +145,8 @@ const SearchBar: React.FC<SearchBarProps> = ({ onSearchSubmit }) => {
                 {...register("birds_ok")}
               />
               <label htmlFor="bird" className={checkboxLabelClass}>
-                <PiBirdBold size="2em" />
-                <span>{t("searchBar.petOptions.bird")}</span>
+                <PiBirdBold size="1.8em" />
+                <span className="mt-1">{t("searchBar.petOptions.bird")}</span>
               </label>
             </li>
             <li>
@@ -157,8 +157,8 @@ const SearchBar: React.FC<SearchBarProps> = ({ onSearchSubmit }) => {
                 {...register("rabbits_ok")}
               />
               <label htmlFor="rabbit" className={checkboxLabelClass}>
-                <PiRabbitBold size="2em" />
-                <span>{t("searchBar.petOptions.rabbit")}</span>
+                <PiRabbitBold size="1.8em" />
+                <span className="mt-1">{t("searchBar.petOptions.rabbit")}</span>
               </label>
             </li>
           </ul>
@@ -166,7 +166,7 @@ const SearchBar: React.FC<SearchBarProps> = ({ onSearchSubmit }) => {
 
         {/* Service Options */}
         <div className="mb-6">
-          <p className={labelClass}>{t("searchBar.typeOfService")}:</p>
+          <p className={labelClass}>{t("searchBar.typeOfService")}</p>
           <ul className="grid grid-cols-3 gap-4">
             <li>
               <input
@@ -176,8 +176,10 @@ const SearchBar: React.FC<SearchBarProps> = ({ onSearchSubmit }) => {
                 {...register("sitter_house_ok")}
               />
               <label htmlFor="boarding" className={checkboxLabelClass}>
-                <LuSchool size="2em" />
-                <span>{t("searchBar.serviceOptions.boarding")}</span>
+                <LuSchool size="1.8em" />
+                <span className="mt-1">
+                  {t("searchBar.serviceOptions.boarding")}
+                </span>
               </label>
             </li>
             <li>
@@ -188,8 +190,10 @@ const SearchBar: React.FC<SearchBarProps> = ({ onSearchSubmit }) => {
                 {...register("owner_house_ok")}
               />
               <label htmlFor="stayIn" className={checkboxLabelClass}>
-                <TbHomeFilled size="2em" />
-                <span>{t("searchBar.serviceOptions.stayIn")}</span>
+                <TbHomeFilled size="1.8em" />
+                <span className="mt-1">
+                  {t("searchBar.serviceOptions.stayIn")}
+                </span>
               </label>
             </li>
             <li>
@@ -200,8 +204,10 @@ const SearchBar: React.FC<SearchBarProps> = ({ onSearchSubmit }) => {
                 {...register("visit_ok")}
               />
               <label htmlFor="visit" className={checkboxLabelClass}>
-                <TbHomeMove size="2em" />
-                <span>{t("searchBar.serviceOptions.dropIn")}</span>
+                <TbHomeMove size="1.8em" />
+                <span className="mt-1">
+                  {t("searchBar.serviceOptions.dropIn")}
+                </span>
               </label>
             </li>
           </ul>
