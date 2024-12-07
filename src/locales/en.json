@@ -893,7 +893,7 @@
     "breed": "My breed is ",
     "allergies": "Allergies",
     "medications": "Medications",
-    "specialNeeds": "Special needs"
+    "specialNeeds": "Additional info"
   },
   "editPetProfileForm": {
     "name": "Name",
