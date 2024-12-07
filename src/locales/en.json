@@ -85,13 +85,11 @@
     "input-box": "Type your message here",
     "chat-over": "Further messaging has been disabled."
   },
-  "user_profile_modal": {
-
-  },
+  "user_profile_modal": {},
   "homePage": {
     "title": "Find trusted pet sitters or list your services",
     "subtitle": "Connect with loving and reliable sitters near you",
-    "searchLabel": "Search for a Pet Sitter...",
+    "searchLabel": "Search for a Pet Sitter",
     "more_pet_view": "View more pets",
     "title_pets": "Look at our pets",
     "search-btn": "Search now",
@@ -180,7 +178,7 @@
       "dropIn": "Visit"
     },
     "search": "Search",
-    "enterCityWard": "Enter your city or ward...",
+    "enterCityWard": "Enter your city or ward",
     "selectPrefecture": "Select Prefecture",
     "cityOptions": {
       "Hokkaido": {
@@ -880,7 +878,12 @@
   },
   "PetProfile": {
     "about": "About {{name}}",
-    "typeOfPet": "I am a {{cat}}",
+    "typeOfPet": "I am a {{animal}}",
+    "dog": "dog",
+    "cat": "cat",
+    "fish": "fish",
+    "bird": "bird",
+    "rabbit": "rabbit",
     "birthday": "My birthday is ",
     "weight": "I weigh {{weight}}kg",
     "breed": "My breed is ",
