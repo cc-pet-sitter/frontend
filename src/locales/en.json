@@ -857,7 +857,8 @@
     "boarding": "Boarding",
     "stay-in": "Stay In",
     "visit": "Visit",
-    "no-pets": "Please register your pets before proceeding"
+    "no-pets": "Please register your pets before proceeding",
+    "noPetsSelected": "Please select at least one pet to proceed."
   },
   "login": {
     "title": "Login",

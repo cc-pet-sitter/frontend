@@ -858,7 +858,8 @@
     "boarding": "宿泊",
     "stay-in": "訪問滞在",
     "visit": "立ち寄り",
-    "no-pets": "お問い合わせ送信前にペットを登録してください"
+    "no-pets": "お問い合わせ送信前にペットを登録してください",
+    "noPetsSelected": "Please select at least one pet to proceed."
   },
   "login": {
     "title": "ログイン",
