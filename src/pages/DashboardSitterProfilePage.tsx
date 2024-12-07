@@ -6,7 +6,7 @@ import { formatDistanceToNow } from "date-fns";
 import Rating from "@mui/material/Rating";
 import { Done } from "@mui/icons-material";
 import { FaUserCircle } from "react-icons/fa";
-import { TailSpin } from 'react-loader-spinner'
+import { TailSpin } from "react-loader-spinner";
 import { AppUser, Review, Sitter } from "../types/userProfile.ts";
 import EditSitterProfileForm from "../components/profile/EditSitterProfileForm";
 import ViewAvailability from "../components/profile/ViewAvailability";
@@ -23,7 +23,7 @@ const DashboardSitterProfilePage: React.FC = () => {
     useState<boolean>(false);
   const [availabilities, setAvailabilities] = useState<Date[]>([]);
   const [imageLoaded, setImageLoaded] = useState<boolean>(false);
-  
+
   const { userInfo } = useAuth();
   const { t } = useTranslation();
   const navigate = useNavigate();
@@ -73,7 +73,6 @@ const DashboardSitterProfilePage: React.FC = () => {
   return (
     <div className="dashboard-container">
       {showEditProfileForm ? (
-        
         <div className="">
           <EditSitterProfileForm
             fetchAllProfileData={fetchAllProfileData}
@@ -83,13 +82,12 @@ const DashboardSitterProfilePage: React.FC = () => {
           />
         </div>
       ) : user && sitterProfile ? (
-        <> 
+        <>
           {/* If there is a sitter registered profile display it  */}
           <div className="container mx-auto p-6">
             <div className="bg-white shadow-md rounded-lg overflow-hidden">
               {/* Profile Header */}
               <div className="flex flex-col sm:flex-row items-center p-6">
-
                 {!imageLoaded && (
                   <div className="flex items-center justify-center bg-gray-300 h-48 w-48 rounded-full ">
                     <TailSpin
@@ -181,6 +179,32 @@ const DashboardSitterProfilePage: React.FC = () => {
                   )}
                 </p>
               </div>
+              <div className="p-6 border-t">
+                <h2 className="text-lg font-semibold mb-4">
+                  {t("sitterProfilePage.animalsICareFor")}
+                </h2>
+                <p className="text-slate-500 text-sm">
+                  {sitterProfile.sitter_house_ok && (
+                    <>
+                      <Done /> {t("dashboard_Sitter_Profile_page.sitter_house")}
+                    </>
+                  )}
+                </p>
+                <p className="text-slate-500 text-sm">
+                  {sitterProfile.owner_house_ok && (
+                    <>
+                      <Done /> {t("dashboard_Sitter_Profile_page.owner_house")}
+                    </>
+                  )}
+                </p>
+                <p className="text-slate-500 text-sm">
+                  {sitterProfile.visit_ok && (
+                    <>
+                      <Done /> {t("dashboard_Sitter_Profile_page.visits")}
+                    </>
+                  )}
+                </p>
+              </div>
               {/* Profile Details */}
               <div className="p-6 border-t">
                 <h2 className="text-lg font-semibold mb-4">
@@ -267,7 +291,9 @@ const DashboardSitterProfilePage: React.FC = () => {
                   {t("sitterProfilePage.additionalImages")}
                 </h2>
                 <FeaturedImageGallery
-                  picture_src_list={sitterProfile.sitter_bio_picture_src_list || ""}
+                  picture_src_list={
+                    sitterProfile.sitter_bio_picture_src_list || ""
+                  }
                 />
               </div>
             </div>
@@ -294,7 +320,7 @@ const DashboardSitterProfilePage: React.FC = () => {
                   {t("dashboard_Sitter_Profile_page.createSubtitleNoGo")}
                 </p>
                 <button
-                  onClick={() => navigate('/dashboard/account')}
+                  onClick={() => navigate("/dashboard/account")}
                   className="shadow btn-primary focus:shadow-outline focus:outline-none font-bold py-2 px-4 rounded"
                 >
                   {t("dashboard_Sitter_Profile_page.createButtonNoGo")}

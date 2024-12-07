@@ -52,7 +52,10 @@
     "createSubtitleGo": "Create your sitter profile to start offering services.",
     "createButtonGo": "Create Profile",
     "createSubtitleNoGo": "Please complete your account information before creating your sitter profile.",
-    "createButtonNoGo": "Edit Account Info"
+    "createButtonNoGo": "Edit Account Info",
+    "visits": "Visits",
+    "sitter_house": "Boarding",
+    "owner_house": "Stay In"
   },
   "dashboard_requests_page": {
     "title": "Requests",

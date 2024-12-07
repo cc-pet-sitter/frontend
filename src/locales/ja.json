@@ -51,7 +51,10 @@
     "createSubtitleGo": "Create your sitter profile to start offering services.J",
     "createButtonGo": "プロフィールを作成",
     "createSubtitleNoGo": "Please complete your account information before creating your sitter profile.",
-    "createButtonNoGo": "Edit Account info"
+    "createButtonNoGo": "Edit Account info",
+    "visits": "訪問",
+    "sitter_house": "シッターに家でお預かり",
+    "owner_house": "オーナーの家でデイケア"
   },
   "dashboard_requests_page": {
     "title": "リクエスト",
