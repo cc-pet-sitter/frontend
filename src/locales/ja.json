@@ -48,7 +48,10 @@
     "additional_images": "Add More PicturesJ",
     "pageEdited": "Profile updated successfullyJ",
     "createHeader": "Become A SitterJ",
-    "createSubtitle": "Create your sitter profile to start offering services.J"
+    "createSubtitleGo": "Create your sitter profile to start offering services.J",
+    "createButtonGo": "プロフィールを作成",
+    "createSubtitleNoGo": "Please complete your account information before creating your sitter profile.",
+    "createButtonNoGo": "Edit Account info"
   },
   "dashboard_requests_page": {
     "title": "リクエスト",
@@ -835,7 +838,8 @@
     "availability": "可能日",
     "noAvailabilities": "可能日の登録はありません。",
     "submittedOn": "提出日:",
-    "and": "そして"
+    "and": "そして",
+    "createProfile": "プロフィール作成"
   },
   "enquiryForm": {
     "startDate": "開始日",
@@ -968,5 +972,8 @@
     "postalCodePlaceholder": "Postal code without hyphen (ex. 1234567)",
     "postalCodeRequired": "Please enter your postal code.",
     "postalCodeError": "Postal code must be exactly 7 digits"
+  },
+  "featuredImageGallery": {
+    "noImages": "No images available"
   }
 }
