@@ -3,6 +3,7 @@ import { AppUser, PetProfileData } from "../../types/userProfile";
 import Modal from "./Modal";
 import { MdClose } from "react-icons/md";
 import Rating from "@mui/material/Rating";
+import { useTranslation } from "react-i18next";
 
 interface UserProfileModalProps {
     isOpen: boolean;
@@ -12,6 +13,7 @@ interface UserProfileModalProps {
 }
 
 const UserProfileModal: React.FC<UserProfileModalProps> = ({ isOpen, onClose, user, pet }) => {
+  const { t } = useTranslation();
 
     return (
       <>
@@ -72,15 +74,15 @@ const UserProfileModal: React.FC<UserProfileModalProps> = ({ isOpen, onClose, us
                 </div>
               )}
               <p className="text-xl font-semibold">
-                {`${pet.name} (${pet.type_of_animal})`}
+                {`${pet.name} (${t(`searchBar.petOptions.${pet.type_of_animal}`)})`}
               </p>
-              {pet.subtype && <p className="text-gray-600 text-center">{`Breed: ${pet.subtype}`}</p>}
-              {pet.gender && <p className="text-gray-600 text-center">{`Gender: ${pet.gender}`}</p>}
-              {pet.birthday && <p className="text-gray-600" text-center>{`Birthday: ${pet.birthday}`}</p>}
-              {pet.weight && <p className="text-gray-600 text-center">{`Weight (kg): ${pet.weight}`}</p>}
-              {pet.known_allergies && <p className="text-gray-600 text-center">{`Allergies: ${pet.known_allergies}`}</p>}
-              {pet.medications && <p className="text-gray-600 text-center">{`Medications: ${pet.medications}`}</p>}
-              {pet.special_needs && <p className="text-gray-600 text-center">{`Additional Info: ${pet.special_needs}`}</p>}
+              {pet.subtype && <p className="text-gray-600 text-center">{`${t("editPetProfileForm.breed")}: ${pet.subtype}`}</p>}
+              {pet.gender && <p className="text-gray-600 text-center">{`${t("editPetProfileForm.gender")}: ${pet.gender}`}</p>}
+              {pet.birthday && <p className="text-gray-600" text-center>{`${t("editPetProfileForm.birthday")}: ${pet.birthday}`}</p>}
+              {pet.weight && <p className="text-gray-600 text-center">{`${t("editPetProfileForm.weight")}: ${pet.weight}`}</p>}
+              {pet.known_allergies && <p className="text-gray-600 text-center">{`${t("PetProfile.allergies")}: ${pet.known_allergies}`}</p>}
+              {pet.medications && <p className="text-gray-600 text-center">{`${t("editPetProfileForm.medications")}: ${pet.medications}`}</p>}
+              {pet.special_needs && <p className="text-gray-600 text-center">{`${t("PetProfile.specialNeeds")}: ${pet.special_needs}`}</p>}
             </div>
           </div>
         </Modal>}

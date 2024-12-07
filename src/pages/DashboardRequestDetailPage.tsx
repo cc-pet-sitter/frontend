@@ -198,10 +198,10 @@ const DashboardRequestDetailPage: React.FC = () => {
 
   return (
     <div className="p-6">
-      <h2 className="font-bold text-2xl mb-4">{t("request_details_page.page-title")}</h2>
+      <h2 className="font-bold text-2xl mb-2">{t("request_details_page.page-title")}</h2>
 
       {/* Request Information */}
-      <div className="mb-6">
+      <div className="mb-4">
         <h3 className="font-semibold text-xl">{t("request_details_page.section-title")}</h3>
         <p>
           <strong>{t("request_details_page.service")}</strong> {request.desired_service}
@@ -292,7 +292,7 @@ const DashboardRequestDetailPage: React.FC = () => {
                 </div>
               )}
           <p>
-            {`${pet.name}, ${pet.type_of_animal}`}
+            {`${pet.name}, ${t(`searchBar.petOptions.${pet.type_of_animal}`)}`}
           </p>
         </div>
       )
