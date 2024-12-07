@@ -59,7 +59,7 @@ const SignUp: React.FC = () => {
   };
 
   const inputClass =
-    "appearance-none block w-full bg-white text-gray-700 border rounded py-3 px-4 leading-tight focus:outline-none focus:ring-1 focus:ring-brown focus:border-brown";
+    "appearance-none block w-full bg-white text-gray-700 border rounded py-3 px-4 leading-tight focus:outline-none focus:ring-1 focus:ring-[#D87607] focus:border-[#D87607]";
   const labelClass = "block tracking-wide text-sm mb-2";
 
   return (

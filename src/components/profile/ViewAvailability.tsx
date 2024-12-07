@@ -18,7 +18,11 @@ const ViewAvailability: React.FC<ViewAvailabilityProps> = ({
         {t("sitterProfilePage.availability")}
       </h2>
       {availabilities.length === 0 ? (
-        <p className="text-center text-gray-500">{t("sitterProfilePage.noAvailabilities")}</p>
+        <div>
+          <p className=" text-gray-500">
+            {t("sitterProfilePage.noAvailabilities")}
+          </p>
+        </div>
       ) : (
         <div className="flex justify-center">
           <Calendar

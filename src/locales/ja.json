@@ -89,7 +89,7 @@
     "chat-over": "これ以上メッセージを送ることはできません。"
   },
   "homePage": {
-    "title": "信頼できるペットシッターをを見つけましょう",
+    "title": "信頼できるペットシッターを見つけましょう",
     "subtitle": "あなたの大切なペットを安心して任せられるシッターとつながりましょう",
     "search-btn": "今すぐ検索",
     "searchLabel": "ペットシッターを探す...",
@@ -175,7 +175,7 @@
     },
     "typeOfService": "お探しのサービスの種類",
     "serviceOptions": {
-      "boarding": "シッター宅でお預かり",
+      "boarding": "お預かりサービス",
       "stayIn": "お留守番サポート",
       "dropIn": "立ち寄りサービス"
     },
@@ -801,7 +801,7 @@
   },
   "searchPage": {
     "visits": "立ち寄りサービス",
-    "sitter_house": "シッター宅でお預かり",
+    "sitter_house": "お預かりサービス",
     "owner_house": "お留守番サポート",
     "available": "可能なサービス: ",
     "notAvailable": "訪問不可",
@@ -854,7 +854,7 @@
     "signupButton": "サインアップ",
     "loginRequired": "認証が必要です",
     "explanation": "お問い合わせを送信するにはログインが必要です。続行するにはログインするかアカウントを作成してください。",
-    "boarding": "シッター宅でお預かり",
+    "boarding": "お預かりサービス",
     "stay-in": "お留守番サポート",
     "visit": "立ち寄りサービス",
     "no-pets": "お問い合わせ送信前にペットを登録してください"
