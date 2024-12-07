@@ -44,7 +44,8 @@ const ProfilePictureUploader: React.FC<ProfilePictureUploaderProps> = ({
   const handleUpload = (fileToUpload: File) => {
     setIsUploading(true);
 
-    const storageRef = ref(storage, `${pictureType}/${id}`);
+    const uniqueFileName = `${Date.now()}_${id}`;
+    const storageRef = ref(storage, `${pictureType}/${uniqueFileName}`);
     const uploadTask = uploadBytesResumable(storageRef, fileToUpload);
 
     uploadTask.on(

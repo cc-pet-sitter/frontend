@@ -6,24 +6,23 @@ import { MdOutlineArrowBackIos } from "react-icons/md";
 import axiosInstance from "../../api/axiosInstance";
 import { PetProfileData } from "../../types/userProfile.ts";
 import ProfilePictureUploader from "../services/ProfilePictureUploader.tsx";
-// import MultiPictureUploder from "../services/MultiPictureUploader.tsx";
+import MultiPictureUploader from "../services/MultiPictureUploader.tsx";
 import ViewMultiPicture from "./ViewMultiPicture.tsx";
 
 import { LuDog, LuFish } from "react-icons/lu";
 import { PiBirdBold, PiCatBold, PiRabbitBold } from "react-icons/pi";
 
 import { TailSpin } from "react-loader-spinner";
-import MultiPictureUploader from "../services/MultiPictureUploader.tsx";
 import { FaDog } from "react-icons/fa";
 
 const apiURL: string = import.meta.env.VITE_API_BASE_URL;
 
-type Props = {
+type EditProfileFormProps = {
   petProfile: PetProfileData | null;
   onClose: () => void;
 };
 
-const EditProfileForm: React.FC<Props> = ({ petProfile, onClose }) => {
+const EditProfileForm: React.FC<EditProfileFormProps> = ({ petProfile, onClose }) => {
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState<boolean>(false);
   const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -69,12 +68,22 @@ const EditProfileForm: React.FC<Props> = ({ petProfile, onClose }) => {
   }, [petProfilePicture, petProfile]);
 
   const handleCreate = async (data: PetProfileData) => {
-    console.log(data);
     setIsLoading(true);
     try {
       const response = await axiosInstance.post(
         `${apiURL}/appuser/${userInfo?.id}/pet`,
-        data
+        {
+          name: data.name,
+          profile_picture_src: petProfilePicture,
+          pet_bio_picture_src_list: petBioPictureSrcList,
+          type_of_animal: data.type_of_animal,
+          subtype: data.subtype,
+          weight: data.weight,
+          birthday: data.birthday,
+          known_allergies: data.known_allergies,
+          medications: data.medications,
+          special_needs: data.special_needs,
+        }
       );
 
       if (response.status === 201) {
@@ -149,7 +158,8 @@ const EditProfileForm: React.FC<Props> = ({ petProfile, onClose }) => {
     console.log("petProfilePicture : ", petProfilePicture);
 
     // Update the form's value for pet profile_picture_src
-    setValue("profile_picture_src", petProfilePicture || "");
+    setValue("profile_picture_src", url);
+    setImageLoaded(false);
   };
 
   const handleMultiUpload = (urls: string[]) => {
@@ -221,7 +231,7 @@ const EditProfileForm: React.FC<Props> = ({ petProfile, onClose }) => {
 
             {petProfilePicture || petProfile?.profile_picture_src ? (
               <img
-                src={petProfile?.profile_picture_src || petProfilePicture}
+                src={petProfilePicture || petProfile?.profile_picture_src}
                 alt={petProfile?.name}
                 className={`h-48 w-48 rounded-full object-cover ${
                   imageLoaded ? "block" : "hidden"
@@ -236,7 +246,7 @@ const EditProfileForm: React.FC<Props> = ({ petProfile, onClose }) => {
             )}
           </div>
           <ProfilePictureUploader
-            id={petProfile?.id}
+            id={userInfo?.id}
             pictureType="pet_pictures"
             onUpload={(url) => {
               handleUpload(url);

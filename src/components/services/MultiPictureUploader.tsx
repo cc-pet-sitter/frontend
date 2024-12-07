@@ -148,7 +148,7 @@ const MultiPictureUploader: React.FC<MultiPictureUploaderProps> = ({
           </p>
         </div>
 
-    )};
+    )}
     </div>
 )};
 

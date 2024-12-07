@@ -1,11 +1,12 @@
-import React from "react";
+import React, { useState} from "react";
 import { useTranslation } from "react-i18next";
-import { PiCat, PiMedal, PiRabbit, PiBird } from "react-icons/pi";
+import { PiDog, PiCat, PiMedal, PiRabbit, PiBird } from "react-icons/pi";
 import { LiaBirthdayCakeSolid, LiaWeightSolid } from "react-icons/lia";
 import { MdOutlineArrowBackIos } from "react-icons/md";
 import { LuDog, LuFish } from "react-icons/lu";
 import { PetProfileData } from "../../types/userProfile";
 import FeaturedImageGallery from "./FeaturedImageGallery";
+import { TailSpin } from "react-loader-spinner";
 
 type Props = {
   petProfile: PetProfileData | null;
@@ -14,6 +15,8 @@ type Props = {
 
 const PetProfile: React.FC<Props> = ({ petProfile, onClose }) => {
   const { t } = useTranslation();
+  const [imageLoaded, setImageLoaded] = useState<boolean>(false);
+
 
   return (
     <div>
@@ -32,14 +35,32 @@ const PetProfile: React.FC<Props> = ({ petProfile, onClose }) => {
           <div className="bg-white shadow-md rounded-lg overflow-hidden">
             {/* Profile Header */}
             <div className="flex flex-col sm:flex-row items-center my-6">
-              <img
-                src={
-                  petProfile.profile_picture_src ||
-                  "https://upload.wikimedia.org/wikipedia/commons/thumb/3/3a/Cat03.jpg/640px-Cat03.jpg"
-                }
-                alt={`Picture of ${petProfile.name}`}
-                className="h-48 w-48 rounded-full object-cover"
-              />
+              {!imageLoaded && (
+                <div className="flex items-center justify-center bg-gray-300 h-48 w-48 rounded-full ">
+                  <TailSpin
+                    height="50"
+                    width="50"
+                    color="#fabe25"
+                    ariaLabel="loading"
+                  />
+                </div>
+              )}
+
+              {petProfile?.profile_picture_src ? (
+                <img
+                  src={petProfile.profile_picture_src}
+                  alt={petProfile.name}
+                  className={`h-48 w-48 rounded-full object-cover ${
+                    imageLoaded ? "block" : "hidden"
+                  }`}
+                  onLoad={() => setImageLoaded(true)}
+                  onError={() => setImageLoaded(true)}
+                />
+              ) : (
+                <div className="flex items-center justify-center bg-gray-300 h-48 w-48 rounded-full ">
+                  <PiDog className="h-40 w-40" color="white" />
+                </div>
+              )}
               <div className="mt-4 sm:mt-0 sm:ml-6 text-center sm:text-left">
                 <h1 className="text-2xl font-bold">{petProfile.name}</h1>
               </div>
