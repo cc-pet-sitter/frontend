@@ -307,7 +307,7 @@ const DashboardRequestDetailPage: React.FC = () => {
         />
       )}
 
-      {/* User Profile Modal */}
+      {/* Pet Profile Modal */}
       {isModalOpen && selectedPet && (
       <UserProfileModal
         isOpen={isModalOpen}
