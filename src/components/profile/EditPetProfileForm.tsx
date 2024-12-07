@@ -22,7 +22,10 @@ type EditProfileFormProps = {
   onClose: () => void;
 };
 
-const EditProfileForm: React.FC<EditProfileFormProps> = ({ petProfile, onClose }) => {
+const EditProfileForm: React.FC<EditProfileFormProps> = ({
+  petProfile,
+  onClose,
+}) => {
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState<boolean>(false);
   const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -259,26 +262,42 @@ const EditProfileForm: React.FC<EditProfileFormProps> = ({ petProfile, onClose }
         <div className="mb-6">
           <p className={`${labelClass} mb-3`}>
             {t("editPetProfileForm.typeOfPet")}
+            <span className="text-red-500 ml-1">*</span>
           </p>
           <ul className="grid grid-cols-3 gap-4">
             {petOptions.map((pet) => (
-              <label
-                key={pet.name}
-                className={`${checkboxLabelClass} flex items-center`}
-              >
-                <input
-                  type="radio"
-                  {...register("type_of_animal")}
-                  value={pet.name}
-                  className="mb-2"
-                />
-                {pet.name === "dog" && <LuDog size="2em" />}
-                {pet.name === "cat" && <PiCatBold size="2em" />}
-                {pet.name === "fish" && <LuFish size="2em" />}
-                {pet.name === "bird" && <PiBirdBold size="2em" />}
-                {pet.name === "rabbit" && <PiRabbitBold size="2em" />}
-                <span>{t(`searchBar.petOptions.${pet.name}`)}</span>
-              </label>
+              <li key={pet.name}>
+                <label
+                  className={`${checkboxLabelClass} flex flex-col items-center justify-center cursor-pointer`}
+                >
+                  <input
+                    type="radio"
+                    {...register("type_of_animal")}
+                    value={pet.name}
+                    className="sr-only peer"
+                  />
+                  <div
+                    className={`${
+                      pet.name === "dog" && "peer-checked:text-blue-500"
+                    } ${pet.name === "cat" && "peer-checked:text-red-500"} ${
+                      pet.name === "fish" && "peer-checked:text-green-500"
+                    } ${
+                      pet.name === "bird" && "peer-checked:text-yellow-500"
+                    } ${
+                      pet.name === "rabbit" && "peer-checked:text-purple-500"
+                    }`}
+                  >
+                    {pet.name === "dog" && <LuDog size="2em" />}
+                    {pet.name === "cat" && <PiCatBold size="2em" />}
+                    {pet.name === "fish" && <LuFish size="2em" />}
+                    {pet.name === "bird" && <PiBirdBold size="2em" />}
+                    {pet.name === "rabbit" && <PiRabbitBold size="2em" />}
+                  </div>
+                  <span className="mt-2">
+                    {t(`searchBar.petOptions.${pet.name}`)}
+                  </span>
+                </label>
+              </li>
             ))}
           </ul>
         </div>
@@ -286,7 +305,8 @@ const EditProfileForm: React.FC<EditProfileFormProps> = ({ petProfile, onClose }
         {/* Name */}
         <div className="mb-6">
           <label className={labelClass} htmlFor="name">
-            {t("editPetProfileForm.name")}
+            {t("editPetProfileForm.name")}{" "}
+            <span className="text-red-500 ml-1">*</span>
           </label>
           <input
             id="name"

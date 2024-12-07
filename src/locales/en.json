@@ -974,7 +974,8 @@
     "selectPrefecture": "Select Prefecture",
     "postalCodePlaceholder": "Postal code without hyphen (ex. 1234567)",
     "postalCodeRequired": "Please enter your postal code.",
-    "postalCodeError": "Postal code must be exactly 7 digits"
+    "postalCodeError": "Postal code must be exactly 7 digits",
+    "reqMessage": "All fields are required to become a pet sitter."
   },
   "featuredImageGallery": {
     "noImages": "No images available"
