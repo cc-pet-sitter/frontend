@@ -90,7 +90,7 @@
   "homePage": {
     "title": "信頼できるペットシッターをを見つけましょう",
     "subtitle": "あなたの大切なペットを安心して任せられるシッターとつながりましょう",
-    "search-btn": "ペットシッターを探す",
+    "search-btn": "今すぐ検索",
     "searchLabel": "ペットシッターを探す...",
     "more_pet_view": "さらにペットを見る",
     "title_pets": "ペットをチェックしよう",
@@ -179,7 +179,7 @@
       "dropIn": "立ち寄り"
     },
     "search": "検索",
-    "enterCityWard": "市区町村を入力してください...",
+    "enterCityWard": "市区町村を入力してください",
     "selectPrefecture": "都道府県を選択してください",
     "cityOptions": {
       "Hokkaido": {
@@ -883,7 +883,12 @@
   },
   "PetProfile": {
     "about": "{{name}} について",
-    "typeOfPet": "私は{{cat}}です",
+    "typeOfPet": "私は{{animal}}です",
+    "dog": "犬",
+    "cat": "猫",
+    "fish": "魚",
+    "bird": "鳥",
+    "rabbit": "ウサギ",
     "birthday": "誕生日は ",
     "weight": "体重は {{weight}}kg",
     "breed": "品種は ",

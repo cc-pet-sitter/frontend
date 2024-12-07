@@ -76,29 +76,43 @@ const PetProfile: React.FC<Props> = ({ petProfile, onClose }) => {
                 {petProfile.type_of_animal === "dog" && (
                   <>
                     <LuDog className="mr-3 mt-1 text-xl" />
+                    {t("PetProfile.typeOfPet", {
+                      animal: t("PetProfile.dog"),
+                    })}
                   </>
                 )}
                 {petProfile.type_of_animal === "cat" && (
                   <>
                     <PiCat className="mr-3 mt-1 text-xl" />
+                    {t("PetProfile.typeOfPet", {
+                      animal: t("PetProfile.cat"),
+                    })}
                   </>
                 )}
                 {petProfile.type_of_animal === "rabbit" && (
                   <>
                     <PiRabbit className="mr-3 mt-1 text-xl" />
+                    {t("PetProfile.typeOfPet", {
+                      animal: t("PetProfile.rabbit"),
+                    })}
                   </>
                 )}
                 {petProfile.type_of_animal === "bird" && (
                   <>
                     <PiBird className="mr-3 mt-1 text-xl" />
+                    {t("PetProfile.typeOfPet", {
+                      animal: t("PetProfile.bird"),
+                    })}
                   </>
                 )}
                 {petProfile.type_of_animal === "fish" && (
                   <>
                     <LuFish className="mr-3 mt-1 text-xl" />
+                    {t("PetProfile.typeOfPet", {
+                      animal: t("PetProfile.fish"),
+                    })}
                   </>
                 )}
-                {t("PetProfile.typeOfPet", { cat: petProfile.type_of_animal })}
               </div>
 
               <div className="flex my-3">

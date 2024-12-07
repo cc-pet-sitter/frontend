@@ -77,29 +77,43 @@ const PetProfilesPage: React.FC = () => {
                   {profile.type_of_animal === "dog" && (
                     <>
                       <LuDog className="mr-3 mt-1 " />
+                      {t("PetProfile.typeOfPet", {
+                        animal: t("PetProfile.dog"),
+                      })}
                     </>
                   )}
                   {profile.type_of_animal === "cat" && (
                     <>
                       <PiCat className="mr-3 mt-1 " />
+                      {t("PetProfile.typeOfPet", {
+                        animal: t("PetProfile.cat"),
+                      })}
                     </>
                   )}
                   {profile.type_of_animal === "rabbit" && (
                     <>
                       <PiRabbit className="mr-3 mt-1" />
+                      {t("PetProfile.typeOfPet", {
+                        animal: t("PetProfile.rabbit"),
+                      })}
                     </>
                   )}
                   {profile.type_of_animal === "bird" && (
                     <>
                       <PiBird className="mr-3 mt-1 " />
+                      {t("PetProfile.typeOfPet", {
+                        animal: t("PetProfile.bird"),
+                      })}
                     </>
                   )}
                   {profile.type_of_animal === "fish" && (
                     <>
                       <LuFish className="mr-3 mt-1 " />
+                      {t("PetProfile.typeOfPet", {
+                        animal: t("PetProfile.fish"),
+                      })}
                     </>
                   )}
-                  {t("PetProfile.typeOfPet", { cat: profile.type_of_animal })}
                 </div>
                 <div className="flex my-1 text-sm">
                   <LiaBirthdayCakeSolid className="mr-3 mt-1 " />
