@@ -4,13 +4,12 @@ import { useAuth } from "../contexts/AuthContext";
 import { useTranslation } from "react-i18next";
 import EditProfileForm from "../components/profile/EditProfileForm";
 import { FaUserCircle } from "react-icons/fa";
-import { TailSpin } from 'react-loader-spinner'
-
+import { TailSpin } from "react-loader-spinner";
 
 const DashboardAccountPage: React.FC = () => {
   const [showSignUpForm, setShowSignUpForm] = useState<boolean>(false);
   const [imageLoaded, setImageLoaded] = useState<boolean>(false);
-  
+
   const { userInfo } = useAuth();
   const { t } = useTranslation();
 
@@ -19,7 +18,6 @@ const DashboardAccountPage: React.FC = () => {
       setImageLoaded(true);
     }
   }, [userInfo]);
-
 
   return (
     <div className="dashboard-container">
@@ -63,8 +61,8 @@ const DashboardAccountPage: React.FC = () => {
                   <h1 className="text-2xl font-bold">{`${userInfo?.firstname} ${userInfo?.lastname}`}</h1>
                   <p className="text-gray-500">{userInfo?.email}</p>
                 </div>
-              </div>            
-              
+              </div>
+
               {/* Profile Details */}
               <div className="p-6 border-t">
                 <h2 className="text-lg font-semibold mb-4">
@@ -73,24 +71,23 @@ const DashboardAccountPage: React.FC = () => {
                 <ul className="list-none space-y-2 text-left">
                   <li>
                     <div>
-                      <strong>{`${t("sitterProfilePage.location")}: `}</strong>
-                      {userInfo?.prefecture || userInfo?.city_ward
-                        ? `${userInfo.prefecture || ""}${userInfo.prefecture && userInfo.city_ward ? ", " : ""}${userInfo.city_ward || ""}`
-                        : ""}
+                      <strong>{`${t("sitterProfilePage.postCode")}: `}</strong>
+                      {userInfo?.postal_code}
                     </div>
                   </li>
                   <li>
                     <div>
                       <strong>{`${t("sitterProfilePage.address")}: `}</strong>
-                      {userInfo?.street_address}
+                      {[
+                        userInfo?.prefecture,
+                        userInfo?.city_ward,
+                        userInfo?.street_address,
+                      ]
+                        .filter(Boolean)
+                        .join(",")}
                     </div>
                   </li>
-                  <li>
-                    <div>
-                      <strong>{`${t("sitterProfilePage.postCode")}: `}</strong>
-                      {userInfo?.postal_code}
-                    </div>
-                  </li>
+
                   <li>
                     <div>
                       <strong>{`${t("sitterProfilePage.languages")}: `}</strong>

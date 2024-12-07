@@ -6,7 +6,7 @@ import { formatDistanceToNow } from "date-fns";
 import Rating from "@mui/material/Rating";
 import { Done } from "@mui/icons-material";
 import { FaUserCircle } from "react-icons/fa";
-import { TailSpin } from 'react-loader-spinner'
+import { TailSpin } from "react-loader-spinner";
 import { AppUser, Review, Sitter } from "../types/userProfile.ts";
 import EditSitterProfileForm from "../components/profile/EditSitterProfileForm";
 import ViewAvailability from "../components/profile/ViewAvailability";
@@ -23,7 +23,7 @@ const DashboardSitterProfilePage: React.FC = () => {
     useState<boolean>(false);
   const [availabilities, setAvailabilities] = useState<Date[]>([]);
   const [imageLoaded, setImageLoaded] = useState<boolean>(false);
-  
+
   const { userInfo } = useAuth();
   const { t } = useTranslation();
   const navigate = useNavigate();
@@ -73,7 +73,6 @@ const DashboardSitterProfilePage: React.FC = () => {
   return (
     <div className="dashboard-container">
       {showEditProfileForm ? (
-        
         <div className="">
           <EditSitterProfileForm
             fetchAllProfileData={fetchAllProfileData}
@@ -83,13 +82,12 @@ const DashboardSitterProfilePage: React.FC = () => {
           />
         </div>
       ) : user && sitterProfile ? (
-        <> 
+        <>
           {/* If there is a sitter registered profile display it  */}
           <div className="container mx-auto p-6">
             <div className="bg-white shadow-md rounded-lg overflow-hidden">
               {/* Profile Header */}
               <div className="flex flex-col sm:flex-row items-center p-6">
-
                 {!imageLoaded && (
                   <div className="flex items-center justify-center bg-gray-300 h-48 w-48 rounded-full ">
                     <TailSpin
@@ -136,7 +134,9 @@ const DashboardSitterProfilePage: React.FC = () => {
 
               {/* Account Bio */}
               <div className="p-6 border-t">
-                <h2 className="text-lg font-semibold mb-4">Bio</h2>
+                <h2 className="text-lg font-semibold mb-4">
+                  {t("sitterProfilePage.bio")}
+                </h2>
                 <p>{sitterProfile.sitter_profile_bio}</p>
               </div>
 
@@ -188,12 +188,17 @@ const DashboardSitterProfilePage: React.FC = () => {
                 </h2>
                 <ul className="list-none space-y-2 text-left">
                   <li>
-                    <strong>{`${t("sitterProfilePage.location")}:`}</strong>{" "}
-                    {`${user.prefecture}, ${user.city_ward}`}
-                  </li>
-                  <li>
                     <strong>{`${t("sitterProfilePage.postCode")}:`}</strong>{" "}
                     {user.postal_code}
+                  </li>
+                  <li>
+                    <strong>{`${t("sitterProfilePage.location")}:`}</strong>{" "}
+                    <div>
+                      <strong>{`${t("sitterProfilePage.address")}: `}</strong>
+                      {[user?.prefecture, user?.city_ward, user?.street_address]
+                        .filter(Boolean)
+                        .join(",")}
+                    </div>
                   </li>
                   <li>
                     <strong>{`${t("sitterProfilePage.languages")}:`}</strong>{" "}
@@ -267,7 +272,9 @@ const DashboardSitterProfilePage: React.FC = () => {
                   {t("sitterProfilePage.additionalImages")}
                 </h2>
                 <FeaturedImageGallery
-                  picture_src_list={sitterProfile.sitter_bio_picture_src_list || ""}
+                  picture_src_list={
+                    sitterProfile.sitter_bio_picture_src_list || ""
+                  }
                 />
               </div>
             </div>
@@ -283,7 +290,7 @@ const DashboardSitterProfilePage: React.FC = () => {
         </>
       ) : (
         <>
-          <div className="flex flex-col items-center justify-center h-screen text-center">
+          <div className="flex flex-col items-center justify-center h-screen text-center px-4">
             <h1 className="mb-2 font-bold text-2xl">
               {t("dashboard_Sitter_Profile_page.createHeader")}
             </h1>
@@ -294,7 +301,7 @@ const DashboardSitterProfilePage: React.FC = () => {
                   {t("dashboard_Sitter_Profile_page.createSubtitleNoGo")}
                 </p>
                 <button
-                  onClick={() => navigate('/dashboard/account')}
+                  onClick={() => navigate("/dashboard/account")}
                   className="shadow btn-primary focus:shadow-outline focus:outline-none font-bold py-2 px-4 rounded"
                 >
                   {t("dashboard_Sitter_Profile_page.createButtonNoGo")}

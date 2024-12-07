@@ -43,16 +43,16 @@ const EditSitterProfileForm: React.FC<Props> = ({
   });
   const { userInfo, setUserInfo } = useAuth();
   const { t } = useTranslation();
-  const [sitterBioPictureSrcList, setSitterBioPictureSrcList] = useState<string>(
-    sitterProfile?.sitter_bio_picture_src_list || ""
-  );
+  const [sitterBioPictureSrcList, setSitterBioPictureSrcList] =
+    useState<string>(sitterProfile?.sitter_bio_picture_src_list || "");
   const [imageLoaded, setImageLoaded] = useState<boolean>(false);
 
   useEffect(() => {
     if (sitterProfile) {
       reset({
         sitter_profile_bio: sitterProfile.sitter_profile_bio || "",
-        sitter_bio_picture_src_list: sitterProfile.sitter_bio_picture_src_list || "",
+        sitter_bio_picture_src_list:
+          sitterProfile.sitter_bio_picture_src_list || "",
         sitter_house_ok: sitterProfile.sitter_house_ok || false,
         owner_house_ok: sitterProfile.owner_house_ok || false,
         visit_ok: sitterProfile.visit_ok || false,
@@ -62,7 +62,9 @@ const EditSitterProfileForm: React.FC<Props> = ({
         birds_ok: sitterProfile.birds_ok || false,
         rabbits_ok: sitterProfile.rabbits_ok || false,
       });
-      setSitterBioPictureSrcList(sitterProfile.sitter_bio_picture_src_list || "");
+      setSitterBioPictureSrcList(
+        sitterProfile.sitter_bio_picture_src_list || ""
+      );
     }
   }, [sitterProfile, reset]);
 
@@ -70,18 +72,21 @@ const EditSitterProfileForm: React.FC<Props> = ({
     data.sitter_bio_picture_src_list = sitterBioPictureSrcList;
     console.log("Submitting data:", data);
     try {
-      const response = await axiosInstance.post(`${apiURL}/sitter/${userInfo?.id}`, {
-        sitter_profile_bio: data.sitter_profile_bio,
-        sitter_bio_picture_src_list: data.sitter_bio_picture_src_list,
-        sitter_house_ok: data.sitter_house_ok,
-        owner_house_ok: data.owner_house_ok,
-        visit_ok: data.visit_ok,
-        dogs_ok: data.dogs_ok,
-        cats_ok: data.cats_ok,
-        fish_ok: data.fish_ok,
-        birds_ok: data.birds_ok,
-        rabbits_ok: data.rabbits_ok,
-      });
+      const response = await axiosInstance.post(
+        `${apiURL}/sitter/${userInfo?.id}`,
+        {
+          sitter_profile_bio: data.sitter_profile_bio,
+          sitter_bio_picture_src_list: data.sitter_bio_picture_src_list,
+          sitter_house_ok: data.sitter_house_ok,
+          owner_house_ok: data.owner_house_ok,
+          visit_ok: data.visit_ok,
+          dogs_ok: data.dogs_ok,
+          cats_ok: data.cats_ok,
+          fish_ok: data.fish_ok,
+          birds_ok: data.birds_ok,
+          rabbits_ok: data.rabbits_ok,
+        }
+      );
 
       if (response.status === 200) {
         const updatedProfile = response.data;
@@ -97,7 +102,7 @@ const EditSitterProfileForm: React.FC<Props> = ({
       } else {
         throw new Error(response.data.detail || "Failed to update profile.");
       }
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error: any) {
       console.error("Error updating profile:", error.message);
       setError(error.message);
@@ -157,21 +162,28 @@ const EditSitterProfileForm: React.FC<Props> = ({
         )}
 
         <div className="mb-2">
-          <button
-            onClick={(e) => {
-              e.preventDefault();
-              closeEditForm();
-            }}
-            className="text-2xl my-8 mt-0"
-          >
-            <MdOutlineArrowBackIos />
-          </button>
+          <div className="flex flex-wrap -mx-3 mb-6 my-2">
+            <button
+              onClick={(e) => {
+                e.preventDefault();
+                closeEditForm();
+              }}
+              className="ml-2 flex"
+            >
+              <MdOutlineArrowBackIos className="mr-3 mt-1" /> <p>Back</p>
+            </button>
+          </div>
 
           {/* Profile Picture */}
           <div className="flex items-center justify-center pb-4">
             {!imageLoaded && (
               <div className="flex items-center justify-center bg-gray-300 h-48 w-48 rounded-full">
-                <TailSpin height="50" width="50" color="#fabe25" ariaLabel="loading" />
+                <TailSpin
+                  height="50"
+                  width="50"
+                  color="#fabe25"
+                  ariaLabel="loading"
+                />
               </div>
             )}
             {userInfo?.profile_picture_src ? (
@@ -193,7 +205,10 @@ const EditSitterProfileForm: React.FC<Props> = ({
 
           {/* Introduction */}
           <div className="flex flex-col mt-4 items-start">
-            <label className={`${labelClass} flex items-center`} htmlFor="introduction">
+            <label
+              className={`${labelClass} flex items-center`}
+              htmlFor="introduction"
+            >
               {t("dashboard_Sitter_Profile_page.introduction")}
               <span className="text-red-500 ml-1">*</span>
             </label>
@@ -233,7 +248,10 @@ const EditSitterProfileForm: React.FC<Props> = ({
                       "Please select at least one pet.",
                   })}
                 />
-                <label htmlFor={`${pet}_ok`} className={`${checkboxLabelClass} flex items-center`}>
+                <label
+                  htmlFor={`${pet}_ok`}
+                  className={`${checkboxLabelClass} flex items-center`}
+                >
                   {pet === "dogs_ok" && <LuDog size="2em" />}
                   {pet === "cats_ok" && <PiCatBold size="2em" />}
                   {pet === "fish_ok" && <LuFish size="2em" />}
@@ -279,7 +297,10 @@ const EditSitterProfileForm: React.FC<Props> = ({
                       "Please select at least one service.",
                   })}
                 />
-                <label htmlFor={`${service}`} className={`${checkboxLabelClass} flex items-center`}>
+                <label
+                  htmlFor={`${service}`}
+                  className={`${checkboxLabelClass} flex items-center`}
+                >
                   {service === "sitter_house_ok" && <LuSchool size="2em" />}
                   {service === "owner_house_ok" && <TbHomeFilled size="2em" />}
                   {service === "visit_ok" && <TbHomeMove size="2em" />}
@@ -311,7 +332,9 @@ const EditSitterProfileForm: React.FC<Props> = ({
           {!userInfo?.is_sitter && (
             <div className="absolute inset-0 flex items-center justify-center bg-white bg-opacity-70 z-[9999]">
               <p className="text-gray-700 text-sm p-4 text-center">
-                {t("Please save your profile first before setting availability.")}
+                {t(
+                  "Please save your profile first before setting availability."
+                )}
               </p>
             </div>
           )}
@@ -323,7 +346,9 @@ const EditSitterProfileForm: React.FC<Props> = ({
             {t("dashboard_Sitter_Profile_page.addMorePictures")}
           </h2>
           {sitterBioPictureSrcList ? (
-            <ViewMultiPicture picture_src_list={sitterBioPictureSrcList || ""} />
+            <ViewMultiPicture
+              picture_src_list={sitterBioPictureSrcList || ""}
+            />
           ) : (
             ""
           )}

@@ -2,6 +2,7 @@ import React, { useState, useRef } from "react";
 import { storage } from "../../firebase";
 import { getDownloadURL, ref, uploadBytesResumable } from "firebase/storage";
 import { FaEdit } from "react-icons/fa";
+import { useTranslation } from "react-i18next";
 
 interface ProfilePictureUploaderProps {
   id: number | undefined;
@@ -19,6 +20,7 @@ const ProfilePictureUploader: React.FC<ProfilePictureUploaderProps> = ({
   const [progress, setProgress] = useState<number>(0);
   const [isUploading, setIsUploading] = useState<boolean>(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const { t } = useTranslation();
 
   const handleEditClick = () => {
     fileInputRef.current?.click();
@@ -51,7 +53,8 @@ const ProfilePictureUploader: React.FC<ProfilePictureUploaderProps> = ({
     uploadTask.on(
       "state_changed",
       (snapshot) => {
-        const progressValue = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+        const progressValue =
+          (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
         setProgress(progressValue);
       },
       (error) => {
@@ -74,7 +77,6 @@ const ProfilePictureUploader: React.FC<ProfilePictureUploaderProps> = ({
 
   return (
     <div className="flex flex-col items-center">
-
       {/* Edit Photo Button */}
       <button
         type="button"
@@ -83,7 +85,9 @@ const ProfilePictureUploader: React.FC<ProfilePictureUploaderProps> = ({
         disabled={isUploading}
       >
         <FaEdit className="mr-2" />
-        {isUploading ? "Uploading..." : "Edit Photo"}
+        {isUploading
+          ? t("PictureUploader.uploading")
+          : t("PictureUploader.edit_photo")}
       </button>
 
       {/* Hidden File Input */}

@@ -16,7 +16,7 @@ const DashboardPetsProfilePage: React.FC = () => {
   const [selectedPetProfile, setSelectedPetProfile] =
     useState<PetProfileData | null>(null);
   const [showEditProfileForm, setShowEditProfileForm] =
-      useState<boolean>(false);
+    useState<boolean>(false);
   const [showProfileView, setShowProfileView] = useState<boolean>(false);
   const [imageLoaded, setImageLoaded] = useState<boolean>(false);
 
@@ -72,84 +72,79 @@ const DashboardPetsProfilePage: React.FC = () => {
           </h1>
 
           {petProfiles?.length !== 0 ? (
-              // If there are several Pet Profiles display this block
-              <div className="flex flex-col">
-                {petProfiles?.map((profile, index) => (
-                  <div
-                    key={index}
-                    className="mx-6 my-3 border border-transparent shadow-custom rounded w-80 sm:w-100 p-4"
-                  >
-                    <div className="sm:mt-0 sm:ml-6 flex items-center justify-between gap-4">
-                      <div className="relative h-20 w-20">
-                        {/* Loader */}
-                        {!imageLoaded && (
-                          <div className="absolute inset-0 flex items-center justify-center bg-gray-200 rounded-full">
-                            <TailSpin
-                              height="50"
-                              width="50"
-                              color="#fabe25"
-                              ariaLabel="loading"
-                            />
-                          </div>
-                        )}
-                        {/* Profile Picture */}
-                        {profile.profile_picture_src ? (
-                          <img
-                            src={profile.profile_picture_src}
-                            alt={`Picture of ${profile.name}`}
-                            className={`h-20 w-20 rounded-full object-cover ${
-                              imageLoaded ? "block" : "hidden"
-                            }`}
-                            onLoad={() => setImageLoaded(true)}
-                            onError={() => setImageLoaded(true)}
+            // If there are several Pet Profiles display this block
+            <div className="flex flex-col">
+              {petProfiles?.map((profile, index) => (
+                <div
+                  key={index}
+                  className="mx-6 my-3 border border-transparent shadow-custom rounded w-80 sm:w-100 p-4"
+                >
+                  <div className="sm:mt-0 sm:ml-6 flex items-center justify-between gap-4">
+                    <div className="relative h-20 w-20">
+                      {/* Loader */}
+                      {!imageLoaded && (
+                        <div className="absolute inset-0 flex items-center justify-center bg-gray-200 rounded-full">
+                          <TailSpin
+                            height="50"
+                            width="50"
+                            color="#fabe25"
+                            ariaLabel="loading"
                           />
-                        ) : (
-                          <PiDog className="h-20 w-20 text-gray-400" />
-                        )}
-                      </div>
-
-                      <div>
-                        <h2 className="font-medium my-1 text-lg">
-                          {profile.name}
-                        </h2>
-                        <div>
-                          {/* Edit Profile */}
-                          <button
-                            onClick={() => {
-                              setSelectedPetProfile(profile);
-                              setShowEditProfileForm(true);
-                            }}
-                            className="text-brown text-sm underline mr-4 "
-                          >
-                            <a>
-                              {t("dashboard_pets_profile_page.edit_button")}
-                            </a>
-                          </button>
-                          {/* View Profile */}
-                          <button
-                            onClick={() => {
-                              setSelectedPetProfile(profile);
-                              setShowProfileView(true);
-                            }}
-                            className="text-brown text-sm underline mr-4"
-                          >
-                            <a>
-                              {t("dashboard_pets_profile_page.view_button")}
-                            </a>
-                          </button>
                         </div>
+                      )}
+                      {/* Profile Picture */}
+                      {profile.profile_picture_src ? (
+                        <img
+                          src={profile.profile_picture_src}
+                          alt={`Picture of ${profile.name}`}
+                          className={`h-20 w-20 rounded-full object-cover ${
+                            imageLoaded ? "block" : "hidden"
+                          }`}
+                          onLoad={() => setImageLoaded(true)}
+                          onError={() => setImageLoaded(true)}
+                        />
+                      ) : (
+                        <PiDog className="h-20 w-20 text-gray-400" />
+                      )}
+                    </div>
 
+                    <div>
+                      <h2 className="font-medium my-1 text-lg">
+                        {profile.name}
+                      </h2>
+                      <div>
+                        {/* Edit Profile */}
+                        <button
+                          onClick={() => {
+                            setSelectedPetProfile(profile);
+                            setShowEditProfileForm(true);
+                          }}
+                          className="text-brown text-sm underline mr-4 "
+                        >
+                          <a>{t("dashboard_pets_profile_page.edit_button")}</a>
+                        </button>
+                        {/* View Profile */}
+                        <button
+                          onClick={() => {
+                            setSelectedPetProfile(profile);
+                            setShowProfileView(true);
+                          }}
+                          className="text-brown text-sm underline mr-4"
+                        >
+                          <a>{t("dashboard_pets_profile_page.view_button")}</a>
+                        </button>
                       </div>
                     </div>
                   </div>
-                ))}
-                <button
-                  onClick={() => setShowEditProfileForm(true)}
-                  className="mx-6 my-4 btn-secondary py-1 px-2 rounded w-36 text-sm"
-                >
-                  {t("dashboard_pets_profile_page.add_profile")}
-                </button>
-              </div>
+                </div>
+              ))}
+              <button
+                onClick={() => setShowEditProfileForm(true)}
+                className="mx-6 my-4 btn-secondary py-1 px-2 rounded w-40 text-sm"
+              >
+                {t("dashboard_pets_profile_page.add_profile")}
+              </button>
+            </div>
           ) : (
             // If there is no registeres Pets display this block
             <div>
