@@ -11,6 +11,8 @@ import Rating from "@mui/material/Rating";
 import ViewAvailability from "../components/profile/ViewAvailability.tsx";
 import FeaturedImageGallery from "../components/profile/FeaturedImageGallery.tsx";
 import { MdOutlineArrowBackIos } from "react-icons/md";
+import UnionJack from "../components/flags/UnionJack.tsx";
+import Japan from "../components/flags/Japan.tsx";
 
 const apiURL: string = import.meta.env.VITE_API_BASE_URL;
 
@@ -154,12 +156,12 @@ const SitterProfilePage: React.FC = () => {
               <br />
               <br />
             </p>
+            <p>{t("sitterProfilePage.iOffer")} </p>
             <p className="font-semibold">
               {user.sitter?.visit_ok ||
               user.sitter?.sitter_house_ok ||
               user.sitter?.owner_house_ok ? (
-                <>
-                  {t("sitterProfilePage.iOffer")}{" "}
+                <span className="font-italic">
                   {(() => {
                     const services = [
                       user.sitter.sitter_house_ok &&
@@ -175,7 +177,7 @@ const SitterProfilePage: React.FC = () => {
                       : services[0];
                   })()}
                   .
-                </>
+                </span>
               ) : (
                 t("searchPage.notAvailable")
               )}
@@ -248,13 +250,21 @@ const SitterProfilePage: React.FC = () => {
                 <strong>{`${t("sitterProfilePage.postCode")}:`}</strong>{" "}
                 {user.appuser.postal_code}
               </li>
-              <li>
+              <li className="flex items-center space-x-3">
                 <strong>{`${t("sitterProfilePage.languages")}:`}</strong>{" "}
-                {user.appuser.english_ok && user.appuser.japanese_ok
-                  ? t("sitterProfilePage.englishJapanese")
-                  : user.appuser.english_ok
-                  ? t("sitterProfilePage.english")
-                  : t("sitterProfilePage.japanese")}
+                {user.appuser.english_ok && user.appuser.japanese_ok ? (
+                  // t("sitterProfilePage.englishJapanese")
+                  <>
+                    <UnionJack />
+                    <Japan />
+                  </>
+                ) : user.appuser.english_ok ? (
+                  // t("sitterProfilePage.english")
+                  <UnionJack />
+                ) : (
+                  // t("sitterProfilePage.japanese")
+                  <Japan />
+                )}
               </li>
               <li>
                 <strong>{`${t("sitterProfilePage.accountCreated")}:`}</strong>{" "}

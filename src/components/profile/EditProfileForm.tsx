@@ -39,10 +39,15 @@ const EditProfileForm: React.FC<Props> = ({ closeEditForm }) => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [imageLoaded, setImageLoaded] = useState<boolean>(false);
 
-  const { register, handleSubmit, reset, setValue } =
-    useForm<EditProfileFormData>({
-      shouldUseNativeValidation: false,
-    });
+  const {
+    register,
+    handleSubmit,
+    reset,
+    setValue,
+    formState: { errors },
+  } = useForm<EditProfileFormData>({
+    shouldUseNativeValidation: false,
+  });
   const { currentUser, userInfo } = useAuth();
   const { setUserInfo } = useAuth();
   const { t } = useTranslation();
@@ -251,6 +256,11 @@ const EditProfileForm: React.FC<Props> = ({ closeEditForm }) => {
             })}
             className={inputClass}
           />
+          {errors.firstname && (
+            <p className="text-red-500 text-xs italic mt-1">
+              {errors.firstname.message}
+            </p>
+          )}
         </div>
         {/* Last Name */}
         <div className="mb-6">
@@ -268,6 +278,11 @@ const EditProfileForm: React.FC<Props> = ({ closeEditForm }) => {
             })}
             className={`${inputClass}`}
           />
+          {errors.lastname && (
+            <p className="text-red-500 text-xs italic mt-1">
+              {errors.lastname.message}
+            </p>
+          )}
         </div>
         {/* Email */}
         <div className="mb-6">
