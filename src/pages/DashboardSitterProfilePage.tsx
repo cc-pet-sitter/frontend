@@ -192,7 +192,6 @@ const DashboardSitterProfilePage: React.FC = () => {
                     {user.postal_code}
                   </li>
                   <li>
-                    <strong>{`${t("sitterProfilePage.location")}:`}</strong>{" "}
                     <div>
                       <strong>{`${t("sitterProfilePage.address")}: `}</strong>
                       {[user?.prefecture, user?.city_ward, user?.street_address]
