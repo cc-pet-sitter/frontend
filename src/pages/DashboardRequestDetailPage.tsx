@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { useAuth } from "../contexts/AuthContext";
-import { Inquiry, AppUser } from "../types/userProfile";
+import { Inquiry, AppUser, PetProfileData } from "../types/userProfile";
 import Conversation from "../components/chat/Conversation"; // We'll create this later
 import UserProfileModal from "../components/profile/UserProfileModal";
 import { useTranslation } from "react-i18next";
@@ -11,6 +11,7 @@ const DashboardRequestDetailPage: React.FC = () => {
   const [request, setRequest] = useState<Inquiry | null>(null);
   const [ownerInfo, setOwnerInfo] = useState<AppUser | null>(null);
   const [sitterInfo, setSitterInfo] = useState<AppUser | null>(null);
+  const [petInfo, setPetInfo] = useState<PetProfileData[]>([]);
   const [error, setError] = useState<string | null>(null);
   const { currentUser, userInfo } = useAuth();
   const { requestId } = useParams<{ requestId: string }>();
@@ -83,6 +84,37 @@ const DashboardRequestDetailPage: React.FC = () => {
 
         const sitterData: AppUser = await sitterResponse.json();
         setSitterInfo(sitterData);
+
+        // const filterToPetsFromInquiry = (petsArray: PetProfileData[]) => {
+        //   const petIDStringList = request?.pet_id_list?.split(",");
+        //   const petIDNumberList = petIDStringList?.map(Number);
+
+        //   if (petIDNumberList) {
+        //     const filteredPetsArray = petsArray.filter((pet: PetProfileData) => petIDNumberList?.includes(pet.id));
+        //     return filteredPetsArray;
+        //   }
+          
+        //   return [];
+        // }
+
+        const petResponse = await fetch(
+          `${apiURL}/appuser/${requestData.owner_appuser_id}/pet?inquiry_id=${requestData.id}`,
+          {
+            method: "GET",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${idToken}`,
+            },
+          }
+        );
+
+        if (!petResponse.ok) {
+          throw new Error("Failed to fetch pet info");
+        }
+
+        const petData: PetProfileData[] = await petResponse.json();
+        // const inquiryPetData: PetProfileData[] = filterToPetsFromInquiry(petData);
+        setPetInfo(petData);
       } catch (err) {
         if (err instanceof Error) {
           setError(err.message);

@@ -77,7 +77,7 @@ export interface Inquiry {
   start_date: string;
   end_date: string;
   desired_service: string;
-  pet_id_list: number[] | null;
+  pet_id_list: string | null;
   additional_info: string | null;
   inquiry_submitted: Date;
   inquiry_finalized: Date;
