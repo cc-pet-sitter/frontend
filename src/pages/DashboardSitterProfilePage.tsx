@@ -1,28 +1,35 @@
 import React, { useState, useEffect } from "react";
 import { useAuth } from "../contexts/AuthContext";
-import { useTranslation } from "react-i18next";
 import axiosInstance from "../api/axiosInstance.ts";
-const apiURL: string = import.meta.env.VITE_API_BASE_URL;
-import EditSitterProfileForm from "../components/profile/EditSitterProfileForm";
-import { Done } from "@mui/icons-material";
+import { useTranslation } from "react-i18next";
 import { formatDistanceToNow } from "date-fns";
 import Rating from "@mui/material/Rating";
+import { Done } from "@mui/icons-material";
+import { FaUserCircle } from "react-icons/fa";
+import { TailSpin } from 'react-loader-spinner'
 import { AppUser, Review, Sitter } from "../types/userProfile.ts";
+import EditSitterProfileForm from "../components/profile/EditSitterProfileForm";
 import ViewAvailability from "../components/profile/ViewAvailability";
 import FeaturedImageGallery from "../components/profile/FeaturedImageGallery.tsx";
+import { useNavigate } from "react-router-dom";
+
+const apiURL: string = import.meta.env.VITE_API_BASE_URL;
 
 const DashboardSitterProfilePage: React.FC = () => {
   const [sitterProfile, setSitterProfile] = useState<Sitter | null>(null);
   const [user, setUser] = useState<AppUser | null>(null);
   const [reviews, setReviews] = useState<Review[]>([]);
-  const { t } = useTranslation();
-  const { userInfo } = useAuth();
   const [showEditProfileForm, setShowEditProfileForm] =
     useState<boolean>(false);
   const [availabilities, setAvailabilities] = useState<Date[]>([]);
+  const [imageLoaded, setImageLoaded] = useState<boolean>(false);
+  
+  const { userInfo } = useAuth();
+  const { t } = useTranslation();
+  const navigate = useNavigate();
 
-  const fetchAllProfileData = async (is_sitter: boolean | null | undefined) => {
-    if (userInfo && is_sitter) {
+  const fetchAllProfileData = async () => {
+    if (userInfo) {
       try {
         const profileResponse = await axiosInstance.get(
           `${apiURL}/appuser-extended/${userInfo.id}`
@@ -54,18 +61,19 @@ const DashboardSitterProfilePage: React.FC = () => {
   };
 
   useEffect(() => {
-    fetchAllProfileData(userInfo?.is_sitter);
+    fetchAllProfileData();
   }, []);
 
   const handleSave = () => {
     // setSitterProfile(updatedProfile);
     setShowEditProfileForm(false);
-    fetchAllProfileData(userInfo?.is_sitter);
+    fetchAllProfileData();
   };
 
   return (
     <div className="dashboard-container">
       {showEditProfileForm ? (
+        
         <div className="">
           <EditSitterProfileForm
             fetchAllProfileData={fetchAllProfileData}
@@ -74,22 +82,44 @@ const DashboardSitterProfilePage: React.FC = () => {
             onSave={handleSave}
           />
         </div>
-      ) : sitterProfile && user ? (
-        <>
+      ) : user && sitterProfile ? (
+        <> 
+          {/* If there is a sitter registered profile display it  */}
           <div className="container mx-auto p-6">
             <div className="bg-white shadow-md rounded-lg overflow-hidden">
               {/* Profile Header */}
               <div className="flex flex-col sm:flex-row items-center p-6">
-                <img
-                  src={
-                    user.profile_picture_src ||
-                    "https://firebasestorage.googleapis.com/v0/b/petsitter-84e85.firebasestorage.app/o/user_profile_pictures%2Fdefault-profile.svg?alt=media&token=aa84dc5e-41e5-4f6a-b966-6a1953b25971"
-                  }
-                  alt={`${user.firstname} ${user.lastname}`}
-                  className="h-48 w-48 rounded-full object-cover"
-                />
+
+                {!imageLoaded && (
+                  <div className="flex items-center justify-center bg-gray-300 h-48 w-48 rounded-full ">
+                    <TailSpin
+                      height="50"
+                      width="50"
+                      color="#fabe25"
+                      ariaLabel="loading"
+                    />
+                  </div>
+                )}
+                {user.profile_picture_src ? (
+                  <img
+                    src={user.profile_picture_src}
+                    alt={user.firstname}
+                    className={`h-48 w-48 rounded-full object-cover ${
+                      imageLoaded ? "block" : "hidden"
+                    }`}
+                    onLoad={() => setImageLoaded(true)}
+                    onError={() => setImageLoaded(true)}
+                  />
+                ) : (
+                  <div className="flex items-center justify-center bg-gray-300 h-48 w-48 rounded-full ">
+                    <FaUserCircle className="h-40 w-40" color="white" />
+                  </div>
+                )}
+
                 <div className="mt-4 sm:mt-0 sm:ml-6 text-center sm:text-left">
-                  <h1 className="text-2xl font-bold">{`${user.firstname} ${user.lastname}`}</h1>
+                  <h1 className="text-2xl font-bold">{user.firstname}</h1>
+                  {/* Comment below for privacy reasons */}
+                  {/* <h1 className="text-2xl font-bold">{`${user.firstname} ${user.lastname}`}</h1> */}
                   {/* <p className="text-gray-500">{user.appuser.email}</p> */}
                 </div>
                 <div>
@@ -201,9 +231,9 @@ const DashboardSitterProfilePage: React.FC = () => {
                   {t("sitterProfilePage.reviews")}
                 </h2>
                 {reviews.length === 0 ? (
-                  <p>{`${user.firstname} ${t(
-                    "sitterProfilePage.noReviews"
-                  )}`}</p>
+                  <p className="text-left text-gray-500">
+                    {`${user.firstname} ${t("sitterProfilePage.noReviews")}`}
+                  </p>
                 ) : (
                   <ul className="list-none space-y-4">
                     {reviews.map((review) => (
@@ -237,7 +267,7 @@ const DashboardSitterProfilePage: React.FC = () => {
                   {t("sitterProfilePage.additionalImages")}
                 </h2>
                 <FeaturedImageGallery
-                  picture_src_list={sitterProfile.sitter_bio_picture_src_list}
+                  picture_src_list={sitterProfile.sitter_bio_picture_src_list || ""}
                 />
               </div>
             </div>
@@ -257,15 +287,33 @@ const DashboardSitterProfilePage: React.FC = () => {
             <h1 className="mb-2 font-bold text-2xl">
               {t("dashboard_Sitter_Profile_page.createHeader")}
             </h1>
-            <p className="mb-4">
-              {t("dashboard_Sitter_Profile_page.createSubtitle")}
-            </p>
-            <button
-              onClick={() => setShowEditProfileForm(true)}
-              className="shadow btn-primary focus:shadow-outline focus:outline-none font-bold py-2 px-4 rounded"
-            >
-              Create Profile
-            </button>
+            {!user?.profile_picture_src ? (
+              // User has not even profile picture, so send user to complete user profile
+              <div>
+                <p className="mb-4">
+                  {t("dashboard_Sitter_Profile_page.createSubtitleNoGo")}
+                </p>
+                <button
+                  onClick={() => navigate('/dashboard/account')}
+                  className="shadow btn-primary focus:shadow-outline focus:outline-none font-bold py-2 px-4 rounded"
+                >
+                  {t("dashboard_Sitter_Profile_page.createButtonNoGo")}
+                </button>
+              </div>
+            ) : (
+              // Has a picture profile then assume complete user profile and allow to create sitter profile
+              <div>
+                <p className="mb-4">
+                  {t("dashboard_Sitter_Profile_page.createSubtitleGo")}
+                </p>
+                <button
+                  onClick={() => setShowEditProfileForm(true)}
+                  className="shadow btn-primary focus:shadow-outline focus:outline-none font-bold py-2 px-4 rounded"
+                >
+                  {t("dashboard_Sitter_Profile_page.createButtonGo")}
+                </button>
+              </div>
+            )}
           </div>
         </>
       )}

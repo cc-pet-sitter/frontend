@@ -13,7 +13,7 @@
   },
   "dashboard_account_page": {
     "title": "My Account Info",
-    "edit_button": "Edit account info",
+    "edit_button": "Edit Account Info",
     "save_button": "Save",
     "memberSince": "Member Since"
   },
@@ -49,7 +49,10 @@
     "pageEdited": "Profile updated successfully",
     "addMorePictures": "Add More Pictures",
     "createHeader": "Become A Sitter",
-    "createSubtitle": "Create your sitter profile to start offering services."
+    "createSubtitleGo": "Create your sitter profile to start offering services.",
+    "createButtonGo": "Create Profile",
+    "createSubtitleNoGo": "Please complete your account information before creating your sitter profile.",
+    "createButtonNoGo": "Edit Account Info"
   },
   "dashboard_requests_page": {
     "title": "Requests",
@@ -836,7 +839,8 @@
     "availability": "Availability",
     "submittedOn": "Submitted on:",
     "and": " and ",
-    "noAvailabilities": "No availability"
+    "noAvailabilities": "No availability",
+    "createProfile": "Create Profile"
   },
   "enquiryForm": {
     "startDate": "Start Date",
@@ -968,5 +972,8 @@
     "postalCodePlaceholder": "Postal code without hyphen (ex. 1234567)",
     "postalCodeRequired": "Please enter your postal code.",
     "postalCodeError": "Postal code must be exactly 7 digits"
+  },
+  "featuredImageGallery": {
+    "noImages": "No images available"
   }
 }

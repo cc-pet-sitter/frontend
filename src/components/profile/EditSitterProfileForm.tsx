@@ -11,6 +11,8 @@ import AvailabilityManager from "../availability/AvailabilityManager.tsx";
 import { LuDog, LuFish, LuSchool } from "react-icons/lu";
 import { TbHomeFilled, TbHomeMove } from "react-icons/tb";
 import { PiRabbitBold, PiCatBold, PiBirdBold } from "react-icons/pi";
+import { FaUserCircle } from "react-icons/fa";
+import { TailSpin } from "react-loader-spinner";
 
 const apiURL: string = import.meta.env.VITE_API_BASE_URL;
 
@@ -41,16 +43,16 @@ const EditSitterProfileForm: React.FC<Props> = ({
   });
   const { userInfo, setUserInfo } = useAuth();
   const { t } = useTranslation();
-  const [sitterBioPictureSrcList, setSitterBioPictureSrcList] =
-    useState<string>(sitterProfile?.sitter_bio_picture_src_list || "");
-  console.log("sitterProfile: ", sitterProfile);
+  const [sitterBioPictureSrcList, setSitterBioPictureSrcList] = useState<string>(
+    sitterProfile?.sitter_bio_picture_src_list || ""
+  );
+  const [imageLoaded, setImageLoaded] = useState<boolean>(false);
 
   useEffect(() => {
     if (sitterProfile) {
       reset({
         sitter_profile_bio: sitterProfile.sitter_profile_bio || "",
-        sitter_bio_picture_src_list:
-          sitterProfile.sitter_bio_picture_src_list || "",
+        sitter_bio_picture_src_list: sitterProfile.sitter_bio_picture_src_list || "",
         sitter_house_ok: sitterProfile.sitter_house_ok || false,
         owner_house_ok: sitterProfile.owner_house_ok || false,
         visit_ok: sitterProfile.visit_ok || false,
@@ -60,9 +62,7 @@ const EditSitterProfileForm: React.FC<Props> = ({
         birds_ok: sitterProfile.birds_ok || false,
         rabbits_ok: sitterProfile.rabbits_ok || false,
       });
-      setSitterBioPictureSrcList(
-        sitterProfile.sitter_bio_picture_src_list || ""
-      );
+      setSitterBioPictureSrcList(sitterProfile.sitter_bio_picture_src_list || "");
     }
   }, [sitterProfile, reset]);
 
@@ -70,21 +70,18 @@ const EditSitterProfileForm: React.FC<Props> = ({
     data.sitter_bio_picture_src_list = sitterBioPictureSrcList;
     console.log("Submitting data:", data);
     try {
-      const response = await axiosInstance.post(
-        `${apiURL}/sitter/${userInfo?.id}`,
-        {
-          sitter_profile_bio: data.sitter_profile_bio,
-          sitter_bio_picture_src_list: data.sitter_bio_picture_src_list,
-          sitter_house_ok: data.sitter_house_ok,
-          owner_house_ok: data.owner_house_ok,
-          visit_ok: data.visit_ok,
-          dogs_ok: data.dogs_ok,
-          cats_ok: data.cats_ok,
-          fish_ok: data.fish_ok,
-          birds_ok: data.birds_ok,
-          rabbits_ok: data.rabbits_ok,
-        }
-      );
+      const response = await axiosInstance.post(`${apiURL}/sitter/${userInfo?.id}`, {
+        sitter_profile_bio: data.sitter_profile_bio,
+        sitter_bio_picture_src_list: data.sitter_bio_picture_src_list,
+        sitter_house_ok: data.sitter_house_ok,
+        owner_house_ok: data.owner_house_ok,
+        visit_ok: data.visit_ok,
+        dogs_ok: data.dogs_ok,
+        cats_ok: data.cats_ok,
+        fish_ok: data.fish_ok,
+        birds_ok: data.birds_ok,
+        rabbits_ok: data.rabbits_ok,
+      });
 
       if (response.status === 200) {
         const updatedProfile = response.data;
@@ -96,12 +93,11 @@ const EditSitterProfileForm: React.FC<Props> = ({
         fetchAllProfileData(true);
         setSuccess(true);
         setError(null);
-        // onSave(updatedProfile);
         closeEditForm();
       } else {
         throw new Error(response.data.detail || "Failed to update profile.");
       }
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error: any) {
       console.error("Error updating profile:", error.message);
       setError(error.message);
@@ -120,7 +116,6 @@ const EditSitterProfileForm: React.FC<Props> = ({
     setValue("sitter_bio_picture_src_list", updatedPictureList);
   };
 
-  // Validation logic for at least one checkbox
   const validateAtLeastOneSelected = (keys: Array<keyof Sitter>) => {
     const values = getValues();
     return (
@@ -132,13 +127,6 @@ const EditSitterProfileForm: React.FC<Props> = ({
   // Shared styles
   const textAreaClass =
     "appearance-none block bg-gray-200 sm:w-full text-gray-700 border rounded py-2 px-4 md:px-6 md:py-3 leading-tight focus:outline-none focus:bg-white sm:mx-0 sm:-mr-4 shadow-md";
-  // const inputClass =
-  // "appearance-none block w-full bg-gray-200 text-gray-700 border rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white";
-
-  // const checkboxClass =
-  //   "appearance-none block w-full text-gray-700  rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white";
-  // const inputClass =
-  //   "appearance-none block w-full bg-gray-200 text-gray-700 border rounded py-3 px-4 text-lg mb-2 leading-tight focus:outline-none focus:bg-white";
   const checkboxLabelClass =
     "flex flex-col items-center justify-center p-4 text-gray-600 bg-white border-2 border-gray-300 rounded-lg cursor-pointer hover:bg-gray-50 peer-checked:border-blue-500 peer-checked:bg-blue-50";
   const labelClass = "block text-gray-700 text-lg font-bold mb-2";
@@ -179,24 +167,33 @@ const EditSitterProfileForm: React.FC<Props> = ({
             <MdOutlineArrowBackIos />
           </button>
 
-          {/* Profile Picture -> Taken from appuser profile picture */}
+          {/* Profile Picture */}
           <div className="flex items-center justify-center pb-4">
-            <img
-              src={
-                userInfo?.profile_picture_src ||
-                "https://firebasestorage.googleapis.com/v0/b/petsitter-84e85.firebasestorage.app/o/user_profile_pictures%2Fdefault-profile.svg?alt=media&token=aa84dc5e-41e5-4f6a-b966-6a1953b25971"
-              }
-              alt={`${userInfo?.firstname} ${userInfo?.lastname}`}
-              className="h-48 w-48 rounded-full object-cover"
-            />
+            {!imageLoaded && (
+              <div className="flex items-center justify-center bg-gray-300 h-48 w-48 rounded-full">
+                <TailSpin height="50" width="50" color="#fabe25" ariaLabel="loading" />
+              </div>
+            )}
+            {userInfo?.profile_picture_src ? (
+              <img
+                src={userInfo.profile_picture_src}
+                alt={userInfo.firstname || ""}
+                className={`h-48 w-48 rounded-full object-cover ${
+                  imageLoaded ? "block" : "hidden"
+                }`}
+                onLoad={() => setImageLoaded(true)}
+                onError={() => setImageLoaded(true)}
+              />
+            ) : (
+              <div className="flex items-center justify-center bg-gray-300 h-48 w-48 rounded-full ">
+                <FaUserCircle className="h-40 w-40" color="white" />
+              </div>
+            )}
           </div>
 
           {/* Introduction */}
-          <div className="flex flex-col mt-4 items-start ">
-            <label
-              className={`${labelClass} flex items-center`}
-              htmlFor="introduction"
-            >
+          <div className="flex flex-col mt-4 items-start">
+            <label className={`${labelClass} flex items-center`} htmlFor="introduction">
               {t("dashboard_Sitter_Profile_page.introduction")}
               <span className="text-red-500 ml-1">*</span>
             </label>
@@ -236,10 +233,7 @@ const EditSitterProfileForm: React.FC<Props> = ({
                       "Please select at least one pet.",
                   })}
                 />
-                <label
-                  htmlFor={`${pet}_ok`}
-                  className={`${checkboxLabelClass} flex items-center`}
-                >
+                <label htmlFor={`${pet}_ok`} className={`${checkboxLabelClass} flex items-center`}>
                   {pet === "dogs_ok" && <LuDog size="2em" />}
                   {pet === "cats_ok" && <PiCatBold size="2em" />}
                   {pet === "fish_ok" && <LuFish size="2em" />}
@@ -266,87 +260,12 @@ const EditSitterProfileForm: React.FC<Props> = ({
           ) : null}
         </div>
 
-        {/* Pets */}
-
-        {/*<div className="mb-6">
-        <p className={`${labelClass} mb-3`}>
-          {t("dashboard_Sitter_Profile_page.pet_service")}
-                     <span className="text-red-500 ml-1">*</span>
-        </p>
-        {petOptionsKey.map((pet, index) => (
-          <label
-            key={pet}
-            className={`${inputClass} flex items-center`}
-            htmlFor={`${pet}_ok`}
-          >
-            <input
-              id={`${pet}_ok`}
-              type="checkbox"
-              {...register(pet, {
-                validate: () =>
-                  validateAtLeastOneSelected(petOptionsKey) ||
-                  "Please select at least one pet.",
-              })}
-              className="mr-2"
-            />
-            {petOptions[index]}
-          </label>
-        ))}
-        {errors.dogs_ok ||
-        errors.cats_ok ||
-        errors.fish_ok ||
-        errors.birds_ok ||
-        errors.rabbits_ok ? (
-          <p className="text-red-500 text-xs italic">
-            {errors.dogs_ok?.message ||
-              errors.cats_ok?.message ||
-              errors.fish_ok?.message ||
-              errors.birds_ok?.message ||
-              errors.rabbits_ok?.message ||
-              "Please select at least one pet."}
-          </p>
-        ) : null}
-      </div> */}
-
         {/* Types of Service You Offer */}
-        {/*
-      <div className="mb-6">
-        <p className={`${labelClass} mb-3`}>
-          {t("dashboard_Sitter_Profile_page.type_service")}
-        </p>
-        {serviceOptionsKey.map((service, index) => (
-          <label
-            key={service}
-            className={`${inputClass} flex items-center`}
-            htmlFor={`${service}_ok`}
-          >
-            <input
-              id={`${service}_ok`}
-              type="checkbox"
-              {...register(service, {
-                validate: () =>
-                  validateAtLeastOneSelected(serviceOptionsKey) ||
-                  "Please select at least one service.",
-              })}
-              className="mr-2"
-            />
-            {serviceOptions[index]}
-          </label>
-        ))}
-        </div> */}
-
-        {/* Error Message for Services */}
-        {/* {errors.sitter_house_ok || errors.owner_house_ok || errors.visit_ok ? ( */}
         <div className="mb-6">
           <p className={`${labelClass} mb-3`}>
             {t("dashboard_Sitter_Profile_page.type_service")}
           </p>
-          {/* <p className="text-red-500 text-xs italic">
-            {errors.sitter_house_ok?.message ||
-              errors.owner_house_ok?.message ||
-              errors.visit_ok?.message ||
-              "Please select at least one service."}
-          </p> */}
+
           <ul className="grid grid-cols-3 gap-4">
             {serviceOptionsKey.map((service, index) => (
               <li key={service}>
@@ -360,10 +279,7 @@ const EditSitterProfileForm: React.FC<Props> = ({
                       "Please select at least one service.",
                   })}
                 />
-                <label
-                  htmlFor={`${service}`}
-                  className={`${checkboxLabelClass} flex items-center`}
-                >
+                <label htmlFor={`${service}`} className={`${checkboxLabelClass} flex items-center`}>
                   {service === "sitter_house_ok" && <LuSchool size="2em" />}
                   {service === "owner_house_ok" && <TbHomeFilled size="2em" />}
                   {service === "visit_ok" && <TbHomeMove size="2em" />}
@@ -386,8 +302,19 @@ const EditSitterProfileForm: React.FC<Props> = ({
           ) : null}
         </div>
 
-        <div className="mt-6 -z-50">
+        {/* Availability Section */}
+        <div className="mt-6 relative z-0">
+          {/* AvailabilityManager is always displayed */}
           <AvailabilityManager />
+
+          {/* Overlay if user is not a sitter yet */}
+          {!userInfo?.is_sitter && (
+            <div className="absolute inset-0 flex items-center justify-center bg-white bg-opacity-70 z-[9999]">
+              <p className="text-gray-700 text-sm p-4 text-center">
+                {t("Please save your profile first before setting availability.")}
+              </p>
+            </div>
+          )}
         </div>
 
         {/* Additional Pictures */}
@@ -396,9 +323,7 @@ const EditSitterProfileForm: React.FC<Props> = ({
             {t("dashboard_Sitter_Profile_page.addMorePictures")}
           </h2>
           {sitterBioPictureSrcList ? (
-            <ViewMultiPicture
-              picture_src_list={sitterBioPictureSrcList || ""}
-            />
+            <ViewMultiPicture picture_src_list={sitterBioPictureSrcList || ""} />
           ) : (
             ""
           )}
