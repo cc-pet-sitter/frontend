@@ -67,15 +67,20 @@ const UserProfileModal: React.FC<UserProfileModalProps> = ({ isOpen, onClose, us
               ) : (
                 <div className="w-32 h-32 rounded-full bg-gray-300 flex items-center justify-center">
                   <span className="text-xl text-white">
-                    {pet.name}
+                    {pet.name[0]}
                   </span>
                 </div>
               )}
               <p className="text-xl font-semibold">
-                {pet.name}
+                {`${pet.name} (${pet.type_of_animal})`}
               </p>
-              <p className="text-gray-600">{pet.type_of_animal}</p>
-              <p className="text-gray-600">{pet.birthday}</p>
+              {pet.subtype && <p className="text-gray-600 text-center">{`Breed: ${pet.subtype}`}</p>}
+              {pet.gender && <p className="text-gray-600 text-center">{`Gender: ${pet.gender}`}</p>}
+              {pet.birthday && <p className="text-gray-600" text-center>{`Birthday: ${pet.birthday}`}</p>}
+              {pet.weight && <p className="text-gray-600 text-center">{`Weight (kg): ${pet.weight}`}</p>}
+              {pet.known_allergies && <p className="text-gray-600 text-center">{`Allergies: ${pet.known_allergies}`}</p>}
+              {pet.medications && <p className="text-gray-600 text-center">{`Medications: ${pet.medications}`}</p>}
+              {pet.special_needs && <p className="text-gray-600 text-center">{`Additional Info: ${pet.special_needs}`}</p>}
             </div>
           </div>
         </Modal>}

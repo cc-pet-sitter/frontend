@@ -93,18 +93,6 @@ const DashboardRequestDetailPage: React.FC = () => {
         const sitterData: AppUser = await sitterResponse.json();
         setSitterInfo(sitterData);
 
-        // const filterToPetsFromInquiry = (petsArray: PetProfileData[]) => {
-        //   const petIDStringList = request?.pet_id_list?.split(",");
-        //   const petIDNumberList = petIDStringList?.map(Number);
-
-        //   if (petIDNumberList) {
-        //     const filteredPetsArray = petsArray.filter((pet: PetProfileData) => petIDNumberList?.includes(pet.id));
-        //     return filteredPetsArray;
-        //   }
-          
-        //   return [];
-        // }
-
         const petResponse = await fetch(
           `${apiURL}/appuser/${requestData.owner_appuser_id}/pet?inquiry_id=${requestData.id}`,
           {
@@ -121,7 +109,6 @@ const DashboardRequestDetailPage: React.FC = () => {
         }
 
         const petData: PetProfileData[] = await petResponse.json();
-        // const inquiryPetData: PetProfileData[] = filterToPetsFromInquiry(petData);
         setPetInfo(petData);
       } catch (err) {
         if (err instanceof Error) {
@@ -235,7 +222,7 @@ const DashboardRequestDetailPage: React.FC = () => {
       {/* Owner Information */}
       {isSitter && ownerInfo && (
         <div
-          className="flex items-center justify-center gap-4 cursor-pointer mb-6 border rounded-lg p-2 bg-white shadow-md  hover:bg-gray-100"
+          className="flex items-center justify-center gap-4 cursor-pointer mb-2 border rounded-lg p-2 bg-white shadow-md  hover:bg-gray-100"
           onClick={() => handleUserClick(ownerInfo)}
         >
           {ownerInfo.profile_picture_src ? (
@@ -261,7 +248,7 @@ const DashboardRequestDetailPage: React.FC = () => {
       {/* Sitter Information */}
       {isOwner && sitterInfo && (
         <div
-          className="flex items-center justify-center gap-4 mb-6 border rounded-lg p-2 bg-white shadow-md cursor-pointer hover:bg-gray-100"
+          className="flex items-center justify-center gap-4 mb-2 border rounded-lg p-2 bg-white shadow-md cursor-pointer hover:bg-gray-100"
           onClick={() => handleUserClick(sitterInfo)}
         >
           {sitterInfo.profile_picture_src ? (
@@ -287,7 +274,7 @@ const DashboardRequestDetailPage: React.FC = () => {
       {/* Pet Information */}
       {petInfo && petInfo.map((pet) => { return (
         request?.pet_id_list?.includes(pet.id) && <div
-          className="flex items-center justify-center gap-4 mb-6 border rounded-lg p-2 bg-white shadow-md cursor-pointer hover:bg-gray-100"
+          className="flex items-center justify-center gap-4 mb-2 border rounded-lg p-2 bg-white shadow-md cursor-pointer hover:bg-gray-100"
           onClick={() => handlePetClick(pet)}
           key={pet.id}
         >
@@ -300,7 +287,7 @@ const DashboardRequestDetailPage: React.FC = () => {
               ) : (
                 <div className="w-20 h-20 rounded-full bg-gray-300 flex items-center justify-center">
                   <span className="text-xl text-white">
-                    {pet.name}
+                    {pet.name[0]}
                   </span>
                 </div>
               )}
@@ -331,7 +318,7 @@ const DashboardRequestDetailPage: React.FC = () => {
 
       {/* Accept/Reject Buttons */}
       {isSitter && request.inquiry_status === "requested" && (
-        <div className="flex space-x-4 mb-6">
+        <div className="flex space-x-4 mt-4">
           <button
             onClick={handleAccept}
             className="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded"
@@ -349,13 +336,13 @@ const DashboardRequestDetailPage: React.FC = () => {
 
       {/* Show updated status if the inquiry has been finalized */}
       {request.inquiry_status !== "requested" && (
-        <p className="text-lg font-semibold mb-6">
+        <p className="text-lg font-semibold mt-4">
           {t("request_details_page.result")}{request.inquiry_status}
         </p>
       )}
 
       {/* Conversation Component */}
-      <div className="mb-6">
+      <div className="mt-4">
         <h3 className="font-semibold text-xl">{t("request_details_page.convo")}</h3>
         {userInfo?.id && <Conversation inquiry={request} />}
       </div>
