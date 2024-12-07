@@ -255,8 +255,8 @@ const SitterProfilePage: React.FC = () => {
                 {user.appuser.english_ok && user.appuser.japanese_ok ? (
                   // t("sitterProfilePage.englishJapanese")
                   <>
-                    <UnionJack />
                     <Japan />
+                    <UnionJack />
                   </>
                 ) : user.appuser.english_ok ? (
                   // t("sitterProfilePage.english")
