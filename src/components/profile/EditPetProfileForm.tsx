@@ -231,7 +231,7 @@ const EditProfileForm: React.FC<EditProfileFormProps> = ({ petProfile, onClose }
 
             {petProfilePicture || petProfile?.profile_picture_src ? (
               <img
-                src={petProfile?.profile_picture_src || petProfilePicture}
+                src={petProfilePicture || petProfile?.profile_picture_src}
                 alt={petProfile?.name}
                 className={`h-48 w-48 rounded-full object-cover ${
                   imageLoaded ? "block" : "hidden"
