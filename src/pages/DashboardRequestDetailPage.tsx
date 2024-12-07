@@ -18,11 +18,19 @@ const DashboardRequestDetailPage: React.FC = () => {
 
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const [selectedUser, setSelectedUser] = useState<AppUser | null>(null);
+  const [selectedPet, setSelectedPet] = useState<PetProfileData | null>(null);
 
   const { t } = useTranslation();
 
   const handleUserClick = (user: AppUser) => {
     setSelectedUser(user);
+    setSelectedPet(null);
+    setIsModalOpen(true);
+  };
+
+  const handlePetClick = (pet: PetProfileData) => {
+    setSelectedUser(null);
+    setSelectedPet(pet);
     setIsModalOpen(true);
   };
 
@@ -276,6 +284,33 @@ const DashboardRequestDetailPage: React.FC = () => {
         </div>
       )}
 
+      {/* Pet Information */}
+      {petInfo && petInfo.map((pet) => { return (
+        request?.pet_id_list?.includes(pet.id) && <div
+          className="flex items-center justify-center gap-4 mb-6 border rounded-lg p-2 bg-white shadow-md cursor-pointer hover:bg-gray-100"
+          onClick={() => handlePetClick(pet)}
+          key={pet.id}
+        >
+          {pet.profile_picture_src ? (
+                <img
+                  src={pet.profile_picture_src}
+                  alt={`${pet.name}`}
+                  className="w-20 h-20 rounded-full object-cover"
+                />
+              ) : (
+                <div className="w-20 h-20 rounded-full bg-gray-300 flex items-center justify-center">
+                  <span className="text-xl text-white">
+                    {pet.name}
+                  </span>
+                </div>
+              )}
+          <p>
+            {`${pet.name}, ${pet.type_of_animal}`}
+          </p>
+        </div>
+      )
+    })}
+
       {/* User Profile Modal */}
       {isModalOpen && selectedUser && (
         <UserProfileModal
@@ -283,6 +318,15 @@ const DashboardRequestDetailPage: React.FC = () => {
           user={selectedUser}
           onClose={() => setIsModalOpen(false)}
         />
+      )}
+
+      {/* User Profile Modal */}
+      {isModalOpen && selectedPet && (
+      <UserProfileModal
+        isOpen={isModalOpen}
+        pet={selectedPet}
+        onClose={() => setIsModalOpen(false)}
+      />
       )}
 
       {/* Accept/Reject Buttons */}

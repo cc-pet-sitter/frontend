@@ -1,5 +1,5 @@
 import React from "react";
-import { AppUser } from "../../types/userProfile";
+import { AppUser, PetProfileData } from "../../types/userProfile";
 import Modal from "./Modal";
 import { MdClose } from "react-icons/md";
 import Rating from "@mui/material/Rating";
@@ -7,13 +7,15 @@ import Rating from "@mui/material/Rating";
 interface UserProfileModalProps {
     isOpen: boolean;
     onClose: () => void;
-    user: AppUser;
+    user?: AppUser;
+    pet?: PetProfileData;
 }
 
-const UserProfileModal: React.FC<UserProfileModalProps> = ({ isOpen, onClose, user }) => {
+const UserProfileModal: React.FC<UserProfileModalProps> = ({ isOpen, onClose, user, pet }) => {
 
     return (
-        <Modal isOpen={isOpen} onClose={onClose}>
+      <>
+        {user && <Modal isOpen={isOpen} onClose={onClose}>
           <div className="p-6 max-h-screen overflow-y-auto">
             <button
               onClick={onClose}
@@ -45,8 +47,40 @@ const UserProfileModal: React.FC<UserProfileModalProps> = ({ isOpen, onClose, us
               <p className="text-gray-600">{user.prefecture}, {user.city_ward}</p>
             </div>
           </div>
-        </Modal>
-      );
+        </Modal>}
+        {pet && <Modal isOpen={isOpen} onClose={onClose}>
+          <div className="p-6 max-h-screen overflow-y-auto">
+            <button
+              onClick={onClose}
+              className="float-right text-gray-500 hover:text-gray-700"
+              aria-label="Close modal"
+            >
+              <MdClose size={24} />
+            </button>
+            <div className="flex flex-col items-center gap-1">
+              {pet.profile_picture_src ? (
+                <img
+                  src={pet.profile_picture_src}
+                  alt={`${pet.name}`}
+                  className="w-32 h-32 rounded-full object-cover"
+                />
+              ) : (
+                <div className="w-32 h-32 rounded-full bg-gray-300 flex items-center justify-center">
+                  <span className="text-xl text-white">
+                    {pet.name}
+                  </span>
+                </div>
+              )}
+              <p className="text-xl font-semibold">
+                {pet.name}
+              </p>
+              <p className="text-gray-600">{pet.type_of_animal}</p>
+              <p className="text-gray-600">{pet.birthday}</p>
+            </div>
+          </div>
+        </Modal>}
+      </>
+    );
 };
 
 export default UserProfileModal;
