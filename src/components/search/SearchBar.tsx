@@ -41,16 +41,17 @@ const SearchBar: React.FC<SearchBarProps> = ({ onSearchSubmit }) => {
   };
 
   const inputClass =
-    "appearance-none block w-full bg-white text-gray-700 text-sm border border-gray-400 rounded-md py-2 px-4 leading-tight focus:outline-none focus:bg-white focus:ring-[#D87607] focus:border-[#D87607]";
-  const labelClass = "block text-sm font-medium text-gray-700 mb-2";
+    "appearance-none block w-full bg-white text-gray-700 text-sm md:text-base border border-gray-400 rounded-md py-2 px-4 leading-tight focus:outline-none focus:bg-white focus:ring-[#D87607] focus:border-[#D87607]";
+  const labelClass =
+    "block text-sm md:text-base font-medium text-gray-700 mb-2";
   const checkboxLabelClass =
-    "flex flex-col items-center justify-center px-3 py-2 text-gray-500 text-sm bg-white border-2 border- border-gray-300 rounded-lg cursor-pointer hover:border-[#D87607]/60 peer-checked:border-[#D87607] peer-checked:bg-white";
+    "flex flex-col items-center justify-center px-3 py-2 md:py-3 text-gray-500 text-sm md:text-base bg-white border-2 border- border-gray-300 rounded-lg cursor-pointer hover:border-[#D87607]/60 peer-checked:border-[#D87607] peer-checked:bg-white";
 
   return (
-    <div className="flex justify-center p-6">
+    <div className="flex justify-center p-2 mx-4 my-6 md:my-14 rounded-lg md:w-[60rem] shadow-custom">
       <form
         onSubmit={handleSubmit(onSearchSubmit)}
-        className="w-full max-w-lg bg-white p-6 shadow-custom rounded-lg "
+        className="bg-white p-6 md:w-[55rem]"
       >
         <div className="flex flex-wrap -mx-3 mb-4">
           {/* Prefecture Selection */}
@@ -100,7 +101,7 @@ const SearchBar: React.FC<SearchBarProps> = ({ onSearchSubmit }) => {
         {/* Pet Options */}
         <div className="mb-6">
           <p className={labelClass}>{t("searchBar.yourPet")}</p>
-          <ul className="grid grid-cols-3 gap-4">
+          <ul className="grid grid-cols-3 gap-4 md:grid-cols-5">
             <li>
               <input
                 type="checkbox"
@@ -215,7 +216,7 @@ const SearchBar: React.FC<SearchBarProps> = ({ onSearchSubmit }) => {
 
         {/* Submit Button */}
         <div className="flex justify-center">
-          <button type="submit" className="btn-primary w-full">
+          <button type="submit" className="btn-primary w-full md:w-1/3 md:py-3">
             {t("searchBar.search")}
           </button>
         </div>

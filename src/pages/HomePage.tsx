@@ -99,7 +99,7 @@ const HomePage: React.FC = () => {
           <p className="text-lg text-gray-700 mt-4">{t("homePage.subtitle")}</p>
           <button
             onClick={handleScrollToSearch}
-            className="mt-6 bg-[#d87607] text-white py-2 px-6 rounded-lg hover:bg-[#bc560a] transition"
+            className="mt-6 bg-[#d87607] text-white py-2 px-6 md:py-3 md:px-8 rounded-lg hover:bg-[#bc560a] transition"
           >
             {t("homePage.search-btn")}
           </button>
@@ -110,7 +110,7 @@ const HomePage: React.FC = () => {
           className="mt-8 md:my-0 my-2 mx-auto w-screen h-auto sm:h-96 md:h-[33rem] 2xl:h-[38rem] md:w-3/4 2xl:w-4/5 md:rounded-bl-full object-cover"
         />
       </div>
-      <div ref={searchSectionRef} className="justify-items-center bg-white">
+      <div ref={searchSectionRef} className="justify-items-center bg-white ">
         <SearchBar
           onSearchSubmit={handleSearchSubmit}
           closeSearchBar={function (): void {
