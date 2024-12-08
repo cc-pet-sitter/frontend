@@ -22,7 +22,9 @@ const AvailabilityManager: React.FC = () => {
   const { t } = useTranslation();
 
   const [availabilities, setAvailabilities] = useState<Availability[]>([]);
-  const [originalAvailabilities, setOriginalAvailabilities] = useState<Availability[]>([]);
+  const [originalAvailabilities, setOriginalAvailabilities] = useState<
+    Availability[]
+  >([]);
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(false);
@@ -40,10 +42,12 @@ const AvailabilityManager: React.FC = () => {
           `${apiURL}/appuser/${userInfo.id}/availability`
         );
         if (response.status === 200) {
-          const data = response.data.map((item: { id: number; available_date: string }) => ({
-            id: item.id,
-            date: new Date(item.available_date),
-          }));
+          const data = response.data.map(
+            (item: { id: number; available_date: string }) => ({
+              id: item.id,
+              date: new Date(item.available_date),
+            })
+          );
           setAvailabilities(data);
           setOriginalAvailabilities(data);
         }
@@ -115,10 +119,12 @@ const AvailabilityManager: React.FC = () => {
         `${apiURL}/appuser/${userInfo.id}/availability`
       );
       if (response.status === 200) {
-        const data = response.data.map((item: { id: number; available_date: string }) => ({
-          id: item.id,
-          date: new Date(item.available_date),
-        }));
+        const data = response.data.map(
+          (item: { id: number; available_date: string }) => ({
+            id: item.id,
+            date: new Date(item.available_date),
+          })
+        );
         setAvailabilities(data);
         setOriginalAvailabilities(data);
       }
@@ -128,11 +134,10 @@ const AvailabilityManager: React.FC = () => {
 
       // Clear savedRecently after a short time
       setTimeout(() => setSavedRecently(false), 2000);
-
     } catch (error) {
       console.error("Error updating availabilities:", error);
       if (!userInfo?.is_sitter) {
-        setError(t("You need to save your profile first before updating availabilities"));
+        setError(t(t("dashboard_Sitter_Profile_page.save_first")));
       } else {
         setError(t("failed_to_update_availabilities"));
       }
@@ -161,11 +166,11 @@ const AvailabilityManager: React.FC = () => {
     message = error;
     messageColor = "text-red-500";
   } else if (isSaving) {
-    message = t("Saving...");
-    messageColor = "text-gray-600";
+    message = t(t("dashboard_Sitter_Profile_page.saving"));
+    messageColor = "text-brown";
   } else if (success && savedRecently) {
-    message = t("Saved");
-    messageColor = "text-green-500";
+    message = t(t("dashboard_Sitter_Profile_page.saved"));
+    messageColor = "text-brown";
   }
 
   return (
@@ -190,14 +195,21 @@ const AvailabilityManager: React.FC = () => {
 
           {loading && (
             <div className="absolute inset-0 flex items-center justify-center bg-white bg-opacity-50 z-10">
-              <TailSpin height="50" width="50" color="#fabe25" ariaLabel="loading" />
+              <TailSpin
+                height="50"
+                width="50"
+                color="#fabe25"
+                ariaLabel="loading"
+              />
             </div>
           )}
         </div>
 
         {/* Message Area: fixed min-height to prevent layout shift */}
         <div className="min-h-[24px] flex items-center justify-center mt-2">
-          {message && <span className={`text-sm ${messageColor}`}>{message}</span>}
+          {message && (
+            <span className={`text-sm ${messageColor}`}>{message}</span>
+          )}
         </div>
       </div>
     </div>
