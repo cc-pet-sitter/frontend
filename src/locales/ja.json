@@ -71,7 +71,10 @@
   "review_input_page": {
     "rating": "レビューを書く",
     "comment": "コメント",
-    "submit": "送信する"
+    "submit": "送信する",
+    "rating_required": "星の数は1以上でないと送信できません。",
+    "review_submitted": "レビューが送信されました。",
+    "close": "閉じる"
   },
   "request_details_page": {
     "page-title": "リクエスト内容",
