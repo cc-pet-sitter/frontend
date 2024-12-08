@@ -914,8 +914,8 @@
     "allergies": "Known allergies",
     "medications": "Medications",
     "specialNeeds": "Anything else a sitter should know?",
-    "profilePicture": "Your pet profile picture",
-    "additionalImages": "Additional images"
+    "additionalImages": "Additional images",
+    "profilePicture": "Your pet profile picture"
   },
   "editProfileForm": {
     "header": "My Account Info",
