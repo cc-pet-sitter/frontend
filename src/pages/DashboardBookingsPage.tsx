@@ -95,12 +95,12 @@ const DashboardBookingsPage: React.FC = () => {
   };
 
   return (
-    <div>
+    <div className="md:m-14">
       <h2 className="m-6 font-bold text-2xl">
         {t("dashboard_bookings_page.title")}
       </h2>
       {bookings ? (
-        <div className="flex flex-col">
+        <div className="flex flex-col md:grid md:grid-cols-2 lg:grid-cols-3 md:gap-x-2 md:gap-y-4 md:justify-stretch">
           {bookings &&
             sitterInfo &&
             bookings.map((booking, index) => (
@@ -109,40 +109,48 @@ const DashboardBookingsPage: React.FC = () => {
                 className="mx-6 my-3 border border-transparent shadow-custom rounded w-72 px-4 py-2 relative"
               >
                 <Link to={`/dashboard/requests/${booking.id}`}>
-                    <h3 className="text-sm font-medium my-1">
-                      {t("dashboard_bookings_page.booked_with_en")}{" "}
-                      {sitterInfo[index].firstname}
-                      {t("dashboard_bookings_page.booked_with_jp")}
-                    </h3>
-                  
+                  <h3 className="text-sm font-medium my-1">
+                    {t("dashboard_bookings_page.booked_with_en")}{" "}
+                    {sitterInfo[index].firstname}
+                    {t("dashboard_bookings_page.booked_with_jp")}
+                  </h3>
+
                   <p className="text-xs text-gray-500 my-1">
                     {new Date(booking.start_date).toLocaleDateString("ja-JP")} -{" "}
                     {new Date(booking.end_date).toLocaleDateString("ja-JP")}
                   </p>
                   <p className="text-xs text-gray-500 my-1">
-                    {
-                      t("dashboard_bookings_page.service") +
-                      desired_service[
-                        booking.desired_service as keyof typeof desired_service
-                      ]
-                    }
+                    {t("dashboard_bookings_page.service")}
+                    {booking.desired_service === "sitter_house" &&
+                      t("dashboard_Sitter_Profile_page.sitter_house")}
+                    {booking.desired_service === "owner_house" &&
+                      t("dashboard_Sitter_Profile_page.owner_house")}
+                    {booking.desired_service === "visit" &&
+                      t("dashboard_Sitter_Profile_page.visits")}
                   </p>
                   <p className="text-xs text-gray-500 my-1">
-                    {t("dashboard_bookings_page.status") + booking.inquiry_status}
+                    {t("dashboard_bookings_page.status")}
+                    {booking.inquiry_status === "requested" &&
+                      t("request_details_page.requested")}
+                    {booking.inquiry_status === "approved" &&
+                      t("request_details_page.approved")}
+                    {booking.inquiry_status === "rejected" &&
+                      t("request_details_page.rejected")}
                   </p>
                   <div className="absolute top-4 right-4 hover:text-lime-600">
                     <FaRegMessage />
                   </div>
                 </Link>
-                  {
-                    booking.inquiry_status == "approved" ? 
-                    <p className="text-xs text-brown underline my-1 cursor-pointer hover:text-lime-600"
-                      onClick={() => setSelectedBooking(booking)}
-                    >
-                      {t("dashboard_bookings_page.review")}
-                    </p> 
-                    : <p className="text-xs invisible">Unreviewed</p>
-                  }
+                {booking.inquiry_status == "approved" ? (
+                  <p
+                    className="text-xs text-brown underline my-1 cursor-pointer hover:text-lime-600"
+                    onClick={() => setSelectedBooking(booking)}
+                  >
+                    {t("dashboard_bookings_page.review")}
+                  </p>
+                ) : (
+                  <p className="text-xs invisible">Unreviewed</p>
+                )}
               </div>
             ))}
         </div>

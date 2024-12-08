@@ -215,7 +215,7 @@ const DashboardRequestDetailPage: React.FC = () => {
                 t("dashboard_Sitter_Profile_page.sitter_house")}
               {request.desired_service === "owner_house" &&
                 t("dashboard_Sitter_Profile_page.owner_house")}
-              {request.desired_service === "visits" &&
+              {request.desired_service === "visit" &&
                 t("dashboard_Sitter_Profile_page.visits")}
             </p>
             <p className="pb-2">

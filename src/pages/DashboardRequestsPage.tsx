@@ -85,19 +85,13 @@ const DashboardRequests: React.FC = () => {
     fetchAll();
   }, [userInfo]);
 
-  const desired_service = {
-    owner_house: "boarding",
-    sitter_house: "stay in",
-    visit: "drop in",
-  };
-
   return (
-    <div>
+    <div className="md:m-14">
       <h2 className="m-6 font-bold text-2xl">
         {t("dashboard_requests_page.title")}
       </h2>
       {requests ? (
-        <div className="flex flex-col">
+        <div className="flex flex-col md:grid md:grid-cols-2 lg:grid-cols-3 md:gap-x-2 md:gap-y-4 md:justify-stretch">
           {requests &&
             ownerInfo &&
             requests.map((request, index) => (
@@ -106,39 +100,47 @@ const DashboardRequests: React.FC = () => {
                 className="mx-6 my-3 border border-transparent shadow-custom rounded w-72 px-4 py-2 relative"
               >
                 <Link to={`/dashboard/requests/${request.id}`}>
-                    <h3 className="text-sm font-medium my-1">
-                      {t("dashboard_requests_page.requested_by_en")}{" "}
-                      {ownerInfo[index].firstname}
-                      {t("dashboard_requests_page.requested_by_jp")}
-                    </h3>
+                  <h3 className="text-sm font-medium my-1">
+                    {t("dashboard_requests_page.requested_by_en")}{" "}
+                    {ownerInfo[index].firstname}
+                    {t("dashboard_requests_page.requested_by_jp")}
+                  </h3>
                   <p className="text-xs text-gray-500 my-1">
                     {new Date(request.start_date).toLocaleDateString("ja-JP")} -{" "}
                     {new Date(request.end_date).toLocaleDateString("ja-JP")}
                   </p>
                   <p className="text-xs text-gray-500 my-1">
-                    {
-                      t("dashboard_bookings_page.service") +
-                      desired_service[
-                        request.desired_service as keyof typeof desired_service
-                      ]
-                    }
+                    {t("dashboard_bookings_page.service")}
+                    {request.desired_service === "sitter_house" &&
+                      t("dashboard_Sitter_Profile_page.sitter_house")}
+                    {request.desired_service === "owner_house" &&
+                      t("dashboard_Sitter_Profile_page.owner_house")}
+                    {request.desired_service === "visit" &&
+                      t("dashboard_Sitter_Profile_page.visits")}
                   </p>
                   <p className="text-xs text-gray-500 my-1">
-                    {t("dashboard_bookings_page.status") + request.inquiry_status}
+                    {t("dashboard_bookings_page.status")}
+                    {request.inquiry_status === "requested" &&
+                      t("request_details_page.requested")}
+                    {request.inquiry_status === "approved" &&
+                      t("request_details_page.approved")}
+                    {request.inquiry_status === "rejected" &&
+                      t("request_details_page.rejected")}
                   </p>
                   <div className="absolute top-4 right-4 hover:text-lime-600">
                     <FaRegMessage />
                   </div>
                 </Link>
-                {
-                  request.inquiry_status == "approved" ? 
-                  <p className="text-xs text-brown underline my-1 cursor-pointer hover:text-lime-600"
+                {request.inquiry_status == "approved" ? (
+                  <p
+                    className="text-xs text-brown underline my-1 cursor-pointer hover:text-lime-600"
                     onClick={() => setSelectedRequest(request)}
                   >
                     {t("dashboard_bookings_page.review")}
-                  </p> 
-                  : <p className="text-xs invisible">Unreviewed</p>
-                }
+                  </p>
+                ) : (
+                  <p className="text-xs invisible">Unreviewed</p>
+                )}
               </div>
             ))}
         </div>
