@@ -6,11 +6,11 @@ import { MdOutlineArrowBackIos } from "react-icons/md";
 import ProfilePictureUploader from "../services/ProfilePictureUploader";
 import { FaUserCircle } from "react-icons/fa";
 import { TailSpin } from "react-loader-spinner";
-import { Pref, City } from "jp-zipcode-lookup";
+// import { Pref, City } from "jp-zipcode-lookup";
 import LabelWithAsterisk from "../icons/LabelWithAsterisk";
 import UnionJack from "../flags/UnionJack";
 import Japan from "../flags/Japan";
-// import { cityOptions } from "../../options/Cities";
+import { cityOptions } from "../../options/Cities";
 // import { prefectureOptions } from "../../options/Prefectures";
 
 type Props = {
@@ -51,6 +51,7 @@ const EditProfileForm: React.FC<Props> = ({ closeEditForm }) => {
   const { currentUser, userInfo } = useAuth();
   const { setUserInfo } = useAuth();
   const { t } = useTranslation();
+  const [selectedPrefecture, setSelectedPrefecture] = useState("");
 
   useEffect(() => {
     if (userInfo) {
@@ -73,27 +74,27 @@ const EditProfileForm: React.FC<Props> = ({ closeEditForm }) => {
   }, [userInfo, reset, profilePicture]);
 
   // Handler for postal code changes
-  const handlePostalCodeChange = async (postalCode: string) => {
-    const cleanedPostalCode = postalCode.replace(/[^0-9]/g, ""); // Remove any non-numeric characters
+  // const handlePostalCodeChange = async (postalCode: string) => {
+  //   const cleanedPostalCode = postalCode.replace(/[^0-9]/g, ""); // Remove any non-numeric characters
 
-    if (!cleanedPostalCode || cleanedPostalCode.length !== 7) {
-      return;
-    }
+  //   if (!cleanedPostalCode || cleanedPostalCode.length !== 7) {
+  //     return;
+  //   }
 
-    try {
-      const prefecture = Pref.byZipcode(postalCode)[0]?.name;
-      const city = City.byZipcode(postalCode)[0]?.name;
+  //   try {
+  //     const prefecture = Pref.byZipcode(postalCode)[0]?.name;
+  //     const city = City.byZipcode(postalCode)[0]?.name;
 
-      if (prefecture) {
-        setValue("prefecture", prefecture); // Populate prefecture field
-      }
-      if (city) {
-        setValue("city_ward", city); // Populate city field
-      }
-    } catch (err) {
-      console.error("Failed to fetch address:", err);
-    }
-  };
+  //     if (prefecture) {
+  //       setValue("prefecture", prefecture); // Populate prefecture field
+  //     }
+  //     if (city) {
+  //       setValue("city_ward", city); // Populate city field
+  //     }
+  //   } catch (err) {
+  //     console.error("Failed to fetch address:", err);
+  //   }
+  // };
 
   const onSubmit = async (data: EditProfileFormData) => {
     setIsLoading(true);
@@ -168,13 +169,21 @@ const EditProfileForm: React.FC<Props> = ({ closeEditForm }) => {
     setUserInfo(updatedUser);
   };
 
+  const prefectureOptions = Object.keys(cityOptions);
+
+  const handlePrefectureChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const selected = e.target.value;
+    setSelectedPrefecture(selected);
+
+    setValue("prefecture", selected as string);
+  };
+
   const inputClass =
     "appearance-none block w-full bg-gray-200 text-gray-700 border rounded py-3 px-4 text-lg　mb-2 leading-tight focus:outline-none focus:bg-white";
   const labelClass =
     "block tracking-wide text-gray-700 font-bold mb-2 mt-2 text-lg";
   const checkboxLabelClass =
     "flex flex-col items-center justify-center p-4 bg-white border-2 border-gray-300 rounded-lg cursor-pointer hover:bg-gray-50 peer-checked:border-blue-500 peer-checked:bg-blue-50";
-  // const prefectureOptions = ["Tokyo", "Saitama", "Chiba"];
 
   return (
     <div className="flex justify-center px-8 pt-2 mb-8">
@@ -299,10 +308,14 @@ const EditProfileForm: React.FC<Props> = ({ closeEditForm }) => {
               required: "Please enter your email.",
             })}
             className={inputClass}
-            disabled // Disable email field if it shouldn't be editable
+            disabled
           />
         </div>
-        {/* Postal Code */}
+
+        {/* 
+        
+        VICENTE POSTCODE FORM FILLER 
+
         <div className="mb-6">
           <label className={labelClass} htmlFor="postal_code">
             {`${t("editProfileForm.postCode")}`}
@@ -322,7 +335,6 @@ const EditProfileForm: React.FC<Props> = ({ closeEditForm }) => {
             onChange={(e) => handlePostalCodeChange(e.target.value)}
           />
         </div>
-        {/* Prefecture */}
         <div className="mb-6">
           <label className={labelClass} htmlFor="prefecture">
             {`${t("editProfileForm.prefecture")}`}
@@ -331,19 +343,9 @@ const EditProfileForm: React.FC<Props> = ({ closeEditForm }) => {
             id="prefecture"
             type="text"
             className={`${inputClass} pr-8`}
-            {...register("prefecture", {
-              // required: "Please select a prefecture.",
-            })}
+            {...register("prefecture")}
           />
-          {/* <option value="">{t("editProfileForm.selectPrefecture")}</option>
-              {prefectureOptions.map((pref) => (
-                <option key={pref} value={pref}>
-                  {pref}
-                </option>
-              ))}
-            </select> */}
         </div>
-        {/* City */}
         <div className="mb-6">
           <label className={labelClass} htmlFor="city_ward">
             {`${t("editProfileForm.cityWard")}`}
@@ -351,12 +353,85 @@ const EditProfileForm: React.FC<Props> = ({ closeEditForm }) => {
           <input
             id="city_ward"
             type="text"
-            {...register("city_ward", {
-              // required: "Please enter a city/ward.",
-            })}
+            {...register("city_ward")}
             className={inputClass}
           />
         </div>
+        */}
+
+        {/* Postal Code */}
+        <div className="mb-6">
+          <label className={labelClass} htmlFor="postal_code">
+            {`${t("editProfileForm.postCode")}`}
+          </label>
+          <input
+            id="postal_code"
+            type="text"
+            placeholder={`${t("editProfileForm.postalCodePlaceholder")}`}
+            {...register("postal_code")}
+            className={inputClass}
+          />
+        </div>
+
+        {/* Prefecture Selection */}
+        <div className="mb-6">
+          <label className={labelClass} htmlFor="prefecture">
+            {`${t("searchBar.prefecture")}`}
+            <span className="text-red-500 ml-1">*</span>
+          </label>
+          <input
+            id="prefecture"
+            list="prefecture-options"
+            {...register("prefecture", {
+              required: t("editProfileForm.requiredPrefecture"),
+            })}
+            onChange={handlePrefectureChange}
+            placeholder={t("searchBar.selectPrefecture")}
+            className={inputClass}
+          />
+          <datalist id="prefecture-options">
+            {prefectureOptions.map((pref) => (
+              <option key={pref} value={pref}>
+                {t(`searchBar.prefectureOptions.${pref}`)}
+              </option>
+            ))}
+          </datalist>
+          {errors.prefecture && (
+            <p className="text-red-500 text-xs italic mt-1">
+              {errors.prefecture.message}
+            </p>
+          )}
+        </div>
+
+        {/* City Selection */}
+        <div className="mb-6 relative searchable-list">
+          <label className={labelClass} htmlFor="city">
+            {`${t("searchBar.cityWard")}`}
+            <span className="text-red-500 ml-1">*</span>
+          </label>
+          <input
+            id="city"
+            list="city-options"
+            {...register("city_ward", {
+              required: t("editProfileForm.requiredCityWard"),
+            })}
+            placeholder={t("searchBar.enterCityWard")}
+            className={inputClass}
+          />
+          <datalist id="city-options">
+            {(cityOptions[selectedPrefecture] || []).map((city) => (
+              <option key={city} value={city}>
+                {t(`searchBar.cityOptions.${selectedPrefecture}.${city}`)}
+              </option>
+            ))}
+          </datalist>
+          {errors.city_ward && (
+            <p className="text-red-500 text-xs italic mt-1">
+              {errors.city_ward.message}
+            </p>
+          )}
+        </div>
+
         {/* Street */}
         <div className="mb-8">
           <label className={labelClass} htmlFor="street">
@@ -365,15 +440,13 @@ const EditProfileForm: React.FC<Props> = ({ closeEditForm }) => {
           <input
             id="street"
             type="text"
-            {...register("street_address", {
-              // required: "Please enter a street.",
-            })}
+            {...register("street_address")}
             className={inputClass}
           />
         </div>
-        <div className="mb-4">
+        <div className="mb-2">
           {/* Languages */}
-          <p className={`${labelClass} mb-3`}>{`${t(
+          <p className={`${labelClass} mb-4`}>{`${t(
             "editProfileForm.languages"
           )}`}</p>
           <div className="flex justify-center gap-4">
@@ -405,9 +478,6 @@ const EditProfileForm: React.FC<Props> = ({ closeEditForm }) => {
           </div>
         </div>
 
-        <span className="text-red-500 italic ml-1">
-          {`*${t("editProfileForm.reqMessage")}`}
-        </span>
         <div className="flex justify-center md:justify-end">
           {" "}
           <button

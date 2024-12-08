@@ -985,8 +985,10 @@
     "profileUpdateSuccess": "プロフィールが正常に更新されました。",
     "save": "保存",
     "saving": "節約",
-    "selectPrefecture": "Select Prefecture",
-    "postalCodePlaceholder": "Postal code without hyphen (ex. 1234567)",
+    "selectPrefecture": "都道府県を選択してください",
+    "requiredPrefecture": "都道府県を選択してください。",
+    "requiredCityWard": "市区町村を選択してください。",
+    "postalCodePlaceholder": "000-0000",
     "postalCodeRequired": "Please enter your postal code.",
     "postalCodeError": "Postal code must be exactly 7 digits",
     "reqMessage": "ペットシッターになるには、すべての項目の入力が必須です。"
