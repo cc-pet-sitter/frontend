@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { PiDog, PiCat, PiMedal, PiRabbit, PiBird } from "react-icons/pi";
 import { LiaBirthdayCakeSolid, LiaWeightSolid } from "react-icons/lia";
@@ -16,6 +16,12 @@ type Props = {
 const PetProfile: React.FC<Props> = ({ petProfile, onClose }) => {
   const { t } = useTranslation();
   const [imageLoaded, setImageLoaded] = useState<boolean>(false);
+
+  useEffect(() => {
+    if (!petProfile?.profile_picture_src) {
+      setImageLoaded(true);
+    }
+  }, [petProfile]);
 
   return (
     <div>
