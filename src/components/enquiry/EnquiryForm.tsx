@@ -155,8 +155,7 @@ const EnquiryForm: React.FC<EnquiryFormProps> = ({
       // Close the enquiry form after a short delay
       setTimeout(() => {
         closeEnquiryForm();
-      }, 2000); // Adjust the delay as necessary
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      }, 1500); // Adjust the delay as necessary
     } catch (error: any) {
       console.error("Error creating the enquiry:", error.message);
       setError(error.message);
@@ -173,8 +172,8 @@ const EnquiryForm: React.FC<EnquiryFormProps> = ({
     >
       {error && <p className="text-red-500 text-sm italic mb-4">{error}</p>}
       {success && (
-        <p className="text-green-500 text-sm italic mb-4">
-          Enquiry sent successfully!
+        <p className="text-brown text mb-4">
+          {`${t("enquiryForm.successMessage")}`}
         </p>
       )}
 
@@ -182,7 +181,7 @@ const EnquiryForm: React.FC<EnquiryFormProps> = ({
         {/* Start Date */}
         <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
           <label className={labelClass} htmlFor="start_date">
-            {`${t("enquiryForm.startDate")}:`}
+            {`${t("enquiryForm.startDate")}`}
             <span className="text-red-500 ml-1">*</span>
           </label>
           <input
@@ -204,7 +203,7 @@ const EnquiryForm: React.FC<EnquiryFormProps> = ({
         {/* End Date */}
         <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
           <label className={labelClass} htmlFor="end_date">
-            {`${t("enquiryForm.endDate")}:`}
+            {`${t("enquiryForm.endDate")}`}
             <span className="text-red-500 ml-1">*</span>
           </label>
           <input
@@ -227,7 +226,7 @@ const EnquiryForm: React.FC<EnquiryFormProps> = ({
       {/* Pets */}
       <div className="mb-6">
         <p className={`${labelClass} mb-3`}>
-          {`${t("enquiryForm.petToLookAfter")}:`}
+          {`${t("enquiryForm.petToLookAfter")}`}
           <span className="text-red-500 ml-1">*</span>
         </p>
         {petOptions.length > 0 ? (
@@ -264,7 +263,7 @@ const EnquiryForm: React.FC<EnquiryFormProps> = ({
       {/* Desired Service */}
       <div className="mb-6">
         <p className={`${labelClass} mb-3`}>
-          {`${t("enquiryForm.desiredService")}:`}
+          {`${t("enquiryForm.desiredService")}`}
           <span className="text-red-500 ml-1">*</span>
         </p>
         {serviceOptions.map((serviceOption) => (
@@ -293,7 +292,7 @@ const EnquiryForm: React.FC<EnquiryFormProps> = ({
       {/* Additional Information */}
       <div className="mb-6">
         <label className={`${labelClass} block`} htmlFor="additional_info">
-          {`${t("enquiryForm.additionalInfo")}:`}
+          {`${t("enquiryForm.additionalInfo")}`}
         </label>
         <textarea
           id="additional_info"

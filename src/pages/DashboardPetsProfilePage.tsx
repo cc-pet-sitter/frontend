@@ -41,6 +41,20 @@ const DashboardPetsProfilePage: React.FC = () => {
     fetchPetProfiles();
   }, []);
 
+  useEffect(() => {
+    let atLeastOnePictureFound = false;
+
+    petProfiles?.forEach((pet) => {
+      if (pet.profile_picture_src) {
+        atLeastOnePictureFound = true
+      }
+    })
+
+    if (!atLeastOnePictureFound) {
+      setImageLoaded(true);
+    }
+  }, [petProfiles]);
+
   if (loading) {
     return <p>{t("dashboard_pets_profile_page.loading")}</p>;
   }

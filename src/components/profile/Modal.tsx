@@ -27,9 +27,6 @@ const Modal: React.FC<ModalProps> = ({ isOpen, onClose, children }) => {
       document.body.style.overflow = 'hidden';
       previousActiveElement.current = document.activeElement;
       modalRef.current?.focus();
-    } else {
-      document.body.style.overflow = '';
-      (previousActiveElement.current as HTMLElement)?.focus();
     }
   }, [isOpen]);
 

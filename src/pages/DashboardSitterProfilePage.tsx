@@ -64,6 +64,12 @@ const DashboardSitterProfilePage: React.FC = () => {
     fetchAllProfileData();
   }, []);
 
+  useEffect(() => {
+    if (!user?.profile_picture_src) {
+      setImageLoaded(true);
+    }
+  }, [user]);
+
   const handleSave = () => {
     // setSitterProfile(updatedProfile);
     setShowEditProfileForm(false);

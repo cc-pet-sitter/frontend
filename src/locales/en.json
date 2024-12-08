@@ -6,7 +6,7 @@
     "account": "Account",
     "pets_profile": "Pets Profile",
     "bookings": "Bookings",
-    "become_sitter": "Become a sitter",
+    "become_sitter": "Become a Sitter",
     "sitter_profile": "Sitter Profile",
     "requests": "Requests",
     "logout": "Logout"
@@ -56,7 +56,10 @@
     "createButtonNoGo": "Edit Account Info",
     "visits": "Visits",
     "sitter_house": "Boarding",
-    "owner_house": "Stay In"
+    "owner_house": "Stay In",
+    "saving": "Saving...",
+    "saved": "Saved",
+    "save_first": "You need to save your profile first before updating availabilities"
   },
   "dashboard_requests_page": {
     "title": "Requests",
@@ -66,9 +69,12 @@
     "requested_by_jp": ""
   },
   "review_input_page": {
-    "rating": "Give your rating:",
-    "comment": "Comments:",
-    "submit": "Submit"
+    "rating": "Rating",
+    "comment": "Comments",
+    "submit": "Submit",
+    "rating_required": "Please give a rating",
+    "review_submitted": "Your review has been submitted successfully.",
+    "close": "Close"
   },
   "request_details_page": {
     "page-title": "Request Information",
@@ -865,7 +871,8 @@
     "stay-in": "Stay In",
     "visit": "Visit",
     "no-pets": "Please register your pets before proceeding",
-    "noPetsSelected": "Please select at least one pet to proceed."
+    "noPetsSelected": "Please select at least one pet to proceed.",
+    "successMessage": "Enquiry sent successfully!"
   },
   "login": {
     "title": "Login",
