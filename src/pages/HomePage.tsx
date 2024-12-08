@@ -63,7 +63,7 @@ const HomePage: React.FC = () => {
 
       console.log(queryParams);
 
-      navigate("/search_page", { state: { searchResults: data } });
+      navigate("/search_page", { state: { searchResults: data, initialSearch: formData } });
     } catch (error) {
       console.error("Error fetching search results:", error);
       alert("Failed to fetch search results. Please try again.");

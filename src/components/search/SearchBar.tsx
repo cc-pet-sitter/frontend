@@ -5,7 +5,7 @@ import { TbHomeFilled, TbHomeMove } from "react-icons/tb";
 import { PiRabbitBold, PiCatBold, PiBirdBold } from "react-icons/pi";
 // import { prefectureOptions } from "../../options/Prefectures";
 import { cityOptions } from "../../options/Cities";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 export interface SearchFormData {
   postcode?: string;
@@ -24,19 +24,29 @@ export interface SearchFormData {
 interface SearchBarProps {
   onSearchSubmit: (data: SearchFormData) => void;
   closeSearchBar: () => void;
+  initialData?: SearchFormData;
 }
 
-const SearchBar: React.FC<SearchBarProps> = ({ onSearchSubmit }) => {
+const SearchBar: React.FC<SearchBarProps> = ({ onSearchSubmit, initialData }) => {
   const { t } = useTranslation();
   const {
     register,
     handleSubmit,
     setValue,
+    reset,
     formState: { errors },
-  } = useForm<SearchFormData>();
+  } = useForm<SearchFormData>({
+    defaultValues: initialData
+  });
   const [selectedPrefecture, setSelectedPrefecture] = useState("");
 
   const prefectureOptions = Object.keys(cityOptions);
+
+  useEffect(() => {
+    if (initialData) {
+      reset(initialData);
+    }
+  }, [initialData, reset]);
 
   const handlePrefectureChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const selected = e.target.value;

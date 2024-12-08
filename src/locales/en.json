@@ -826,7 +826,8 @@
     "rabbit": "Rabbits",
     "viewProfile": "View Profile",
     "noResultsFound": "Mugi can't find any matches. Please try to widen your search.",
-    "and": " and "
+    "and": " and ",
+    "refineSearch": "Refine Search"
   },
   "sitterProfilePage": {
     "accountBio": "Bio",
