@@ -212,8 +212,8 @@ const DashboardRequestDetailPage: React.FC = () => {
   }
 
   return (
-    <div className="p-6">
-      {/* Go Back Button */}
+    <div className="p-6 md:mx-20">
+            {/* Go Back Button */}
       <button
         onClick={handleGoBack}
         className="flex items-center text-gray-500 hover:text-orange-700 mb-4"
@@ -221,152 +221,180 @@ const DashboardRequestDetailPage: React.FC = () => {
         <MdOutlineArrowBackIos className="mr-2" />
         {t("request_details_page.goBack")}
       </button>
+      
+      <div className="md:flex md:ustify-start pd">
+        <div className="mt-2 md:w-1/2 md:p-8">
+          {/* Request Information */}
+          <div className="mb-6">
+            <h3 className="font-semibold text-xl my-4">
+              {t("request_details_page.section-title")}
+            </h3>
+            <p className="pb-2">
+              <strong>{t("request_details_page.service")}</strong>{" "}
+              {request.desired_service === "sitter_house" &&
+                t("dashboard_Sitter_Profile_page.sitter_house")}
+              {request.desired_service === "owner_house" &&
+                t("dashboard_Sitter_Profile_page.owner_house")}
+              {request.desired_service === "visit" &&
+                t("dashboard_Sitter_Profile_page.visits")}
+            </p>
+            <p className="pb-2">
+              <strong>{t("request_details_page.dates")}</strong>{" "}
+              {new Date(request.start_date).toLocaleDateString()} -{" "}
+              {new Date(request.end_date).toLocaleDateString()}
+            </p>
+            <p className="pb-2">
+              <strong>{t("request_details_page.status")}</strong>{" "}
+              {request.inquiry_status === "requested" &&
+                t("request_details_page.requested")}
+              {request.inquiry_status === "approved" &&
+                t("request_details_page.approved")}
+              {request.inquiry_status === "rejected" &&
+                t("request_details_page.rejected")}
+            </p>
+            <p className="pb-2">
+              <strong>{t("request_details_page.comment")}</strong>{" "}
+              {request.additional_info}
+            </p>
+          </div>
 
-      {/* Request Information */}
-      <div className="mb-4">
-        <h3 className="font-semibold text-xl">{t("request_details_page.section-title")}</h3>
-        <p>
-          <strong>{t("request_details_page.service")}</strong> {request.desired_service}
-        </p>
-        <p>
-          <strong>{t("request_details_page.dates")}</strong>{" "}
-          {new Date(request.start_date).toLocaleDateString()} -{" "}
-          {new Date(request.end_date).toLocaleDateString()}
-        </p>
-        <p>
-          <strong>{t("request_details_page.status")}</strong> {request.inquiry_status}
-        </p>
-        <p>
-          <strong>{t("request_details_page.comment")}</strong> {request.additional_info}
-        </p>
-      </div>
-
-      {/* Owner Information */}
-      {isSitter && ownerInfo && (
-        <div
-          className="flex items-center justify-center gap-4 cursor-pointer mb-2 border rounded-lg p-2 bg-white shadow-md  hover:bg-gray-100"
-          onClick={() => handleUserClick(ownerInfo)}
-        >
-          {ownerInfo.profile_picture_src ? (
+          {/* Owner Information */}
+          {isSitter && ownerInfo && (
+            <div
+              className="flex w-4/5 md:w-2/3 items-center gap-4 cursor-pointer mb-4 rounded-xl p-2 pl-4 bg-white shadow-custom  hover:bg-gray-100"
+              onClick={() => handleUserClick(ownerInfo)}
+            >
+              {ownerInfo.profile_picture_src ? (
                 <img
                   src={ownerInfo.profile_picture_src}
                   alt={`${ownerInfo.firstname} ${ownerInfo.lastname}`}
-                  className="w-20 h-20 rounded-full object-cover"
+                  className="w-16 h-16 rounded-full object-cover"
                 />
               ) : (
-                <div className="w-20 h-20 rounded-full bg-gray-300 flex items-center justify-center">
+                <div className="w-16 h-16 rounded-full bg-gray-300 flex items-center justify-center">
                   <span className="text-xl text-white">
                     {ownerInfo.firstname.charAt(0)}
                     {ownerInfo.lastname.charAt(0)}
                   </span>
                 </div>
               )}
-          <p>
-            {ownerInfo.firstname} {ownerInfo.lastname}
-          </p>
-        </div>
-      )}
+              <p>
+                {ownerInfo.firstname} {ownerInfo.lastname}
+              </p>
+            </div>
+          )}
 
-      {/* Sitter Information */}
-      {isOwner && sitterInfo && (
-        <div
-          className="flex items-center justify-center gap-4 mb-2 border rounded-lg p-2 bg-white shadow-md cursor-pointer hover:bg-gray-100"
-          onClick={() => handleUserClick(sitterInfo)}
-        >
-          {sitterInfo.profile_picture_src ? (
+          {/* Sitter Information */}
+          {isOwner && sitterInfo && (
+            <div
+              className="flex items-center w-4/5 md:w-2/3 gap-4 mb-4 shadow-custom  rounded-xl p-2 pl-4  bg-white cursor-pointer hover:bg-gray-100"
+              onClick={() => handleUserClick(sitterInfo)}
+            >
+              {sitterInfo.profile_picture_src ? (
                 <img
                   src={sitterInfo.profile_picture_src}
                   alt={`${sitterInfo.firstname} ${sitterInfo.lastname}`}
-                  className="w-20 h-20 rounded-full object-cover"
+                  className="w-16 h-16 rounded-full object-cover"
                 />
               ) : (
-                <div className="w-20 h-20 rounded-full bg-gray-300 flex items-center justify-center">
+                <div className="w-16 h-16 rounded-full bg-gray-300 flex items-center justify-center">
                   <span className="text-xl text-white">
                     {sitterInfo.firstname.charAt(0)}
                     {sitterInfo.lastname.charAt(0)}
                   </span>
                 </div>
               )}
-          <p>
-            {sitterInfo.firstname} {sitterInfo.lastname}
-          </p>
+              <p>
+                {sitterInfo.firstname} {sitterInfo.lastname}
+              </p>
+            </div>
+          )}
+
+          {/* Pet Information */}
+          {petInfo &&
+            petInfo.map((pet) => {
+              return (
+                request?.pet_id_list?.includes(pet.id) && (
+                  <div
+                    className="flex items-center w-4/5 md:w-2/3 gap-4 mb-4 rounded-xl p-2 pl-4 bg-white shadow-custom cursor-pointer hover:bg-gray-100"
+                    onClick={() => handlePetClick(pet)}
+                    key={pet.id}
+                  >
+                    {pet.profile_picture_src ? (
+                      <img
+                        src={pet.profile_picture_src}
+                        alt={`${pet.name}`}
+                        className="w-16 h-16 rounded-full object-cover"
+                      />
+                    ) : (
+                      <div className="w-16 h-16 rounded-full bg-gray-300 flex items-center justify-center">
+                        <span className="text-xl text-white">
+                          {pet.name[0]}
+                        </span>
+                      </div>
+                    )}
+                    <p>
+                      {`${pet.name} (${t(
+                        `searchBar.petOptions.${pet.type_of_animal}`
+                      )})`}
+                    </p>
+                  </div>
+                )
+              );
+            })}
+
+          {/* User Profile Modal */}
+          {isModalOpen && selectedUser && (
+            <UserProfileModal
+              isOpen={isModalOpen}
+              user={selectedUser}
+              onClose={() => setIsModalOpen(false)}
+            />
+          )}
+
+          {/* Pet Profile Modal */}
+          {isModalOpen && selectedPet && (
+            <UserProfileModal
+              isOpen={isModalOpen}
+              pet={selectedPet}
+              onClose={() => setIsModalOpen(false)}
+            />
+          )}
+
+          {/* Accept/Reject Buttons */}
+          {isSitter && request.inquiry_status === "requested" && (
+            <div className="flex space-x-4 mt-6">
+              <button
+                onClick={handleAccept}
+                className="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded"
+              >
+                {t("request_details_page.accept")}
+              </button>
+              <button
+                onClick={handleReject}
+                className="bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded"
+              >
+                {t("request_details_page.reject")}
+              </button>
+            </div>
+          )}
+
+          {/* Show updated status if the inquiry has been finalized */}
+          {/* {request.inquiry_status !== "requested" && (
+            <p className="text-lg font-semibold mt-4">
+              {t("request_details_page.result")}
+              {request.inquiry_status}
+            </p>
+          )} */}
         </div>
-      )}
 
-      {/* Pet Information */}
-      {petInfo && petInfo.map((pet) => { return (
-        request?.pet_id_list?.includes(pet.id) && <div
-          className="flex items-center justify-center gap-4 mb-2 border rounded-lg p-2 bg-white shadow-md cursor-pointer hover:bg-gray-100"
-          onClick={() => handlePetClick(pet)}
-          key={pet.id}
-        >
-          {pet.profile_picture_src ? (
-                <img
-                  src={pet.profile_picture_src}
-                  alt={`${pet.name}`}
-                  className="w-20 h-20 rounded-full object-cover"
-                />
-              ) : (
-                <div className="w-20 h-20 rounded-full bg-gray-300 flex items-center justify-center">
-                  <span className="text-xl text-white">
-                    {pet.name[0]}
-                  </span>
-                </div>
-              )}
-          <p>
-            {`${pet.name}, ${t(`searchBar.petOptions.${pet.type_of_animal}`)}`}
-          </p>
+        {/* Conversation Component */}
+        <div className="mt-6 md:mt-2 md:w-1/2 md:p-8">
+          <h3 className="font-semibold text-xl my-4">
+            {t("request_details_page.convo")}
+          </h3>
+          {userInfo?.id && <Conversation inquiry={request} />}
         </div>
-      )
-    })}
-
-      {/* User Profile Modal */}
-      {isModalOpen && selectedUser && (
-        <UserProfileModal
-          isOpen={isModalOpen}
-          user={selectedUser}
-          onClose={() => setIsModalOpen(false)}
-        />
-      )}
-
-      {/* Pet Profile Modal */}
-      {isModalOpen && selectedPet && (
-      <UserProfileModal
-        isOpen={isModalOpen}
-        pet={selectedPet}
-        onClose={() => setIsModalOpen(false)}
-      />
-      )}
-
-      {/* Accept/Reject Buttons */}
-      {isSitter && request.inquiry_status === "requested" && (
-        <div className="flex space-x-4 mt-4">
-          <button
-            onClick={handleAccept}
-            className="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded"
-          >
-            {t("request_details_page.accept")}
-          </button>
-          <button
-            onClick={handleReject}
-            className="bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded"
-          >
-            {t("request_details_page.reject")}
-          </button>
-        </div>
-      )}
-
-      {/* Show updated status if the inquiry has been finalized */}
-      {request.inquiry_status !== "requested" && (
-        <p className="text-lg font-semibold mt-4">
-          {t("request_details_page.result")}{request.inquiry_status}
-        </p>
-      )}
-
-      {/* Conversation Component */}
-      <div className="mt-4">
-        <h3 className="font-semibold text-xl">{t("request_details_page.convo")}</h3>
-        {userInfo?.id && <Conversation inquiry={request} />}
       </div>
     </div>
   );
