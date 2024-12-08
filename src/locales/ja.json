@@ -23,7 +23,8 @@
     "first_profile": "プロフィールを作成",
     "add_profile": "＋ 他のペットを追加",
     "edit_button": "プロフィールを編集",
-    "view_button": "プロフィールを確認"
+    "view_button": "プロフィールを確認",
+    "loading": "ペットプロフィールをロード中..."
   },
   "dashboard_bookings_page": {
     "title": "予約",
