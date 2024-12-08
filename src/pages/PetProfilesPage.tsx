@@ -116,11 +116,11 @@ const PetProfilesPage: React.FC = () => {
                     </>
                   )}
                 </div>
-                <div className="flex my-1 text-sm">
+                {profile.birthday && <div className="flex my-1 text-sm">
                   <LiaBirthdayCakeSolid className="mr-3 mt-1 " />
                   {t("PetProfile.birthday")}
                   {new Date(profile.birthday).toLocaleDateString("ja-JP")}
-                </div>
+                </div>}
 
                 {profile.weight && (
                   <div className="flex my-1 text-sm">

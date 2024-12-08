@@ -375,6 +375,7 @@ const EditProfileForm: React.FC<EditProfileFormProps> = ({
             type="text"
             {...register("known_allergies")}
             className={inputClass}
+            placeholder={t("editPetProfileForm.sample-allergies")}
           />
         </div>
 
@@ -388,6 +389,7 @@ const EditProfileForm: React.FC<EditProfileFormProps> = ({
             type="text"
             {...register("medications")}
             className={inputClass}
+            placeholder={t("editPetProfileForm.sample-meds")}
           />
         </div>
 
@@ -402,6 +404,7 @@ const EditProfileForm: React.FC<EditProfileFormProps> = ({
             cols={40}
             {...register("special_needs")}
             className={textAreaClass}
+            placeholder={t("editPetProfileForm.instructions")}
           />
         </div>
 
