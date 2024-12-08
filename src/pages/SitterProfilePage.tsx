@@ -11,8 +11,6 @@ import Rating from "@mui/material/Rating";
 import ViewAvailability from "../components/profile/ViewAvailability.tsx";
 import FeaturedImageGallery from "../components/profile/FeaturedImageGallery.tsx";
 import { MdOutlineArrowBackIos } from "react-icons/md";
-import UnionJack from "../components/flags/UnionJack.tsx";
-import Japan from "../components/flags/Japan.tsx";
 
 const apiURL: string = import.meta.env.VITE_API_BASE_URL;
 
@@ -243,19 +241,11 @@ const SitterProfilePage: React.FC = () => {
               </li>
               <li className="flex items-center space-x-3">
                 <strong>{`${t("sitterProfilePage.languages")}:`}</strong>{" "}
-                {user.appuser.english_ok && user.appuser.japanese_ok ? (
-                  // t("sitterProfilePage.englishJapanese")
-                  <>
-                    <Japan />
-                    <UnionJack />
-                  </>
-                ) : user.appuser.english_ok ? (
-                  // t("sitterProfilePage.english")
-                  <UnionJack />
-                ) : (
-                  // t("sitterProfilePage.japanese")
-                  <Japan />
-                )}
+                {user.appuser.english_ok && user.appuser.japanese_ok
+                  ? t("sitterProfilePage.englishJapanese")
+                  : user.appuser.english_ok
+                  ? t("sitterProfilePage.english")
+                  : t("sitterProfilePage.japanese")}
               </li>
               <li>
                 <strong>{`${t("sitterProfilePage.lastLogin")}:`}</strong>{" "}
