@@ -105,7 +105,10 @@ const DashboardRequests: React.FC = () => {
                 key={index}
                 className="mx-6 my-3 border border-transparent shadow-custom rounded w-72 px-4 py-2 relative"
               >
-                <Link to={`/dashboard/requests/${request.id}`}>
+                <Link 
+                  to={`/dashboard/requests/${request.id}`}
+                  state={{ from: "requests "}}
+                >
                     <h3 className="text-sm font-medium my-1">
                       {t("dashboard_requests_page.requested_by_en")}{" "}
                       {ownerInfo[index].firstname}

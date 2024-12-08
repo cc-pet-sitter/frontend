@@ -86,7 +86,8 @@
     "convo": "Conversation",
     "send": "Send",
     "input-box": "Type your message here",
-    "chat-over": "Further messaging has been disabled."
+    "chat-over": "Further messaging has been disabled.",
+    "goBack": "Back"
   },
   "user_profile_modal": {
 
