@@ -94,7 +94,7 @@ const WriteReview: React.FC<WriteReviewProps> = ({
         noValidate
       >
         <div className="flex flex-col items-center md:items-start">
-          <label className={`${labelClass} block`}>
+          <label className={`${labelClass} block md:mt-2`}>
             {t("review_input_page.rating")}
           </label>
           <div className="w-full flex justify-center p-2">
@@ -125,9 +125,9 @@ const WriteReview: React.FC<WriteReviewProps> = ({
             {...register("comment")}
           />
         </div>
+        <div className="md:flex md:items-center justify-center">
+          <div className="flex justify-center">
 
-        <div className="flex justify-center">
-          <div className="md:w-1/2 flex justify-center">
             <button type="submit" className="btn-primary">
               {t("review_input_page.submit")}
             </button>

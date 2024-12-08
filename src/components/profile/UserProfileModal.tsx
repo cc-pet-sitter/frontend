@@ -82,7 +82,7 @@ const UserProfileModal: React.FC<UserProfileModalProps> = ({
                 />
               ) : (
                 <div className="w-32 h-32 rounded-full bg-gray-300 flex items-center justify-center">
-                  <span className="text-xl text-white">{pet.name[0]}</span>
+                  <span className="text-3xl text-white">{pet.name[0]}</span>
                 </div>
               )}
               <p className="text-xl font-semibold">
