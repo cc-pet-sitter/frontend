@@ -1,6 +1,6 @@
 import { signInWithEmailAndPassword, UserCredential } from "firebase/auth";
 import React, { FormEvent, useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import { auth } from "../../firebase";
 import { useAuth } from "../../contexts/AuthContext";
 import { useTranslation } from "react-i18next";
@@ -15,6 +15,10 @@ const Login: React.FC = () => {
 
   const { t } = useTranslation();
 
+  const location = useLocation();
+  const params = new URLSearchParams(location.search);
+  const redirectTo = params.get("redirect");
+  
   useEffect(() => {
     if (currentUser) {
       navigate("/"); // Redirect authenticated users away from login page
@@ -58,10 +62,12 @@ const Login: React.FC = () => {
       // Update AuthContext with userInfo
       setUserInfo(data);
 
-      // LOG FOR TEST
-      console.log(data);
-      // Navigate to dashboard or home
-      navigate("/");
+
+      if (redirectTo) {
+        navigate(redirectTo);
+      } else {
+        navigate("/"); // fallback if no redirect is provided
+      }
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (err: any) {
       setError(err.message);

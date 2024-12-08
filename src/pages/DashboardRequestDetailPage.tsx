@@ -2,8 +2,9 @@ import React, { useState, useEffect } from "react";
 import { useParams, useNavigate, useLocation } from "react-router-dom";
 import { useAuth } from "../contexts/AuthContext";
 import { Inquiry, AppUser, PetProfileData } from "../types/userProfile";
-import Conversation from "../components/chat/Conversation"; // We'll create this later
+import Conversation from "../components/chat/Conversation";
 import UserProfileModal from "../components/profile/UserProfileModal";
+import Modal from "../components/profile/Modal";
 import { useTranslation } from "react-i18next";
 import { MdOutlineArrowBackIos } from "react-icons/md";
 
@@ -15,9 +16,15 @@ const DashboardRequestDetailPage: React.FC = () => {
   const [sitterInfo, setSitterInfo] = useState<AppUser | null>(null);
   const [petInfo, setPetInfo] = useState<PetProfileData[]>([]);
   const [error, setError] = useState<string | null>(null);
-  const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
+
+  // State for User/Pet profile modal
+  const [isProfileModalOpen, setIsProfileModalOpen] = useState<boolean>(false);
   const [selectedUser, setSelectedUser] = useState<AppUser | null>(null);
   const [selectedPet, setSelectedPet] = useState<PetProfileData | null>(null);
+
+  // State for confirmation modal (accept/reject)
+  const [isConfirmModalOpen, setIsConfirmModalOpen] = useState<boolean>(false);
+  const [modalAction, setModalAction] = useState<"accept" | "reject" | null>(null);
 
   const navigate = useNavigate();
   const location = useLocation();
@@ -26,28 +33,6 @@ const DashboardRequestDetailPage: React.FC = () => {
   const { currentUser, userInfo } = useAuth();
   const { requestId } = useParams<{ requestId: string }>();
   const { t } = useTranslation();
-
-  const handleGoBack = () => {
-    if (from === "bookings") {
-      navigate("/dashboard/bookings");
-    } else if (from === "requests") {
-      navigate("/dashboard/requests");
-    } else {
-      navigate(-1); // Default: go back one page
-    }
-  };
-
-  const handleUserClick = (user: AppUser) => {
-    setSelectedUser(user);
-    setSelectedPet(null);
-    setIsModalOpen(true);
-  };
-
-  const handlePetClick = (pet: PetProfileData) => {
-    setSelectedUser(null);
-    setSelectedPet(pet);
-    setIsModalOpen(true);
-  };
 
   useEffect(() => {
     const fetchRequestDetails = async () => {
@@ -108,6 +93,7 @@ const DashboardRequestDetailPage: React.FC = () => {
         const sitterData: AppUser = await sitterResponse.json();
         setSitterInfo(sitterData);
 
+        // Fetch pet info
         const petResponse = await fetch(
           `${apiURL}/appuser/${requestData.owner_appuser_id}/pet?inquiry_id=${requestData.id}`,
           {
@@ -126,80 +112,83 @@ const DashboardRequestDetailPage: React.FC = () => {
         const petData: PetProfileData[] = await petResponse.json();
         setPetInfo(petData);
       } catch (err) {
-        if (err instanceof Error) {
-          setError(err.message);
-        } else {
-          setError("An unexpected error occurred.");
-        }
+        setError(err instanceof Error ? err.message : "An unexpected error occurred.");
       }
     };
 
     fetchRequestDetails();
   }, [currentUser, requestId]);
 
-  // Determine user role
-  const isOwner = userInfo?.id === request?.owner_appuser_id;
-  const isSitter = userInfo?.id === request?.sitter_appuser_id;
-
-  const handleAccept = async () => {
-    if (window.confirm(t("request_details_page.confirm-accept"))) {
-      try {
-        const idToken = await currentUser?.getIdToken();
-
-        const response = await fetch(`${apiURL}/inquiry/${requestId}`, {
-          method: "PATCH",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${idToken}`,
-          },
-          body: JSON.stringify({ inquiry_status: "approved" }),
-        });
-
-        if (!response.ok) {
-          const errorData = await response.json();
-          throw new Error(errorData.detail || "Failed to accept the request");
-        }
-
-        // Update local state
-        setRequest({ ...request!, inquiry_status: "approved" });
-      } catch (err) {
-        if (err instanceof Error) {
-          setError(err.message);
-        } else {
-          setError("An unexpected error occurred.");
-        }
-      }
+  const handleGoBack = () => {
+    if (from === "bookings") {
+      navigate("/dashboard/bookings");
+    } else if (from === "requests") {
+      navigate("/dashboard/requests");
+    } else {
+      navigate(-1);
     }
   };
 
-  const handleReject = async () => {
-    if (window.confirm(t("request_details_page.confirm-reject"))) {
-      try {
-        const idToken = await currentUser?.getIdToken();
+  const handleUserClick = (user: AppUser) => {
+    setSelectedUser(user);
+    setSelectedPet(null);
+    setIsProfileModalOpen(true);
+    document.body.style.overflow = 'hidden';
+  };
 
-        const response = await fetch(`${apiURL}/inquiry/${requestId}`, {
-          method: "PATCH",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${idToken}`,
-          },
-          body: JSON.stringify({ inquiry_status: "rejected" }),
-        });
+  const handlePetClick = (pet: PetProfileData) => {
+    setSelectedUser(null);
+    setSelectedPet(pet);
+    setIsProfileModalOpen(true);
+    document.body.style.overflow = 'hidden';
+  };
 
-        if (!response.ok) {
-          const errorData = await response.json();
-          throw new Error(errorData.detail || "Failed to reject the request");
-        }
+  const openConfirmModal = (action: "accept" | "reject") => {
+    setModalAction(action);
+    setIsConfirmModalOpen(true);
+    document.body.style.overflow = 'hidden';
+  };
 
-        // Update local state
-        setRequest({ ...request!, inquiry_status: "rejected" });
-      } catch (err) {
-        if (err instanceof Error) {
-          setError(err.message);
-        } else {
-          setError("An unexpected error occurred.");
-        }
+  const closeConfirmModal = () => {
+    setModalAction(null);
+    setIsConfirmModalOpen(false);
+    document.body.style.overflow = 'auto';
+  };
+
+  const confirmAction = async () => {
+    if (!modalAction || !requestId) return;
+
+    try {
+      const idToken = await currentUser?.getIdToken();
+      const endpoint = `${apiURL}/inquiry/${requestId}`;
+      const body = JSON.stringify({
+        inquiry_status: modalAction === "accept" ? "approved" : "rejected",
+      });
+
+      const response = await fetch(endpoint, {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${idToken}`,
+        },
+        body,
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.detail || `Failed to ${modalAction} the request`);
       }
+
+      if (request) {
+        setRequest({
+          ...request,
+          inquiry_status: modalAction === "accept" ? "approved" : "rejected",
+        });
+      }
+      closeConfirmModal();
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "An unexpected error occurred.");
+      closeConfirmModal();
     }
   };
 
@@ -210,6 +199,10 @@ const DashboardRequestDetailPage: React.FC = () => {
   if (!request || !ownerInfo || !sitterInfo) {
     return <p>Loading...</p>;
   }
+
+  // Determine user role
+  const isOwner = userInfo?.id === request?.owner_appuser_id;
+  const isSitter = userInfo?.id === request?.sitter_appuser_id;
 
   return (
     <div className="p-6 md:mx-20">
@@ -222,7 +215,7 @@ const DashboardRequestDetailPage: React.FC = () => {
         {t("request_details_page.goBack")}
       </button>
 
-      <div className="md:flex md:ustify-start pd">
+      <div className="md:flex md:justify-start pd">
         <div className="mt-2 md:w-1/2 md:p-8">
           {/* Request Information */}
           <div className="mb-6">
@@ -261,7 +254,7 @@ const DashboardRequestDetailPage: React.FC = () => {
           {/* Owner Information */}
           {isSitter && ownerInfo && (
             <div
-              className="flex w-4/5 md:w-2/3 items-center gap-4 cursor-pointer mb-4 rounded-xl p-2 pl-4 bg-white shadow-custom  hover:bg-gray-100"
+              className="flex w-4/5 md:w-2/3 items-center gap-4 cursor-pointer mb-4 rounded-xl p-2 pl-4 bg-white shadow-custom hover:bg-gray-100"
               onClick={() => handleUserClick(ownerInfo)}
             >
               {ownerInfo.profile_picture_src ? (
@@ -278,16 +271,14 @@ const DashboardRequestDetailPage: React.FC = () => {
                   </span>
                 </div>
               )}
-              <p>
-                {ownerInfo.firstname} {ownerInfo.lastname}
-              </p>
+              <p>{ownerInfo.firstname} {ownerInfo.lastname}</p>
             </div>
           )}
 
           {/* Sitter Information */}
           {isOwner && sitterInfo && (
             <div
-              className="flex items-center w-4/5 md:w-2/3 gap-4 mb-4 shadow-custom  rounded-xl p-2 pl-4  bg-white cursor-pointer hover:bg-gray-100"
+              className="flex items-center w-4/5 md:w-2/3 gap-4 mb-4 shadow-custom rounded-xl p-2 pl-4 bg-white cursor-pointer hover:bg-gray-100"
               onClick={() => handleUserClick(sitterInfo)}
             >
               {sitterInfo.profile_picture_src ? (
@@ -304,88 +295,55 @@ const DashboardRequestDetailPage: React.FC = () => {
                   </span>
                 </div>
               )}
-              <p>
-                {sitterInfo.firstname} {sitterInfo.lastname}
-              </p>
+              <p>{sitterInfo.firstname} {sitterInfo.lastname}</p>
             </div>
           )}
 
           {/* Pet Information */}
-          {petInfo &&
-            petInfo.map((pet) => {
-              return (
-                request?.pet_id_list?.includes(pet.id) && (
-                  <div
-                    className="flex items-center w-4/5 md:w-2/3 gap-4 mb-4 rounded-xl p-2 pl-4 bg-white shadow-custom cursor-pointer hover:bg-gray-100"
-                    onClick={() => handlePetClick(pet)}
-                    key={pet.id}
-                  >
-                    {pet.profile_picture_src ? (
-                      <img
-                        src={pet.profile_picture_src}
-                        alt={`${pet.name}`}
-                        className="w-16 h-16 rounded-full object-cover"
-                      />
-                    ) : (
-                      <div className="w-16 h-16 rounded-full bg-gray-300 flex items-center justify-center">
-                        <span className="text-xl text-white">
-                          {pet.name[0]}
-                        </span>
-                      </div>
-                    )}
-                    <p>
-                      {`${pet.name} (${t(
-                        `searchBar.petOptions.${pet.type_of_animal}`
-                      )})`}
-                    </p>
+          {petInfo && petInfo.map((pet) => (
+            request?.pet_id_list?.includes(pet.id) && (
+              <div
+                className="flex items-center w-4/5 md:w-2/3 gap-4 mb-4 rounded-xl p-2 pl-4 bg-white shadow-custom cursor-pointer hover:bg-gray-100"
+                onClick={() => handlePetClick(pet)}
+                key={pet.id}
+              >
+                {pet.profile_picture_src ? (
+                  <img
+                    src={pet.profile_picture_src}
+                    alt={pet.name}
+                    className="w-16 h-16 rounded-full object-cover"
+                  />
+                ) : (
+                  <div className="w-16 h-16 rounded-full bg-gray-300 flex items-center justify-center">
+                    <span className="text-xl text-white">
+                      {pet.name[0]}
+                    </span>
                   </div>
-                )
-              );
-            })}
+                )}
+                <p>
+                  {`${pet.name} (${t(`searchBar.petOptions.${pet.type_of_animal}`)})`}
+                </p>
+              </div>
+            )
+          ))}
 
-          {/* User Profile Modal */}
-          {isModalOpen && selectedUser && (
-            <UserProfileModal
-              isOpen={isModalOpen}
-              user={selectedUser}
-              onClose={() => { setIsModalOpen(false); document.body.style.overflow = 'auto';}}
-            />
-          )}
-
-          {/* Pet Profile Modal */}
-          {isModalOpen && selectedPet && (
-            <UserProfileModal
-              isOpen={isModalOpen}
-              pet={selectedPet}
-              onClose={() => { setIsModalOpen(false); document.body.style.overflow = 'auto'; }}
-            />
-          )}
-
-          {/* Accept/Reject Buttons */}
+          {/* Confirm Actions (Accept/Reject) */}
           {isSitter && request.inquiry_status === "requested" && (
             <div className="flex space-x-4 mt-6">
               <button
-                onClick={handleAccept}
+                onClick={() => openConfirmModal("accept")}
                 className="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded"
               >
                 {t("request_details_page.accept")}
               </button>
               <button
-                onClick={handleReject}
+                onClick={() => openConfirmModal("reject")}
                 className="bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded"
               >
                 {t("request_details_page.reject")}
               </button>
             </div>
           )}
-
-          {/* Show updated status if the inquiry has been finalized */}
-          {/* {request.inquiry_status !== "requested" && (
-            <p className="text-lg font-semibold mt-4">
-              {t("request_details_page.result")}
-              {request.inquiry_status}
-            </p>
-          )} */}
         </div>
 
         {/* Conversation Component */}
@@ -396,6 +354,46 @@ const DashboardRequestDetailPage: React.FC = () => {
           {userInfo?.id && <Conversation inquiry={request} />}
         </div>
       </div>
+
+      {/* User or Pet Profile Modal */}
+      {(selectedUser || selectedPet) && (
+        <UserProfileModal
+          isOpen={isProfileModalOpen}
+          user={selectedUser || undefined}
+          pet={selectedPet || undefined}
+          onClose={() => {
+            setIsProfileModalOpen(false);
+            setSelectedUser(null);
+            setSelectedPet(null);
+            document.body.style.overflow = 'auto';
+          }}
+        />
+      )}
+
+      {/* Confirmation Modal for Accept/Reject */}
+      <Modal isOpen={isConfirmModalOpen} onClose={closeConfirmModal}>
+        <div className="p-6 text-center">
+          <h2 className="text-lg font-semibold mb-4">
+            {modalAction === "accept"
+              ? t("request_details_page.confirm-accept")
+              : t("request_details_page.confirm-reject")}
+          </h2>
+          <div className="flex justify-center space-x-4 mt-4">
+            <button
+              onClick={confirmAction}
+              className="btn-primary text-white font-bold py-2 px-4 rounded"
+            >
+              {t("request_details_page.modalConfirm")}
+            </button>
+            <button
+              onClick={closeConfirmModal}
+              className="bg-gray-300 hover:bg-gray-400 text-black font-bold py-2 px-4 rounded"
+            >
+              {t("request_details_page.modalCancel")}
+            </button>
+          </div>
+        </div>
+      </Modal>
     </div>
   );
 };
