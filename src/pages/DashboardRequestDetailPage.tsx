@@ -348,7 +348,7 @@ const DashboardRequestDetailPage: React.FC = () => {
             <UserProfileModal
               isOpen={isModalOpen}
               user={selectedUser}
-              onClose={() => setIsModalOpen(false)}
+              onClose={() => { setIsModalOpen(false); document.body.style.overflow = 'auto';}}
             />
           )}
 
@@ -357,7 +357,7 @@ const DashboardRequestDetailPage: React.FC = () => {
             <UserProfileModal
               isOpen={isModalOpen}
               pet={selectedPet}
-              onClose={() => setIsModalOpen(false)}
+              onClose={() => { setIsModalOpen(false); document.body.style.overflow = 'auto'; }}
             />
           )}
 
