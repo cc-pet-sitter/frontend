@@ -48,6 +48,12 @@ const EditSitterProfileForm: React.FC<Props> = ({
   const [imageLoaded, setImageLoaded] = useState<boolean>(false);
 
   useEffect(() => {
+    if (!userInfo?.profile_picture_src) {
+      setImageLoaded(true);
+    }
+  }, [userInfo]);
+
+  useEffect(() => {
     if (sitterProfile) {
       reset({
         sitter_profile_bio: sitterProfile.sitter_profile_bio || "",
