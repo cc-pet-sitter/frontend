@@ -56,7 +56,10 @@
     "createButtonNoGo": "Edit Account Info",
     "visits": "Visits",
     "sitter_house": "Boarding",
-    "owner_house": "Stay In"
+    "owner_house": "Stay In",
+    "saving": "Saving...",
+    "saved": "Saved",
+    "save_first": "You need to save your profile first before updating availabilities"
   },
   "dashboard_requests_page": {
     "title": "Requests",

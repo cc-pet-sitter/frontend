@@ -56,7 +56,10 @@
     "sitter_house": "お預かりサービス",
     "owner_house": "お留守番サポート",
     "createSubtitleNoGo": "シッタープロフィールの作成前に都道府県と市区町村を登録してください。",
-    "createButtonNoGo": "アカウント情報を編集"
+    "createButtonNoGo": "アカウント情報を編集",
+    "saving": "保存中",
+    "saved": "保存されました",
+    "save_first": "可能日をアップデートする前に、編集中のプロフィール情報を保存して下さい。"
   },
   "dashboard_requests_page": {
     "title": "リクエスト",

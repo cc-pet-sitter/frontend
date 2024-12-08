@@ -136,7 +136,7 @@ const EditSitterProfileForm: React.FC<Props> = ({
     "flex flex-col items-center justify-center p-4 text-gray-600 bg-white border-2 border-gray-300 rounded-lg cursor-pointer hover:bg-gray-50 peer-checked:border-blue-500 peer-checked:bg-blue-50";
   const labelClass = "block text-gray-700 text-lg font-bold mb-2";
 
-  const petOptions = ["Dog", "Cat", "Fish", "Bird", "Rabbit"];
+  const petOptions = ["dog", "cat", "fish", "bird", "rabbit"];
   const petOptionsKey: Array<keyof Sitter> = [
     "dogs_ok",
     "cats_ok",
@@ -144,7 +144,7 @@ const EditSitterProfileForm: React.FC<Props> = ({
     "birds_ok",
     "rabbits_ok",
   ];
-  const serviceOptions = ["Boarding", "Stay in", "Drop in"];
+  const serviceOptions = ["boarding", "stayIn", "dropIn"];
   const serviceOptionsKey: Array<keyof Sitter> = [
     "sitter_house_ok",
     "owner_house_ok",
@@ -231,8 +231,8 @@ const EditSitterProfileForm: React.FC<Props> = ({
         </div>
 
         {/* Pets */}
-        <div className="mb-6">
-          <p className={`${labelClass} mb-3`}>
+        <div className="my-6">
+          <p className={`${labelClass} my-3`}>
             {t("dashboard_Sitter_Profile_page.pet_service")}
             <span className="text-red-500 ml-1">*</span>
           </p>
@@ -259,7 +259,7 @@ const EditSitterProfileForm: React.FC<Props> = ({
                   {pet === "fish_ok" && <LuFish size="2em" />}
                   {pet === "birds_ok" && <PiBirdBold size="2em" />}
                   {pet === "rabbits_ok" && <PiRabbitBold size="2em" />}
-                  <span>{petOptions[index]}</span>
+                  <span>{t(`searchBar.petOptions.${petOptions[index]}`)}</span>
                 </label>
               </li>
             ))}
@@ -307,7 +307,9 @@ const EditSitterProfileForm: React.FC<Props> = ({
                   {service === "sitter_house_ok" && <LuSchool size="2em" />}
                   {service === "owner_house_ok" && <TbHomeFilled size="2em" />}
                   {service === "visit_ok" && <TbHomeMove size="2em" />}
-                  <span>{serviceOptions[index]}</span>
+                  <span>
+                    {t(`searchBar.serviceOptions.${serviceOptions[index]}`)}
+                  </span>
                 </label>
               </li>
             ))}
@@ -335,9 +337,7 @@ const EditSitterProfileForm: React.FC<Props> = ({
           {!userInfo?.is_sitter && (
             <div className="absolute inset-0 flex items-center justify-center bg-white bg-opacity-70 z-[9999]">
               <p className="text-gray-700 text-sm p-4 text-center">
-                {t(
-                  "Please save your profile first before setting availability."
-                )}
+                {t(t("dashboard_Sitter_Profile_page.save_first"))}
               </p>
             </div>
           )}
