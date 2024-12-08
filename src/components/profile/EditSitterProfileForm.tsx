@@ -336,7 +336,7 @@ const EditSitterProfileForm: React.FC<Props> = ({
           {/* Overlay if user is not a sitter yet */}
           {!userInfo?.is_sitter && (
             <div className="absolute inset-0 flex items-center justify-center bg-white bg-opacity-70 z-[9999]">
-              <p className="text-gray-700 text-sm p-4 text-center">
+              <p className="text-sm p-4 text-center border border-brown bg-white rounded text-brown w-1/2">
                 {t(t("dashboard_Sitter_Profile_page.save_first"))}
               </p>
             </div>
