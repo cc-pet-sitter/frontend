@@ -31,7 +31,6 @@ const SearchPage: React.FC = () => {
       const { data } = await axios.get(
         `${apiURL}/appuser-sitters?${queryParams}`
       );
-      console.log("API Response Data:", data);
 
       // Ensure a new reference
       setSearchResults([...data]);
