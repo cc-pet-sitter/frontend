@@ -919,8 +919,11 @@
     "typeOfPet": "ペットの種類",
     "allergies": "アレルギー",
     "medications": "服薬中のお薬",
-    "specialNeeds": "その他シッターさんに知っておいてほしいことはありますか？",
-    "additionalImages": "フォトギャラリー"
+    "specialNeeds": "その他ペットシッターさんに知っておいてほしいことはありますか？",
+    "additionalImages": "フォトギャラリー",
+    "sample-allergies" : "草や、花粉、小麦、卵、エンドウなど",
+    "sample-meds" : "リマダイルや、ベナドリル、プロザックなど",
+    "instructions" : "お世話の仕方など"
   },
   "editProfileForm": {
     "header": "アカウント情報",

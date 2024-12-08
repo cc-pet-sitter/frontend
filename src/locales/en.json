@@ -914,9 +914,12 @@
     "typeOfPet": "What type of pet?",
     "allergies": "Known allergies",
     "medications": "Medications",
-    "specialNeeds": "Anything else a sitter should know?",
+    "specialNeeds": "Anything else a pet sitter should know?",
     "profilePicture": "Your pet profile picture",
-    "additionalImages": "Additional images"
+    "additionalImages": "Additional images",
+    "sample-allergies" : "Grass, Pollen, Wheat, Eggs, Peas, etc.",
+    "sample-meds" : "Rimadyl, Benadryl, Prozac, Cosequin, etc.",
+    "instructions" : "Special instructions, tips, etc."
   },
   "editProfileForm": {
     "header": "My Account Info",
