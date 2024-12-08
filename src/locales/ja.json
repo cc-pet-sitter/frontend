@@ -51,8 +51,13 @@
     "createHeader": "シッターになる",
     "createSubtitleGo": "サービスを提供するために、シッタープロフィールを作成しましょう。",
     "createButtonGo": "プロフィールを作成",
+    "visits": "訪問",
+    "sitter_house": "シッターに家でお預かり",
+    "owner_house": "オーナーの家でデイケア"
+
     "createSubtitleNoGo": "シッタープロフィールの作成前にアカウント情報の登録を完了してください。",
     "createButtonNoGo": "アカウント情報を編集"
+
   },
   "dashboard_requests_page": {
     "title": "リクエスト",
@@ -854,10 +859,11 @@
     "signupButton": "サインアップ",
     "loginRequired": "認証が必要です",
     "explanation": "お問い合わせを送信するにはログインが必要です。続行するにはログインするかアカウントを作成してください。",
-    "boarding": "お預かりサービス",
-    "stay-in": "お留守番サポート",
-    "visit": "立ち寄りサービス",
-    "no-pets": "お問い合わせ送信前にペットを登録してください"
+    "boarding": "宿泊",
+    "stay-in": "訪問滞在",
+    "visit": "立ち寄り",
+    "no-pets": "お問い合わせ送信前にペットを登録してください",
+    "noPetsSelected": "Please select at least one pet to proceed."
   },
   "login": {
     "title": "ログイン",
@@ -979,7 +985,8 @@
     "selectPrefecture": "Select Prefecture",
     "postalCodePlaceholder": "Postal code without hyphen (ex. 1234567)",
     "postalCodeRequired": "Please enter your postal code.",
-    "postalCodeError": "Postal code must be exactly 7 digits"
+    "postalCodeError": "Postal code must be exactly 7 digits",
+    "reqMessage": "ペットシッターになるには、すべての項目の入力が必須です。"
   },
   "featuredImageGallery": {
     "noImages": "写真の投稿はまだありません。"

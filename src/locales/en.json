@@ -41,7 +41,7 @@
     "edit_photo_profile": "Edit Photo",
     "save_profile_button": "Save Profile",
     "introduction": "Introduction",
-    "pet_service": "Pets you can sit",
+    "pet_service": "Pets You Care For",
     "type_service": "Types of Service You Offer",
     "availability": "Select Your Available Dates",
     "update_availability": "Update Availability",
@@ -52,7 +52,10 @@
     "createSubtitleGo": "Create your sitter profile to start offering services.",
     "createButtonGo": "Create Profile",
     "createSubtitleNoGo": "Please complete your account information before creating your sitter profile.",
-    "createButtonNoGo": "Edit Account Info"
+    "createButtonNoGo": "Edit Account Info",
+    "visits": "Visits",
+    "sitter_house": "Boarding",
+    "owner_house": "Stay In"
   },
   "dashboard_requests_page": {
     "title": "Requests",
@@ -798,9 +801,9 @@
     }
   },
   "searchPage": {
-    "visits": "visits",
-    "sitter_house": "boarding",
-    "owner_house": "stay in",
+    "visits": "Visits",
+    "sitter_house": "Boarding",
+    "owner_house": "Stay-In",
     "available": "Available for",
     "notAvailable": "Currently not available for any service.",
     "dog": "Dogs",
@@ -833,7 +836,7 @@
     "noReviews": "has not been given a review yet.",
     "additionalImages": "Additional images",
     "accountInformation": "Account Information",
-    "iOffer": "I offer the following services:",
+    "iOffer": "Currently offering the following services:",
     "availability": "Availability",
     "submittedOn": "Submitted on:",
     "and": " and ",
@@ -855,7 +858,8 @@
     "boarding": "Boarding",
     "stay-in": "Stay In",
     "visit": "Visit",
-    "no-pets": "Please register your pets before proceeding"
+    "no-pets": "Please register your pets before proceeding",
+    "noPetsSelected": "Please select at least one pet to proceed."
   },
   "login": {
     "title": "Login",
@@ -975,7 +979,8 @@
     "selectPrefecture": "Select Prefecture",
     "postalCodePlaceholder": "Postal code without hyphen (ex. 1234567)",
     "postalCodeRequired": "Please enter your postal code.",
-    "postalCodeError": "Postal code must be exactly 7 digits"
+    "postalCodeError": "Postal code must be exactly 7 digits",
+    "reqMessage": "All fields are required to become a pet sitter."
   },
   "featuredImageGallery": {
     "noImages": "No images available"

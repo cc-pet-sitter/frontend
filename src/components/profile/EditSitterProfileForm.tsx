@@ -38,7 +38,7 @@ const EditSitterProfileForm: React.FC<Props> = ({
     setValue,
     formState: { errors },
   } = useForm<Sitter>({
-    shouldUseNativeValidation: true,
+    shouldUseNativeValidation: false,
     mode: "onSubmit",
   });
   const { userInfo, setUserInfo } = useAuth();
@@ -146,8 +146,8 @@ const EditSitterProfileForm: React.FC<Props> = ({
   ];
   const serviceOptions = ["Boarding", "Stay in", "Drop in"];
   const serviceOptionsKey: Array<keyof Sitter> = [
-    "owner_house_ok",
     "sitter_house_ok",
+    "owner_house_ok",
     "visit_ok",
   ];
 
@@ -238,10 +238,11 @@ const EditSitterProfileForm: React.FC<Props> = ({
           <ul className="grid grid-cols-3 gap-4">
             {petOptionsKey.map((pet, index) => (
               <li key={pet}>
+                {/* Using sr-only to hide the checkbox but still keep it focusable */}
                 <input
                   type="checkbox"
                   id={`${pet}_ok`}
-                  className="hidden peer"
+                  className="sr-only peer"
                   {...register(pet, {
                     validate: () =>
                       validateAtLeastOneSelected(petOptionsKey) ||

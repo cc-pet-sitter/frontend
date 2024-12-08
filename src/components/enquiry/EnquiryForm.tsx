@@ -47,7 +47,7 @@ const EnquiryForm: React.FC<EnquiryFormProps> = ({
     reset,
     formState: { errors },
   } = useForm<EnquiryFormData>({
-    shouldUseNativeValidation: true,
+    shouldUseNativeValidation: false,
   });
   const { currentUser, userInfo } = useAuth();
   const [error, setError] = useState<string | null>(null);
@@ -183,6 +183,7 @@ const EnquiryForm: React.FC<EnquiryFormProps> = ({
         <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
           <label className={labelClass} htmlFor="start_date">
             {`${t("enquiryForm.startDate")}:`}
+            <span className="text-red-500 ml-1">*</span>
           </label>
           <input
             id="start_date"
@@ -204,6 +205,7 @@ const EnquiryForm: React.FC<EnquiryFormProps> = ({
         <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
           <label className={labelClass} htmlFor="end_date">
             {`${t("enquiryForm.endDate")}:`}
+            <span className="text-red-500 ml-1">*</span>
           </label>
           <input
             id="end_date"
@@ -226,13 +228,19 @@ const EnquiryForm: React.FC<EnquiryFormProps> = ({
       <div className="mb-6">
         <p className={`${labelClass} mb-3`}>
           {`${t("enquiryForm.petToLookAfter")}:`}
+          <span className="text-red-500 ml-1">*</span>
         </p>
         {petOptions.length > 0 ? (
           petOptions.map((pet) => (
             <label key={pet.id} className={`${labelClass} flex items-center`}>
               <input
                 type="checkbox"
-                {...register("pet_id_list")}
+                {...register("pet_id_list", {
+                  validate: (value) =>
+                    value && value.length > 0
+                      ? true
+                      : t("enquiryForm.noPetsSelected"),
+                })}
                 value={pet.id}
                 className="mr-2"
               />
@@ -257,6 +265,7 @@ const EnquiryForm: React.FC<EnquiryFormProps> = ({
       <div className="mb-6">
         <p className={`${labelClass} mb-3`}>
           {`${t("enquiryForm.desiredService")}:`}
+          <span className="text-red-500 ml-1">*</span>
         </p>
         {serviceOptions.map((serviceOption) => (
           <label
