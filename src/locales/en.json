@@ -7,7 +7,7 @@
     "pets_profile": "Pets Profile",
     "bookings": "Bookings",
     "become_sitter": "Become a sitter",
-    "sitter_profile": "Sitter profile",
+    "sitter_profile": "Sitter Profile",
     "requests": "Requests",
     "logout": "Logout"
   },
@@ -918,10 +918,9 @@
     "specialNeeds": "Anything else a pet sitter should know?",
     "profilePicture": "Your pet profile picture",
     "additionalImages": "Additional images",
-    "sample-allergies" : "Grass, Pollen, Wheat, Eggs, Peas, etc.",
-    "sample-meds" : "Rimadyl, Benadryl, Prozac, Cosequin, etc.",
-    "instructions" : "Special instructions, tips, etc."
-
+    "sample-allergies": "Grass, Pollen, Wheat, Eggs, Peas, etc.",
+    "sample-meds": "Rimadyl, Benadryl, Prozac, Cosequin, etc.",
+    "instructions": "Special instructions, tips, etc."
   },
   "editProfileForm": {
     "header": "My Account Info",
