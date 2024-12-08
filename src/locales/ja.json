@@ -100,7 +100,9 @@
     "send": "送信",
     "input-box": "メッセージを入力",
     "chat-over": "これ以上メッセージを送ることはできません。",
-    "goBack": "戻る"
+    "goBack": "戻る",
+    "modalConfirm": "はい",
+    "modalCancel": "キャンセル"
   },
   "homePage": {
     "title": "信頼できるペットシッターを見つけましょう",
@@ -826,7 +828,8 @@
     "rabbit": "ウサギ",
     "viewProfile": "プロフィールを見る",
     "noResultsFound": "一致するシッターを見つけられませんでした。検索条件を広げてお試しください。",
-    "and": ", "
+    "and": ", ",
+    "refineSearch": "絞り込み検索"
   },
   "sitterProfilePage": {
     "accountBio": "自己紹介",

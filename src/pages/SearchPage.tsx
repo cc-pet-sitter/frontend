@@ -5,15 +5,19 @@ import SearchResults from "../components/search/SearchResults";
 import axios from "axios";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
-import { FaSearch } from "react-icons/fa";
+import CloseIcon from '@mui/icons-material/Close';
+import FilterAltIcon from '@mui/icons-material/FilterAlt';
 
 const apiURL: string = import.meta.env.VITE_API_BASE_URL;
 
 const SearchPage: React.FC = () => {
   const location = useLocation();
   const initialResults = location.state?.searchResults || [];
+  const initialSearch = location.state?.initialSearch || {};
+
   const [searchResults, setSearchResults] = useState(initialResults);
   const [showSearchBar, setShowSearchBar] = useState<boolean>(false);
+  const [initialFormData, setInitialFormData] = useState<SearchFormData>(initialSearch);
 
   const { t } = useTranslation();
 
@@ -27,10 +31,10 @@ const SearchPage: React.FC = () => {
       const { data } = await axios.get(
         `${apiURL}/appuser-sitters?${queryParams}`
       );
-      console.log("API Response Data:", data);
 
       // Ensure a new reference
       setSearchResults([...data]);
+      setInitialFormData(formData);
     } catch (error) {
       console.error("Error fetching search results:", error);
       alert("Failed to fetch search results. Please try again.");
@@ -49,9 +53,15 @@ const SearchPage: React.FC = () => {
           className="btn-secondary py-1 px-3 text-sm"
         >
           {showSearchBar ? (
-            t("sitterProfilePage.close")
+            <>
+              <CloseIcon className="mr-1" />
+              {t("sitterProfilePage.close")}
+            </>
           ) : (
-            <FaSearch size={"0.8rem"} className="m-1" />
+            <>
+              <FilterAltIcon className="mr-1" />
+              {t("searchPage.refineSearch")}
+            </>
           )}
         </button>
         {showSearchBar && (
@@ -59,6 +69,7 @@ const SearchPage: React.FC = () => {
             <SearchBar
               onSearchSubmit={handleSecondSearchSubmit}
               closeSearchBar={handleCloseSearchBar}
+              initialData={initialFormData}
             />
           </div>
         )}

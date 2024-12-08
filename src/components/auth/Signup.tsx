@@ -1,5 +1,5 @@
 import React, { FormEvent, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import { createUserWithEmailAndPassword, UserCredential } from "firebase/auth";
 import { auth } from "../../firebase";
 import { useTranslation } from "react-i18next";
@@ -16,6 +16,10 @@ const SignUp: React.FC = () => {
   const { setUserInfo } = useAuth();
 
   const { t } = useTranslation();
+
+  const location = useLocation();
+  const params = new URLSearchParams(location.search);
+  const redirectTo = params.get("redirect");
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -46,12 +50,14 @@ const SignUp: React.FC = () => {
       if (!response.ok) {
         throw new Error(data.detail || "Failed to create user in backend.");
       }
-      // LOG for test
-      console.log("Registered user :", data);
+
       setUserInfo(data.appuser);
 
-      // Navigate to dashboard account or home
-      navigate("/dashboard/account");
+      if (redirectTo) {
+        navigate(redirectTo);
+      } else {
+        navigate("/dashboard/account"); // fallback if no redirect is provided
+      }
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (err: any) {
       setError(err.message);
