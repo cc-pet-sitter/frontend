@@ -28,7 +28,12 @@ interface SearchBarProps {
 
 const SearchBar: React.FC<SearchBarProps> = ({ onSearchSubmit }) => {
   const { t } = useTranslation();
-  const { register, handleSubmit, setValue } = useForm<SearchFormData>();
+  const {
+    register,
+    handleSubmit,
+    setValue,
+    formState: { errors },
+  } = useForm<SearchFormData>();
   const [selectedPrefecture, setSelectedPrefecture] = useState("");
 
   const prefectureOptions = Object.keys(cityOptions);
@@ -58,11 +63,14 @@ const SearchBar: React.FC<SearchBarProps> = ({ onSearchSubmit }) => {
           <div className="w-full md:w-1/2 px-3 mb-4 md:mb-0">
             <label className={labelClass} htmlFor="prefecture">
               {`${t("searchBar.prefecture")}`}
+              <span className="text-red-500 ml-1">*</span>
             </label>
             <input
               id="prefecture"
               list="prefecture-options"
-              {...register("prefecture")}
+              {...register("prefecture", {
+                required: t("editProfileForm.requiredPrefecture"),
+              })}
               onChange={handlePrefectureChange}
               placeholder={t("searchBar.selectPrefecture")}
               className={inputClass}
@@ -74,6 +82,11 @@ const SearchBar: React.FC<SearchBarProps> = ({ onSearchSubmit }) => {
                 </option>
               ))}
             </datalist>
+            {errors.prefecture && (
+              <p className="text-red-500 text-xs italic mt-1">
+                {errors.prefecture.message}
+              </p>
+            )}
           </div>
 
           {/* City Selection */}

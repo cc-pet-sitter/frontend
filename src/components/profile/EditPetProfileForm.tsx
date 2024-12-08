@@ -306,7 +306,7 @@ const EditProfileForm: React.FC<EditProfileFormProps> = ({
         {/* Name */}
         <div className="mb-6">
           <label className={labelClass} htmlFor="name">
-            {t("editPetProfileForm.name")}{" "}
+            {t("editPetProfileForm.name")}
             <span className="text-red-500 ml-1">*</span>
           </label>
           <input
