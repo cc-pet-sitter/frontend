@@ -115,11 +115,11 @@ const PetProfile: React.FC<Props> = ({ petProfile, onClose }) => {
                 )}
               </div>
 
-              <div className="flex my-3">
+              {petProfile.birthday && <div className="flex my-3">
                 <LiaBirthdayCakeSolid className="mr-3 mt-1 text-xl" />
                 {t("PetProfile.birthday")}
                 {new Date(petProfile.birthday).toLocaleDateString("ja-JP")}
-              </div>
+              </div>}
 
               {petProfile.weight && (
                 <div className="flex my-3">
