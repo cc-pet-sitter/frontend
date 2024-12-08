@@ -10,14 +10,18 @@ const apiURL: string = import.meta.env.VITE_API_BASE_URL;
 interface WriteReviewProps {
   booking: Inquiry;
   onClose: () => void;
-  recipientType: string
+  recipientType: string;
 }
 
 interface ReviewForm {
   comment: string;
 }
 
-const WriteReview: React.FC<WriteReviewProps> = ({ booking, onClose, recipientType }) => {
+const WriteReview: React.FC<WriteReviewProps> = ({
+  booking,
+  onClose,
+  recipientType,
+}) => {
   const { register, handleSubmit } = useForm<ReviewForm>();
   const [ratingValue, setRatingValue] = useState<number | null>(null);
 
@@ -34,8 +38,12 @@ const WriteReview: React.FC<WriteReviewProps> = ({ booking, onClose, recipientTy
 
   const onReviewSubmit = async (data: ReviewForm) => {
     let isReviewOfSitter = recipientType === "sitter";
-    let authorID = isReviewOfSitter ? booking.owner_appuser_id : booking.sitter_appuser_id;
-    let recipientID = isReviewOfSitter ? booking.sitter_appuser_id : booking.owner_appuser_id;
+    let authorID = isReviewOfSitter
+      ? booking.owner_appuser_id
+      : booking.sitter_appuser_id;
+    let recipientID = isReviewOfSitter
+      ? booking.sitter_appuser_id
+      : booking.owner_appuser_id;
 
     const review: Review = {
       id: 0,
@@ -49,17 +57,14 @@ const WriteReview: React.FC<WriteReviewProps> = ({ booking, onClose, recipientTy
 
     try {
       const idToken = await currentUser?.getIdToken();
-      const response = await fetch(
-        `${apiURL}/appuser/${recipientID}/review`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${idToken}`,
-          },
-          body: JSON.stringify(review),
-        }
-      );
+      const response = await fetch(`${apiURL}/appuser/${recipientID}/review`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${idToken}`,
+        },
+        body: JSON.stringify(review),
+      });
 
       if (!response.ok) {
         throw new Error("Failed to submit review");
@@ -80,7 +85,9 @@ const WriteReview: React.FC<WriteReviewProps> = ({ booking, onClose, recipientTy
         className="w-full max-w-lg "
       >
         <div className="md:flex md:items-center">
-          <label className={`${labelClass} block`}>{t("review_input_page.rating")}</label>
+          <label className={`${labelClass} block md:mt-2`}>
+            {t("review_input_page.rating")}
+          </label>
           <div className="md:w-1/2 flex justify-center py-6">
             <Rating
               name="simple-controlled"
@@ -104,8 +111,8 @@ const WriteReview: React.FC<WriteReviewProps> = ({ booking, onClose, recipientTy
           />
         </div>
 
-        <div className="md:flex md:items-center">
-          <div className="md:w-1/2 flex justify-center">
+        <div className="md:flex md:items-center justify-center">
+          <div className="flex justify-center">
             <button type="submit" className="btn-primary">
               {t("review_input_page.submit")}
             </button>
