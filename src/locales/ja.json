@@ -54,7 +54,7 @@
     "visits": "立ち寄りサービス",
     "sitter_house": "お預かりサービス",
     "owner_house": "お留守番サポート",
-    "createSubtitleNoGo": "シッタープロフィールの作成前にアカウント情報の登録を完了してください。",
+    "createSubtitleNoGo": "シッタープロフィールの作成前に都道府県と市区町村を登録してください。",
     "createButtonNoGo": "アカウント情報を編集"
   },
   "dashboard_requests_page": {
