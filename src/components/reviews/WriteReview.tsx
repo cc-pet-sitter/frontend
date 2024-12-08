@@ -93,7 +93,7 @@ const WriteReview: React.FC<WriteReviewProps> = ({
         className="w-full max-w-lg "
         noValidate
       >
-        <div className="flex flex-col items-center md:items-start">
+        <div className="flex flex-col md:items-start">
           <label className={`${labelClass} block md:mt-2`}>
             {t("review_input_page.rating")}
           </label>
@@ -127,7 +127,6 @@ const WriteReview: React.FC<WriteReviewProps> = ({
         </div>
         <div className="md:flex md:items-center justify-center">
           <div className="flex justify-center">
-
             <button type="submit" className="btn-primary">
               {t("review_input_page.submit")}
             </button>
@@ -140,15 +139,17 @@ const WriteReview: React.FC<WriteReviewProps> = ({
             <p className="text-lg font-semibold">
               {t("review_input_page.review_submitted")}
             </p>
-            <button
-              className="btn-primary mt-4"
-              onClick={() => {
-                setShowPopup(false);
-                onClose();
-              }}
-            >
-              {t("review_input_page.close")}
-            </button>
+            <div className="flex justify-center">
+              <button
+                className="btn-primary mt-4 text-brown"
+                onClick={() => {
+                  setShowPopup(false);
+                  onClose();
+                }}
+              >
+                {t("review_input_page.close")}
+              </button>
+            </div>
           </div>
         </div>
       )}
