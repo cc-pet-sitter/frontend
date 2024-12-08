@@ -51,7 +51,7 @@
     "createHeader": "Become A Sitter",
     "createSubtitleGo": "Create your sitter profile to start offering services.",
     "createButtonGo": "Create Profile",
-    "createSubtitleNoGo": "Please complete your account information before creating your sitter profile.",
+    "createSubtitleNoGo": "Please register your prefecture and city/ward before creating your sitter profile.",
     "createButtonNoGo": "Edit Account Info",
     "visits": "Visits",
     "sitter_house": "Boarding",
@@ -830,7 +830,7 @@
     "japanese": "Japanese",
     "englishJapanese": "English, Japanese",
     "reviews": "Reviews",
-    "accountCreated": "Pet Sitting For",
+    "accountCreated": "Member For",
     "lastLogin": "Active",
     "lastUpdated": "Last Updated",
     "backToSearchResults": "Back To Search Results",
@@ -846,7 +846,8 @@
     "and": " and ",
     "noAvailabilities": "No availability",
     "createProfile": "Create Profile",
-    "bio": "Bio"
+    "bio": "Bio",
+    "loading": "Loading results..."
   },
   "enquiryForm": {
     "startDate": "Start Date",

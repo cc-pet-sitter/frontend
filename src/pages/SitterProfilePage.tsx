@@ -268,14 +268,6 @@ const SitterProfilePage: React.FC = () => {
                 )}
               </li>
               <li>
-                <strong>{`${t("sitterProfilePage.accountCreated")}:`}</strong>{" "}
-                {user.appuser.account_created
-                  ? `${formatDistanceToNow(
-                      new Date(user.appuser.account_created)
-                    )}`
-                  : t("sitterProfilePage.never")}
-              </li>
-              <li>
                 <strong>{`${t("sitterProfilePage.lastLogin")}:`}</strong>{" "}
                 {user.appuser.last_login
                   ? `${formatDistanceToNow(new Date(user.appuser.last_login), {

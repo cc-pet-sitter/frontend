@@ -234,14 +234,6 @@ const DashboardSitterProfilePage: React.FC = () => {
                       : t("sitterProfilePage.japanese")}
                   </li>
                   <li>
-                    <strong>{`${t(
-                      "sitterProfilePage.accountCreated"
-                    )}:`}</strong>{" "}
-                    {user.account_created
-                      ? `${formatDistanceToNow(new Date(user.account_created))}`
-                      : t("sitterProfilePage.never")}
-                  </li>
-                  <li>
                     <strong>{`${t("sitterProfilePage.lastLogin")}:`}</strong>{" "}
                     {user.last_login
                       ? `${formatDistanceToNow(new Date(user.last_login), {
@@ -319,8 +311,8 @@ const DashboardSitterProfilePage: React.FC = () => {
             <h1 className="mb-2 font-bold text-2xl">
               {t("dashboard_Sitter_Profile_page.createHeader")}
             </h1>
-            {!user?.profile_picture_src ? (
-              // User has not even profile picture, so send user to complete user profile
+            {!user?.prefecture || !user?.city_ward ? (
+              // User has no registered prefecture or city/ward, so send user to complete user profile
               <div>
                 <p className="mb-4">
                   {t("dashboard_Sitter_Profile_page.createSubtitleNoGo")}
@@ -333,7 +325,7 @@ const DashboardSitterProfilePage: React.FC = () => {
                 </button>
               </div>
             ) : (
-              // Has a picture profile then assume complete user profile and allow to create sitter profile
+              // Has a registered prefecture and city/ward, then assume completed user profile and allow to create sitter profile
               <div>
                 <p className="mb-4">
                   {t("dashboard_Sitter_Profile_page.createSubtitleGo")}
