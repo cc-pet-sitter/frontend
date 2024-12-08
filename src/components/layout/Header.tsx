@@ -25,30 +25,18 @@ const lngs: Record<string, { nativeName: string }> = {
 
 const Header: React.FC = () => {
   const { t, i18n } = useTranslation();
-
-  // const [menuOpen, setMenuOpen] = useState<boolean>(false);
-  // const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const [alignment, setAlignment] = React.useState(i18n.resolvedLanguage);
-  const [openRight, setOpenRight] = React.useState(false);
-
-  // const menuRef = useRef<HTMLDivElement | null>(null);
-  const triggerRef = useRef<HTMLDivElement | null>(null);
-
   const { currentUser } = useAuth();
   const { userInfo } = useAuth();
 
-  const navigate = useNavigate();
+  const [alignment, setAlignment] = React.useState(i18n.resolvedLanguage);
+  const [openRight, setOpenRight] = React.useState(false);
 
-  // const toggleMobileMenu = () => setMobileMenuOpen((prev) => !prev);
-  // const toggleMenu = () => setMenuOpen((prev) => !prev);
+  const triggerRef = useRef<HTMLDivElement | null>(null);
+
+  const navigate = useNavigate();
 
   const openDrawerRight = () => setOpenRight(true);
   const closeDrawerRight = () => setOpenRight(false);
-
-  // const handleMenuClose = () => {
-  //   setMobileMenuOpen(false);
-  //   setMenuOpen(false);
-  // };
 
   const handleLogout = async () => {
     try {
@@ -73,25 +61,6 @@ const Header: React.FC = () => {
   useEffect(() => {
     setAlignment(i18n.resolvedLanguage); // Sync alignment with i18n on mount
   }, [i18n.resolvedLanguage]);
-
-  // useEffect(() => {
-  //   const handleClickOutside = (event: MouseEvent) => {
-  //     if (
-  //       menuRef.current &&
-  //       !menuRef.current.contains(event.target as Node) &&
-  //       triggerRef.current &&
-  //       !triggerRef.current.contains(event.target as Node)
-  //     ) {
-  //       setMenuOpen(false);
-  //     }
-  //   };
-
-  //   document.addEventListener("mousedown", handleClickOutside);
-
-  //   return () => {
-  //     document.removeEventListener("mousedown", handleClickOutside);
-  //   };
-  // }, []);
 
   return (
     <header className="fixed top-0 left-0 w-full bg-white border border-b z-[102] h-12">
@@ -171,45 +140,37 @@ const Header: React.FC = () => {
                       </Button>
                     </MenuHandler>
                     <MenuList>
-                      <MenuItem>
-                        <Link to="/dashboard/account">
-                          {t("hamburger_menu.account")}
-                        </Link>
-                      </MenuItem>
-                      <MenuItem>
-                        <Link to="/dashboard/pets_profile">
-                          {t("hamburger_menu.pets_profile")}
-                        </Link>
-                      </MenuItem>
-                      <MenuItem>
-                        <Link to="/dashboard/bookings">
-                          {t("hamburger_menu.bookings")}
-                        </Link>
-                      </MenuItem>
+                      <Link to="/dashboard/account">
+                        <MenuItem>{t("hamburger_menu.account")}</MenuItem>
+                      </Link>
+                      <Link to="/dashboard/pets_profile">
+                        <MenuItem>{t("hamburger_menu.pets_profile")}</MenuItem>
+                      </Link>
+                      <Link to="/dashboard/bookings">
+                        <MenuItem>{t("hamburger_menu.bookings")}</MenuItem>
+                      </Link>
                       <hr className="my-3" />
-                      <MenuItem>
-                        <Link to="/dashboard/sitter_profile">
+                      <Link to="/dashboard/sitter_profile">
+                        <MenuItem>
                           {userInfo?.is_sitter
                             ? t("hamburger_menu.sitter_profile")
                             : t("hamburger_menu.become_sitter")}
-                        </Link>
-                      </MenuItem>
-                      {userInfo?.is_sitter && (
-                        <MenuItem>
-                          <Link to="/dashboard/requests">
-                            {t("hamburger_menu.requests")}
-                          </Link>
                         </MenuItem>
+                      </Link>
+                      {userInfo?.is_sitter && (
+                        <Link to="/dashboard/requests">
+                          <MenuItem>{t("hamburger_menu.requests")}</MenuItem>
+                        </Link>
                       )}
                       <hr className="my-3" />
                       <MenuItem>
-                        <button
+                        <div
                           onClick={() => {
                             handleLogout();
                           }}
                         >
                           {t("hamburger_menu.logout")}
-                        </button>
+                        </div>
                       </MenuItem>
                     </MenuList>
                   </Menu>
@@ -274,88 +235,75 @@ const Header: React.FC = () => {
                   <List>
                     {!currentUser ? (
                       <>
-                        <ListItem>
-                          <Link
-                            to="/login"
-                            className="text-brown text-lg ml-2"
-                            onClick={closeDrawerRight}
-                          >
-                            {t("header.login")}
-                          </Link>
-                        </ListItem>
-                        <ListItem>
-                          <span
-                            onClick={closeDrawerRight}
-                            className="cursor-pointer btn-secondary w-auto px-2 py-1 font-normal"
-                          >
-                            <Link to="/signup" className="text-white">
+                        <Link
+                          to="/login"
+                          className="text-brown text-lg ml-2"
+                          onClick={closeDrawerRight}
+                        >
+                          <ListItem>{t("header.login")}</ListItem>
+                        </Link>
+                        <Link
+                          to="/signup"
+                          className="text-white"
+                          onClick={closeDrawerRight}
+                        >
+                          <ListItem>
+                            <span className="cursor-pointer btn-secondary w-auto px-2 py-1 font-normal">
                               {t("header.signup")}
-                            </Link>
-                          </span>
-                        </ListItem>
+                            </span>
+                          </ListItem>
+                        </Link>
                       </>
                     ) : (
                       <>
-                        <ListItem>
-                          <Link
-                            to="/dashboard/account"
-                            onClick={closeDrawerRight}
-                          >
-                            {t("hamburger_menu.account")}
-                          </Link>
-                        </ListItem>
-                        <ListItem>
-                          <Link
-                            to="/dashboard/pets_profile"
-                            onClick={closeDrawerRight}
-                          >
+                        <Link
+                          to="/dashboard/account"
+                          onClick={closeDrawerRight}
+                        >
+                          <ListItem>{t("hamburger_menu.account")}</ListItem>
+                        </Link>
+                        <Link
+                          to="/dashboard/pets_profile"
+                          onClick={closeDrawerRight}
+                        >
+                          <ListItem>
                             {t("hamburger_menu.pets_profile")}
-                          </Link>
-                        </ListItem>
-                        <ListItem>
-                          <Link
-                            to="/dashboard/bookings"
-                            onClick={closeDrawerRight}
-                          >
-                            {t("hamburger_menu.bookings")}
-                          </Link>
-                        </ListItem>
+                          </ListItem>
+                        </Link>
+                        <Link
+                          to="/dashboard/bookings"
+                          onClick={closeDrawerRight}
+                        >
+                          <ListItem>{t("hamburger_menu.bookings")}</ListItem>
+                        </Link>
                         <hr className="my-3" />
-                        <ListItem>
-                          <Link
-                            to="/dashboard/sitter_profile"
-                            onClick={closeDrawerRight}
-                          >
+                        <Link
+                          to="/dashboard/sitter_profile"
+                          onClick={closeDrawerRight}
+                        >
+                          <ListItem>
                             {userInfo?.is_sitter
                               ? t("hamburger_menu.sitter_profile")
                               : t("hamburger_menu.become_sitter")}
-                          </Link>
-                        </ListItem>
-                        {userInfo?.is_sitter && (
-                          <ListItem>
-                            <Link
-                              to="/dashboard/requests"
-                              onClick={closeDrawerRight}
-                            >
-                              {t("hamburger_menu.requests")}
-                            </Link>
                           </ListItem>
-                        )}
-                        <hr className="my-3" />
-                        <ListItem>
+                        </Link>
+                        {userInfo?.is_sitter && (
                           <Link
-                            to="/dashboard/sitter_profile"
+                            to="/dashboard/requests"
                             onClick={closeDrawerRight}
                           >
-                            <button
-                              onClick={() => {
-                                handleLogout();
-                              }}
-                            >
-                              {t("hamburger_menu.logout")}
-                            </button>
+                            <ListItem>{t("hamburger_menu.requests")}</ListItem>
                           </Link>
-                        </ListItem>
+                        )}
+                        <hr className="my-3" />
+                        <div
+                          onClick={() => {
+                            handleLogout();
+                            closeDrawerRight();
+                          }}
+                        >
+                          <ListItem>{t("hamburger_menu.logout")}</ListItem>
+                        </div>
                       </>
                     )}
                   </List>

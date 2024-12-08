@@ -5,6 +5,7 @@ import Button from "@mui/material/Button";
 import CloudUploadIcon from "@mui/icons-material/CloudUpload";
 import { styled } from "@mui/material/styles";
 import { TailSpin } from "react-loader-spinner";
+import { useTranslation } from "react-i18next";
 
 interface MultiPictureUploaderProps {
   id: number | undefined;
@@ -25,20 +26,19 @@ const MultiPictureUploader: React.FC<MultiPictureUploaderProps> = ({
   const [isUploading, setIsUploading] = useState<boolean>(false);
   const [uploadProgress, setUploadProgress] = useState<number>(0);
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const { t } = useTranslation();
 
-
-    const VisuallyHiddenInput = styled("input")({
-        clip: "rect(0 0 0 0)",
-        clipPath: "inset(50%)",
-        height: 1,
-        overflow: "hidden",
-        position: "absolute",
-        bottom: 0,
-        left: 0,
-        whiteSpace: "nowrap",
-        width: 1,
-    });
-
+  const VisuallyHiddenInput = styled("input")({
+    clip: "rect(0 0 0 0)",
+    clipPath: "inset(50%)",
+    height: 1,
+    overflow: "hidden",
+    position: "absolute",
+    bottom: 0,
+    left: 0,
+    whiteSpace: "nowrap",
+    width: 1,
+  });
 
   const handleFileChange = async (fileList: FileList | null) => {
     if (!fileList || fileList.length === 0) {
@@ -108,12 +108,12 @@ const MultiPictureUploader: React.FC<MultiPictureUploaderProps> = ({
         variant="contained"
         startIcon={<CloudUploadIcon />}
         disabled={isUploading}
-
         className="btn-secondary"
         aria-label="Add Photos"
-
       >
-        {isUploading ? "Loading..." : "Add Images"}
+        {isUploading
+          ? t("PictureUploader.uploading")
+          : t("PictureUploader.upload_photo")}
         <VisuallyHiddenInput
           type="file"
           onChange={(e) => handleFileChange(e.target.files)}
@@ -147,10 +147,9 @@ const MultiPictureUploader: React.FC<MultiPictureUploaderProps> = ({
             {uploadProgress.toFixed(0)}%
           </p>
         </div>
-
-    )};
+      )}
     </div>
-)};
-
+  );
+};
 
 export default MultiPictureUploader;

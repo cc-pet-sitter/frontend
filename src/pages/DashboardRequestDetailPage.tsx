@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useParams, useNavigate, useLocation } from "react-router-dom";
 import { useAuth } from "../contexts/AuthContext";
-import { Inquiry, AppUser } from "../types/userProfile";
+import { Inquiry, AppUser, PetProfileData } from "../types/userProfile";
 import Conversation from "../components/chat/Conversation"; // We'll create this later
 import UserProfileModal from "../components/profile/UserProfileModal";
 import { useTranslation } from "react-i18next";
@@ -13,9 +13,11 @@ const DashboardRequestDetailPage: React.FC = () => {
   const [request, setRequest] = useState<Inquiry | null>(null);
   const [ownerInfo, setOwnerInfo] = useState<AppUser | null>(null);
   const [sitterInfo, setSitterInfo] = useState<AppUser | null>(null);
+  const [petInfo, setPetInfo] = useState<PetProfileData[]>([]);
   const [error, setError] = useState<string | null>(null);
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const [selectedUser, setSelectedUser] = useState<AppUser | null>(null);
+  const [selectedPet, setSelectedPet] = useState<PetProfileData | null>(null);
 
   const navigate = useNavigate();
   const location = useLocation();
@@ -37,6 +39,13 @@ const DashboardRequestDetailPage: React.FC = () => {
   
   const handleUserClick = (user: AppUser) => {
     setSelectedUser(user);
+    setSelectedPet(null);
+    setIsModalOpen(true);
+  };
+
+  const handlePetClick = (pet: PetProfileData) => {
+    setSelectedUser(null);
+    setSelectedPet(pet);
     setIsModalOpen(true);
   };
 
@@ -98,6 +107,24 @@ const DashboardRequestDetailPage: React.FC = () => {
 
         const sitterData: AppUser = await sitterResponse.json();
         setSitterInfo(sitterData);
+
+        const petResponse = await fetch(
+          `${apiURL}/appuser/${requestData.owner_appuser_id}/pet?inquiry_id=${requestData.id}`,
+          {
+            method: "GET",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${idToken}`,
+            },
+          }
+        );
+
+        if (!petResponse.ok) {
+          throw new Error("Failed to fetch pet info");
+        }
+
+        const petData: PetProfileData[] = await petResponse.json();
+        setPetInfo(petData);
       } catch (err) {
         if (err instanceof Error) {
           setError(err.message);
@@ -195,10 +222,8 @@ const DashboardRequestDetailPage: React.FC = () => {
         {t("request_details_page.goBack")}
       </button>
 
-      <h2 className="font-bold text-2xl mb-4">{t("request_details_page.page-title")}</h2>
-
       {/* Request Information */}
-      <div className="mb-6">
+      <div className="mb-4">
         <h3 className="font-semibold text-xl">{t("request_details_page.section-title")}</h3>
         <p>
           <strong>{t("request_details_page.service")}</strong> {request.desired_service}
@@ -219,7 +244,7 @@ const DashboardRequestDetailPage: React.FC = () => {
       {/* Owner Information */}
       {isSitter && ownerInfo && (
         <div
-          className="flex items-center justify-center gap-4 cursor-pointer mb-6 border rounded-lg p-2 bg-white shadow-md  hover:bg-gray-100"
+          className="flex items-center justify-center gap-4 cursor-pointer mb-2 border rounded-lg p-2 bg-white shadow-md  hover:bg-gray-100"
           onClick={() => handleUserClick(ownerInfo)}
         >
           {ownerInfo.profile_picture_src ? (
@@ -245,7 +270,7 @@ const DashboardRequestDetailPage: React.FC = () => {
       {/* Sitter Information */}
       {isOwner && sitterInfo && (
         <div
-          className="flex items-center justify-center gap-4 mb-6 border rounded-lg p-2 bg-white shadow-md cursor-pointer hover:bg-gray-100"
+          className="flex items-center justify-center gap-4 mb-2 border rounded-lg p-2 bg-white shadow-md cursor-pointer hover:bg-gray-100"
           onClick={() => handleUserClick(sitterInfo)}
         >
           {sitterInfo.profile_picture_src ? (
@@ -268,6 +293,33 @@ const DashboardRequestDetailPage: React.FC = () => {
         </div>
       )}
 
+      {/* Pet Information */}
+      {petInfo && petInfo.map((pet) => { return (
+        request?.pet_id_list?.includes(pet.id) && <div
+          className="flex items-center justify-center gap-4 mb-2 border rounded-lg p-2 bg-white shadow-md cursor-pointer hover:bg-gray-100"
+          onClick={() => handlePetClick(pet)}
+          key={pet.id}
+        >
+          {pet.profile_picture_src ? (
+                <img
+                  src={pet.profile_picture_src}
+                  alt={`${pet.name}`}
+                  className="w-20 h-20 rounded-full object-cover"
+                />
+              ) : (
+                <div className="w-20 h-20 rounded-full bg-gray-300 flex items-center justify-center">
+                  <span className="text-xl text-white">
+                    {pet.name[0]}
+                  </span>
+                </div>
+              )}
+          <p>
+            {`${pet.name}, ${t(`searchBar.petOptions.${pet.type_of_animal}`)}`}
+          </p>
+        </div>
+      )
+    })}
+
       {/* User Profile Modal */}
       {isModalOpen && selectedUser && (
         <UserProfileModal
@@ -277,9 +329,18 @@ const DashboardRequestDetailPage: React.FC = () => {
         />
       )}
 
+      {/* Pet Profile Modal */}
+      {isModalOpen && selectedPet && (
+      <UserProfileModal
+        isOpen={isModalOpen}
+        pet={selectedPet}
+        onClose={() => setIsModalOpen(false)}
+      />
+      )}
+
       {/* Accept/Reject Buttons */}
       {isSitter && request.inquiry_status === "requested" && (
-        <div className="flex space-x-4 mb-6">
+        <div className="flex space-x-4 mt-4">
           <button
             onClick={handleAccept}
             className="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded"
@@ -297,13 +358,13 @@ const DashboardRequestDetailPage: React.FC = () => {
 
       {/* Show updated status if the inquiry has been finalized */}
       {request.inquiry_status !== "requested" && (
-        <p className="text-lg font-semibold mb-6">
+        <p className="text-lg font-semibold mt-4">
           {t("request_details_page.result")}{request.inquiry_status}
         </p>
       )}
 
       {/* Conversation Component */}
-      <div className="mb-6">
+      <div className="mt-4">
         <h3 className="font-semibold text-xl">{t("request_details_page.convo")}</h3>
         {userInfo?.id && <Conversation inquiry={request} />}
       </div>

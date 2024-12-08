@@ -5,12 +5,13 @@ import { useTranslation } from "react-i18next";
 import { MdOutlineArrowBackIos } from "react-icons/md";
 import ProfilePictureUploader from "../services/ProfilePictureUploader";
 import { FaUserCircle } from "react-icons/fa";
-import { TailSpin } from 'react-loader-spinner';
+import { TailSpin } from "react-loader-spinner";
 import { Pref, City } from "jp-zipcode-lookup";
 import LabelWithAsterisk from "../icons/LabelWithAsterisk";
+import UnionJack from "../flags/UnionJack";
+import Japan from "../flags/Japan";
 // import { cityOptions } from "../../options/Cities";
 // import { prefectureOptions } from "../../options/Prefectures";
-
 
 type Props = {
   closeEditForm: () => void;
@@ -30,14 +31,22 @@ type EditProfileFormData = {
 };
 
 const EditProfileForm: React.FC<Props> = ({ closeEditForm }) => {
-  const [profilePicture, setProfilePicture] = useState<string | undefined>(undefined);
+  const [profilePicture, setProfilePicture] = useState<string | undefined>(
+    undefined
+  );
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState<boolean>(false);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [imageLoaded, setImageLoaded] = useState<boolean>(false);
-  
-  const { register, handleSubmit, reset, setValue } = useForm<EditProfileFormData>({
-    shouldUseNativeValidation: true,
+
+  const {
+    register,
+    handleSubmit,
+    reset,
+    setValue,
+    formState: { errors },
+  } = useForm<EditProfileFormData>({
+    shouldUseNativeValidation: false,
   });
   const { currentUser, userInfo } = useAuth();
   const { setUserInfo } = useAuth();
@@ -45,6 +54,7 @@ const EditProfileForm: React.FC<Props> = ({ closeEditForm }) => {
 
   useEffect(() => {
     if (userInfo) {
+      console.log("Initial values:", userInfo.japanese_ok, userInfo.english_ok);
       reset({
         firstname: userInfo.firstname || "",
         lastname: userInfo.lastname || "",
@@ -83,7 +93,7 @@ const EditProfileForm: React.FC<Props> = ({ closeEditForm }) => {
     } catch (err) {
       console.error("Failed to fetch address:", err);
     }
-  };  
+  };
 
   const onSubmit = async (data: EditProfileFormData) => {
     setIsLoading(true);
@@ -136,8 +146,8 @@ const EditProfileForm: React.FC<Props> = ({ closeEditForm }) => {
     const idToken = await currentUser?.getIdToken();
     const backendURL =
       import.meta.env.VITE_API_BASE_URL || "http://localhost:8000";
-    
-      const response = await fetch(`${backendURL}/appuser/${userInfo?.id}`, {
+
+    const response = await fetch(`${backendURL}/appuser/${userInfo?.id}`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
@@ -162,11 +172,12 @@ const EditProfileForm: React.FC<Props> = ({ closeEditForm }) => {
     "appearance-none block w-full bg-gray-200 text-gray-700 border rounded py-3 px-4 text-lg　mb-2 leading-tight focus:outline-none focus:bg-white";
   const labelClass =
     "block tracking-wide text-gray-700 font-bold mb-2 mt-2 text-lg";
-
+  const checkboxLabelClass =
+    "flex flex-col items-center justify-center p-4 bg-white border-2 border-gray-300 rounded-lg cursor-pointer hover:bg-gray-50 peer-checked:border-blue-500 peer-checked:bg-blue-50";
   // const prefectureOptions = ["Tokyo", "Saitama", "Chiba"];
 
   return (
-    <div className="flex justify-center p-8">
+    <div className="flex justify-center px-8 pt-2 mb-8">
       <form onSubmit={handleSubmit(onSubmit)} className="w-full max-w-lg">
         {error && <p className="text-red-500 text-xs italic">{error}</p>}
         {success && (
@@ -174,26 +185,21 @@ const EditProfileForm: React.FC<Props> = ({ closeEditForm }) => {
             {t("editProfileForm.profileUpdateSuccess")}
           </p>
         )}
-
-        <div className="flex flex-wrap -mx-3 mb-6">
+        <div className="mb-2">
           <button
             onClick={(e) => {
               e.preventDefault();
               closeEditForm();
             }}
-            className="text-2xl my-8 mt-0"
+            className="ml-2 flex"
           >
-            <MdOutlineArrowBackIos />
+            <MdOutlineArrowBackIos className="mr-3 mt-1" /> <p>Back</p>
           </button>
-          <h1 className="mx-2 font-bold text-2xl inline">
-            {t("dashboard_account_page.edit_button")}
-          </h1>
         </div>
-
         {/* Profile Picture */}
-        <div className="flex flex-col sm:flex-row items-center p-6">
+        <div className="flex flex-col items-center mb-6">
           {/* Profile Picture or Loader */}
-          <div className="relative h-48 w-48">
+          <div className="relative h-48 w-48 mb-4">
             {/* Loader */}
             {!imageLoaded && (
               <div className="absolute inset-0 flex items-center justify-center bg-gray-200 rounded-full">
@@ -218,7 +224,9 @@ const EditProfileForm: React.FC<Props> = ({ closeEditForm }) => {
                 onError={() => setImageLoaded(true)}
               />
             ) : (
-              <FaUserCircle className="h-48 w-48 text-gray-400" />
+              <div className="flex items-center justify-center  h-48 w-48 rounded-full">
+                <FaUserCircle className="h-48 w-48 text-gray-300" />
+              </div>
             )}
           </div>
 
@@ -232,161 +240,179 @@ const EditProfileForm: React.FC<Props> = ({ closeEditForm }) => {
             }}
           />
         </div>
-      
-        <div className="flex flex-wrap -mx-3 mb-6">
+        <div className="mb-6">
           {/* First Name */}
-          <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
-            <label className={labelClass} htmlFor="firstName">
-              <LabelWithAsterisk text={t("editProfileForm.firstname")} required={true} />
-            </label>
-            <input
-              id="firstName"
-              type="text"
-              {...register("firstname", {
-                required: "Please enter your first name.",
-              })}
-              className={inputClass}
+          <label className={`${labelClass} `} htmlFor="firstName">
+            <LabelWithAsterisk
+              text={t("editProfileForm.firstname")}
+              required={true}
             />
-          </div>
-
-          {/* Last Name */}
-          <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
-            <label className={labelClass} htmlFor="lastName">
-              <LabelWithAsterisk text={t("editProfileForm.lastname")} required={true} />
-            </label>
-            <input
-              id="lastName"
-              type="text"
-              {...register("lastname", {
-                required: "Please enter your last name.",
-              })}
-              className={`${inputClass}`}
-            />
-          </div>
+          </label>
+          <input
+            id="firstName"
+            type="text"
+            {...register("firstname", {
+              required: "Please enter your first name.",
+            })}
+            className={inputClass}
+          />
+          {errors.firstname && (
+            <p className="text-red-500 text-xs italic mt-1">
+              {errors.firstname.message}
+            </p>
+          )}
         </div>
-
-        <div className="flex flex-wrap -mx-3 mb-6">
-          {/* Email */}
-          <div className="w-full px-3 mb-6 md:mb-0">
-            <label className={labelClass} htmlFor="email">
-              <LabelWithAsterisk text={t("editProfileForm.email")} required={true} />
-            </label>
-            <input
-              id="email"
-              type="email"
-              {...register("email", {
-                required: "Please enter your email.",
-              })}
-              className={inputClass}
-              disabled // Disable email field if it shouldn't be editable
+        {/* Last Name */}
+        <div className="mb-6">
+          <label className={labelClass} htmlFor="lastName">
+            <LabelWithAsterisk
+              text={t("editProfileForm.lastname")}
+              required={true}
             />
-          </div>
+          </label>
+          <input
+            id="lastName"
+            type="text"
+            {...register("lastname", {
+              required: "Please enter your last name.",
+            })}
+            className={`${inputClass}`}
+          />
+          {errors.lastname && (
+            <p className="text-red-500 text-xs italic mt-1">
+              {errors.lastname.message}
+            </p>
+          )}
         </div>
-
-        <div className="flex flex-wrap -mx-3 mb-6">
-          {/* Postal Code */}
-          <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
-            <label className={labelClass} htmlFor="postal_code">
-              {`${t("editProfileForm.postCode")}`}
-            </label>
-            <input
-              id="postal_code"
-              type="text"
-              placeholder={`${t("editProfileForm.postalCodePlaceholder")}`}
-              {...register("postal_code", {
-                // required: `${t("editProfileForm.postalCodeRequired")}`,
-                pattern: {
-                  value: /^[0-9]{7}$/, // Matches exactly 7 numeric digits
-                  message: `${t("editProfileForm.postalCodeError")}`,
-                },
-              })}
-              className={inputClass}
-              onChange={(e) => handlePostalCodeChange(e.target.value)}
+        {/* Email */}
+        <div className="mb-6">
+          <label className={labelClass} htmlFor="email">
+            <LabelWithAsterisk
+              text={t("editProfileForm.email")}
+              required={true}
             />
-          </div>
-
-          {/* Prefecture */}
-          <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
-            <label className={labelClass} htmlFor="prefecture">
-              {`${t("editProfileForm.prefecture")}`}
-            </label>
-            <input
-              id="prefecture"
-              type="text"
-              className={`${inputClass} pr-8`}
-              {...register("prefecture", {
-                // required: "Please select a prefecture.",
-              })}
-            />
-              {/* <option value="">{t("editProfileForm.selectPrefecture")}</option>
+          </label>
+          <input
+            id="email"
+            type="email"
+            {...register("email", {
+              required: "Please enter your email.",
+            })}
+            className={inputClass}
+            disabled // Disable email field if it shouldn't be editable
+          />
+        </div>
+        {/* Postal Code */}
+        <div className="mb-6">
+          <label className={labelClass} htmlFor="postal_code">
+            {`${t("editProfileForm.postCode")}`}
+          </label>
+          <input
+            id="postal_code"
+            type="text"
+            placeholder={`${t("editProfileForm.postalCodePlaceholder")}`}
+            {...register("postal_code", {
+              // required: `${t("editProfileForm.postalCodeRequired")}`,
+              pattern: {
+                value: /^[0-9]{7}$/, // Matches exactly 7 numeric digits
+                message: `${t("editProfileForm.postalCodeError")}`,
+              },
+            })}
+            className={inputClass}
+            onChange={(e) => handlePostalCodeChange(e.target.value)}
+          />
+        </div>
+        {/* Prefecture */}
+        <div className="mb-6">
+          <label className={labelClass} htmlFor="prefecture">
+            {`${t("editProfileForm.prefecture")}`}
+          </label>
+          <input
+            id="prefecture"
+            type="text"
+            className={`${inputClass} pr-8`}
+            {...register("prefecture", {
+              // required: "Please select a prefecture.",
+            })}
+          />
+          {/* <option value="">{t("editProfileForm.selectPrefecture")}</option>
               {prefectureOptions.map((pref) => (
                 <option key={pref} value={pref}>
                   {pref}
                 </option>
               ))}
             </select> */}
-          </div>
         </div>
-
-        <div className="flex flex-wrap -mx-3 mb-6">
-          
-          {/* City */}
-          <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
-            <label className={labelClass} htmlFor="city_ward">
-              {`${t("editProfileForm.cityWard")}`}
-            </label>
-            <input
-              id="city_ward"
-              type="text"
-              {...register("city_ward", {
-                // required: "Please enter a city/ward.",
-              })}
-              className={inputClass}
-            />
-          </div>
-          {/* Street */}
-
-          <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
-            <label className={labelClass} htmlFor="street">
-              {`${t("editProfileForm.houseAndStreet")}`}
-            </label>
-            <input
-              id="street"
-              type="text"
-              {...register("street_address", {
-                // required: "Please enter a street.",
-              })}
-              className={inputClass}
-            />
-          </div>
-        </div>
+        {/* City */}
         <div className="mb-6">
-
+          <label className={labelClass} htmlFor="city_ward">
+            {`${t("editProfileForm.cityWard")}`}
+          </label>
+          <input
+            id="city_ward"
+            type="text"
+            {...register("city_ward", {
+              // required: "Please enter a city/ward.",
+            })}
+            className={inputClass}
+          />
+        </div>
+        {/* Street */}
+        <div className="mb-8">
+          <label className={labelClass} htmlFor="street">
+            {`${t("editProfileForm.houseAndStreet")}`}
+          </label>
+          <input
+            id="street"
+            type="text"
+            {...register("street_address", {
+              // required: "Please enter a street.",
+            })}
+            className={inputClass}
+          />
+        </div>
+        <div className="mb-4">
           {/* Languages */}
           <p className={`${labelClass} mb-3`}>{`${t(
             "editProfileForm.languages"
           )}`}</p>
-          <label className={`${labelClass} flex items-center`}>
-            {`${t("editProfileForm.japanese")}`}
-            <input
-              type="checkbox"
-              {...register("japanese_ok")}
-              className="mr-2"
-            />
-          </label>
-          <label className={`${labelClass} flex items-center`}>
-            {`${t("editProfileForm.english")}`}
-            <input
-              type="checkbox"
-              {...register("english_ok")}
-              className="mr-2"
-            />
-          </label>
+          <div className="flex justify-center gap-4">
+            {/* Japanese Checkbox */}
+            <div className="flex flex-col items-center">
+              <input
+                id="japanese_ok"
+                type="checkbox"
+                {...register("japanese_ok")}
+                className="absolute opacity-0 peer"
+              />
+              <label htmlFor="japanese_ok" className={checkboxLabelClass}>
+                <Japan className="w-20 h-20 text-blue-700" />
+              </label>
+            </div>
+
+            {/* English Checkbox */}
+            <div className="flex flex-col items-center">
+              <input
+                id="english_ok"
+                type="checkbox"
+                {...register("english_ok")}
+                className="absolute opacity-0 peer"
+              />
+              <label htmlFor="english_ok" className={checkboxLabelClass}>
+                <UnionJack className="w-20 h-20 text-blue-700" />
+              </label>
+            </div>
+          </div>
         </div>
+
+        <span className="text-red-500 italic ml-1">
+          {`*${t("editProfileForm.reqMessage")}`}
+        </span>
         <div className="flex justify-center md:justify-end">
+          {" "}
           <button
             type="submit"
-            className="shadow btn-primary focus:shadow-outline focus:outline-nonefont-bold py-2 px-4 text-sm rounded w-full mr-8 sm:w-auto sm:mr-4 md:mr-6 md:w-48 md:py-3 md:px-8 mt-6"
+            className="shadow btn-primary focus:shadow-outline focus:outline-none font-bold py-2 px-4 text-sm rounded w-full sm:w-auto sm:mr-4 md:mr-6 md:w-48 md:py-3 md:px-8 mt-6"
             disabled={isLoading}
           >
             {isLoading

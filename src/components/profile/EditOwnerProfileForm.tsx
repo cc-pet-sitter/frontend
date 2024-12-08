@@ -4,7 +4,7 @@ import { useForm } from "react-hook-form";
 
 const EditOwnerProfileForm: React.FC = () => {
   const { register, handleSubmit } = useForm({
-    shouldUseNativeValidation: true,
+    shouldUseNativeValidation: false,
   });
 
   const onSubmit = async (data: unknown) => {

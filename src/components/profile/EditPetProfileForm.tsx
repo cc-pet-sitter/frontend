@@ -6,24 +6,26 @@ import { MdOutlineArrowBackIos } from "react-icons/md";
 import axiosInstance from "../../api/axiosInstance";
 import { PetProfileData } from "../../types/userProfile.ts";
 import ProfilePictureUploader from "../services/ProfilePictureUploader.tsx";
-// import MultiPictureUploder from "../services/MultiPictureUploader.tsx";
+import MultiPictureUploader from "../services/MultiPictureUploader.tsx";
 import ViewMultiPicture from "./ViewMultiPicture.tsx";
 
 import { LuDog, LuFish } from "react-icons/lu";
 import { PiBirdBold, PiCatBold, PiRabbitBold } from "react-icons/pi";
 
 import { TailSpin } from "react-loader-spinner";
-import MultiPictureUploader from "../services/MultiPictureUploader.tsx";
 import { FaDog } from "react-icons/fa";
 
 const apiURL: string = import.meta.env.VITE_API_BASE_URL;
 
-type Props = {
+type EditProfileFormProps = {
   petProfile: PetProfileData | null;
   onClose: () => void;
 };
 
-const EditProfileForm: React.FC<Props> = ({ petProfile, onClose }) => {
+const EditProfileForm: React.FC<EditProfileFormProps> = ({
+  petProfile,
+  onClose,
+}) => {
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState<boolean>(false);
   const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -37,7 +39,7 @@ const EditProfileForm: React.FC<Props> = ({ petProfile, onClose }) => {
 
   const { register, handleSubmit, reset, getValues, setValue } =
     useForm<PetProfileData>({
-      shouldUseNativeValidation: true,
+      shouldUseNativeValidation: false,
     });
   const { userInfo } = useAuth();
   const { t } = useTranslation();
@@ -69,12 +71,22 @@ const EditProfileForm: React.FC<Props> = ({ petProfile, onClose }) => {
   }, [petProfilePicture, petProfile]);
 
   const handleCreate = async (data: PetProfileData) => {
-    console.log(data);
     setIsLoading(true);
     try {
       const response = await axiosInstance.post(
         `${apiURL}/appuser/${userInfo?.id}/pet`,
-        data
+        {
+          name: data.name,
+          profile_picture_src: petProfilePicture,
+          pet_bio_picture_src_list: petBioPictureSrcList,
+          type_of_animal: data.type_of_animal,
+          subtype: data.subtype,
+          weight: data.weight,
+          birthday: data.birthday,
+          known_allergies: data.known_allergies,
+          medications: data.medications,
+          special_needs: data.special_needs,
+        }
       );
 
       if (response.status === 201) {
@@ -149,7 +161,8 @@ const EditProfileForm: React.FC<Props> = ({ petProfile, onClose }) => {
     console.log("petProfilePicture : ", petProfilePicture);
 
     // Update the form's value for pet profile_picture_src
-    setValue("profile_picture_src", petProfilePicture || "");
+    setValue("profile_picture_src", url);
+    setImageLoaded(false);
   };
 
   const handleMultiUpload = (urls: string[]) => {
@@ -190,15 +203,15 @@ const EditProfileForm: React.FC<Props> = ({ petProfile, onClose }) => {
           </p>
         )}
 
-        <div className="mb-2">
+        <div className="flex flex-wrap -mx-3 mb-6">
           <button
             onClick={(e) => {
               e.preventDefault();
               onClose();
             }}
-            className="text-2xl my-8 mt-0"
+            className="ml-2 flex"
           >
-            <MdOutlineArrowBackIos />
+            <MdOutlineArrowBackIos className="mr-3 mt-1" /> <p>Back</p>
           </button>
         </div>
 
@@ -221,7 +234,7 @@ const EditProfileForm: React.FC<Props> = ({ petProfile, onClose }) => {
 
             {petProfilePicture || petProfile?.profile_picture_src ? (
               <img
-                src={petProfile?.profile_picture_src || petProfilePicture}
+                src={petProfilePicture || petProfile?.profile_picture_src}
                 alt={petProfile?.name}
                 className={`h-48 w-48 rounded-full object-cover ${
                   imageLoaded ? "block" : "hidden"
@@ -236,7 +249,7 @@ const EditProfileForm: React.FC<Props> = ({ petProfile, onClose }) => {
             )}
           </div>
           <ProfilePictureUploader
-            id={petProfile?.id}
+            id={userInfo?.id}
             pictureType="pet_pictures"
             onUpload={(url) => {
               handleUpload(url);
@@ -249,26 +262,42 @@ const EditProfileForm: React.FC<Props> = ({ petProfile, onClose }) => {
         <div className="mb-6">
           <p className={`${labelClass} mb-3`}>
             {t("editPetProfileForm.typeOfPet")}
+            <span className="text-red-500 ml-1">*</span>
           </p>
           <ul className="grid grid-cols-3 gap-4">
             {petOptions.map((pet) => (
-              <label
-                key={pet.name}
-                className={`${checkboxLabelClass} flex items-center`}
-              >
-                <input
-                  type="radio"
-                  {...register("type_of_animal")}
-                  value={pet.name}
-                  className="mb-2"
-                />
-                {pet.name === "dog" && <LuDog size="2em" />}
-                {pet.name === "cat" && <PiCatBold size="2em" />}
-                {pet.name === "fish" && <LuFish size="2em" />}
-                {pet.name === "bird" && <PiBirdBold size="2em" />}
-                {pet.name === "rabbit" && <PiRabbitBold size="2em" />}
-                <span>{t(`searchBar.petOptions.${pet.name}`)}</span>
-              </label>
+              <li key={pet.name}>
+                <label
+                  className={`${checkboxLabelClass} flex flex-col items-center justify-center cursor-pointer`}
+                >
+                  <input
+                    type="radio"
+                    {...register("type_of_animal")}
+                    value={pet.name}
+                    className="sr-only peer"
+                  />
+                  <div
+                    className={`${
+                      pet.name === "dog" && "peer-checked:text-blue-500"
+                    } ${pet.name === "cat" && "peer-checked:text-red-500"} ${
+                      pet.name === "fish" && "peer-checked:text-green-500"
+                    } ${
+                      pet.name === "bird" && "peer-checked:text-yellow-500"
+                    } ${
+                      pet.name === "rabbit" && "peer-checked:text-purple-500"
+                    }`}
+                  >
+                    {pet.name === "dog" && <LuDog size="2em" />}
+                    {pet.name === "cat" && <PiCatBold size="2em" />}
+                    {pet.name === "fish" && <LuFish size="2em" />}
+                    {pet.name === "bird" && <PiBirdBold size="2em" />}
+                    {pet.name === "rabbit" && <PiRabbitBold size="2em" />}
+                  </div>
+                  <span className="mt-2">
+                    {t(`searchBar.petOptions.${pet.name}`)}
+                  </span>
+                </label>
+              </li>
             ))}
           </ul>
         </div>
@@ -276,7 +305,8 @@ const EditProfileForm: React.FC<Props> = ({ petProfile, onClose }) => {
         {/* Name */}
         <div className="mb-6">
           <label className={labelClass} htmlFor="name">
-            {t("editPetProfileForm.name")}
+            {t("editPetProfileForm.name")}{" "}
+            <span className="text-red-500 ml-1">*</span>
           </label>
           <input
             id="name"
@@ -376,7 +406,10 @@ const EditProfileForm: React.FC<Props> = ({ petProfile, onClose }) => {
 
         {/* Additional Images */}
         <div className="mb-6">
-          <h2 className={`${labelClass}`}>Add More Pictures</h2>
+          <h2 className={`${labelClass}`}>
+            {t("editPetProfileForm.additionalImages")}
+          </h2>
+
           {petBioPictureSrcList ? (
             <ViewMultiPicture picture_src_list={petBioPictureSrcList || ""} />
           ) : (
