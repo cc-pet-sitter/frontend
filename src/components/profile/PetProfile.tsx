@@ -1,4 +1,4 @@
-import React, { useState} from "react";
+import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { PiDog, PiCat, PiMedal, PiRabbit, PiBird } from "react-icons/pi";
 import { LiaBirthdayCakeSolid, LiaWeightSolid } from "react-icons/lia";
@@ -17,7 +17,6 @@ const PetProfile: React.FC<Props> = ({ petProfile, onClose }) => {
   const { t } = useTranslation();
   const [imageLoaded, setImageLoaded] = useState<boolean>(false);
 
-
   return (
     <div>
       <button
@@ -27,7 +26,8 @@ const PetProfile: React.FC<Props> = ({ petProfile, onClose }) => {
         }}
         className="m-6 flex"
       >
-        <MdOutlineArrowBackIos className="mr-3 mt-1" /> <p>Back</p>
+        <MdOutlineArrowBackIos className="mr-3 mt-1" />{" "}
+        <p>{t("request_details_page.goBack")}</p>
       </button>
 
       {petProfile && (

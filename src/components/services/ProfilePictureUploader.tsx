@@ -81,7 +81,7 @@ const ProfilePictureUploader: React.FC<ProfilePictureUploaderProps> = ({
       <button
         type="button"
         onClick={handleEditClick}
-        className="btn-secondary mt-2 flex items-center"
+        className="btn-secondary flex items-center -mt-7  text-sm z-30 px-3"
         disabled={isUploading}
       >
         <FaEdit className="mr-2" />

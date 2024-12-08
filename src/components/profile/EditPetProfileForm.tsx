@@ -211,7 +211,8 @@ const EditProfileForm: React.FC<EditProfileFormProps> = ({
             }}
             className="ml-2 flex"
           >
-            <MdOutlineArrowBackIos className="mr-3 mt-1" /> <p>Back</p>
+            <MdOutlineArrowBackIos className="mr-3 mt-1" />{" "}
+            <p>{t("request_details_page.goBack")}</p>
           </button>
         </div>
 

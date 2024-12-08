@@ -23,7 +23,8 @@
     "first_profile": "Create Profile",
     "add_profile": "＋ Add another pet",
     "edit_button": "Edit profile",
-    "view_button": "View profile"
+    "view_button": "View profile",
+    "loading": "Loading pet profiles..."
   },
   "dashboard_bookings_page": {
     "title": "Bookings",
@@ -992,7 +993,7 @@
   },
   "PictureUploader": {
     "uploading": "Uploading...",
-    "edit_photo": "Edit photo",
+    "edit_photo": "Edit",
     "upload_photo": "Upload photo"
   }
 }
