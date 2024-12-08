@@ -88,12 +88,6 @@ const DashboardBookingsPage: React.FC = () => {
     fetchAll();
   }, [userInfo]);
 
-  const desired_service = {
-    owner_house: "boarding",
-    sitter_house: "stay in",
-    visit: "drop in",
-  };
-
   return (
     <div className="md:m-14">
       <h2 className="m-6 font-bold text-2xl">
