@@ -3,8 +3,8 @@ import {
   Route,
   Routes,
   Navigate,
-  // Link,
 } from "react-router-dom";
+import ScrollToTop from "./utils/ScrollToTop";
 import HomePage from "./pages/HomePage";
 import PetProfilesPage from "./pages/PetProfilesPage";
 import SitterProfilePage from "./pages/SitterProfilePage";
@@ -29,11 +29,11 @@ const App: React.FC = () => {
     <Router>
       <div className="flex flex-col min-h-screen bg-white w-full">
         <Header />
-
         <div className="flex-grow pt-12">
           <nav>
             <ul></ul>
           </nav>
+          <ScrollToTop />
           <Routes>
             <Route path="/profile/:id" element={<SitterProfilePage />} />
             <Route path="/search_page" element={<SearchPage />} />
