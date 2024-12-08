@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate, useLocation } from "react-router-dom";
 import { useAuth } from "../contexts/AuthContext";
 import { Inquiry, AppUser, PetProfileData } from "../types/userProfile";
 import Conversation from "../components/chat/Conversation"; // We'll create this later
 import UserProfileModal from "../components/profile/UserProfileModal";
 import { useTranslation } from "react-i18next";
+import { MdOutlineArrowBackIos } from "react-icons/md";
+
 const apiURL: string = import.meta.env.VITE_API_BASE_URL;
 
 const DashboardRequestDetailPage: React.FC = () => {
@@ -13,15 +15,28 @@ const DashboardRequestDetailPage: React.FC = () => {
   const [sitterInfo, setSitterInfo] = useState<AppUser | null>(null);
   const [petInfo, setPetInfo] = useState<PetProfileData[]>([]);
   const [error, setError] = useState<string | null>(null);
-  const { currentUser, userInfo } = useAuth();
-  const { requestId } = useParams<{ requestId: string }>();
-
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const [selectedUser, setSelectedUser] = useState<AppUser | null>(null);
   const [selectedPet, setSelectedPet] = useState<PetProfileData | null>(null);
 
+  const navigate = useNavigate();
+  const location = useLocation();
+  const { from } = location.state || { from: null}
+  
+  const { currentUser, userInfo } = useAuth();
+  const { requestId } = useParams<{ requestId: string }>();
   const { t } = useTranslation();
 
+  const handleGoBack = () => {
+    if (from === "bookings") {
+      navigate("/dashboard/bookings");
+    } else if (from === "requests") {
+      navigate("/dashboard/requests");
+    } else {
+      navigate(-1); // Default: go back one page
+    }
+  };
+  
   const handleUserClick = (user: AppUser) => {
     setSelectedUser(user);
     setSelectedPet(null);
@@ -198,10 +213,15 @@ const DashboardRequestDetailPage: React.FC = () => {
 
   return (
     <div className="p-6 md:mx-20">
-      <h2 className="font-bold text-2xl mt-2">
-        {t("request_details_page.page-title")}
-      </h2>
-
+            {/* Go Back Button */}
+      <button
+        onClick={handleGoBack}
+        className="flex items-center text-gray-500 hover:text-orange-700 mb-4"
+      >
+        <MdOutlineArrowBackIos className="mr-2" />
+        {t("request_details_page.goBack")}
+      </button>
+      
       <div className="md:flex md:ustify-start pd">
         <div className="mt-2 md:w-1/2 md:p-8">
           {/* Request Information */}
