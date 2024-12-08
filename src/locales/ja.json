@@ -23,7 +23,8 @@
     "first_profile": "プロフィールを作成",
     "add_profile": "＋ 他のペットを追加",
     "edit_button": "プロフィールを編集",
-    "view_button": "プロフィールを確認"
+    "view_button": "プロフィールを確認",
+    "loading": "ペットプロフィールをロード中..."
   },
   "dashboard_bookings_page": {
     "title": "予約",
@@ -918,9 +919,13 @@
     "typeOfPet": "ペットの種類",
     "allergies": "アレルギー",
     "medications": "服薬中のお薬",
-    "specialNeeds": "その他シッターさんに知っておいてほしいことはありますか？",
+
+    "specialNeeds": "その他ペットシッターさんに知っておいてほしいことはありますか？",
     "additionalImages": "フォトギャラリー",
-    "profilePicture": "Your pet profile picture"
+    "sample-allergies" : "草や、花粉、小麦、卵、エンドウなど",
+    "sample-meds" : "リマダイルや、ベナドリル、プロザックなど",
+    "instructions" : "お世話の仕方など"
+
   },
   "editProfileForm": {
     "header": "アカウント情報",
@@ -999,7 +1004,7 @@
   },
   "PictureUploader": {
     "uploading": "アップロード中...",
-    "edit_photo": "写真を編集",
+    "edit_photo": "編集",
     "upload_photo": "写真を追加"
   }
 }

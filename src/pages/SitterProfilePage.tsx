@@ -95,7 +95,8 @@ const SitterProfilePage: React.FC = () => {
     <div>
       <div className="container mx-auto p-6">
         <button onClick={() => navigate(-1)} className="my-6 flex">
-          <MdOutlineArrowBackIos className="mr-3 mt-1" /> <p>Back</p>
+          <MdOutlineArrowBackIos className="mr-3 mt-1" />{" "}
+          <p>{t("request_details_page.goBack")}</p>
         </button>
         <div className="bg-white shadow-md rounded-lg overflow-hidden">
           {/* Profile Header */}

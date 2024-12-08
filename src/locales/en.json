@@ -23,7 +23,8 @@
     "first_profile": "Create Profile",
     "add_profile": "＋ Add another pet",
     "edit_button": "Edit profile",
-    "view_button": "View profile"
+    "view_button": "View profile",
+    "loading": "Loading pet profiles..."
   },
   "dashboard_bookings_page": {
     "title": "Bookings",
@@ -847,7 +848,7 @@
     "noAvailabilities": "No availability",
     "createProfile": "Create Profile",
     "bio": "Bio",
-    "loading": "Loading results..."
+    "loading": "Loading..."
   },
   "enquiryForm": {
     "startDate": "Start Date",
@@ -913,9 +914,14 @@
     "typeOfPet": "What type of pet?",
     "allergies": "Known allergies",
     "medications": "Medications",
-    "specialNeeds": "Anything else a sitter should know?",
+
+    "specialNeeds": "Anything else a pet sitter should know?",
+    "profilePicture": "Your pet profile picture",
     "additionalImages": "Additional images",
-    "profilePicture": "Your pet profile picture"
+    "sample-allergies" : "Grass, Pollen, Wheat, Eggs, Peas, etc.",
+    "sample-meds" : "Rimadyl, Benadryl, Prozac, Cosequin, etc.",
+    "instructions" : "Special instructions, tips, etc."
+
   },
   "editProfileForm": {
     "header": "My Account Info",
@@ -994,7 +1000,7 @@
   },
   "PictureUploader": {
     "uploading": "Uploading...",
-    "edit_photo": "Edit photo",
+    "edit_photo": "Edit",
     "upload_photo": "Upload photo"
   }
 }

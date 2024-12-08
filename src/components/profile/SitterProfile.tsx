@@ -15,7 +15,7 @@ type Props = {
 };
 
 const PetProfile: React.FC<Props> = ({ appUser, onClose }) => {
-//   const { t } = useTranslation();
+  //   const { t } = useTranslation();
 
   return (
     <div>
@@ -35,7 +35,10 @@ const PetProfile: React.FC<Props> = ({ appUser, onClose }) => {
             {/* Profile Header */}
             <div className="flex flex-col sm:flex-row items-center my-6">
               <img
-                src={appUser.profile_picture_src || "https://upload.wikimedia.org/wikipedia/commons/thumb/3/3a/Cat03.jpg/640px-Cat03.jpg"}
+                src={
+                  appUser.profile_picture_src ||
+                  "https://upload.wikimedia.org/wikipedia/commons/thumb/3/3a/Cat03.jpg/640px-Cat03.jpg"
+                }
                 alt={`Sitter ${appUser.firstname}`}
                 className="h-48 w-48 rounded-full object-cover"
               />
@@ -122,7 +125,6 @@ const PetProfile: React.FC<Props> = ({ appUser, onClose }) => {
                 <li></li>
               </ul>
             </div> */}
-            
           </div>
         </div>
       )}

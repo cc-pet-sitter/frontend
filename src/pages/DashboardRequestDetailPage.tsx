@@ -21,8 +21,8 @@ const DashboardRequestDetailPage: React.FC = () => {
 
   const navigate = useNavigate();
   const location = useLocation();
-  const { from } = location.state || { from: null}
-  
+  const { from } = location.state || { from: null };
+
   const { currentUser, userInfo } = useAuth();
   const { requestId } = useParams<{ requestId: string }>();
   const { t } = useTranslation();
@@ -36,7 +36,7 @@ const DashboardRequestDetailPage: React.FC = () => {
       navigate(-1); // Default: go back one page
     }
   };
-  
+
   const handleUserClick = (user: AppUser) => {
     setSelectedUser(user);
     setSelectedPet(null);
@@ -213,15 +213,15 @@ const DashboardRequestDetailPage: React.FC = () => {
 
   return (
     <div className="p-6 md:mx-20">
-            {/* Go Back Button */}
+      {/* Go Back Button */}
       <button
         onClick={handleGoBack}
-        className="flex items-center text-gray-500 hover:text-orange-700 mb-4"
+        className="flex items-center hover:text-orange-700 mb-4"
       >
         <MdOutlineArrowBackIos className="mr-2" />
         {t("request_details_page.goBack")}
       </button>
-      
+
       <div className="md:flex md:ustify-start pd">
         <div className="mt-2 md:w-1/2 md:p-8">
           {/* Request Information */}

@@ -42,8 +42,9 @@ const PetProfilesPage: React.FC = () => {
   }, []);
   return (
     <div className="mx-4">
-      <button onClick={() => navigate("/")} className="mt-6 ml-1 flex">
-        <MdOutlineArrowBackIos className="mr-3 mt-1" /> <p>Back</p>
+      <button onClick={() => navigate("/")} className="mt-6 ml-1 md:ml-20 flex">
+        <MdOutlineArrowBackIos className="mr-3 mt-1" />{" "}
+        <p>{t("request_details_page.goBack")}</p>
       </button>
       <h2 className="text-center text-2xl font-semibold mt-4">
         {t("homePage.title_pets")}
@@ -115,11 +116,11 @@ const PetProfilesPage: React.FC = () => {
                     </>
                   )}
                 </div>
-                <div className="flex my-1 text-sm">
+                {profile.birthday && <div className="flex my-1 text-sm">
                   <LiaBirthdayCakeSolid className="mr-3 mt-1 " />
                   {t("PetProfile.birthday")}
                   {new Date(profile.birthday).toLocaleDateString("ja-JP")}
-                </div>
+                </div>}
 
                 {profile.weight && (
                   <div className="flex my-1 text-sm">
