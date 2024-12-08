@@ -108,7 +108,6 @@ const SitterProfilePage: React.FC = () => {
             />
             <div className="mt-4 sm:mt-0 sm:ml-10 text-center sm:text-left">
               <h1 className="text-2xl font-bold">{`${user.appuser.firstname} ${user.appuser.lastname}`}</h1>
-              {/* <p className="text-gray-500">{user.appuser.email}</p> */}
               <div>
                 {user.appuser.average_user_rating !== null && (
                   <Rating
@@ -192,48 +191,38 @@ const SitterProfilePage: React.FC = () => {
               {t("sitterProfilePage.animalsICareFor")}
             </h2>
             <p className="text-slate-500 text-sm">
-              {user.sitter.dogs_ok ? (
+              {user.sitter.dogs_ok && (
                 <>
                   <Done /> {t("searchPage.dog")}
                 </>
-              ) : (
-                <>{/* <NotInterested /> {t("searchPage.dog")} */}</>
               )}
             </p>
             <p className="text-slate-500 text-sm">
-              {user.sitter.cats_ok ? (
+              {user.sitter.cats_ok && (
                 <>
                   <Done /> {t("searchPage.cat")}
                 </>
-              ) : (
-                <>{/* <NotInterested /> {t("searchPage.cat")} */}</>
               )}
             </p>
             <p className="text-slate-500 text-sm">
-              {user.sitter.fish_ok ? (
+              {user.sitter.fish_ok && (
                 <>
                   <Done /> {t("searchPage.fish")}
                 </>
-              ) : (
-                <>{/* <NotInterested /> {t("searchPage.fish")} */}</>
               )}
             </p>
             <p className="text-slate-500 text-sm">
-              {user.sitter.birds_ok ? (
+              {user.sitter.birds_ok && (
                 <>
                   <Done /> {t("searchPage.bird")}
                 </>
-              ) : (
-                <>{/* <NotInterested /> {t("searchPage.bird")} */}</>
               )}
             </p>
             <p className="text-slate-500 text-sm">
-              {user.sitter.rabbits_ok ? (
+              {user.sitter.rabbits_ok && (
                 <>
                   <Done /> {t("searchPage.rabbit")}
                 </>
-              ) : (
-                <>{/* <NotInterested /> {t("searchPage.rabbit")} */}</>
               )}
             </p>
           </div>

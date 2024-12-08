@@ -867,7 +867,8 @@
     "stay-in": "お留守番サポート",
     "visit": "立ち寄りサービス",
     "no-pets": "お問い合わせ送信前にペットを登録してください",
-    "noPetsSelected": "Please select at least one pet to proceed."
+    "noPetsSelected": "Please select at least one pet to proceed.",
+    "successMessage": "お問い合わせが正常に送信されました！"
   },
   "login": {
     "title": "ログイン",
@@ -922,10 +923,9 @@
 
     "specialNeeds": "その他ペットシッターさんに知っておいてほしいことはありますか？",
     "additionalImages": "フォトギャラリー",
-    "sample-allergies" : "草や、花粉、小麦、卵、エンドウなど",
-    "sample-meds" : "リマダイルや、ベナドリル、プロザックなど",
-    "instructions" : "お世話の仕方など"
-
+    "sample-allergies": "草や、花粉、小麦、卵、エンドウなど",
+    "sample-meds": "リマダイルや、ベナドリル、プロザックなど",
+    "instructions": "お世話の仕方など"
   },
   "editProfileForm": {
     "header": "アカウント情報",

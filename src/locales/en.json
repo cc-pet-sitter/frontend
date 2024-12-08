@@ -865,7 +865,8 @@
     "stay-in": "Stay In",
     "visit": "Visit",
     "no-pets": "Please register your pets before proceeding",
-    "noPetsSelected": "Please select at least one pet to proceed."
+    "noPetsSelected": "Please select at least one pet to proceed.",
+    "successMessage": "Enquiry sent successfully!"
   },
   "login": {
     "title": "Login",
@@ -918,10 +919,9 @@
     "specialNeeds": "Anything else a pet sitter should know?",
     "profilePicture": "Your pet profile picture",
     "additionalImages": "Additional images",
-    "sample-allergies" : "Grass, Pollen, Wheat, Eggs, Peas, etc.",
-    "sample-meds" : "Rimadyl, Benadryl, Prozac, Cosequin, etc.",
-    "instructions" : "Special instructions, tips, etc."
-
+    "sample-allergies": "Grass, Pollen, Wheat, Eggs, Peas, etc.",
+    "sample-meds": "Rimadyl, Benadryl, Prozac, Cosequin, etc.",
+    "instructions": "Special instructions, tips, etc."
   },
   "editProfileForm": {
     "header": "My Account Info",
