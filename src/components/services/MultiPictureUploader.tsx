@@ -110,6 +110,13 @@ const MultiPictureUploader: React.FC<MultiPictureUploaderProps> = ({
         disabled={isUploading}
         className="btn-secondary"
         aria-label="Add Photos"
+        sx={{
+          backgroundColor: "#D87607",
+          color: "white",
+          "&:hover": {
+            backgroundColor: "#f49d0c",
+          },
+        }}
       >
         {isUploading
           ? t("PictureUploader.uploading")
