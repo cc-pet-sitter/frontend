@@ -156,6 +156,7 @@ const EnquiryForm: React.FC<EnquiryFormProps> = ({
       setTimeout(() => {
         closeEnquiryForm();
       }, 1500); // Adjust the delay as necessary
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error: any) {
       console.error("Error creating the enquiry:", error.message);
       setError(error.message);
@@ -311,7 +312,7 @@ const EnquiryForm: React.FC<EnquiryFormProps> = ({
             </h2>
             <p className="text-gray-600 mb-4">{t("enquiryForm.explanation")}</p>
             <button
-              onClick={() => navigate("/login")}
+              onClick={() => navigate(`/login?redirect=${encodeURIComponent(window.location.pathname)}`)}
               className="btn-secondary py-2 w-24 rounded text-sm mb-4"
             >
               {t("enquiryForm.loginButton")}
@@ -320,7 +321,7 @@ const EnquiryForm: React.FC<EnquiryFormProps> = ({
               <p className="text-gray-500 mb-2 text-sm">
                 {t("login.signupPrompt")}{" "}
                 <a
-                  onClick={() => navigate("/signup")}
+                  onClick={() => navigate(`/signup?redirect=${encodeURIComponent(window.location.pathname)}`)}
                   className="text-black underline cursor-pointer"
                 >
                   {t("login.signupButton")}
