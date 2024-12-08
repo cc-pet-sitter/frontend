@@ -830,7 +830,7 @@
     "japanese": "Japanese",
     "englishJapanese": "English, Japanese",
     "reviews": "Reviews",
-    "accountCreated": "Pet Sitting For",
+    "accountCreated": "Member For",
     "lastLogin": "Active",
     "lastUpdated": "Last Updated",
     "backToSearchResults": "Back To Search Results",
@@ -846,7 +846,8 @@
     "and": " and ",
     "noAvailabilities": "No availability",
     "createProfile": "Create Profile",
-    "bio": "Bio"
+    "bio": "Bio",
+    "loading": "Loading results..."
   },
   "enquiryForm": {
     "startDate": "Start Date",

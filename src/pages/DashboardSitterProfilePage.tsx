@@ -234,14 +234,6 @@ const DashboardSitterProfilePage: React.FC = () => {
                       : t("sitterProfilePage.japanese")}
                   </li>
                   <li>
-                    <strong>{`${t(
-                      "sitterProfilePage.accountCreated"
-                    )}:`}</strong>{" "}
-                    {user.account_created
-                      ? `${formatDistanceToNow(new Date(user.account_created))}`
-                      : t("sitterProfilePage.never")}
-                  </li>
-                  <li>
                     <strong>{`${t("sitterProfilePage.lastLogin")}:`}</strong>{" "}
                     {user.last_login
                       ? `${formatDistanceToNow(new Date(user.last_login), {
