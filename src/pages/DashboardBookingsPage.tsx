@@ -102,15 +102,15 @@ const DashboardBookingsPage: React.FC = () => {
                 key={index}
                 className="mx-6 my-3 border border-transparent shadow-custom rounded w-72 px-4 py-2 relative"
               >
-                <Link 
+                <Link
                   to={`/dashboard/requests/${booking.id}`}
-                  state={{ from: "bookings "}}  
+                  state={{ from: "bookings " }}
                 >
-                    <h3 className="text-sm font-medium my-1">
-                      {t("dashboard_bookings_page.booked_with_en")}{" "}
-                      {sitterInfo[index].firstname}
-                      {t("dashboard_bookings_page.booked_with_jp")}
-                    </h3>
+                  <h3 className="text-sm font-medium my-1">
+                    {t("dashboard_bookings_page.booked_with_en")}{" "}
+                    {sitterInfo[index].firstname}
+                    {t("dashboard_bookings_page.booked_with_jp")}
+                  </h3>
                   <p className="text-xs text-gray-500 my-1">
                     {new Date(booking.start_date).toLocaleDateString("ja-JP")} -{" "}
                     {new Date(booking.end_date).toLocaleDateString("ja-JP")}
@@ -161,12 +161,14 @@ const DashboardBookingsPage: React.FC = () => {
               onClose={() => setSelectedBooking(null)}
               recipientType="sitter"
             />
-            <button
-              onClick={() => setSelectedBooking(null)}
-              className="mt-4 text-red-500"
-            >
-              {t("dashboard_bookings_page.close_review")}
-            </button>
+            <div className="flex justify-center">
+              <button
+                onClick={() => setSelectedBooking(null)}
+                className="mt-4 text-brown"
+              >
+                {t("dashboard_bookings_page.close_review")}
+              </button>
+            </div>
           </div>
         </div>
       )}
