@@ -6,8 +6,8 @@
     "account": "Account",
     "pets_profile": "Pets Profile",
     "bookings": "Bookings",
-    "become_sitter": "Become a sitter",
-    "sitter_profile": "Sitter profile",
+    "become_sitter": "Become a Sitter",
+    "sitter_profile": "Sitter Profile",
     "requests": "Requests",
     "logout": "Logout"
   },
@@ -66,9 +66,12 @@
     "requested_by_jp": ""
   },
   "review_input_page": {
-    "rating": "Give your rating:",
-    "comment": "Comments:",
-    "submit": "Submit"
+    "rating": "Rating",
+    "comment": "Comments",
+    "submit": "Submit",
+    "rating_required": "Please give a rating",
+    "review_submitted": "Your review has been submitted successfully.",
+    "close": "Close"
   },
   "request_details_page": {
     "page-title": "Request Information",
@@ -918,10 +921,9 @@
     "specialNeeds": "Anything else a pet sitter should know?",
     "profilePicture": "Your pet profile picture",
     "additionalImages": "Additional images",
-    "sample-allergies" : "Grass, Pollen, Wheat, Eggs, Peas, etc.",
-    "sample-meds" : "Rimadyl, Benadryl, Prozac, Cosequin, etc.",
-    "instructions" : "Special instructions, tips, etc."
-
+    "sample-allergies": "Grass, Pollen, Wheat, Eggs, Peas, etc.",
+    "sample-meds": "Rimadyl, Benadryl, Prozac, Cosequin, etc.",
+    "instructions": "Special instructions, tips, etc."
   },
   "editProfileForm": {
     "header": "My Account Info",

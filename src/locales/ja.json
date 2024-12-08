@@ -68,7 +68,10 @@
   "review_input_page": {
     "rating": "レビューを書く",
     "comment": "コメント",
-    "submit": "送信する"
+    "submit": "送信する",
+    "rating_required": "星の数は1以上でないと送信できません。",
+    "review_submitted": "レビューが送信されました。",
+    "close": "閉じる"
   },
   "request_details_page": {
     "page-title": "リクエスト内容",
@@ -922,10 +925,9 @@
 
     "specialNeeds": "その他ペットシッターさんに知っておいてほしいことはありますか？",
     "additionalImages": "フォトギャラリー",
-    "sample-allergies" : "草や、花粉、小麦、卵、エンドウなど",
-    "sample-meds" : "リマダイルや、ベナドリル、プロザックなど",
-    "instructions" : "お世話の仕方など"
-
+    "sample-allergies": "草や、花粉、小麦、卵、エンドウなど",
+    "sample-meds": "リマダイルや、ベナドリル、プロザックなど",
+    "instructions": "お世話の仕方など"
   },
   "editProfileForm": {
     "header": "アカウント情報",
