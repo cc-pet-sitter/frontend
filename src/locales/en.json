@@ -100,7 +100,9 @@
     "send": "Send",
     "input-box": "Type your message here",
     "chat-over": "Further messaging has been disabled.",
-    "goBack": "Back"
+    "goBack": "Back",
+    "modalConfirm": "Yes",
+    "modalCancel": "Cancel"
   },
   "user_profile_modal": {},
   "homePage": {

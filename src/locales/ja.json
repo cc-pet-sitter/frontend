@@ -100,7 +100,9 @@
     "send": "送信",
     "input-box": "メッセージを入力",
     "chat-over": "これ以上メッセージを送ることはできません。",
-    "goBack": "戻る"
+    "goBack": "戻る",
+    "modalConfirm": "はい",
+    "modalCancel": "キャンセル"
   },
   "homePage": {
     "title": "信頼できるペットシッターを見つけましょう",
