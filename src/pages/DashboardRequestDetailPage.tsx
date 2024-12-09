@@ -24,7 +24,9 @@ const DashboardRequestDetailPage: React.FC = () => {
 
   // State for confirmation modal (accept/reject)
   const [isConfirmModalOpen, setIsConfirmModalOpen] = useState<boolean>(false);
-  const [modalAction, setModalAction] = useState<"accept" | "reject" | null>(null);
+  const [modalAction, setModalAction] = useState<"accept" | "reject" | null>(
+    null
+  );
 
   const navigate = useNavigate();
   const location = useLocation();
@@ -112,7 +114,9 @@ const DashboardRequestDetailPage: React.FC = () => {
         const petData: PetProfileData[] = await petResponse.json();
         setPetInfo(petData);
       } catch (err) {
-        setError(err instanceof Error ? err.message : "An unexpected error occurred.");
+        setError(
+          err instanceof Error ? err.message : "An unexpected error occurred."
+        );
       }
     };
 
@@ -133,26 +137,26 @@ const DashboardRequestDetailPage: React.FC = () => {
     setSelectedUser(user);
     setSelectedPet(null);
     setIsProfileModalOpen(true);
-    document.body.style.overflow = 'hidden';
+    document.body.style.overflow = "hidden";
   };
 
   const handlePetClick = (pet: PetProfileData) => {
     setSelectedUser(null);
     setSelectedPet(pet);
     setIsProfileModalOpen(true);
-    document.body.style.overflow = 'hidden';
+    document.body.style.overflow = "hidden";
   };
 
   const openConfirmModal = (action: "accept" | "reject") => {
     setModalAction(action);
     setIsConfirmModalOpen(true);
-    document.body.style.overflow = 'hidden';
+    document.body.style.overflow = "hidden";
   };
 
   const closeConfirmModal = () => {
     setModalAction(null);
     setIsConfirmModalOpen(false);
-    document.body.style.overflow = 'auto';
+    document.body.style.overflow = "auto";
   };
 
   const confirmAction = async () => {
@@ -176,7 +180,9 @@ const DashboardRequestDetailPage: React.FC = () => {
 
       if (!response.ok) {
         const errorData = await response.json();
-        throw new Error(errorData.detail || `Failed to ${modalAction} the request`);
+        throw new Error(
+          errorData.detail || `Failed to ${modalAction} the request`
+        );
       }
 
       if (request) {
@@ -187,7 +193,9 @@ const DashboardRequestDetailPage: React.FC = () => {
       }
       closeConfirmModal();
     } catch (err) {
-      setError(err instanceof Error ? err.message : "An unexpected error occurred.");
+      setError(
+        err instanceof Error ? err.message : "An unexpected error occurred."
+      );
       closeConfirmModal();
     }
   };
@@ -271,7 +279,9 @@ const DashboardRequestDetailPage: React.FC = () => {
                   </span>
                 </div>
               )}
-              <p>{ownerInfo.firstname} {ownerInfo.lastname}</p>
+              <p>
+                {ownerInfo.firstname} {ownerInfo.lastname}
+              </p>
             </div>
           )}
 
@@ -295,37 +305,43 @@ const DashboardRequestDetailPage: React.FC = () => {
                   </span>
                 </div>
               )}
-              <p>{sitterInfo.firstname} {sitterInfo.lastname}</p>
+              <p>
+                {sitterInfo.firstname} {sitterInfo.lastname}
+              </p>
             </div>
           )}
 
           {/* Pet Information */}
-          {petInfo && petInfo.map((pet) => (
-            request?.pet_id_list?.includes(pet.id) && (
-              <div
-                className="flex items-center w-4/5 md:w-2/3 gap-4 mb-4 rounded-xl p-2 pl-4 bg-white shadow-custom cursor-pointer hover:bg-gray-100"
-                onClick={() => handlePetClick(pet)}
-                key={pet.id}
-              >
-                {pet.profile_picture_src ? (
-                  <img
-                    src={pet.profile_picture_src}
-                    alt={pet.name}
-                    className="w-16 h-16 rounded-full object-cover"
-                  />
-                ) : (
-                  <div className="w-16 h-16 rounded-full bg-gray-300 flex items-center justify-center">
-                    <span className="text-xl text-white">
-                      {pet.name[0]}
-                    </span>
+          {petInfo &&
+            petInfo.map(
+              (pet) =>
+                request?.pet_id_list?.includes(pet.id) && (
+                  <div
+                    className="flex items-center w-4/5 md:w-2/3 gap-4 mb-4 rounded-xl p-2 pl-4 bg-white shadow-custom cursor-pointer hover:bg-gray-100"
+                    onClick={() => handlePetClick(pet)}
+                    key={pet.id}
+                  >
+                    {pet.profile_picture_src ? (
+                      <img
+                        src={pet.profile_picture_src}
+                        alt={pet.name}
+                        className="w-16 h-16 rounded-full object-cover"
+                      />
+                    ) : (
+                      <div className="w-16 h-16 rounded-full bg-gray-300 flex items-center justify-center">
+                        <span className="text-xl text-white">
+                          {pet.name[0]}
+                        </span>
+                      </div>
+                    )}
+                    <p>
+                      {`${pet.name} (${t(
+                        `searchBar.petOptions.${pet.type_of_animal}`
+                      )})`}
+                    </p>
                   </div>
-                )}
-                <p>
-                  {`${pet.name} (${t(`searchBar.petOptions.${pet.type_of_animal}`)})`}
-                </p>
-              </div>
-            )
-          ))}
+                )
+            )}
 
           {/* Confirm Actions (Accept/Reject) */}
           {isSitter && request.inquiry_status === "requested" && (
@@ -365,29 +381,29 @@ const DashboardRequestDetailPage: React.FC = () => {
             setIsProfileModalOpen(false);
             setSelectedUser(null);
             setSelectedPet(null);
-            document.body.style.overflow = 'auto';
+            document.body.style.overflow = "auto";
           }}
         />
       )}
 
       {/* Confirmation Modal for Accept/Reject */}
       <Modal isOpen={isConfirmModalOpen} onClose={closeConfirmModal}>
-        <div className="p-6 text-center">
+        <div className="p-6 md:p-8 text-center">
           <h2 className="text-lg font-semibold mb-4">
             {modalAction === "accept"
               ? t("request_details_page.confirm-accept")
               : t("request_details_page.confirm-reject")}
           </h2>
-          <div className="flex justify-center space-x-4 mt-4">
+          <div className="grid grid-cols-2 gap-4 mx-4">
             <button
               onClick={confirmAction}
-              className="btn-primary text-white font-bold py-2 px-4 rounded"
+              className="btn-primary font-bold py-2 rounded w-full"
             >
               {t("request_details_page.modalConfirm")}
             </button>
             <button
               onClick={closeConfirmModal}
-              className="bg-gray-300 hover:bg-gray-400 text-black font-bold py-2 px-4 rounded"
+              className="bg-gray-300 hover:bg-gray-400 text-black font-bold py-2 rounded w-full"
             >
               {t("request_details_page.modalCancel")}
             </button>

@@ -277,17 +277,7 @@ const EditProfileForm: React.FC<EditProfileFormProps> = ({
                     value={pet.name}
                     className="sr-only peer"
                   />
-                  <div
-                    className={`${
-                      pet.name === "dog" && "peer-checked:text-blue-500"
-                    } ${pet.name === "cat" && "peer-checked:text-red-500"} ${
-                      pet.name === "fish" && "peer-checked:text-green-500"
-                    } ${
-                      pet.name === "bird" && "peer-checked:text-yellow-500"
-                    } ${
-                      pet.name === "rabbit" && "peer-checked:text-purple-500"
-                    }`}
-                  >
+                  <div className="peer-checked:text-yellow-500">
                     {pet.name === "dog" && <LuDog size="2em" />}
                     {pet.name === "cat" && <PiCatBold size="2em" />}
                     {pet.name === "fish" && <LuFish size="2em" />}
