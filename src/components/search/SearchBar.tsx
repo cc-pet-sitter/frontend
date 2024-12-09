@@ -48,6 +48,12 @@ const SearchBar: React.FC<SearchBarProps> = ({
   useEffect(() => {
     if (initialData) {
       reset(initialData);
+      // If initialData includes a prefecture, update selectedPrefecture.
+      if (initialData.prefecture) {
+        setSelectedPrefecture(initialData.prefecture);
+      } else {
+        setSelectedPrefecture(""); // or keep it as is
+      }
     }
   }, [initialData, reset]);
 
