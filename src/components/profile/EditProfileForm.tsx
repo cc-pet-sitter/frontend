@@ -55,7 +55,6 @@ const EditProfileForm: React.FC<Props> = ({ closeEditForm }) => {
 
   useEffect(() => {
     if (userInfo) {
-      console.log("Initial values:", userInfo.japanese_ok, userInfo.english_ok);
       reset({
         firstname: userInfo.firstname || "",
         lastname: userInfo.lastname || "",

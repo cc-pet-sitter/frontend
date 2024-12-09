@@ -31,7 +31,6 @@ const useAuthToken = (): string | null => {
         };
     }, [currentUser]);
 
-    console.log("This is the toke: ", token);
     return token;
 };
 

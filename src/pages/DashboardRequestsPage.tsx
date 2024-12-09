@@ -40,7 +40,6 @@ const DashboardRequests: React.FC = () => {
       }
 
       const fetchRequests = await requestsResponse.json();
-      console.log("Fetched requests", fetchRequests);
 
       if (!fetchRequests || fetchRequests.length === 0) {
         console.warn("No requests available to fetch sitter names");
@@ -75,7 +74,6 @@ const DashboardRequests: React.FC = () => {
       const ownerInfoData = await Promise.all(ownerInfoPromises);
 
       setOwnerInfo(ownerInfoData.filter((info) => info !== null));
-      console.log("Fetched owner info", ownerInfoData);
     } catch (error) {
       console.error("Error fetching request and owner info:", error);
     }
