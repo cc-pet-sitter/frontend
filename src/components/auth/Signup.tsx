@@ -1,9 +1,10 @@
 import React, { FormEvent, useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
-import { createUserWithEmailAndPassword, UserCredential } from "firebase/auth";
+import { createUserWithEmailAndPassword, UserCredential, GoogleAuthProvider, signInWithPopup } from "firebase/auth";
 import { auth } from "../../firebase";
 import { useTranslation } from "react-i18next";
 import { useAuth } from "../../contexts/AuthContext";
+import googleIcon from "../../../public/google-logo.svg";
 
 const SignUp: React.FC = () => {
   const [email, setEmail] = useState<string>("");
@@ -26,16 +27,14 @@ const SignUp: React.FC = () => {
     setError("");
     try {
       // Create user in Firebase
-      const userCredential: UserCredential =
-        await createUserWithEmailAndPassword(auth, email, password);
+      const userCredential: UserCredential = await createUserWithEmailAndPassword(auth, email, password);
       const user = userCredential.user;
 
       // Obtain ID token
       const idToken = await user.getIdToken();
 
       // Send user data to backend
-      const backendURL =
-        import.meta.env.VITE_API_BASE_URL || "http://localhost:8000";
+      const backendURL = import.meta.env.VITE_API_BASE_URL || "http://localhost:8000";
       const response = await fetch(`${backendURL}/signup`, {
         method: "POST",
         headers: {
@@ -58,7 +57,59 @@ const SignUp: React.FC = () => {
       } else {
         navigate("/dashboard/account"); // fallback if no redirect is provided
       }
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    } catch (err: any) {
+      setError(err.message);
+    }
+  };
+
+  // Google Provider instance
+  const googleProvider = new GoogleAuthProvider();
+
+  const handleGoogleSignIn = async () => {
+    setError("");
+    try {
+      const userCredential = await signInWithPopup(auth, googleProvider);
+      const user = userCredential.user;
+
+      // Get ID token
+      const idToken = await user.getIdToken();
+
+      // Extract names if available from displayName
+      const displayName = user.providerData[0]?.displayName || "";
+      const nameParts = displayName.split(" ");
+      const googleFirstName = nameParts[0] || "";
+      const googleLastName = nameParts.slice(1).join(" ") || "";
+
+      // Call backend to ensure user is created/fetched
+      const backendURL = import.meta.env.VITE_API_BASE_URL || "http://localhost:8000";
+      const response = await fetch(`${backendURL}/signup`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${idToken}`,
+        },
+        body: JSON.stringify({
+          firstname: googleFirstName,
+          lastname: googleLastName,
+          email: user.email,
+        }),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.detail || "Failed to create user in backend.");
+      }
+
+      setUserInfo(data.appuser);
+
+      if (redirectTo) {
+        navigate(redirectTo);
+      } else {
+        navigate("/dashboard/account");
+      }
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (err: any) {
       setError(err.message);
     }
@@ -140,12 +191,12 @@ const SignUp: React.FC = () => {
               </label>
               <div className="relative">
                 <input
-                  type={showPassword ? "text" : "password"} // Toggle password visibility
+                  type={showPassword ? "text" : "password"}
                   id="password"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   required
-                  className={`${inputClass} pr-10`} // Add padding for the toggle button
+                  className={`${inputClass} pr-10`}
                   placeholder={t("signup.passwordPlaceholder")}
                   aria-required="true"
                 />
@@ -156,7 +207,7 @@ const SignUp: React.FC = () => {
                   aria-label={showPassword ? "Hide password" : "Show password"}
                 >
                   {showPassword ? (
-                    // Eye icon for hiding password
+                    // Eye (open) icon when password is visible
                     <svg
                       className="h-5 w-5 text-gray-600"
                       xmlns="http://www.w3.org/2000/svg"
@@ -170,7 +221,7 @@ const SignUp: React.FC = () => {
                       />
                     </svg>
                   ) : (
-                    // Eye-off icon for showing password
+                    // Eye-off icon when password is hidden
                     <svg
                       className="h-5 w-5 text-gray-600"
                       xmlns="http://www.w3.org/2000/svg"
@@ -195,8 +246,26 @@ const SignUp: React.FC = () => {
             </div>
           </div>
         </form>
-        {/* Explanatory Text and Login Navigation */}
-        <div className="text-center ">
+
+        {/* Divider */}
+        <div className="flex items-center my-4">
+          <div className="flex-grow border-t border-gray-300"></div>
+          <span className="mx-2 text-gray-500">{t("or")}</span>
+          <div className="flex-grow border-t border-gray-300"></div>
+        </div>
+
+        {/* Google Sign-In Button */}
+        <button
+          type="button"
+          onClick={handleGoogleSignIn}
+          className="w-full flex items-center justify-center py-2 px-4 border border-gray-300 rounded-md hover:bg-gray-100 transition"
+        >
+          <img src={googleIcon} alt="Google icon" className="w-5 h-5 mr-2" />
+          <span className="ml-2">Sign up with Google</span>
+        </button>
+
+        {/* Explanatory text */}
+        <div className="text-center mt-4">
           <p className="text-gray-500 mb-2 text-sm">
             {t("signup.signupPrompt")}{" "}
             <a
