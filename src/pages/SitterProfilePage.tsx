@@ -237,7 +237,7 @@ const SitterProfilePage: React.FC = () => {
                 <strong>{`${t("sitterProfilePage.postCode")}:`}</strong>{" "}
                 {user.appuser.postal_code}
               </li>
-              <li className="flex items-center space-x-3">
+              <li>
                 <strong>{`${t("sitterProfilePage.languages")}:`}</strong>{" "}
                 {user.appuser.english_ok && user.appuser.japanese_ok
                   ? t("sitterProfilePage.englishJapanese")
