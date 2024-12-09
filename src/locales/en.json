@@ -884,7 +884,8 @@
     "password": "Password",
     "loginButton": "Login",
     "signupPrompt": "Not registered?",
-    "signupButton": "Create account"
+    "signupButton": "Create account",
+    "incorrectError": "Your email or password is incorrect."
   },
   "signup": {
     "title": "Sign Up",
