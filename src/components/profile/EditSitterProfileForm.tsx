@@ -203,8 +203,8 @@ const EditSitterProfileForm: React.FC<Props> = ({
                 onError={() => setImageLoaded(true)}
               />
             ) : (
-              <div className="flex items-center justify-center bg-gray-300 h-48 w-48 rounded-full ">
-                <FaUserCircle className="h-40 w-40" color="white" />
+              <div className="flex items-center justify-center h-48 w-48 rounded-full ">
+                <FaUserCircle className="h-48 w-48 text-gray-300" />
               </div>
             )}
           </div>

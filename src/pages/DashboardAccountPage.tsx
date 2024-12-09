@@ -54,7 +54,7 @@ const DashboardAccountPage: React.FC = () => {
                       onError={() => setImageLoaded(true)}
                     />
                   ) : (
-                    <FaUserCircle className="h-48 w-48 text-gray-400" />
+                    <FaUserCircle className="h-48 w-48 text-gray-300" />
                   )}
                 </div>
                 <div className="mt-4 sm:mt-0 sm:ml-6 text-center sm:text-left">
