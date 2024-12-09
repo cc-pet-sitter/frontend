@@ -885,7 +885,7 @@
     "loginButton": "Login",
     "signupPrompt": "Not registered?",
     "signupButton": "Create account",
-    "or" : "or",
+    "or": "or",
     "incorrectError": "Your email or password is incorrect."
   },
   "signup": {
@@ -928,7 +928,6 @@
     "typeOfPet": "What type of pet?",
     "allergies": "Known allergies",
     "medications": "Medications",
-
     "specialNeeds": "Anything else a pet sitter should know?",
     "profilePicture": "Your pet profile picture",
     "additionalImages": "Additional images",

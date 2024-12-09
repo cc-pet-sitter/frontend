@@ -43,14 +43,15 @@ const DashboardSitterProfilePage: React.FC = () => {
             `${apiURL}/appuser/${userInfo.id}/review`
           );
           setReviews(reviewsResponse.data);
-  
+
           // Fetch availabilities
           const availabilitiesResponse = await axiosInstance.get(
             `${apiURL}/appuser/${userInfo.id}/availability`
           );
           if (availabilitiesResponse.status === 200) {
             const dates = availabilitiesResponse.data.map(
-              (item: { available_date: string }) => new Date(item.available_date)
+              (item: { available_date: string }) =>
+                new Date(item.available_date)
             );
             setAvailabilities(dates);
           } else {
@@ -119,7 +120,7 @@ const DashboardSitterProfilePage: React.FC = () => {
                   />
                 ) : (
                   <div className="flex items-center justify-center h-48 w-48 rounded-full ">
-                    <FaUserCircle className="h-48 w-48 text-gray-400" />
+                    <FaUserCircle className="h-48 w-48 text-gray-300" />
                   </div>
                 )}
 
