@@ -35,7 +35,7 @@ const AvailabilityManager: React.FC = () => {
 
   useEffect(() => {
     const fetchAvailabilities = async () => {
-      if (!userInfo) return;
+      if (!userInfo || !userInfo.is_sitter) return;
       setLoading(true);
       try {
         const response = await axiosInstance.get(
