@@ -5,8 +5,8 @@ import SearchResults from "../components/search/SearchResults";
 import axios from "axios";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
-import CloseIcon from '@mui/icons-material/Close';
-import FilterAltIcon from '@mui/icons-material/FilterAlt';
+import CloseIcon from "@mui/icons-material/Close";
+import FilterAltIcon from "@mui/icons-material/FilterAlt";
 
 const apiURL: string = import.meta.env.VITE_API_BASE_URL;
 
@@ -17,7 +17,8 @@ const SearchPage: React.FC = () => {
 
   const [searchResults, setSearchResults] = useState(initialResults);
   const [showSearchBar, setShowSearchBar] = useState<boolean>(false);
-  const [initialFormData, setInitialFormData] = useState<SearchFormData>(initialSearch);
+  const [initialFormData, setInitialFormData] =
+    useState<SearchFormData>(initialSearch);
 
   const { t } = useTranslation();
 
@@ -47,7 +48,7 @@ const SearchPage: React.FC = () => {
 
   return (
     <div>
-      <div className="mt-4 sm:ml-auto flex flex-col items-center pb-4">
+      <div className="mt-4 ml-auto flex flex-col items-center pb-4">
         <button
           onClick={() => setShowSearchBar((prev: boolean) => !prev)}
           className="btn-secondary py-1 px-3 text-sm"
@@ -65,7 +66,7 @@ const SearchPage: React.FC = () => {
           )}
         </button>
         {showSearchBar && (
-          <div className="mt-6 w-full sm:w-auto">
+          <div className="w-full sm:w-auto sm:mt-1 sm:mb-1 sm:py-1 ">
             <SearchBar
               onSearchSubmit={handleSecondSearchSubmit}
               closeSearchBar={handleCloseSearchBar}
@@ -74,6 +75,7 @@ const SearchPage: React.FC = () => {
           </div>
         )}
       </div>
+
       <SearchResults appUsers={searchResults} />
     </div>
   );

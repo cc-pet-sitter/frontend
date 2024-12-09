@@ -13,18 +13,18 @@ const ViewAvailability: React.FC<ViewAvailabilityProps> = ({
   const { t } = useTranslation();
 
   return (
-    <div className="p-6 border-t">
+    <div className="pt-6 ">
       <h2 className="text-lg font-bold mb-4">
         {t("sitterProfilePage.availability")}
       </h2>
       {availabilities.length === 0 ? (
         <div>
-          <p className=" text-gray-500">
+          <p className="mb-6 text-gray-500">
             {t("sitterProfilePage.noAvailabilities")}
           </p>
         </div>
       ) : (
-        <div className="flex justify-center">
+        <div className="mb-6">
           <Calendar
             value={availabilities}
             readOnly
