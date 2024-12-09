@@ -35,24 +35,27 @@ const DashboardSitterProfilePage: React.FC = () => {
           `${apiURL}/appuser-extended/${userInfo.id}`
         );
         setUser(profileResponse.data.appuser);
-        setSitterProfile(profileResponse.data.sitter);
 
-        const reviewsResponse = await axiosInstance.get(
-          `${apiURL}/appuser/${userInfo.id}/review`
-        );
-        setReviews(reviewsResponse.data);
+        if (profileResponse.data.sitter) {
+          setSitterProfile(profileResponse.data.sitter);
 
-        // Fetch availabilities
-        const availabilitiesResponse = await axiosInstance.get(
-          `${apiURL}/appuser/${userInfo.id}/availability`
-        );
-        if (availabilitiesResponse.status === 200) {
-          const dates = availabilitiesResponse.data.map(
-            (item: { available_date: string }) => new Date(item.available_date)
+          const reviewsResponse = await axiosInstance.get(
+            `${apiURL}/appuser/${userInfo.id}/review`
           );
-          setAvailabilities(dates);
-        } else {
-          setAvailabilities([]);
+          setReviews(reviewsResponse.data);
+  
+          // Fetch availabilities
+          const availabilitiesResponse = await axiosInstance.get(
+            `${apiURL}/appuser/${userInfo.id}/availability`
+          );
+          if (availabilitiesResponse.status === 200) {
+            const dates = availabilitiesResponse.data.map(
+              (item: { available_date: string }) => new Date(item.available_date)
+            );
+            setAvailabilities(dates);
+          } else {
+            setAvailabilities([]);
+          }
         }
       } catch (error) {
         console.error("Unable to fetch sitter profile", error);
