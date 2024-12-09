@@ -28,7 +28,6 @@ const DashboardSitterProfilePage: React.FC = () => {
   const { t } = useTranslation();
   const navigate = useNavigate();
 
-
   const fetchAllProfileData = async () => {
     if (userInfo) {
       try {
@@ -66,7 +65,7 @@ const DashboardSitterProfilePage: React.FC = () => {
 
   useEffect(() => {
     fetchAllProfileData();
-  }, [location]);
+  }, []);
 
   useEffect(() => {
     if (!user?.profile_picture_src) {
@@ -256,9 +255,7 @@ const DashboardSitterProfilePage: React.FC = () => {
 
               {/* Availability Section */}
               <div className="px-6 border-t">
-                <ViewAvailability 
-                  availabilities={availabilities}
-                />
+                <ViewAvailability availabilities={availabilities} />
               </div>
 
               {/* Reviews */}
