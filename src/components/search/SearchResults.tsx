@@ -32,7 +32,7 @@ const SearchResults: React.FC<SearchResultsProps> = ({ appUsers }) => {
   };
 
   return (
-    <div className="flex flex-col justify-center px-4 sm:px-6 lg:px-8 ">
+    <div className="flex flex-col justify-center items-center px-4 sm:px-6 lg:px-8 ">
       <ul className="w-full max-w-4xl">
         {appUsers.map((ele) => (
           <div key={ele.sitter.id} className="pb-6">

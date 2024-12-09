@@ -89,21 +89,24 @@ const SitterProfilePage: React.FC = () => {
 
   return (
     <div>
-      <div className="container mx-auto p-6">
+      <div className="container mx-auto p-12 ">
         <button onClick={() => navigate(-1)} className="my-6 flex">
           <MdOutlineArrowBackIos className="mr-3 mt-1" />{" "}
           <p>{t("request_details_page.goBack")}</p>
         </button>
         <div className="bg-white shadow-md rounded-lg overflow-hidden">
           {/* Profile Header */}
-          <div className="flex flex-col sm:flex-row items-center p-6">
+          <div className="flex flex-col sm:flex-row items-center sm:items-start justify-center sm:justify-between p-6 md:px-24">
+            {/* Profile Picture */}
             <img
               src={user.appuser.profile_picture_src}
               alt={`${user.appuser.firstname} ${user.appuser.lastname}`}
               className="h-48 w-48 rounded-full object-cover"
             />
-            <div className="mt-4 sm:mt-0 sm:ml-10 text-center sm:text-left">
-              <h1 className="text-2xl font-bold">{`${user.appuser.firstname} ${user.appuser.lastname}`}</h1>
+
+            {/* User Details */}
+            <div className="mt-4 md:ps-1 sm:mt-0 sm:ml-6 text-center sm:text-left flex-1">
+              <h1 className=" text-2xl font-bold">{`${user.appuser.firstname} ${user.appuser.lastname}`}</h1>
               <div>
                 {user.appuser.average_user_rating !== null && (
                   <Rating
@@ -116,11 +119,12 @@ const SitterProfilePage: React.FC = () => {
               </div>
             </div>
 
-            <div className="mt-4 sm:mt-0 sm:mx-auto flex flex-col items-center">
+            {/* Action Buttons */}
+            <div className="mt-4 sm:mt-0 sm:ml-auto flex flex-col items-center sm:items-end">
               {showEnquiryForm ? (
                 <button
                   onClick={() => setShowEnquiryForm((prev: boolean) => !prev)}
-                  className="btn-secondary text-sm py-1 px-2 "
+                  className="btn-secondary text-sm py-1 px-2"
                 >
                   {t("sitterProfilePage.close")}
                 </button>
@@ -144,7 +148,7 @@ const SitterProfilePage: React.FC = () => {
           </div>
 
           {/* Account Bio */}
-          <div className="p-6 border-t">
+          <div className="p-6  border-t w-full md:px-24">
             <h2 className="text-lg font-semibold mb-4">
               {t("sitterProfilePage.accountBio")}
             </h2>
@@ -182,8 +186,8 @@ const SitterProfilePage: React.FC = () => {
           </div>
 
           {/* Sitter Details */}
-          <div className="p-6 border-t">
-            <h2 className="text-lg font-semibold mb-4">
+          <div className="p-6 border-t md:px-24">
+            <h2 className="text-lg font-semibold mb-4 ">
               {t("sitterProfilePage.animalsICareFor")}
             </h2>
             <p className="text-slate-500 text-sm">
@@ -224,7 +228,7 @@ const SitterProfilePage: React.FC = () => {
           </div>
 
           {/* Profile Details */}
-          <div className="p-6 border-t">
+          <div className="p-6 border-t md:px-24">
             <h2 className="text-lg font-semibold mb-4">
               {t("sitterProfilePage.profileDetails")}
             </h2>
@@ -257,10 +261,12 @@ const SitterProfilePage: React.FC = () => {
           </div>
 
           {/* Availability Section */}
-          <ViewAvailability availabilities={availabilities} />
+          <div className="px-6 border-t md:px-24">
+            <ViewAvailability availabilities={availabilities} />
+          </div>
 
           {/* Reviews */}
-          <div className="p-6 border-t">
+          <div className="p-6 border-t md:px-24">
             <h2 className="text-lg font-semibold mb-4">
               {t("sitterProfilePage.reviews")}
             </h2>
@@ -296,7 +302,7 @@ const SitterProfilePage: React.FC = () => {
           </div>
 
           {/* Additional Images */}
-          <div className="p-6 border-t">
+          <div className="p-6 border-t md:px-24">
             <h2 className="text-lg font-semibold mb-4">
               {t("sitterProfilePage.additionalImages")}
             </h2>

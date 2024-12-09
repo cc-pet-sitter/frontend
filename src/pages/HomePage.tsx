@@ -61,7 +61,9 @@ const HomePage: React.FC = () => {
         `${apiURL}/appuser-sitters?${queryParams}`
       );
 
-      navigate("/search_page", { state: { searchResults: data, initialSearch: formData } });
+      navigate("/search_page", {
+        state: { searchResults: data, initialSearch: formData },
+      });
     } catch (error) {
       console.error("Error fetching search results:", error);
       alert("Failed to fetch search results. Please try again.");
@@ -108,7 +110,10 @@ const HomePage: React.FC = () => {
           className="mt-8 md:my-0 my-2 mx-auto w-screen h-auto sm:h-96 md:h-[33rem] 2xl:h-[38rem] md:w-3/4 2xl:w-4/5 md:rounded-bl-full object-cover"
         />
       </div>
-      <div ref={searchSectionRef} className="justify-items-center bg-white ">
+      <div
+        ref={searchSectionRef}
+        className="justify-items-center bg-white my-14"
+      >
         <SearchBar
           onSearchSubmit={handleSearchSubmit}
           closeSearchBar={function (): void {
