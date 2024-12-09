@@ -21,3 +21,27 @@ body {
   box-shadow: 0 4px 6px -1px rgba(255, 165, 0, 0.1),
     0 2px 4px -1px rgba(255, 165, 0, 0.06);
 }
+
+.rmdp-panel-body li .b-deselect {
+  background-color: #fabe25 !important;
+}
+
+.yellow .rmdp-panel-body li {
+  background-color: #fabe25 !important;
+}
+
+.rmdp-panel-body li .b-deselect span {
+  color: white;
+}
+.yellow .rmdp-day.rmdp-selected span {
+  background-color: #fabe25 !important;
+}
+
+.rmdp-week-day {
+  color: #fabe25 !important;
+}
+
+.yellow .rmdp-arrow {
+  border: solid #fabe25 !important;
+  border-width: 0 2px 2px 0 !important;
+}
