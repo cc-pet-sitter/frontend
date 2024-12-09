@@ -4,7 +4,7 @@ import { signInWithEmailAndPassword, UserCredential, GoogleAuthProvider, signInW
 import { auth } from "../../firebase";
 import { useAuth } from "../../contexts/AuthContext";
 import { useTranslation } from "react-i18next";
-import googleIcon from "../../../public/google-logo.svg";
+import googleIcon from "./google-logo.svg";
 
 const Login: React.FC = () => {
   const [email, setEmail] = useState<string>("");
@@ -215,7 +215,7 @@ const Login: React.FC = () => {
 
         <div className="flex items-center my-4">
           <div className="flex-grow border-t border-gray-300"></div>
-          <span className="mx-2 text-gray-500">{t("or")}</span>
+          <span className="mx-2 text-gray-500">{t("login.or")}</span>
           <div className="flex-grow border-t border-gray-300"></div>
         </div>
 

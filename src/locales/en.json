@@ -883,7 +883,8 @@
     "password": "Password",
     "loginButton": "Login",
     "signupPrompt": "Not registered?",
-    "signupButton": "Create account"
+    "signupButton": "Create account",
+    "or" : "or"
   },
   "signup": {
     "title": "Sign Up",
@@ -899,7 +900,8 @@
     "emailPlaceholder": "you@example.com",
     "passwordPlaceholder": "••••••••",
     "showPassword": "Show password",
-    "hidePassword": "Hide password"
+    "hidePassword": "Hide password",
+    "or": "or"
   },
   "PetProfile": {
     "about": "About {{name}}",
