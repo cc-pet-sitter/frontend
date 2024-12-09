@@ -135,7 +135,7 @@ const Header: React.FC = () => {
                 <div className="relative">
                   <Menu>
                     <MenuHandler>
-                      <Button className="cursor-pointer btn-secondary bg-#D87607 px-auto py-2">
+                      <Button className="normal-case cursor-pointer btn-secondary bg-#D87607 px-auto py-2">
                         {userInfo?.firstname}
                       </Button>
                     </MenuHandler>
