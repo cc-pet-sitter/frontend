@@ -42,7 +42,6 @@ const DashboardRequests: React.FC = () => {
       const fetchRequests = await requestsResponse.json();
 
       if (!fetchRequests || fetchRequests.length === 0) {
-        console.warn("No requests available to fetch sitter names");
         setRequests(null);
         return;
       }

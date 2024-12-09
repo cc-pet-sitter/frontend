@@ -43,7 +43,6 @@ const DashboardBookingsPage: React.FC = () => {
       const fetchBookings = await bookingsResponse.json();
 
       if (!fetchBookings || fetchBookings.length === 0) {
-        console.warn("No bookings available to fetch sitter names");
         setBookings(null);
         return;
       }

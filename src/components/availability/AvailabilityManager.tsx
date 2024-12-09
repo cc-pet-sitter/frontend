@@ -166,10 +166,10 @@ const AvailabilityManager: React.FC = () => {
     message = error;
     messageColor = "text-red-500";
   } else if (isSaving) {
-    message = t(t("dashboard_Sitter_Profile_page.saving"));
+    message = t("dashboard_Sitter_Profile_page.saving");
     messageColor = "text-brown";
   } else if (success && savedRecently) {
-    message = t(t("dashboard_Sitter_Profile_page.saved"));
+    message = t("dashboard_Sitter_Profile_page.saved");
     messageColor = "text-brown";
   }
 
