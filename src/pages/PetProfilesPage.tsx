@@ -42,14 +42,17 @@ const PetProfilesPage: React.FC = () => {
   }, []);
   return (
     <div className="mx-4">
-      <button onClick={() => navigate("/")} className="mt-6 ml-1 md:ml-20 flex">
+      <button
+        onClick={() => navigate("/")}
+        className="mt-6 ml-1 md:ml-14 2xl:ml-80 flex"
+      >
         <MdOutlineArrowBackIos className="mr-3 mt-1" />{" "}
         <p>{t("request_details_page.goBack")}</p>
       </button>
-      <h2 className="text-center text-2xl font-semibold mt-4">
+      <h2 className="text-center text-2xl font-bold my-6">
         {t("homePage.title_pets")}
       </h2>
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-2 justify-center md:mx-20">
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 max-w-screen-lg mx-auto">
         {petProfiles?.map((profile) => (
           <Card className="max-w-[24rem] overflow-hidden m-2">
             <CardHeader
@@ -116,11 +119,13 @@ const PetProfilesPage: React.FC = () => {
                     </>
                   )}
                 </div>
-                {profile.birthday && <div className="flex my-1 text-sm">
-                  <LiaBirthdayCakeSolid className="mr-3 mt-1 " />
-                  {t("PetProfile.birthday")}
-                  {new Date(profile.birthday).toLocaleDateString("ja-JP")}
-                </div>}
+                {profile.birthday && (
+                  <div className="flex my-1 text-sm">
+                    <LiaBirthdayCakeSolid className="mr-3 mt-1 " />
+                    {t("PetProfile.birthday")}
+                    {new Date(profile.birthday).toLocaleDateString("ja-JP")}
+                  </div>
+                )}
 
                 {profile.weight && (
                   <div className="flex my-1 text-sm">
