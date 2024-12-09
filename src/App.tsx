@@ -21,6 +21,8 @@ import DashboardPetsProfilePage from "./pages/DashboardPetsProfilePage.tsx";
 import DashboardAccountPage from "./pages/DashboardAccountPage";
 import SearchResults from "./components/search/SearchResults";
 import DashboardRequestDetailPage from "./pages/DashboardRequestDetailPage";
+import PrivacyPolicy from "./pages/PrivacyPolicy.tsx";
+import ContactPage from "./pages/Contact.tsx";
 
 const App: React.FC = () => {
   const { currentUser } = useAuth();
@@ -40,6 +42,8 @@ const App: React.FC = () => {
             <Route path="/search" element={<SearchResults appUsers={[]} />} />
             <Route path="/" element={<HomePage />} />
             <Route path="/pet_profiles" element={<PetProfilesPage />} />
+            <Route path="/privacy" element={<PrivacyPolicy />} />
+            <Route path="/contact" element={<ContactPage />} />
             <Route
               path="/dashboard/bookings"
               element={<DashboardBookingsPage />}

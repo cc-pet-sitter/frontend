@@ -1,18 +1,19 @@
-import { signInWithEmailAndPassword, UserCredential } from "firebase/auth";
 import React, { FormEvent, useState, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
+import { signInWithEmailAndPassword, UserCredential, GoogleAuthProvider, signInWithPopup } from "firebase/auth";
 import { auth } from "../../firebase";
 import { useAuth } from "../../contexts/AuthContext";
 import { useTranslation } from "react-i18next";
+import googleIcon from "../../../public/google-logo.svg";
 
 const Login: React.FC = () => {
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [error, setError] = useState<string>("");
-  const [showPassword, setShowPassword] = useState<boolean>(false); // For password visibility
+  const [showPassword, setShowPassword] = useState<boolean>(false);
+  
   const navigate = useNavigate();
-  const { setUserInfo, currentUser } = useAuth(); // Access currentUser from AuthContext
-
+  const { setUserInfo, currentUser } = useAuth();
   const { t } = useTranslation();
 
   const location = useLocation();
@@ -29,27 +30,21 @@ const Login: React.FC = () => {
     e.preventDefault();
     setError("");
     try {
-      // Sign in with Firebase
-      const userCredential: UserCredential = await signInWithEmailAndPassword(
-        auth,
-        email,
-        password
-      );
+      // Sign in with Firebase email/password
+      const userCredential: UserCredential = await signInWithEmailAndPassword(auth, email, password);
       const user = userCredential.user;
 
       // Get Firebase ID token
       const idToken = await user.getIdToken();
 
       // Send token to backend to retrieve user info
-      const backendURL =
-        import.meta.env.VITE_API_BASE_URL || "http://localhost:8000";
+      const backendURL = import.meta.env.VITE_API_BASE_URL || "http://localhost:8000";
       const response = await fetch(`${backendURL}/login`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${idToken}`,
         },
-        // No body needed since backend uses token
       });
 
       if (!response.ok) {
@@ -58,16 +53,63 @@ const Login: React.FC = () => {
       }
 
       const data = await response.json();
-
-      // Update AuthContext with userInfo
       setUserInfo(data);
 
       if (redirectTo) {
         navigate(redirectTo);
       } else {
-        navigate("/"); // fallback if no redirect is provided
+        navigate("/");
       }
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    } catch (err: any) {
+      setError(err.message);
+    }
+  };
+
+  // Google Auth provider
+  const googleProvider = new GoogleAuthProvider();
+
+  const handleGoogleSignIn = async () => {
+    setError("");
+    try {
+      const userCredential = await signInWithPopup(auth, googleProvider);
+      const user = userCredential.user;
+
+      const idToken = await user.getIdToken();
+
+      const displayName = user.providerData[0]?.displayName || "";
+      const nameParts = displayName.split(" ");
+      const googleFirstName = nameParts[0] || "";
+      const googleLastName = nameParts.slice(1).join(" ") || "";
+
+      const backendURL = import.meta.env.VITE_API_BASE_URL || "http://localhost:8000";
+      const response = await fetch(`${backendURL}/signup`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${idToken}`,
+        },
+        body: JSON.stringify({
+          firstname: googleFirstName,
+          lastname: googleLastName,
+          email: user.email,
+        }),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.detail || "Failed to log in via Google.");
+      }
+
+      setUserInfo(data.appuser);
+
+      if (redirectTo) {
+        navigate(redirectTo);
+      } else {
+        navigate("/");
+      }
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (err: any) {
       setError(err.message);
     }
@@ -132,7 +174,7 @@ const Login: React.FC = () => {
                 aria-label={showPassword ? "Hide password" : "Show password"}
               >
                 {showPassword ? (
-                  // Eye icon for hiding password
+                  // Eye icon when password is visible
                   <svg
                     className="h-5 w-5 text-gray-600"
                     xmlns="http://www.w3.org/2000/svg"
@@ -146,7 +188,7 @@ const Login: React.FC = () => {
                     />
                   </svg>
                 ) : (
-                  // Eye-off icon for showing password
+                  // Eye-off icon when password is hidden
                   <svg
                     className="h-5 w-5 text-gray-600"
                     xmlns="http://www.w3.org/2000/svg"
@@ -170,8 +212,25 @@ const Login: React.FC = () => {
             </button>
           </div>
         </form>
+
+        <div className="flex items-center my-4">
+          <div className="flex-grow border-t border-gray-300"></div>
+          <span className="mx-2 text-gray-500">{t("or")}</span>
+          <div className="flex-grow border-t border-gray-300"></div>
+        </div>
+
+        {/* Google Sign-In Button */}
+        <button
+          type="button"
+          onClick={handleGoogleSignIn}
+          className="w-full flex items-center justify-center py-2 px-4 border border-gray-300 rounded-md hover:bg-gray-100 transition"
+        >
+          <img src={googleIcon} alt="Google icon" className="w-5 h-5 mr-2" />
+          <span className="ml-2">Login with Google</span>
+        </button>
+
         {/* Explanatory Text and Sign Up Navigation */}
-        <div className="text-center">
+        <div className="text-center mt-4">
           <p className="text-gray-500 mb-2 text-sm">
             {t("login.signupPrompt")}{" "}
             <a
