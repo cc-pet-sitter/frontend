@@ -60,7 +60,8 @@
     "saving": "Saving...",
     "saved": "Saved",
     "save_first": "You need to save your profile first before updating availabilities",
-    "error_fetching_availability": "Error fetching availabilities, please try later."
+    "error_fetching_availability": "Error fetching availabilities, please try later.",
+    "pending": "Pending changes..."
   },
   "dashboard_requests_page": {
     "title": "Requests",

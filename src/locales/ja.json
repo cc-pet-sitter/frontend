@@ -60,7 +60,8 @@
     "saving": "保存中",
     "saved": "保存されました",
     "save_first": "可能日をアップデートする前に、編集中のプロフィール情報を保存して下さい。",
-    "error_fetching_availability": "エラーが発生しました。後で試してください。"
+    "error_fetching_availability": "エラーが発生しました。後で試してください。",
+    "pending": "保留中の変更"
   },
   "dashboard_requests_page": {
     "title": "リクエスト",

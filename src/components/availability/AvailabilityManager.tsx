@@ -192,7 +192,7 @@ const AvailabilityManager: React.FC = () => {
   } else if (pendingChanges) {
     message = (
       <span className="flex items-center text-sm text-gray-700">
-        {t("Pending changes...")}
+        {t("dashboard_Sitter_Profile_page.pending")}
         <TailSpin
           height="16"
           width="16"
@@ -202,7 +202,7 @@ const AvailabilityManager: React.FC = () => {
       </span>
     );
   } else if (success && savedRecently) {
-    message = <span className="text-sm text-green-600">{t("Changes saved!")}</span>;
+    message = <span className="text-sm text-green-600">{t("dashboard_Sitter_Profile_page.saved")}</span>;
   }
 
   return (
