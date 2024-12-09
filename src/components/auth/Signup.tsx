@@ -4,7 +4,7 @@ import { createUserWithEmailAndPassword, UserCredential, GoogleAuthProvider, sig
 import { auth } from "../../firebase";
 import { useTranslation } from "react-i18next";
 import { useAuth } from "../../contexts/AuthContext";
-import googleIcon from "../../../public/google-logo.svg";
+import googleIcon from "./google-logo.svg";
 
 const SignUp: React.FC = () => {
   const [email, setEmail] = useState<string>("");
@@ -250,7 +250,7 @@ const SignUp: React.FC = () => {
         {/* Divider */}
         <div className="flex items-center my-4">
           <div className="flex-grow border-t border-gray-300"></div>
-          <span className="mx-2 text-gray-500">{t("or")}</span>
+          <span className="mx-2 text-gray-500">{t("signup.or")}</span>
           <div className="flex-grow border-t border-gray-300"></div>
         </div>
 

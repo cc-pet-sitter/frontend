@@ -887,6 +887,7 @@
     "loginButton": "ログイン",
     "signupPrompt": "",
     "signupButton": "新規会員登録はこちら",
+    "or": "または",
     "incorrectError": "メールアドレスまたはパスワードが間違っています"
   },
   "signup": {
@@ -903,7 +904,8 @@
     "emailPlaceholder": "you@example.com",
     "passwordPlaceholder": "••••••••",
     "showPassword": "パスワードを表示",
-    "hidePassword": "パスワードを隠す"
+    "hidePassword": "パスワードを隠す",
+    "or": "または"
   },
   "PetProfile": {
     "about": "{{name}} について",

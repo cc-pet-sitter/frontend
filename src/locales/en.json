@@ -885,6 +885,7 @@
     "loginButton": "Login",
     "signupPrompt": "Not registered?",
     "signupButton": "Create account",
+    "or" : "or",
     "incorrectError": "Your email or password is incorrect."
   },
   "signup": {
@@ -901,7 +902,8 @@
     "emailPlaceholder": "you@example.com",
     "passwordPlaceholder": "••••••••",
     "showPassword": "Show password",
-    "hidePassword": "Hide password"
+    "hidePassword": "Hide password",
+    "or": "or"
   },
   "PetProfile": {
     "about": "About {{name}}",
