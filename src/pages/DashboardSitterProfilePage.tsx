@@ -228,7 +228,7 @@ const DashboardSitterProfilePage: React.FC = () => {
                       <strong>{`${t("sitterProfilePage.address")}: `}</strong>
                       {[user?.prefecture, user?.city_ward, user?.street_address]
                         .filter(Boolean)
-                        .join(",")}
+                        .join(", ")}
                     </div>
                   </li>
                   <li>
