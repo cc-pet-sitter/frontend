@@ -31,8 +31,6 @@ const SitterProfilePage: React.FC = () => {
   const { t } = useTranslation();
   const { id } = useParams<{ id: string }>();
 
-  console.log(user);
-
   useEffect(() => {
     const fetchData = async () => {
       setLoading(true);

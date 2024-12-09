@@ -127,9 +127,6 @@ const EditProfileForm: React.FC<EditProfileFormProps> = ({
       );
 
       if (response.status === 200) {
-        const updatedProfile = await response.data;
-        console.log("Profile updated successfully:", updatedProfile);
-
         setSuccess(true);
         setError(null);
         onClose();

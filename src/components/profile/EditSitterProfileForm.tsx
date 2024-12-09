@@ -76,7 +76,6 @@ const EditSitterProfileForm: React.FC<Props> = ({
 
   const onSubmit = async (data: Sitter) => {
     data.sitter_bio_picture_src_list = sitterBioPictureSrcList;
-    console.log("Submitting data:", data);
     try {
       const response = await axiosInstance.post(
         `${apiURL}/sitter/${userInfo?.id}`,

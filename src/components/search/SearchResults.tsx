@@ -12,8 +12,6 @@ const SearchResults: React.FC<SearchResultsProps> = ({ appUsers }) => {
   const navigate = useNavigate();
   const { t } = useTranslation();
 
-  console.log(appUsers, "AppUsers");
-
   if (!appUsers.length) {
     return (
       <div className="p-6">
@@ -28,8 +26,6 @@ const SearchResults: React.FC<SearchResultsProps> = ({ appUsers }) => {
       </div>
     );
   }
-
-  console.log("Results", appUsers);
 
   const goToNewPage = (userId: number) => {
     navigate(`/profile/${userId}`);
