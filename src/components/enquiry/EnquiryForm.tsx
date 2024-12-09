@@ -23,20 +23,6 @@ type EnquiryFormData = {
   additional_info: string | null;
 };
 
-type EnquiryFormResponse = {
-  id: number;
-  owner_appuser_id: number;
-  sitter_appuser_id: number;
-  inquiry_status: string;
-  start_date: string; // ISO string
-  end_date: string; // ISO string
-  desired_service: string;
-  pet_id_list: string; // Stored as comma-separated string
-  additional_info: string | null;
-  inquiry_submitted: string; // ISO string
-  inquiry_finalized: string | null; // ISO string or null
-};
-
 const EnquiryForm: React.FC<EnquiryFormProps> = ({
   closeEnquiryForm,
   sitterId,
@@ -116,8 +102,6 @@ const EnquiryForm: React.FC<EnquiryFormProps> = ({
         additional_info: data.additional_info,
       };
 
-      console.log("Payload to send:", payload); // Debugging
-
       const response = await fetch(`${backendURL}/inquiry`, {
         method: "POST",
         headers: {
@@ -142,9 +126,6 @@ const EnquiryForm: React.FC<EnquiryFormProps> = ({
         console.error("Backend Error:", errorMessage);
         throw new Error(errorMessage);
       }
-
-      const enquirySubmitted: EnquiryFormResponse = await response.json();
-      console.log("Inquiry submitted successfully:", enquirySubmitted);
 
       setSuccess(true);
       setError(null);

@@ -7,7 +7,7 @@ import PetProfile from "../components/profile/PetProfile";
 import { PetProfileData } from "../types/userProfile";
 import axiosInstance from "../api/axiosInstance";
 import { TailSpin } from "react-loader-spinner";
-import { PiDog } from "react-icons/pi";
+import { FaDog } from "react-icons/fa";
 
 const DashboardPetsProfilePage: React.FC = () => {
   const [petProfiles, setPetProfiles] = useState<Array<PetProfileData> | null>(
@@ -46,9 +46,9 @@ const DashboardPetsProfilePage: React.FC = () => {
 
     petProfiles?.forEach((pet) => {
       if (pet.profile_picture_src) {
-        atLeastOnePictureFound = true
+        atLeastOnePictureFound = true;
       }
-    })
+    });
 
     if (!atLeastOnePictureFound) {
       setImageLoaded(true);
@@ -126,7 +126,9 @@ const DashboardPetsProfilePage: React.FC = () => {
                               onError={() => setImageLoaded(true)}
                             />
                           ) : (
-                            <PiDog className="h-20 w-20 text-gray-400" />
+                            <div className="flex items-center justify-center bg-gray-300 h-20 w-20 rounded-full ">
+                              <FaDog className="h-20 w-20 p-2" color="white" />
+                            </div>
                           )}
                         </div>
 

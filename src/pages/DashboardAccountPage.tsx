@@ -84,7 +84,7 @@ const DashboardAccountPage: React.FC = () => {
                         userInfo?.street_address,
                       ]
                         .filter(Boolean)
-                        .join(",")}
+                        .join(", ")}
                     </div>
                   </li>
 

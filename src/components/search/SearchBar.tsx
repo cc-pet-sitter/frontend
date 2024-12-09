@@ -27,7 +27,10 @@ interface SearchBarProps {
   initialData?: SearchFormData;
 }
 
-const SearchBar: React.FC<SearchBarProps> = ({ onSearchSubmit, initialData }) => {
+const SearchBar: React.FC<SearchBarProps> = ({
+  onSearchSubmit,
+  initialData,
+}) => {
   const { t } = useTranslation();
   const {
     register,
@@ -36,7 +39,7 @@ const SearchBar: React.FC<SearchBarProps> = ({ onSearchSubmit, initialData }) =>
     reset,
     formState: { errors },
   } = useForm<SearchFormData>({
-    defaultValues: initialData
+    defaultValues: initialData,
   });
   const [selectedPrefecture, setSelectedPrefecture] = useState("");
 
@@ -69,7 +72,7 @@ const SearchBar: React.FC<SearchBarProps> = ({ onSearchSubmit, initialData }) =>
     "flex flex-col items-center justify-center px-3 py-2 md:py-3 text-gray-500 text-sm md:text-base bg-white border-2 border- border-gray-300 rounded-lg cursor-pointer hover:border-[#D87607]/60 peer-checked:border-[#D87607] peer-checked:bg-white";
 
   return (
-    <div className="flex justify-center p-2 mx-4 my-6 md:my-14 rounded-lg md:w-[60rem] shadow-custom">
+    <div className="flex justify-center p-2 mx-4 my-6 rounded-lg md:w-[60rem] shadow-custom">
       <form
         onSubmit={handleSubmit(onSearchSubmit)}
         className="bg-white p-6 md:w-[55rem]"

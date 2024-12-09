@@ -12,8 +12,6 @@ const SearchResults: React.FC<SearchResultsProps> = ({ appUsers }) => {
   const navigate = useNavigate();
   const { t } = useTranslation();
 
-  console.log(appUsers, "AppUsers");
-
   if (!appUsers.length) {
     return (
       <div className="p-6">
@@ -29,14 +27,12 @@ const SearchResults: React.FC<SearchResultsProps> = ({ appUsers }) => {
     );
   }
 
-  console.log("Results", appUsers);
-
   const goToNewPage = (userId: number) => {
     navigate(`/profile/${userId}`);
   };
 
   return (
-    <div className="flex flex-col justify-center px-4 sm:px-6 lg:px-8 ">
+    <div className="flex flex-col justify-center items-center px-4 sm:px-6 lg:px-8 ">
       <ul className="w-full max-w-4xl">
         {appUsers.map((ele) => (
           <div key={ele.sitter.id} className="pb-6">

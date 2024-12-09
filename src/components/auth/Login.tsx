@@ -131,7 +131,7 @@ const Login: React.FC = () => {
             role="alert"
             aria-live="assertive"
           >
-            {error}
+            {t("login.incorrectError")}
           </p>
         )}
         <form onSubmit={handleSubmit} className="w-full">

@@ -626,5 +626,3 @@ const cityOptions = {
 for (const region in cityOptions) {
   cityOptions[region] = [...new Set(cityOptions[region])];
 }
-
-console.log(cityOptions);

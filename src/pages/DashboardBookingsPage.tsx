@@ -20,7 +20,6 @@ const DashboardBookingsPage: React.FC = () => {
     try {
       const idToken = await currentUser?.getIdToken();
 
-      console.log(userInfo);
       if (!userInfo?.id) {
         console.error("User information is missing!");
         return;
@@ -42,7 +41,6 @@ const DashboardBookingsPage: React.FC = () => {
       }
 
       const fetchBookings = await bookingsResponse.json();
-      console.log("Fetched bookings", fetchBookings);
 
       if (!fetchBookings || fetchBookings.length === 0) {
         console.warn("No bookings available to fetch sitter names");
@@ -78,7 +76,6 @@ const DashboardBookingsPage: React.FC = () => {
 
       const sitterInfoData = await Promise.all(sitterInfoPromises);
       setSitterInfo(sitterInfoData);
-      console.log("Fetched sitter info", sitterInfoData);
     } catch (error) {
       console.error("Error fetching bookings and sitter info:", error);
     }

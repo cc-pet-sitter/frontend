@@ -857,7 +857,8 @@
     "noAvailabilities": "No availability",
     "createProfile": "Create Profile",
     "bio": "Bio",
-    "loading": "Loading..."
+    "loading": "Loading...",
+    "never": "now"
   },
   "enquiryForm": {
     "startDate": "Start Date",
@@ -884,7 +885,8 @@
     "loginButton": "Login",
     "signupPrompt": "Not registered?",
     "signupButton": "Create account",
-    "or" : "or"
+    "or" : "or",
+    "incorrectError": "Your email or password is incorrect."
   },
   "signup": {
     "title": "Sign Up",

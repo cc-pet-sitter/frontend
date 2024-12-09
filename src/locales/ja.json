@@ -859,7 +859,8 @@
     "and": ", ",
     "createProfile": "プロフィール作成",
     "bio": "自己紹介",
-    "loading": "ロード中"
+    "loading": "ロード中",
+    "never": "今"
   },
   "enquiryForm": {
     "startDate": "開始日",
@@ -886,7 +887,8 @@
     "loginButton": "ログイン",
     "signupPrompt": "",
     "signupButton": "新規会員登録はこちら",
-    "or": "または"
+    "or": "または",
+    "incorrectError": "メールアドレスまたはパスワードが間違っています"
   },
   "signup": {
     "title": "サインアップ",

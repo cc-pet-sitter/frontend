@@ -95,7 +95,7 @@ const DashboardSitterProfilePage: React.FC = () => {
               {/* Profile Header */}
               <div className="flex flex-col sm:flex-row items-center p-6">
                 {!imageLoaded && (
-                  <div className="flex items-center justify-center bg-gray-300 h-48 w-48 rounded-full ">
+                  <div className="flex items-center justify-center bg-gray-200 h-48 w-48 rounded-full ">
                     <TailSpin
                       height="50"
                       width="50"
@@ -115,8 +115,8 @@ const DashboardSitterProfilePage: React.FC = () => {
                     onError={() => setImageLoaded(true)}
                   />
                 ) : (
-                  <div className="flex items-center justify-center bg-gray-300 h-48 w-48 rounded-full ">
-                    <FaUserCircle className="h-40 w-40" color="white" />
+                  <div className="flex items-center justify-center h-48 w-48 rounded-full ">
+                    <FaUserCircle className="h-48 w-48 text-gray-400" />
                   </div>
                 )}
 
@@ -228,7 +228,7 @@ const DashboardSitterProfilePage: React.FC = () => {
                       <strong>{`${t("sitterProfilePage.address")}: `}</strong>
                       {[user?.prefecture, user?.city_ward, user?.street_address]
                         .filter(Boolean)
-                        .join(",")}
+                        .join(", ")}
                     </div>
                   </li>
                   <li>
@@ -251,7 +251,9 @@ const DashboardSitterProfilePage: React.FC = () => {
               </div>
 
               {/* Availability Section */}
-              <ViewAvailability availabilities={availabilities} />
+              <div className="px-6 border-t">
+                <ViewAvailability availabilities={availabilities} />
+              </div>
 
               {/* Reviews */}
               <div className="p-6 border-t">
