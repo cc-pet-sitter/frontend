@@ -18,7 +18,7 @@ const Login: React.FC = () => {
   const location = useLocation();
   const params = new URLSearchParams(location.search);
   const redirectTo = params.get("redirect");
-  
+
   useEffect(() => {
     if (currentUser) {
       navigate("/"); // Redirect authenticated users away from login page
@@ -62,7 +62,6 @@ const Login: React.FC = () => {
       // Update AuthContext with userInfo
       setUserInfo(data);
 
-
       if (redirectTo) {
         navigate(redirectTo);
       } else {
@@ -90,7 +89,7 @@ const Login: React.FC = () => {
             role="alert"
             aria-live="assertive"
           >
-            {error}
+            {t("login.incorrectError")}
           </p>
         )}
         <form onSubmit={handleSubmit} className="w-full">

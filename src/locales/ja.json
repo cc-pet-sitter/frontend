@@ -886,7 +886,8 @@
     "password": "パスワード",
     "loginButton": "ログイン",
     "signupPrompt": "",
-    "signupButton": "新規会員登録はこちら"
+    "signupButton": "新規会員登録はこちら",
+    "incorrectError": "メールアドレスまたはパスワードが間違っています"
   },
   "signup": {
     "title": "サインアップ",
