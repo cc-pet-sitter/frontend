@@ -1021,5 +1021,8 @@
     "uploading": "アップロード中...",
     "edit_photo": "編集",
     "upload_photo": "写真を追加"
+  },
+  "footer": {
+    "privacy": "プライバシーポリシー"
   }
 }
