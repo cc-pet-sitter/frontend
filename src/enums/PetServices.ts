@@ -5,7 +5,7 @@ export enum PetServices {
 }
 
 export const serviceOptions = [
-  { label: "boarding", value: PetServices.OWNER_HOUSE },
-  { label: "stay-in", value: PetServices.SITTER_HOUSE },
+  { label: "boarding", value: PetServices.SITTER_HOUSE },
+  { label: "stay-in", value: PetServices.OWNER_HOUSE },
   { label: "visit", value: PetServices.VISIT },
 ];
