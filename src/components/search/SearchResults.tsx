@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { Done } from "@mui/icons-material";
 import { GiSniffingDog } from "react-icons/gi";
+import { FaUserCircle } from "react-icons/fa";
 
 type SearchResultsProps = {
   appUsers: AppUser[];
@@ -40,11 +41,17 @@ const SearchResults: React.FC<SearchResultsProps> = ({ appUsers }) => {
               <nav className="flex flex-col gap-1 p-4 sm:flex-row sm:items-center sm:p-6">
                 {/* Image */}
                 <div className="mr-0 mb-3 grid place-items-center sm:mr-6 sm:mb-0">
-                  <img
-                    alt="Petter Sitter Image"
-                    src={ele.appuser.profile_picture_src}
-                    className="h-32 w-32 rounded-full object-cover object-center sm:h-32 sm:w-32"
-                  />
+                  {ele.appuser.profile_picture_src ? (
+                    <img
+                      alt="Pet Sitter Image"
+                      src={ele.appuser.profile_picture_src}
+                      className="h-32 w-32 rounded-full object-cover object-center sm:h-32 sm:w-32"
+                    />
+                  ) : (
+                    <div className="flex items-center justify-center h-32 w-32 rounded-full ">
+                      <FaUserCircle className="h-32 w-32 text-gray-300" />
+                    </div>
+                  )}
                   <h2 className="text-2xl font-semibold mt-3 text-gray-800">
                     {" "}
                     {ele.appuser.firstname}
