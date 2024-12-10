@@ -11,6 +11,7 @@ import Rating from "@mui/material/Rating";
 import ViewAvailability from "../components/profile/ViewAvailability.tsx";
 import FeaturedImageGallery from "../components/profile/FeaturedImageGallery.tsx";
 import { MdOutlineArrowBackIos } from "react-icons/md";
+import { FaUserCircle } from "react-icons/fa";
 
 const apiURL: string = import.meta.env.VITE_API_BASE_URL;
 
@@ -98,11 +99,17 @@ const SitterProfilePage: React.FC = () => {
           {/* Profile Header */}
           <div className="flex flex-col sm:flex-row items-center sm:items-start justify-center sm:justify-between p-6 md:px-24">
             {/* Profile Picture */}
-            <img
-              src={user.appuser.profile_picture_src}
-              alt={`${user.appuser.firstname} ${user.appuser.lastname}`}
-              className="h-48 w-48 rounded-full object-cover"
-            />
+            {user.appuser.profile_picture_src ? (
+              <img
+                src={user.appuser.profile_picture_src}
+                alt={`${user.appuser.firstname} ${user.appuser.lastname}`}
+                className="h-48 w-48 rounded-full object-cover"
+              />
+            ) : (
+              <div className="flex items-center justify-center h-48 w-48 rounded-full ">
+                <FaUserCircle className="h-48 w-48 text-gray-300" />
+              </div>
+            )}
 
             {/* User Details */}
             <div className="mt-4 md:ps-1 sm:mt-0 sm:ml-6 text-center sm:text-left flex-1">
