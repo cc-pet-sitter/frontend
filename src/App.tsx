@@ -23,6 +23,7 @@ import SearchResults from "./components/search/SearchResults";
 import DashboardRequestDetailPage from "./pages/DashboardRequestDetailPage";
 import PrivacyPolicy from "./pages/PrivacyPolicy.tsx";
 import ContactPage from "./pages/Contact.tsx";
+import NoticeBanner from "./components/banner/NoticeBanner.tsx";
 
 const App: React.FC = () => {
   const { currentUser } = useAuth();
@@ -30,6 +31,7 @@ const App: React.FC = () => {
   return (
     <Router>
       <div className="flex flex-col min-h-screen bg-white w-full">
+        <NoticeBanner />
         <Header />
         <div className="flex-grow pt-12">
           <nav>

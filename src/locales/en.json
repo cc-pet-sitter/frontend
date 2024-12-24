@@ -2,6 +2,10 @@
   "title": {
     "subtitle": "Find trusted pet sitters or list your services."
   },
+  "noticeBanner": {
+    "note": "Note:",
+    "message": "The sitter profiles currently displayed on our site are for demonstration purposes only."
+  },
   "hamburger_menu": {
     "account": "Account",
     "pets_profile": "Pets Profile",
