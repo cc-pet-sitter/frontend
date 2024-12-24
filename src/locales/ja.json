@@ -2,6 +2,10 @@
   "title": {
     "subtitle": "ペットシッターを探そう！"
   },
+  "noticeBanner": {
+    "note": "注意:",
+    "message": "現在表示されているペットシッターのプロフィールはサンプルです。"
+  },
   "hamburger_menu": {
     "account": "アカウント",
     "pets_profile": "ペットプロフィール",
