@@ -23,7 +23,6 @@ https://mugi.pet/
 - npm
 - Mugi Backend : https://github.com/cc-pet-sitter/backend
 
-
 ## Installation
 
 ### Clone the Repository
@@ -60,3 +59,11 @@ npm run dev
 ```
 
 Then open the Application in your browser.
+
+## Docker development
+
+### Compose
+
+First, copy `docker-compose.yml.example` as `docker-compose.yml` and insert the required secrets:
+
+- `FIREBASE_CREDENTIALS` - base64 encoded firebase credentials in JSON format

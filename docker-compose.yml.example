@@ -1,0 +1,35 @@
+version: "3.8"
+
+services:
+  postgres:
+    image: postgres:latest
+    container_name: postgres
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: pet_sitter
+    ports:
+      - "15432:5432"
+    volumes:
+      - pg_data:/var/lib/postgresql/data
+
+  backend:
+    image: mugi-backend:latest
+    container_name: mugi-backend
+    environment:
+      DATABASE_URL: postgres://postgres:postgres@postgres:5432/pet_sitter
+      FIREBASE_CREDENTIALS: "" # Base64 encoded firebase credentials in JSON
+      FRONTEND_BASE_URL: "http://localhost:3000"
+    ports:
+      - "8000:8000"
+    depends_on:
+      - postgres
+
+  frontend:
+    image: mugi-frontend:latest
+    container_name: mugi-frontend
+    ports:
+      - "3000:3000"
+
+volumes:
+  pg_data:
