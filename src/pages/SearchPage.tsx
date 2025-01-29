@@ -7,7 +7,6 @@ import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import CloseIcon from "@mui/icons-material/Close";
 import FilterAltIcon from "@mui/icons-material/FilterAlt";
-import TestMap from "../components/maps/TestMap";
 
 const apiURL: string = import.meta.env.VITE_API_BASE_URL;
 
@@ -49,9 +48,6 @@ const SearchPage: React.FC = () => {
 
   return (
     <div>
-      <div>
-        <TestMap></TestMap>
-      </div>
       <div className="mt-4 ml-auto flex flex-col items-center pb-4">
         <button
           onClick={() => setShowSearchBar((prev: boolean) => !prev)}

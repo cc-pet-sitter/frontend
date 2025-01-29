@@ -4,12 +4,14 @@ import { useTranslation } from "react-i18next";
 import { Done } from "@mui/icons-material";
 import { GiSniffingDog } from "react-icons/gi";
 import { FaUserCircle } from "react-icons/fa";
+import TestMap from "../maps/TestMap.tsx";
 
 type SearchResultsProps = {
   appUsers: AppUser[];
 };
 
 const SearchResults: React.FC<SearchResultsProps> = ({ appUsers }) => {
+  console.log(appUsers);
   const navigate = useNavigate();
   const { t } = useTranslation();
 
@@ -34,6 +36,9 @@ const SearchResults: React.FC<SearchResultsProps> = ({ appUsers }) => {
 
   return (
     <div className="flex flex-col justify-center items-center px-4 sm:px-6 lg:px-8 ">
+      <div>
+        <TestMap appUsers={appUsers}></TestMap>
+      </div>
       <ul className="w-full max-w-4xl">
         {appUsers.map((ele) => (
           <div key={ele.sitter.id} className="pb-6">
