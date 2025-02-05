@@ -47,11 +47,13 @@ const SearchPage: React.FC = () => {
   };
 
   return (
-    <div>
-      <div className="mt-4 ml-auto flex flex-col items-center pb-4">
+    <div className="relative">
+      <SearchResults appUsers={searchResults} />
+
+      <div className="absolute top-0 right-[10%] mt-4 mr-3 flex flex-col items-end">
         <button
           onClick={() => setShowSearchBar((prev: boolean) => !prev)}
-          className="btn-secondary py-1 px-3 text-sm"
+          className="btn-secondary py-2 px-4 text-m"
         >
           {showSearchBar ? (
             <>
@@ -75,8 +77,6 @@ const SearchPage: React.FC = () => {
           </div>
         )}
       </div>
-
-      <SearchResults appUsers={searchResults} />
     </div>
   );
 };

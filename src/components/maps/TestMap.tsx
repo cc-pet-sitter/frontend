@@ -7,6 +7,8 @@ import {
 } from "@vis.gl/react-google-maps";
 import { useState, useEffect } from "react";
 import { AppUser } from "../../types/userProfile";
+import { useNavigate } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 
 type TestMapProps = {
   appUsers: AppUser[];
@@ -21,7 +23,7 @@ const getLocationFromAddress = async (address: string) => {
   const apiKey = import.meta.env.VITE_GOOGLE_MAPS_API_KEY;
   const encodedAddress = encodeURIComponent(address);
   const geocodeUrl = `https://maps.googleapis.com/maps/api/geocode/json?address=${encodedAddress}&key=${apiKey}`;
-  console.log(geocodeUrl);
+  // console.log(geocodeUrl);
 
   try {
     const response = await fetch(geocodeUrl);
@@ -57,6 +59,13 @@ const TestMap: React.FC<TestMapProps> = ({ appUsers }) => {
     { user: AppUser; location: Location }[]
   >([]);
 
+  const navigate = useNavigate();
+  const goToNewPage = (userId: number) => {
+    navigate(`/profile/${userId}`);
+  };
+
+  const { t } = useTranslation();
+
   useEffect(() => {
     const fetchLocations = async () => {
       const locations = await Promise.all(
@@ -80,9 +89,9 @@ const TestMap: React.FC<TestMapProps> = ({ appUsers }) => {
   return (
     <APIProvider apiKey={import.meta.env.VITE_GOOGLE_MAPS_API_KEY}>
       <Map
-        style={{ width: "100vw", height: "100vh" }}
+        style={{ width: "100%", height: "100%" }}
         defaultCenter={position}
-        defaultZoom={5}
+        defaultZoom={9}
         gestureHandling={"greedy"}
         mapId={import.meta.env.VITE_MAP_ID}
       >
@@ -90,17 +99,30 @@ const TestMap: React.FC<TestMapProps> = ({ appUsers }) => {
           <AdvancedMarker
             key={user.sitter.id}
             position={location}
+            // onClick={() => onPinClick(user.sitter.id)}
             onClick={() => setOpenInfoWindow(index)}
           >
-            <Pin background="blue" borderColor="white" glyphColor="white" />
+            <Pin background="#D87607" borderColor="white" glyphColor="white" />
             {openInfoWindow === index && (
               <InfoWindow
                 position={location}
                 onCloseClick={() => setOpenInfoWindow(null)}
               >
-                <div>
-                  <h4>{user.appuser.firstname}</h4>
-                  <p>{user.sitter.sitter_profile_bio}</p>
+                <div className="max-h-[340px] max-w-[300px] grid justify-items-stretch">
+                  <img
+                    className="max-h-[220px] max-w-[220px]"
+                    src={user.appuser.profile_picture_src}
+                  />
+                  <h2 className="text-2xl font-semibold mt-3 text-gray-800">
+                    {user.appuser.firstname}
+                  </h2>
+                  <p className="pb-2">{user.sitter.sitter_profile_bio}</p>
+                  <button
+                    className="shadow btn-primary focus:shadow-outline focus:outline-none font-bold py-2 px-4 rounded w-full sm:w-auto"
+                    onClick={() => goToNewPage(user.sitter.appuser_id)}
+                  >
+                    {t("searchPage.viewProfile")}
+                  </button>
                 </div>
               </InfoWindow>
             )}
