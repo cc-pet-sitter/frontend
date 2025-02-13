@@ -124,3 +124,8 @@ export interface Availability {
   appuser: number;
   available_date: Date;
 }
+
+export interface AppuserExtended {
+  appuser: Partial<AppUserDetails>
+  sitter: Sitter
+}
