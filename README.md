@@ -1,50 +1,69 @@
-# React + TypeScript + Vite
+# Mugi Frontend
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+This is the frontend repository for Mugi.pet
+https://mugi.pet/
 
-Currently, two official plugins are available:
+**Mugi** is a bilingual platform that helps pet owners find and book trusted local pet sitters, ensuring a seamless and flexible experience.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+---
 
-## Expanding the ESLint configuration
+## Technology
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+- React
+- TypeScript
+- Axios
+- Tailwind CSS
+- Firebase
+- i18next
+- React Router
 
-- Configure the top-level `parserOptions` property like this:
+## Prerequisites
 
-```js
-export default tseslint.config({
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
+- Node.js
+- npm
+- Mugi Backend : https://github.com/cc-pet-sitter/backend
+
+## Installation
+
+### Clone the Repository
+
+Clone this reposirtory in your local machine.
+
+### Install Dependencies
+
+Install the required dependencies.
+
+```bash
+npm install
 ```
 
-- Replace `tseslint.configs.recommended` to `tseslint.configs.recommendedTypeChecked` or `tseslint.configs.strictTypeChecked`
-- Optionally add `...tseslint.configs.stylisticTypeChecked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and update the config:
+### Configure Environment Variables
 
-```js
-// eslint.config.js
-import react from 'eslint-plugin-react'
+Create a `.env` file in the project directory and add the following variables.
 
-export default tseslint.config({
-  // Set the react version
-  settings: { react: { version: '18.3' } },
-  plugins: {
-    // Add the react plugin
-    react,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended rules
-    ...react.configs.recommended.rules,
-    ...react.configs['jsx-runtime'].rules,
-  },
-})
+```env
+VITE_API_BASE_URL=your_api_url
+VITE_FIREBASE_API_KEY=your_firebase_key
+VITE_FIREBASE_AUTH_DOMAIN=your_firebase_auth_domain
+VITE_FIREBASE_PROJECT_ID=your_firebase_project_id
+VITE_FIREBASE_STORAGE_BUCKET=your_firebase_storage_bucket
+VITE_FIREBASE_MESSAGING_SENDER_ID=your_firebase_messaging_sender_id
+VITE_FIREBASE_APP_ID=your_firebase_app_id
+VITE_FIREBASE_MEASURE_ID=your_firebase_measure_id
 ```
+
+### Start the development server
+
+```bash
+npm run dev
+```
+
+Then open the Application in your browser.
+
+## Docker development
+
+### Compose
+
+First, copy `docker-compose.yml.example` as `docker-compose.yml` and insert the required secrets:
+
+- `FIREBASE_CREDENTIALS` - base64 encoded firebase credentials in JSON format

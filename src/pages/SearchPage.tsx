@@ -5,8 +5,8 @@ import SearchResults from "../components/search/SearchResults";
 import axios from "axios";
 import { useState, useEffect } from "react";
 import { useTranslation } from "react-i18next";
-// import CloseIcon from "@mui/icons-material/Close";
-// import FilterAltIcon from "@mui/icons-material/FilterAlt";
+import { useAuth } from "../contexts/AuthContext";
+import { AppuserExtended } from "../types/userProfile";
 
 const apiURL: string = import.meta.env.VITE_API_BASE_URL;
 
@@ -15,6 +15,7 @@ const SearchPage: React.FC = () => {
   const initialResults = location.state?.searchResults || [];
   const initialSearch = location.state?.initialSearch || {};
 
+  const { userInfo } = useAuth();
   const [searchResults, setSearchResults] = useState(initialResults);
   const [showSearchBar, setShowSearchBar] = useState<boolean>(false);
   const [initialFormData, setInitialFormData] =
@@ -50,7 +51,15 @@ const SearchPage: React.FC = () => {
       );
 
       // Ensure a new reference
-      setSearchResults([...data]);
+      let validatedData: AppuserExtended[];
+
+      if (userInfo) { //If the user performing the search is logged in
+        validatedData = data.filter((extendedUser: AppuserExtended) => extendedUser.appuser.id !== userInfo.id); // Remove self from the search results
+      } else {
+        validatedData = [...data];
+      }
+
+      setSearchResults(validatedData);
       setInitialFormData(formData);
     } catch (error) {
       console.error("Error fetching search results:", error);

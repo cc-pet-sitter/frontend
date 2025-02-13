@@ -4,7 +4,8 @@ import { useTranslation } from "react-i18next";
 import { SearchFormData } from "../components/search/SearchBar";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import { PetProfileData } from "../types/userProfile";
+import { AppuserExtended, PetProfileData } from "../types/userProfile";
+import { useAuth } from "../contexts/AuthContext";
 import { BsCalendar2Date } from "react-icons/bs";
 import { FaPaw } from "react-icons/fa";
 import { BsSearchHeart } from "react-icons/bs";
@@ -26,6 +27,7 @@ const HomePage: React.FC = () => {
   const { t } = useTranslation();
   const navigate = useNavigate();
   const searchSectionRef = useRef<HTMLDivElement>(null);
+  const { userInfo } = useAuth();
 
   const handleScrollToSearch = () => {
     searchSectionRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -61,8 +63,17 @@ const HomePage: React.FC = () => {
         `${apiURL}/appuser-sitters?${queryParams}`
       );
 
+      // Ensure a new reference
+      let validatedData: AppuserExtended[];
+
+      if (userInfo) { //If the user performing the search is logged in
+        validatedData = data.filter((extendedUser: AppuserExtended) => extendedUser.appuser.id !== userInfo.id); // Remove self from the search results
+      } else {
+        validatedData = [...data];
+      }
+
       navigate("/search_page", {
-        state: { searchResults: data, initialSearch: formData },
+        state: { searchResults: validatedData, initialSearch: formData },
       });
     } catch (error) {
       console.error("Error fetching search results:", error);
