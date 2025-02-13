@@ -4,7 +4,7 @@ import SearchBar from "../components/search/SearchBar";
 import SearchResults from "../components/search/SearchResults";
 import axios from "axios";
 import { useState, useEffect } from "react";
-// import { useTranslation } from "react-i18next";
+import { useTranslation } from "react-i18next";
 // import CloseIcon from "@mui/icons-material/Close";
 // import FilterAltIcon from "@mui/icons-material/FilterAlt";
 
@@ -23,7 +23,7 @@ const SearchPage: React.FC = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const sittersPerPage = 8;
 
-  // const { t } = useTranslation();
+  const { t } = useTranslation();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -80,8 +80,7 @@ const SearchPage: React.FC = () => {
             ←
           </button>
           <span className="text-lg font-medium px-4 py-2">
-            Page {currentPage} of{" "}
-            {Math.ceil(searchResults.length / sittersPerPage)}
+            {currentPage} - {Math.ceil(searchResults.length / sittersPerPage)}
           </span>
           <button
             className="px-4 py-2 btn-primary rounded disabled:opacity-50"
@@ -106,7 +105,7 @@ const SearchPage: React.FC = () => {
       {showSearchBar && (
         <div className="mt-3 flex flex-col items-center bg-[#fef6e4]">
           <h2 className="text-2xl font-semibold mt-6">
-            Try refining your search
+            {t("searchPage.refine")}
           </h2>
           <SearchBar
             onSearchSubmit={handleSecondSearchSubmit}

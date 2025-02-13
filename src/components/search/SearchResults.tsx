@@ -73,8 +73,8 @@ const SearchResults: React.FC<SearchResultsProps> = ({
       </div>
       <div className="w-full lg:w-[50%] max-h-[900px] overflow-y-auto">
         <h3 className="p-2 text-2xl font-semi-bold text-brown font-style: italic">
-          <strong>Mugi</strong> has found {appUsers.length} Pet Sitters matching
-          your search...
+          <strong>{t("searchPage.mugi")}</strong> {t("searchPage.found")}{" "}
+          {appUsers.length} {t("searchPage.matching")}
         </h3>
         <ul className="w-full max-w-4xl grid grid-cols-1 md:grid-cols-2 gap-6">
           {paginatedUsers.map((ele) => (
