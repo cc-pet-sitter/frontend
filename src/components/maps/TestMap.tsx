@@ -23,18 +23,13 @@ const getLocationFromAddress = async (address: string) => {
   const apiKey = import.meta.env.VITE_GOOGLE_MAPS_API_KEY;
   const encodedAddress = encodeURIComponent(address);
   const geocodeUrl = `https://maps.googleapis.com/maps/api/geocode/json?address=${encodedAddress}&key=${apiKey}`;
-  // console.log(geocodeUrl);
 
   try {
     const response = await fetch(geocodeUrl);
     const data = await response.json();
 
     if (data.status === "OK") {
-      const location = data.results[0].geometry.location;
-      return {
-        lat: location.lat,
-        lng: location.lng,
-      };
+      return data.results[0].geometry.location;
     } else {
       console.error(`Geocoding error: ${data.status}`);
       return null;
@@ -46,41 +41,44 @@ const getLocationFromAddress = async (address: string) => {
 };
 
 const TestMap: React.FC<TestMapProps> = ({ appUsers }) => {
-  // console.log("AppUsers in TestMap:", appUsers);
-
-  // appUsers.map((user) => {
-  //   console.log("city_ward:", user.appuser.city_ward);
-  //   console.log("prefecture:", user.appuser.prefecture);
-  // });
-
-  const position = { lat: 35.6764, lng: 139.65 };
-  const [openInfoWindow, setOpenInfoWindow] = useState(false);
+  const [openInfoWindow, setOpenInfoWindow] = useState<number | null>(null);
   const [userLocations, setUserLocations] = useState<
     { user: AppUser; location: Location }[]
   >([]);
+  const [center, setCenter] = useState<Location | undefined>(undefined);
 
   const navigate = useNavigate();
-  const goToNewPage = (userId: number) => {
-    navigate(`/profile/${userId}`);
-  };
-
   const { t } = useTranslation();
 
   useEffect(() => {
     const fetchLocations = async () => {
       const locations = await Promise.all(
         appUsers.map(async (user) => {
-          const address =
-            user.appuser.city_ward + ", " + user.appuser.prefecture;
-          // console.log(address);
+          const address = `${user.appuser.city_ward}, ${user.appuser.prefecture}`;
           const location = await getLocationFromAddress(address);
-          // console.log(location);
           return location ? { user, location } : null;
         })
       );
-      setUserLocations(
-        locations.filter(Boolean) as { user: AppUser; location: Location }[]
-      );
+
+      const validLocations = locations.filter(Boolean) as {
+        user: AppUser;
+        location: Location;
+      }[];
+
+      setUserLocations(validLocations);
+
+      if (validLocations.length > 0) {
+        const avgLat =
+          validLocations.reduce((sum, { location }) => sum + location.lat, 0) /
+          validLocations.length;
+        const avgLng =
+          validLocations.reduce((sum, { location }) => sum + location.lng, 0) /
+          validLocations.length;
+
+        setCenter({ lat: avgLat, lng: avgLng });
+      } else {
+        setCenter({ lat: 35.6764, lng: 139.65 }); // Default to Tokyo
+      }
     };
 
     fetchLocations();
@@ -88,47 +86,61 @@ const TestMap: React.FC<TestMapProps> = ({ appUsers }) => {
 
   return (
     <APIProvider apiKey={import.meta.env.VITE_GOOGLE_MAPS_API_KEY}>
-      <Map
-        style={{ width: "100%", height: "100%" }}
-        defaultCenter={position}
-        defaultZoom={9}
-        gestureHandling={"greedy"}
-        mapId={import.meta.env.VITE_MAP_ID}
-      >
-        {userLocations.map(({ user, location }, index) => (
-          <AdvancedMarker
-            key={user.sitter.id}
-            position={location}
-            // onClick={() => onPinClick(user.sitter.id)}
-            onClick={() => setOpenInfoWindow(index)}
-          >
-            <Pin background="#D87607" borderColor="white" glyphColor="white" />
-            {openInfoWindow === index && (
-              <InfoWindow
-                position={location}
-                onCloseClick={() => setOpenInfoWindow(null)}
-              >
-                <div className="max-h-[340px] max-w-[300px] grid justify-items-stretch">
-                  <img
-                    className="max-h-[220px] max-w-[220px]"
-                    src={user.appuser.profile_picture_src}
-                  />
-                  <h2 className="text-2xl font-semibold mt-3 text-gray-800">
-                    {user.appuser.firstname}
-                  </h2>
-                  <p className="pb-2">{user.sitter.sitter_profile_bio}</p>
-                  <button
-                    className="shadow btn-primary focus:shadow-outline focus:outline-none font-bold py-2 px-4 rounded w-full sm:w-auto"
-                    onClick={() => goToNewPage(user.sitter.appuser_id)}
-                  >
-                    {t("searchPage.viewProfile")}
-                  </button>
-                </div>
-              </InfoWindow>
-            )}
-          </AdvancedMarker>
-        ))}
-      </Map>
+      {center && (
+        <Map
+          style={{ width: "100%", height: "100%" }}
+          center={center}
+          zoom={9}
+          gestureHandling={"cooperative"}
+          mapId={import.meta.env.VITE_MAP_ID}
+          reuseMaps={true}
+          onCenterChanged={(event) => {
+            const newCenter = event.detail.center;
+            setCenter(newCenter);
+          }}
+        >
+          {userLocations.map(({ user, location }, index) => (
+            <AdvancedMarker
+              key={user.sitter.id}
+              position={location}
+              onClick={() => setOpenInfoWindow(index)}
+            >
+              <Pin
+                background="#D87607"
+                borderColor="white"
+                glyphColor="white"
+              />
+              {openInfoWindow === index && (
+                <InfoWindow
+                  position={location}
+                  onCloseClick={() => setOpenInfoWindow(null)}
+                >
+                  <div className="max-h-[360px] max-w-[340px] grid justify-items-stretch ml-1 mb-2">
+                    <img
+                      className="max-h-[220px] max-w-[220px] w-auto h-auto object-cover rounded-md"
+                      src={user.appuser.profile_picture_src}
+                    />
+                    <h2 className="text-2xl mt-3 pb-2 text-gray-800 grid justify-items-center">
+                      {user.appuser.firstname}
+                    </h2>
+                    <p className="text-m pb-4">
+                      {user.sitter.sitter_profile_bio}
+                    </p>
+                    <button
+                      className="shadow btn-primary focus:shadow-outline focus:outline-none font-bold py-2 px-2 rounded w-full sm:w-auto"
+                      onClick={() =>
+                        navigate(`/profile/${user.sitter.appuser_id}`)
+                      }
+                    >
+                      {t("searchPage.viewProfile")}
+                    </button>
+                  </div>
+                </InfoWindow>
+              )}
+            </AdvancedMarker>
+          ))}
+        </Map>
+      )}
     </APIProvider>
   );
 };

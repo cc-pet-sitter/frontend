@@ -9,12 +9,26 @@ import TestMap from "../maps/TestMap.tsx";
 
 type SearchResultsProps = {
   appUsers: AppUser[];
+  currentPage: number;
+  sittersPerPage: number;
+  setCurrentPage: (page: number) => void;
 };
 
-const SearchResults: React.FC<SearchResultsProps> = ({ appUsers }) => {
+const SearchResults: React.FC<SearchResultsProps> = ({
+  appUsers,
+  currentPage,
+  sittersPerPage,
+}) => {
   // console.log(appUsers);
   const navigate = useNavigate();
   const { t } = useTranslation();
+
+  const startIndex = (currentPage - 1) * sittersPerPage;
+  const paginatedUsers = appUsers.slice(
+    startIndex,
+    startIndex + sittersPerPage
+  );
+
   // const [sortedUsers, setSortedUsers] = useState(appUsers);
 
   if (!appUsers.length) {
@@ -59,35 +73,34 @@ const SearchResults: React.FC<SearchResultsProps> = ({ appUsers }) => {
       </div>
       <div className="w-full lg:w-[50%] max-h-[900px] overflow-y-auto">
         <h3 className="p-2 text-2xl font-semi-bold text-brown font-style: italic">
-          <strong className="font-style: normal">Mugi</strong> has found{" "}
-          {appUsers.length} Pet Sitters matching your search...
+          <strong>Mugi</strong> has found {appUsers.length} Pet Sitters matching
+          your search...
         </h3>
-        <ul className="w-full max-w-4xl">
-          {appUsers.map((ele) => (
-            <div key={ele.sitter.id} className="pb-6">
-              <div className="relative flex flex-col rounded-lg border border-slate-200 bg-white shadow-sm sm:flex-row sm:gap-6">
-                <nav className="flex flex-col gap-1 p-4 sm:flex-row sm:items-center sm:p-6">
+        <ul className="w-full max-w-4xl grid grid-cols-1 md:grid-cols-2 gap-6">
+          {paginatedUsers.map((ele) => (
+            <div key={ele.sitter.id} className="h-full">
+              <div className="relative flex flex-col h-full rounded-lg border border-slate-200 bg-white shadow-sm">
+                <nav className="flex flex-col flex-1 p-4 sm:p-6">
                   {/* Image */}
-                  <div className="mr-0 mb-3 grid place-items-center sm:mr-6 sm:mb-0">
+                  <div className="mb-3 grid place-items-center">
                     {ele.appuser.profile_picture_src ? (
                       <img
                         alt="Pet Sitter Image"
                         src={ele.appuser.profile_picture_src}
-                        className="h-32 w-32 rounded-full object-cover object-center sm:h-32 sm:w-32"
+                        className="h-32 w-32 rounded-full object-cover object-center"
                       />
                     ) : (
-                      <div className="flex items-center justify-center h-32 w-32 rounded-full ">
-                        <FaUserCircle className="h-32 w-32 text-gray-300" />
+                      <div className="flex items-center justify-center h-32 w-32 rounded-full bg-gray-300">
+                        <FaUserCircle className="h-32 w-32 text-gray-500" />
                       </div>
                     )}
                     <h2 className="text-2xl font-semibold mt-3 text-gray-800">
-                      {" "}
                       {ele.appuser.firstname}
                     </h2>
                   </div>
 
                   {/* Content */}
-                  <div>
+                  <div className="flex-1">
                     <h6 className="text-gray-800 font-medium text-base sm:text-lg">
                       {ele.sitter.sitter_profile_bio}
                     </h6>
@@ -173,20 +186,41 @@ const SearchResults: React.FC<SearchResultsProps> = ({ appUsers }) => {
                         )}
                       </p>
                     </div>
-                    <div>
-                      <button
-                        className="shadow btn-primary focus:shadow-outline focus:outline-none font-bold py-2 px-4 rounded w-full sm:w-auto"
-                        onClick={() => goToNewPage(ele.sitter.appuser_id)}
-                      >
-                        {t("searchPage.viewProfile")}
-                      </button>
-                    </div>
                   </div>
                 </nav>
+
+                {/* Button always at bottom */}
+                <div className="mt-auto px-6 pb-6">
+                  <button
+                    className="shadow btn-primary focus:shadow-outline focus:outline-none font-bold py-2 px-4 rounded w-full sm:w-auto"
+                    onClick={() => goToNewPage(ele.sitter.appuser_id)}
+                  >
+                    {t("searchPage.viewProfile")}
+                  </button>
+                </div>
               </div>
             </div>
           ))}
         </ul>
+        {/* <div className="flex justify-center items-center gap-4 mt-6">
+          <button
+            className="px-4 py-2 btn-secondary rounded disabled:opacity-50"
+            onClick={goToPrevPage}
+            disabled={currentPage === 1}
+          >
+            ←
+          </button>
+          <span className="text-lg font-medium">
+            Page {currentPage} of {totalPages}
+          </span>
+          <button
+            className="px-4 py-2 btn-secondary rounded disabled:opacity-50"
+            onClick={goToNextPage}
+            disabled={currentPage === totalPages}
+          >
+            →
+          </button>
+        </div> */}
       </div>
     </div>
   );

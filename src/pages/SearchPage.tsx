@@ -3,10 +3,10 @@ import { SearchFormData } from "../components/search/SearchBar";
 import SearchBar from "../components/search/SearchBar";
 import SearchResults from "../components/search/SearchResults";
 import axios from "axios";
-import { useState } from "react";
-import { useTranslation } from "react-i18next";
-import CloseIcon from "@mui/icons-material/Close";
-import FilterAltIcon from "@mui/icons-material/FilterAlt";
+import { useState, useEffect } from "react";
+// import { useTranslation } from "react-i18next";
+// import CloseIcon from "@mui/icons-material/Close";
+// import FilterAltIcon from "@mui/icons-material/FilterAlt";
 
 const apiURL: string = import.meta.env.VITE_API_BASE_URL;
 
@@ -20,7 +20,23 @@ const SearchPage: React.FC = () => {
   const [initialFormData, setInitialFormData] =
     useState<SearchFormData>(initialSearch);
 
-  const { t } = useTranslation();
+  const [currentPage, setCurrentPage] = useState(1);
+  const sittersPerPage = 8;
+
+  // const { t } = useTranslation();
+
+  useEffect(() => {
+    const handleScroll = () => {
+      if (window.scrollY > 30) {
+        setShowSearchBar(true);
+      } else {
+        setShowSearchBar(false);
+      }
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
 
   const handleSecondSearchSubmit = async (formData: SearchFormData) => {
     try {
@@ -47,36 +63,58 @@ const SearchPage: React.FC = () => {
   };
 
   return (
-    <div className="relative">
-      <SearchResults appUsers={searchResults} />
-
-      <div className="absolute top-0 right-[10%] mt-4 mr-3 flex flex-col items-end">
-        <button
-          onClick={() => setShowSearchBar((prev: boolean) => !prev)}
-          className="btn-secondary py-2 px-4 text-m"
-        >
-          {showSearchBar ? (
-            <>
-              <CloseIcon className="mr-1" />
-              {t("sitterProfilePage.close")}
-            </>
-          ) : (
-            <>
-              <FilterAltIcon className="mr-1" />
-              {t("searchPage.refineSearch")}
-            </>
-          )}
-        </button>
-        {showSearchBar && (
-          <div className="w-full sm:w-auto sm:mt-1 sm:mb-1 sm:py-1 ">
-            <SearchBar
-              onSearchSubmit={handleSecondSearchSubmit}
-              closeSearchBar={handleCloseSearchBar}
-              initialData={initialFormData}
-            />
-          </div>
-        )}
+    <div>
+      <SearchResults
+        appUsers={searchResults}
+        currentPage={currentPage}
+        setCurrentPage={setCurrentPage}
+        sittersPerPage={sittersPerPage}
+      />
+      <div className="flex flex-col items-center gap-4 mt-3 pb-2 pt-2">
+        <div>
+          <button
+            className="px-4 py-2 btn-primary rounded disabled:opacity-50"
+            onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
+            disabled={currentPage === 1}
+          >
+            ←
+          </button>
+          <span className="text-lg font-medium px-4 py-2">
+            Page {currentPage} of{" "}
+            {Math.ceil(searchResults.length / sittersPerPage)}
+          </span>
+          <button
+            className="px-4 py-2 btn-primary rounded disabled:opacity-50"
+            onClick={() =>
+              setCurrentPage((prev) =>
+                Math.min(
+                  prev + 1,
+                  Math.ceil(searchResults.length / sittersPerPage)
+                )
+              )
+            }
+            disabled={
+              currentPage === Math.ceil(searchResults.length / sittersPerPage)
+            }
+          >
+            →
+          </button>
+        </div>
       </div>
+
+      {/* Search Bar Appears on Scroll */}
+      {showSearchBar && (
+        <div className="mt-3 flex flex-col items-center bg-[#fef6e4]">
+          <h2 className="text-2xl font-semibold mt-6">
+            Try refining your search
+          </h2>
+          <SearchBar
+            onSearchSubmit={handleSecondSearchSubmit}
+            closeSearchBar={() => setShowSearchBar(false)}
+            initialData={initialFormData}
+          />
+        </div>
+      )}
     </div>
   );
 };
