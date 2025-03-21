@@ -3,7 +3,7 @@ import { useTranslation } from "react-i18next";
 import { LuDog, LuFish, LuSchool } from "react-icons/lu";
 import { TbHomeFilled, TbHomeMove } from "react-icons/tb";
 import { PiRabbitBold, PiCatBold, PiBirdBold } from "react-icons/pi";
-// import { prefectureOptions } from "../../options/Prefectures";
+import { prefectures } from "../../options/Prefectures";
 import { cityOptions } from "../../options/Cities";
 import { useState, useEffect } from "react";
 
@@ -42,8 +42,7 @@ const SearchBar: React.FC<SearchBarProps> = ({
     defaultValues: initialData,
   });
   const [selectedPrefecture, setSelectedPrefecture] = useState("");
-
-  const prefectureOptions = Object.keys(cityOptions);
+  const prefectureOptions = Object.values(prefectures);
 
   useEffect(() => {
     if (initialData) {
@@ -96,7 +95,7 @@ const SearchBar: React.FC<SearchBarProps> = ({
             />
             <datalist id="prefecture-options">
               {prefectureOptions.map((pref) => (
-                <option key={pref} value={pref}>
+                <option key={pref} value={t(`searchBar.prefectureOptions.${pref}`)}>
                   {t(`searchBar.prefectureOptions.${pref}`)}
                 </option>
               ))}
@@ -121,9 +120,9 @@ const SearchBar: React.FC<SearchBarProps> = ({
               className={inputClass}
             />
             <datalist id="city-options">
-              {(cityOptions[selectedPrefecture] || []).map((city) => (
-                <option key={city} value={city}>
-                  {t(`searchBar.cityOptions.${selectedPrefecture}.${city}`)}
+              {(cityOptions[selectedPrefecture] || cityOptions[prefectures[selectedPrefecture]] || []).map((city) => (
+                <option key={city} value={t(`searchBar.cityOptions.${prefectures[selectedPrefecture] || selectedPrefecture}.${city}`)}>
+                  {t(`searchBar.cityOptions.${prefectures[selectedPrefecture] || selectedPrefecture}.${city}`)}
                 </option>
               ))}
             </datalist>
