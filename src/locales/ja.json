@@ -835,7 +835,13 @@
     "viewProfile": "プロフィールを見る",
     "noResultsFound": "一致するシッターを見つけられませんでした。検索条件を広げてお試しください。",
     "and": ", ",
-    "refineSearch": "絞り込み検索"
+    "refineSearch": "絞り込み検索",
+    "refine": "条件を変更して再検索してみましょう",
+    "mugi": "",
+    "found": "検索に一致する",
+    "matching": "人のペットシッターを見つけました！",
+    "page": "Page",
+    "of": "of"
   },
   "sitterProfilePage": {
     "accountBio": "自己紹介",
