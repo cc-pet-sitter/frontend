@@ -1,73 +1,32 @@
 import React, { useEffect, useState } from "react";
 import { useAuth } from "../../contexts/AuthContext";
-import { Inquiry, Message } from "../../types/userProfile";
+import { AppUser, Inquiry, Message } from "../../types/userProfile";
 import { useTranslation } from "react-i18next";
 
 const apiURL: string = import.meta.env.VITE_API_BASE_URL;
 
 interface ConversationProps {
   inquiry: Inquiry;
+  otherUserInfo: AppUser
 }
 
-const Conversation: React.FC<ConversationProps> = ({ inquiry }) => {
+const Conversation: React.FC<ConversationProps> = ({ inquiry, otherUserInfo }) => {
   const { currentUser, userInfo } = useAuth();
   const [messages, setMessages] = useState<Message[]>([]);
   const [newMessage, setNewMessage] = useState<string>("");
-
-  const [senderId, setSenderId] = useState<number | null>(null);
-  const [receiverId, setReceiverId] = useState<number | null>(null);
+  const senderId = userInfo?.id;
+  const receiverId = senderId === inquiry.owner_appuser_id ? inquiry.sitter_appuser_id : inquiry.owner_appuser_id;
+  const otherUserFullName = `${otherUserInfo.firstname} ${otherUserInfo.lastname}`;
 
   const { t } = useTranslation();
 
   useEffect(() => {
     if (!userInfo) return;
 
-    if (userInfo?.id === inquiry.owner_appuser_id) {
-      setSenderId(inquiry.owner_appuser_id);
-      setReceiverId(inquiry.sitter_appuser_id);
-    } else if (userInfo.id === inquiry.sitter_appuser_id) {
-      setSenderId(inquiry.sitter_appuser_id);
-      setReceiverId(inquiry.owner_appuser_id);
-    } else {
-      console.error("Current user is not associated with this inquiry");
-      return;
-    }
-
     fetchMessages();
     const interval = setInterval(fetchMessages, 300000); // Fetch every 5 minutes
     return () => clearInterval(interval);
   }, [userInfo, inquiry]);
-
-  useEffect(() => {
-    if (receiverId !== null) {
-      fetchOtherUserInfo(receiverId);
-    }
-  }, [receiverId]);
-
-  const fetchOtherUserInfo = async (otherUserId: number | null) => {
-    if (!otherUserId || !currentUser) return;
-
-    try {
-      const idToken = await currentUser.getIdToken();
-      const response = await fetch(`${apiURL}/appuser/${otherUserId}`, {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${idToken}`,
-        },
-      });
-
-      if (!response.ok) {
-        throw new Error("Failed to fetch user info");
-      }
-    } catch (err) {
-      if (err instanceof Error) {
-        console.error(err.message);
-      } else {
-        console.error("An unexpected error occurred:", err);
-      }
-    }
-  };
 
   const fetchMessages = async () => {
     if (!currentUser) return;
@@ -87,35 +46,7 @@ const Conversation: React.FC<ConversationProps> = ({ inquiry }) => {
       }
 
       const messagesData: Message[] = await response.json();
-
-      // Fetch sender names if not included in messagesData
-      const messagesWithSenderNames = await Promise.all(
-        messagesData.map(async (message: Message) => {
-          if (message.sender_name) {
-            return message;
-          } else {
-            const userResponse = await fetch(
-              `${apiURL}/appuser/${message.author_appuser_id}`,
-              {
-                method: "GET",
-                headers: {
-                  "Content-Type": "application/json",
-                  Authorization: `Bearer ${idToken}`,
-                },
-              }
-            );
-
-            const userData = await userResponse.json();
-
-            return {
-              ...message,
-              sender_name: `${userData.firstname} ${userData.lastname}`,
-            };
-          }
-        })
-      );
-
-      setMessages(messagesWithSenderNames);
+      setMessages(messagesData);
     } catch (err) {
       if (err instanceof Error) {
         console.error(err.message);
@@ -181,7 +112,7 @@ const Conversation: React.FC<ConversationProps> = ({ inquiry }) => {
               <div className="flex items-center mb-2">
                 {!isCurrentUser && (
                   <div className="font-semibold text-gray-800">
-                    {message.sender_name || "Unknown User"}
+                    {otherUserFullName || "Unknown User"}
                   </div>
                 )}
                 <div className="text-xs text-gray-500 ml-2">

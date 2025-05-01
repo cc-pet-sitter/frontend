@@ -367,7 +367,7 @@ const DashboardRequestDetailPage: React.FC = () => {
           <h3 className="font-semibold text-xl my-4">
             {t("request_details_page.convo")}
           </h3>
-          {userInfo?.id && <Conversation inquiry={request} />}
+          {userInfo?.id && <Conversation inquiry={request} otherUserInfo={isOwner ? sitterInfo : ownerInfo} />}
         </div>
       </div>
 
