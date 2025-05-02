@@ -14,8 +14,8 @@ const Conversation: React.FC<ConversationProps> = ({ inquiry, otherUserInfo }) =
   const { currentUser, userInfo } = useAuth();
   const [messages, setMessages] = useState<Message[]>([]);
   const [newMessage, setNewMessage] = useState<string>("");
-  const senderId = userInfo?.id;
-  const receiverId = senderId === inquiry.owner_appuser_id ? inquiry.sitter_appuser_id : inquiry.owner_appuser_id;
+  const currentUserId = userInfo?.id;
+  const otherUserId = otherUserInfo.id;
   const otherUserFullName = `${otherUserInfo.firstname} ${otherUserInfo.lastname}`;
 
   const { t } = useTranslation();
@@ -58,7 +58,7 @@ const Conversation: React.FC<ConversationProps> = ({ inquiry, otherUserInfo }) =
 
   const sendMessage = async () => {
     if (!newMessage.trim()) return; // Do not send empty messages
-    if (!currentUser || senderId === null || receiverId === null) {
+    if (!currentUser || currentUserId === null || otherUserId === null) {
       console.error("User is not authenticated or IDs are missing.");
       return;
     }
@@ -73,8 +73,8 @@ const Conversation: React.FC<ConversationProps> = ({ inquiry, otherUserInfo }) =
         },
         body: JSON.stringify({
           content: newMessage.trim(),
-          author_appuser_id: senderId,
-          recipient_appuser_id: receiverId,
+          author_appuser_id: currentUserId,
+          recipient_appuser_id: otherUserId,
         }),
       });
 
@@ -99,18 +99,18 @@ const Conversation: React.FC<ConversationProps> = ({ inquiry, otherUserInfo }) =
     <div className="flex flex-col h-full border border-gray-300 rounded-lg">
       <div className="flex-grow overflow-y-auto p-4">
         {messages.map((message) => {
-          const isCurrentUser = message.author_appuser_id === userInfo?.id;
+          const isAuthoredByOtherUser = message.author_appuser_id === otherUserId;
           return (
             <div
               key={message.id}
               className={`mb-4 p-4 rounded-lg ${
-                isCurrentUser
+                !isAuthoredByOtherUser
                   ? "bg-[#D87607]/40 text-white self-end"
                   : "bg-white text-black self-start"
               }`}
             >
               <div className="flex items-center mb-2">
-                {!isCurrentUser && (
+                {isAuthoredByOtherUser && (
                   <div className="font-semibold text-gray-800">
                     {otherUserFullName || "Unknown User"}
                   </div>
