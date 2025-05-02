@@ -27,10 +27,6 @@ const Conversation: React.FC<ConversationProps> = ({ inquiry, otherUserInfo }) =
     const wsURL = `${wsProtocol}://${apiURL.replace(/^https?:\/\//, "")}/ws/inquiry/${inquiry.id}`;
     const socket = new WebSocket(wsURL);
 
-    socket.onopen = () => {
-      console.log("WebSocket connection established");
-    };
-
     socket.onmessage = (event) => {
       try {
         const newMessage: Message = JSON.parse(event.data);
@@ -42,10 +38,6 @@ const Conversation: React.FC<ConversationProps> = ({ inquiry, otherUserInfo }) =
   
     socket.onerror = (error) => {
       console.error("WebSocket error:", error);
-    };
-  
-    socket.onclose = () => {
-      console.log("WebSocket connection closed");
     };
   
     return () => {
