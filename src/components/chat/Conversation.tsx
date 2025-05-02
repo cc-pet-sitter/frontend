@@ -21,12 +21,37 @@ const Conversation: React.FC<ConversationProps> = ({ inquiry, otherUserInfo }) =
   const { t } = useTranslation();
 
   useEffect(() => {
-    if (!userInfo) return;
-
     fetchMessages();
-    const interval = setInterval(fetchMessages, 300000); // Fetch every 5 minutes
-    return () => clearInterval(interval);
-  }, [userInfo, inquiry]);
+
+    const wsProtocol = apiURL.startsWith("https") ? "wss" : "ws";
+    const wsURL = `${wsProtocol}://${apiURL.replace(/^https?:\/\//, "")}/ws/inquiry/${inquiry.id}`;
+    const socket = new WebSocket(wsURL);
+
+    socket.onopen = () => {
+      console.log("WebSocket connection established");
+    };
+
+    socket.onmessage = (event) => {
+      try {
+        const newMessage: Message = JSON.parse(event.data);
+        setMessages((oldMessages) => [...oldMessages, newMessage]);
+      } catch (err) {
+        console.error("Failed to parse WebSocket message", err);
+      }
+    };
+  
+    socket.onerror = (error) => {
+      console.error("WebSocket error:", error);
+    };
+  
+    socket.onclose = () => {
+      console.log("WebSocket connection closed");
+    };
+  
+    return () => {
+      socket.close();
+    };
+  }, []);
 
   const fetchMessages = async () => {
     if (!currentUser) return;
@@ -82,9 +107,6 @@ const Conversation: React.FC<ConversationProps> = ({ inquiry, otherUserInfo }) =
         throw new Error("Failed to send message");
       }
 
-      const message: Message = await response.json();
-      // Update messages state with the new message
-      setMessages([...messages, message]);
       setNewMessage(""); // Clear the input field
     } catch (err) {
       if (err instanceof Error) {
