@@ -3,10 +3,8 @@ import { SearchFormData } from "../components/search/SearchBar";
 import SearchBar from "../components/search/SearchBar";
 import SearchResults from "../components/search/SearchResults";
 import axios from "axios";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useTranslation } from "react-i18next";
-import CloseIcon from "@mui/icons-material/Close";
-import FilterAltIcon from "@mui/icons-material/FilterAlt";
 import { useAuth } from "../contexts/AuthContext";
 import { AppuserExtended } from "../types/userProfile";
 
@@ -23,7 +21,23 @@ const SearchPage: React.FC = () => {
   const [initialFormData, setInitialFormData] =
     useState<SearchFormData>(initialSearch);
 
+  const [currentPage, setCurrentPage] = useState(1);
+  const sittersPerPage = 8;
+
   const { t } = useTranslation();
+
+  useEffect(() => {
+    const handleScroll = () => {
+      if (window.scrollY > 30) {
+        setShowSearchBar(true);
+      } else {
+        setShowSearchBar(false);
+      }
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
 
   const handleSecondSearchSubmit = async (formData: SearchFormData) => {
     try {
@@ -59,35 +73,56 @@ const SearchPage: React.FC = () => {
 
   return (
     <div>
-      <div className="mt-4 ml-auto flex flex-col items-center pb-4">
-        <button
-          onClick={() => setShowSearchBar((prev: boolean) => !prev)}
-          className="btn-secondary py-1 px-3 text-sm"
-        >
-          {showSearchBar ? (
-            <>
-              <CloseIcon className="mr-1" />
-              {t("sitterProfilePage.close")}
-            </>
-          ) : (
-            <>
-              <FilterAltIcon className="mr-1" />
-              {t("searchPage.refineSearch")}
-            </>
-          )}
-        </button>
-        {showSearchBar && (
-          <div className="w-full sm:w-auto sm:mt-1 sm:mb-1 sm:py-1 ">
-            <SearchBar
-              onSearchSubmit={handleSecondSearchSubmit}
-              closeSearchBar={handleCloseSearchBar}
-              initialData={initialFormData}
-            />
-          </div>
-        )}
+      <SearchResults
+        appUsers={searchResults}
+        currentPage={currentPage}
+        setCurrentPage={setCurrentPage}
+        sittersPerPage={sittersPerPage}
+      />
+      <div className="flex flex-col items-center gap-4 mt-3 pb-2 pt-2">
+        <div>
+          <button
+            className="px-4 py-2 btn-primary rounded disabled:opacity-50"
+            onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
+            disabled={currentPage === 1}
+          >
+            ←
+          </button>
+          <span className="text-lg font-medium px-4 py-2">
+            {currentPage} - {Math.ceil(searchResults.length / sittersPerPage)}
+          </span>
+          <button
+            className="px-4 py-2 btn-primary rounded disabled:opacity-50"
+            onClick={() =>
+              setCurrentPage((prev) =>
+                Math.min(
+                  prev + 1,
+                  Math.ceil(searchResults.length / sittersPerPage)
+                )
+              )
+            }
+            disabled={
+              currentPage === Math.ceil(searchResults.length / sittersPerPage)
+            }
+          >
+            →
+          </button>
+        </div>
       </div>
 
-      <SearchResults appUsers={searchResults} />
+      {/* Search Bar Appears on Scroll */}
+      {showSearchBar && (
+        <div className="mt-3 flex flex-col items-center bg-[#fef6e4]">
+          <h2 className="text-2xl font-semibold mt-6">
+            {t("searchPage.refine")}
+          </h2>
+          <SearchBar
+            onSearchSubmit={handleSecondSearchSubmit}
+            closeSearchBar={() => setShowSearchBar(false)}
+            initialData={initialFormData}
+          />
+        </div>
+      )}
     </div>
   );
 };

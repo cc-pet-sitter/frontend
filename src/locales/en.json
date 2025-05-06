@@ -823,7 +823,7 @@
     "visits": "Visits",
     "sitter_house": "Boarding",
     "owner_house": "Stay-In",
-    "available": "Available for",
+    "available": "Available for ",
     "notAvailable": "Currently not available for any service.",
     "dog": "Dogs",
     "cat": "Cats",
@@ -833,7 +833,13 @@
     "viewProfile": "View Profile",
     "noResultsFound": "Mugi can't find any matches. Please try to widen your search.",
     "and": " and ",
-    "refineSearch": "Refine Search"
+    "refineSearch": "Refine Search",
+    "refine": "Try refining your search",
+    "mugi": "Mugi",
+    "found": "has found",
+    "matching": "Pet Sitters matching your search...",
+    "page": "Page",
+    "of": "of"
   },
   "sitterProfilePage": {
     "accountBio": "Bio",
