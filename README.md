@@ -5,6 +5,8 @@ https://mugi.pet/
 
 **Mugi** is a bilingual platform that helps pet owners find and book trusted local pet sitters, ensuring a seamless and flexible experience.
 
+A demo of the app can be viewed here: https://www.youtube.com/watch?v=nf6tw-EHCgg
+
 ---
 
 ## Technology
